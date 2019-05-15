@@ -1,16 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   21SH.H                                             :+:      :+:    :+:   */
+/*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/05/15 15:05:34 by ymarcill         ###   ########.fr       */
+/*   Created: 2019/05/15 15:40:41 by lubenard          #+#    #+#             */
+/*   Updated: 2019/05/15 16:07:58 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef t21sh_H
-# define t21sh_H
+#include "sh21.h"
 
-#endif
+void	display_prompt(char *username, char *curr_dir)
+{
+	ft_putstr("\033[31m");
+	ft_putstr(username);
+	ft_putstr("\033[0m - \033[36m");
+	ft_putstr(curr_dir);
+	ft_putstr("\033[0m >  ");
+}

@@ -6,13 +6,15 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/05/15 15:10:24 by ymarcill         ###   ########.fr        #
+#    Updated: 2019/05/15 16:15:10 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 
 SRC = srcs/main.c \
+	  srcs/display.c \
+	  srcs/get_env.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,14 +6,17 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/15 15:07:11 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/05/15 16:14:53 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t21sh.h"
+#include "sh21.h"
 
-int main(int argc, char **argv)
+int		main(int argc, char **argv, char **env)
 {
+	t_env *lkd_env;
+
+	lkd_env = get_env(env);
 	(void)argc;
 	(void)argv;
 	return (0);
