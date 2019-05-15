@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/05/15 19:20:39 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/15 20:23:35 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,26 @@ typedef struct		s_env
 	struct s_env	*next;
 }					t_env;
 
-typedef struct		s_history
+typedef struct		s_hist
 {
 	char			history[131072];
-	struct s_env	*prev;
-	struct s_env	*next;
-}					t_history;
+	struct s_hist	*prev;
+	struct s_hist	*next;
+}					t_hist;
 /*
 ** Display / error functions
 */
 void				display_prompt(char *username, char *curr_dir, int mode);
 char				*error_setenv(char *command, int i, int e);
 /*
-** Linked list
+** Linked list env
 */
 t_env				*get_env(char **env);
 t_env				*new_maillon(void);
+/*
+** Linked list history
+*/
+void				save_command(t_hist *lkd_hist, char *command);
 /*
 ** Builtins
 */
