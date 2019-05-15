@@ -1,0 +1,5 @@
+/libft/*.o
+/srcs/*.o
+*.dSYM
+21sh
+
