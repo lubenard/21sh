@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/15 17:12:11 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/15 19:39:17 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,12 @@ int		main(int argc, char **argv, char **env)
 {
 	t_env *lkd_env;
 
-	lkd_env = get_env(env);
-	change_env(lkd_env);
 	(void)argc;
 	(void)argv;
+	lkd_env = get_env(env);
+	display_prompt("luca", "???", 1);
+	ft_putstr("\n");
+	display_prompt("luca", "???", 0);
+	change_env(lkd_env);
 	return (0);
 }

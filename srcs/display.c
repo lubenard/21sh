@@ -6,17 +6,24 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:40:41 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/15 16:07:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/15 19:22:41 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh21.h"
 
-void	display_prompt(char *username, char *curr_dir)
+void	display_prompt(char *username, char *curr_dir, int mode)
 {
-	ft_putstr("\033[31m");
+	if (mode == 1)
+		ft_putstr("\033[31m");
 	ft_putstr(username);
-	ft_putstr("\033[0m - \033[36m");
+	if (mode == 1)
+		ft_putstr("\033[0m");
+	ft_putstr(" - ");
+	if (mode == 1)
+		ft_putstr("\033[36m");
 	ft_putstr(curr_dir);
-	ft_putstr("\033[0m >  ");
+	if (mode == 1)
+		ft_putstr("\033[0m");
+	ft_putstr(">  ");
 }

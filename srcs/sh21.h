@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/05/15 17:13:41 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/15 19:20:39 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct		s_history
 /*
 ** Display / error functions
 */
-void				display_prompt(char *username, char *curr_dir);
+void				display_prompt(char *username, char *curr_dir, int mode);
 char				*error_setenv(char *command, int i, int e);
 /*
 ** Linked list
@@ -54,4 +54,6 @@ void				print_env(t_env *lkd_env);
 ** Other
 */
 char				*extract_params(char *command);
+char				*extract_first_env(char *command, int mode);
+char				*find_in_env(t_env *lkd_env, char *to_find);
 #endif
