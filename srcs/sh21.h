@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/05/16 15:20:19 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/16 16:57:38 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_hist				*new_maillon_hist(void);
 void				set_env(t_env *lkd_env, char *command);
 void				unset_env(t_env *lkd_env, char *command);
 void				print_env(t_env *lkd_env);
+void				history(t_hist *lkd_hist);
 /*
 ** Other
 */

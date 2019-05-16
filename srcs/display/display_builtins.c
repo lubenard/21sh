@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 17:03:58 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/16 15:52:34 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/16 17:55:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,3 @@ char	*error_setenv(char *command, int i, int e)
 	}
 	return (ft_strsub(command, i, e));
 }
-

@@ -6,11 +6,39 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 00:23:47 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/16 15:13:08 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/16 17:55:06 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh21.h"
+
+void		history(t_hist *lkd_hist)
+{
+	static int	i = 1;
+	int			tmp;
+
+	tmp = 0;
+	while (lkd_hist->prev && tmp != 15)
+	{
+		lkd_hist = lkd_hist->prev;
+		tmp++;
+	}
+	while (lkd_hist)
+	{
+		if (i < 10)
+			ft_putstr("    ");
+		else if (i < 100)
+			ft_putstr("   ");
+		else if (i < 1000)
+			ft_putstr("  ");
+		else if (i < 100000)
+			ft_putstr(" ");
+		ft_putnbr(i++);
+		ft_putstr("  ");
+		ft_putendl(lkd_hist->history);
+		lkd_hist = lkd_hist->next;
+	}
+}
 
 t_hist		*new_maillon_hist(void)
 {
@@ -62,5 +90,3 @@ void		save_command(t_hist **lkd_hist, char *command)
 	}
 	write_history(command, ".");
 }
-
-
