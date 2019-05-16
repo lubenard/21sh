@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 14:21:03 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/15 19:49:13 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/16 15:24:42 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ void	handle_signals(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putstr("\n");
-		//write_prompt(g_username, g_curr_dir);
+		display_prompt(g_username, g_curr_dir);
 	}
 }

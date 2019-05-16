@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display.c                                          :+:      :+:    :+:   */
+/*   display_builtins.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/15 15:40:41 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/15 19:22:41 by lubenard         ###   ########.fr       */
+/*   Created: 2019/05/15 17:03:58 by lubenard          #+#    #+#             */
+/*   Updated: 2019/05/16 15:52:34 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh21.h"
+#include "../sh21.h"
 
-void	display_prompt(char *username, char *curr_dir, int mode)
+char	*error_setenv(char *command, int i, int e)
 {
-	if (mode == 1)
-		ft_putstr("\033[31m");
-	ft_putstr(username);
-	if (mode == 1)
-		ft_putstr("\033[0m");
-	ft_putstr(" - ");
-	if (mode == 1)
-		ft_putstr("\033[36m");
-	ft_putstr(curr_dir);
-	if (mode == 1)
-		ft_putstr("\033[0m");
-	ft_putstr(">  ");
+	if (ft_strrchr(command, i, ' ') != NULL)
+	{
+		ft_putstr_fd("setenv: invalid syntax\n", 2);
+		ft_putstr_fd("the correct syntax is t=1\n", 2);
+		return (NULL);
+	}
+	return (ft_strsub(command, i, e));
 }
+

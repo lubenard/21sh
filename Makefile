@@ -6,21 +6,22 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/05/15 19:45:42 by lubenard         ###   ########.fr        #
+#    Updated: 2019/05/16 16:04:50 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 
 SRC = srcs/main.c \
-	  srcs/display.c \
 	  srcs/get_env.c \
 	  srcs/handle_signals.c \
 	  srcs/save_command.c \
 	  srcs/builtins/setenv.c \
 	  srcs/builtins/unsetenv.c \
 	  srcs/builtins/print_env.c \
-	  srcs/builtins/display_builtins.c
+	  srcs/display/display_builtins.c \
+	  srcs/display/display.c \
+	  srcs/utils/find_lkd_lst.c
 
 OBJ = $(SRC:.c=.o)
 
