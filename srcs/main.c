@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/16 17:55:40 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/17 18:17:30 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int		main(int argc, char **argv, char **env)
 	t_hist	*lkd_hist;
 
 	(void)argc;
-	(void)argv;
 	lkd_env = get_env(env);
 	display_prompt("user", "mon_path");
 	printf("\n");
@@ -81,6 +80,7 @@ int		main(int argc, char **argv, char **env)
 	set_env(lkd_env, "setenv PATH=🙄");
 	print_env(lkd_env);
 	history(lkd_hist);
+	redirections(argv[1]);
 	free_after_exit(lkd_env, lkd_hist);
 	return (0);
 }

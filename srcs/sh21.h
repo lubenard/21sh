@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/05/16 16:57:38 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/17 15:09:27 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,9 @@ char				*extract_params(char *command);
 char				*extract_first_env(char *command, int mode);
 char				*find_in_env(t_env *lkd_env, char *to_find);
 void				save_command(t_hist **lkd_hist, char *command);
+/*
+** Redirections
+*/
+void				redirections(char *command);
 
 #endif
