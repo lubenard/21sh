@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/05/17 15:09:27 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/20 18:35:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,32 @@ void				unset_env(t_env *lkd_env, char *command);
 void				print_env(t_env *lkd_env);
 void				history(t_hist *lkd_hist);
 /*
+** Redirections
+*/
+void				redirections(t_env *lkd_env, char *command);
+/*
+** Handle Signal
+*/
+void				handle_signals(int sig);
+void				handle_signals_proc(int sig);
+/*
+** History
+*/
+void				save_command(t_hist **lkd_hist, char *command);
+/*
+** Execution of command
+*/
+int					execute_command(char *get_right_path,
+	char *command, char **argv, char **env);
+/*
 ** Other
 */
 char				*extract_params(char *command);
 char				*extract_first_env(char *command, int mode);
 char				*find_in_env(t_env *lkd_env, char *to_find);
-void				save_command(t_hist **lkd_hist, char *command);
-/*
-** Redirections
-*/
-void				redirections(char *command);
+int					free_after_exec(char *get_right_path,
+	char **argv, char **env);
+int					get_error_exec(char path[6000], int mode);
+char				**compact_env(t_env *lkd_env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/18 18:46:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/20 18:37:00 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		pass_filename(char **tab, int i)
 	return (e);
 }
 
-int count_elem_redir(char **tab, int i)
+int		count_elem_redir(char **tab, int i)
 {
 	int elem;
 
@@ -82,11 +82,12 @@ char	**save_filename(char **tab, int i)
 
 	e = 0;
 	k = 0;
+	printf("i vaut %d\n", i);
 	nbr_elem = count_elem_redir(tab, i);
 	printf("nbr_elem = %d\n", nbr_elem);
-	if (!(filename = (char **)malloc(sizeof(char *) * nbr_elem)))
+	if (!(filename = (char **)malloc(sizeof(char *) * (nbr_elem + 1))))
 		return (NULL);
-	while (tab[i])
+	while (i - 1 < nbr_elem)
 	{
 		while (tab[i][e] && tab[i][e] != ' ')
 			e++;
@@ -96,6 +97,8 @@ char	**save_filename(char **tab, int i)
 		e = 0;
 		i++;
 	}
+	printf("k = %d vaudra NULL\n", k);
+	filename[k] = NULL;
 	return (filename);
 }
 
@@ -114,11 +117,11 @@ int		print_error_redirect(char **tab)
 int		check_errors_redirect(char **tab, char *command, int i)
 {
 	if (command[ft_strlen(command) - 1] == '>')
-		return(print_error_redirect(tab));
+		return (print_error_redirect(tab));
 	while (tab[i])
 	{
 		if (tab[i][0] == '\0')
-			return(print_error_redirect(tab));
+			return (print_error_redirect(tab));
 		i++;
 	}
 	return (0);
@@ -132,7 +135,7 @@ int		create_file(char **filenames)
 	i = 0;
 	while (filenames[i])
 	{
-		file = open(filenames[i], O_CREAT | O_WRONLY, S_IWUSR | S_IRUSR);
+		file = open(filenames[i], O_CREAT | O_WRONLY, 0666);
 		if (file <= 0)
 			return (1);
 		i++;
@@ -140,28 +143,54 @@ int		create_file(char **filenames)
 	return (0);
 }
 
-void	double_arrow_left(char *command)
+void	double_arrow_left(t_env *lkd_env, char *command)
 {
 	(void)command;
+	(void)lkd_env;
+
 }
 
-void	double_arrow_right(char *command)
+void	double_arrow_right(t_env *lkd_env, char *command)
 {
 	/*
 	** Append to file or create it
 	*/
 	(void)command;
+	(void)lkd_env;
+
 }
 
-void	simple_arrow_left(char *command)
+void	simple_arrow_left(t_env *lkd_env, char *command)
 {
 	(void)command;
+	(void)lkd_env;
 	/*
 	** Send into input programm
 	*/
 }
 
-void	simple_arrow_right(char *command)
+int		fill_file(char **filenames, char *command, char av[131072], t_env *lkd_env)
+{
+	int out;
+	int i;
+	char *arv[3] = {ft_strdup("ls"), ft_strdup("-lha"), NULL};
+
+	i = 0;
+	(void)av;
+	(void)command;
+	while (filenames[i])
+	{
+		out = open(filenames[i], O_TRUNC | O_WRONLY);
+		dup2(out, 1);
+		close(out);
+		execute_command(ft_strdup("/bin/"), ft_strdup("ls"), arv, compact_env(lkd_env));
+		//execute command here
+		i++;
+	}
+	return (0);
+}
+
+void	simple_arrow_right(t_env *lkd_env, char *command)
 {
 	char	**tab;
 	int		i;
@@ -171,6 +200,7 @@ void	simple_arrow_right(char *command)
 
 	i = 1;
 	ft_bzero(av, 131072);
+	ft_strcpy(av, command);
 	tab = prepare_tab(command, '>');
 	if (check_errors_redirect(tab, command, i) == 1)
 		return ;
@@ -185,22 +215,20 @@ void	simple_arrow_right(char *command)
 	}
 	create_file(filenames);
 	/*
-	** Exec my command with ft_strsplit(av)
-	*/
-	/*
 	** create the file or crush it
 	** NOTES : arrow is creating the files before executing command
 	*/
+	fill_file(filenames, command, av, lkd_env);
 }
 
-void	redirections(char *command)
+void	redirections(t_env *lkd_env, char *command)
 {
 	if (ft_strstr(command, "<<"))
-		double_arrow_left(command);
+		double_arrow_left(lkd_env, command);
 	else if (ft_strstr(command, ">>"))
-		double_arrow_right(command);
+		double_arrow_right(lkd_env, command);
 	else if (ft_strchr(command, '<'))
-		simple_arrow_left(command);
+		simple_arrow_left(lkd_env, command);
 	else if (ft_strchr(command, '>'))
-		simple_arrow_right(command);
+		simple_arrow_right(lkd_env, command);
 }
