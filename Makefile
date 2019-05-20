@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/05/20 18:14:46 by lubenard         ###   ########.fr        #
+#    Updated: 2019/05/20 23:55:06 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC = srcs/main.c \
 	  srcs/builtins/unsetenv.c \
 	  srcs/builtins/print_env.c \
 	  srcs/redirections/redirections.c \
+	  srcs/pipe/pipe.c \
 	  srcs/display/display_builtins.c \
 	  srcs/display/display.c \
 	  srcs/utils/find_lkd_lst.c

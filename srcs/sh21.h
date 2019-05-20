@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SH21.H                                             :+:      :+:    :+:   */
+/*   sh21.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/05/20 18:35:18 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/20 23:54:24 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ void				history(t_hist *lkd_hist);
 ** Redirections
 */
 void				redirections(t_env *lkd_env, char *command);
+/*
+** Pipe
+*/
+int					handle_pipe(char *command);
 /*
 ** Handle Signal
 */
