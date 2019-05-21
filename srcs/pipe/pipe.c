@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/20 23:58:31 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/21 11:17:48 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int		handle_pipe(char *command)
 {
 	(void)command;
 	/*
-	** Only the last pipe is counted on Bash, verif on zsh.
+	** Only the last pipe is counted on Bash.
 	*/
+	return (0);
 }

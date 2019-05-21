@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/05/20 23:54:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/21 17:04:54 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void				history(t_hist *lkd_hist);
 /*
 ** Redirections
 */
-void				redirections(t_env *lkd_env, char *command);
+void				redirections(t_env *lkd_env, char *path, char *command);
 /*
 ** Pipe
 */

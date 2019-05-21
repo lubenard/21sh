@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/20 18:15:18 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/21 15:01:32 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ int		main(int argc, char **argv, char **env)
 	set_env(lkd_env, "setenv PATH=🙄");
 	print_env(lkd_env);
 	history(lkd_hist);
-	//redirections("test > toto");
-	redirections(lkd_env, argv[1]);
+	//redirections(lkd_env, "test > toto");
+	redirections(lkd_env, "ls", argv[1]);
 	free_after_exit(lkd_env, lkd_hist);
 	return (0);
 }
