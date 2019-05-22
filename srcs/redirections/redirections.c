@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/21 18:02:22 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/22 16:46:48 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	**prepare_tab(char *command, char signe)
 	char	*tmp;
 
 	i = 0;
-	tab = ft_strsplit(command, signe);
+	tab = ft_strsplit_redir(command, signe);
 	while (tab[i])
 	{
 		tmp = ft_strdup(tab[i]);
@@ -39,8 +39,7 @@ void	ft_str_start_cat(char *dest, const char *src, int start)
 	int k;
 
 	k = 0;
-	while (dest[k])
-		k++;
+	k = ft_strlen(dest);
 	while (src[start])
 		dest[k++] = src[start++];
 	if (ft_isalnum(dest[k - 1]))
@@ -57,6 +56,8 @@ int		pass_filename(char **tab, int i)
 	int e;
 
 	e = 0;
+	if (tab[i][0] == '>')
+		e++;
 	while (ft_isalnum(tab[i][e]))
 		e++;
 	while (tab[i][e] == ' ' || tab[i][e] == '\t')
@@ -84,9 +85,11 @@ char	**save_filename(char **tab, int i)
 	int		nbr_elem;
 	char	**filename;
 	int		k;
+	int		m;
 
 	e = 0;
 	k = 0;
+	m = 0;
 	printf("i vaut %d\n", i);
 	nbr_elem = count_elem_redir(tab, i);
 	printf("nbr_elem = %d\n", nbr_elem);
@@ -94,10 +97,15 @@ char	**save_filename(char **tab, int i)
 		return (NULL);
 	while (i - 1 < nbr_elem)
 	{
+		if (tab[i][0] == '>')
+		{
+			m = 2;
+			e += 2;
+		}
 		while (tab[i][e] && tab[i][e] != ' ')
 			e++;
-		filename[k] = ft_strsub(tab[i], 0, e);
-		printf("filename[%d] = %s\n", k, filename[k]);
+		filename[k] = ft_strsub(tab[i], m, e);
+		printf("filename[%d] = '%s'\n", k, filename[k]);
 		k++;
 		e = 0;
 		i++;
@@ -106,12 +114,13 @@ char	**save_filename(char **tab, int i)
 	return (filename);
 }
 
-int		print_error_redirect(char **tab)
+int		print_error_redirect(char **tab, char *code)
 {
 	int i;
 
 	i = 0;
-	ft_putendl_fd("ymarsh: parse error near '\\n'", 2);
+	ft_putstr_fd("ymarsh: parse error near ", 2);
+	ft_putendl_fd(code, 2);
 	while (tab[i])
 		free(tab[i++]);
 	free(tab);
@@ -121,44 +130,41 @@ int		print_error_redirect(char **tab)
 int		check_errors_redirect(char **tab, char *command, int i)
 {
 	if (command[ft_strlen(command) - 1] == '>')
-		return (print_error_redirect(tab));
+		return (print_error_redirect(tab, "'\\n'"));
 	while (tab[i])
 	{
-		if (tab[i][0] == '\0')
-			return (print_error_redirect(tab));
+		if (tab[i][0] == '\0' || (tab[i][ft_strlen(tab[i]) - 1] == '>'))
+			return (print_error_redirect(tab, "'>'"));
 		i++;
 	}
 	return (0);
 }
 
-int		create_file(char **filenames)
+int		create_file(char **filenames, char **tab)
 {
 	int i;
 	int file;
+	int e;
 
 	i = 0;
+	e = 1;
 	while (filenames[i])
 	{
-		file = open(filenames[i], O_CREAT | O_TRUNC, 0666);
+		if (tab[e][0] != '>')
+			file = open(filenames[i], O_CREAT | O_TRUNC, 0666);
+		else
+			file = open(filenames[i], O_CREAT, 0666);
 		if (file <= 0)
 			return (1);
+		close(file);
 		i++;
+		e++;
 	}
 	return (0);
 }
 
 void	double_arrow_left(t_env *lkd_env, char *command)
 {
-	(void)command;
-	(void)lkd_env;
-
-}
-
-void	double_arrow_right(t_env *lkd_env, char *command)
-{
-	/*
-	** Append to file or create it
-	*/
 	(void)command;
 	(void)lkd_env;
 
@@ -225,7 +231,7 @@ int		fill_file(char **filenames, char *command, char av[131072], t_env *lkd_env)
 	return (0);
 }
 
-void	simple_arrow_right(t_env *lkd_env, char *command)
+void	arrow_right(t_env *lkd_env, char *command)
 {
 	char	**tab;
 	int		i;
@@ -246,11 +252,13 @@ void	simple_arrow_right(t_env *lkd_env, char *command)
 	while (tab[i])
 	{
 		e = pass_filename(tab, i);
+		if (tab[i][0] == '>')
+			e++;
 		ft_str_start_cat(av, tab[i], e);
 		printf("av = '%s'\n", av);
 		i++;
 	}
-	create_file(filenames);
+	create_file(filenames, tab);
 	fill_file(filenames, command, av, lkd_env);
 }
 
@@ -259,10 +267,8 @@ void	redirections(t_env *lkd_env, char *path, char *command)
 	(void)path;
 	if (ft_strstr(command, "<<"))
 		double_arrow_left(lkd_env, command);
-	else if (ft_strstr(command, ">>"))
-		double_arrow_right(lkd_env, command);
 	else if (ft_strchr(command, '<'))
 		simple_arrow_left(lkd_env, command);
-	else if (ft_strchr(command, '>'))
-		simple_arrow_right(lkd_env, command);
+	else if (ft_strchr(command, '>') || ft_strstr(command, ">>"))
+		arrow_right(lkd_env, command);
 }
