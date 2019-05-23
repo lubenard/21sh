@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/22 16:46:48 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/23 18:55:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,16 +167,16 @@ void	double_arrow_left(t_env *lkd_env, char *command)
 {
 	(void)command;
 	(void)lkd_env;
-
 }
+
+/*
+** Send into input programm
+*/
 
 void	simple_arrow_left(t_env *lkd_env, char *command)
 {
 	(void)command;
 	(void)lkd_env;
-	/*
-	** Send into input programm
-	*/
 }
 
 char	*get_output_of_command(char *path, char **argv, char **env)
@@ -201,15 +201,16 @@ char	*get_output_of_command(char *path, char **argv, char **env)
 	}
 	else
 	{
-		while ((wait_pid = wait(&pid)) > 0);
+		while ((wait_pid = wait(&pid)) > 0)
+			;
 		close(link[1]);
 		read(link[0], output, 50000);
 	}
 	free_after_exec(path, argv, env);
-	return (ft_strndup(output, ft_strlen(output) -1));
+	return (ft_strndup(output, ft_strlen(output) - 1));
 }
 
-int		fill_file(char **filenames, char *command, char av[131072], t_env *lkd_env)
+int		fill_file(char **filenames, char *ret_command, char **tab)
 {
 	int		out;
 	int		i;
@@ -217,18 +218,31 @@ int		fill_file(char **filenames, char *command, char av[131072], t_env *lkd_env)
 	char	**argv;
 
 	i = 0;
-	(void)command;
-	argv = ft_strsplit(av, ' ');
-	ret_command = get_output_of_command(argv[0],
-	argv, compact_env(lkd_env));
 	while (filenames[i])
 	{
-		out = open(filenames[i], O_WRONLY);
+		if (tab[i + 1][0] == '>')
+			out = open(filenames[i], O_APPEND | O_WRONLY);
+		else
+			out = open(filenames[i], O_WRONLY);
 		ft_putendl_fd(ret_command, out);
 		close(out);
 		i++;
 	}
 	return (0);
+}
+
+/*
+** NOTES : arrow is creating the files before executing command
+*/
+
+char	*exec_command_redir(t_env *lkd_env, char av[131072])
+{
+	char	**argv;
+	char	*ret_command;
+
+	argv = ft_strsplit(av, ' ');
+	ret_command = get_output_of_command(argv[0], argv, compact_env(lkd_env));
+	return (ret_command);
 }
 
 void	arrow_right(t_env *lkd_env, char *command)
@@ -238,10 +252,7 @@ void	arrow_right(t_env *lkd_env, char *command)
 	char	av[131072];
 	char	**filenames;
 	int		e;
-	/*
-	** Create the file or crush it
-	** NOTES : arrow is creating the files before executing command
-	*/
+
 	i = 1;
 	ft_bzero(av, 131072);
 	tab = prepare_tab(command, '>');
@@ -259,7 +270,8 @@ void	arrow_right(t_env *lkd_env, char *command)
 		i++;
 	}
 	create_file(filenames, tab);
-	fill_file(filenames, command, av, lkd_env);
+	exec_command_redir(lkd_env, av);
+	fill_file(filenames, command, av, lkd_env, tab);
 }
 
 void	redirections(t_env *lkd_env, char *path, char *command)
