@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/05/22 12:36:18 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/24 00:10:54 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,6 @@ int					free_after_exec(char *get_right_path,
 int					get_error_exec(char path[6000], int mode);
 char				**compact_env(t_env *lkd_env);
 char				**ft_strsplit_redir(char const *s, char c);
+char				*find_path(char **path, char *first_command);
 
 #endif

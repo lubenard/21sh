@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/23 18:55:18 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/24 00:07:58 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,9 @@ char	**save_filename(char **tab, int i)
 	while (i - 1 < nbr_elem)
 	{
 		if (tab[i][0] == '>')
-		{
-			m = 2;
-			e += 2;
-		}
+			m = 1;
+		while (tab[i][m] == ' ' || tab[i][m] == '\t')
+			m++;
 		while (tab[i][e] && tab[i][e] != ' ')
 			e++;
 		filename[k] = ft_strsub(tab[i], m, e);
@@ -150,10 +149,10 @@ int		create_file(char **filenames, char **tab)
 	e = 1;
 	while (filenames[i])
 	{
-		if (tab[e][0] != '>')
-			file = open(filenames[i], O_CREAT | O_TRUNC, 0666);
-		else
+		if (tab[e][0] == '>')
 			file = open(filenames[i], O_CREAT, 0666);
+		else
+			file = open(filenames[i], O_CREAT | O_TRUNC, 0666);
 		if (file <= 0)
 			return (1);
 		close(file);
@@ -214,8 +213,6 @@ int		fill_file(char **filenames, char *ret_command, char **tab)
 {
 	int		out;
 	int		i;
-	char	*ret_command;
-	char	**argv;
 
 	i = 0;
 	while (filenames[i])
@@ -226,8 +223,15 @@ int		fill_file(char **filenames, char *ret_command, char **tab)
 			out = open(filenames[i], O_WRONLY);
 		ft_putendl_fd(ret_command, out);
 		close(out);
+		free(filenames[i]);
 		i++;
 	}
+	free(ret_command);
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
+	free(filenames);
 	return (0);
 }
 
@@ -270,8 +274,7 @@ void	arrow_right(t_env *lkd_env, char *command)
 		i++;
 	}
 	create_file(filenames, tab);
-	exec_command_redir(lkd_env, av);
-	fill_file(filenames, command, av, lkd_env, tab);
+	fill_file(filenames, exec_command_redir(lkd_env, av), tab);
 }
 
 void	redirections(t_env *lkd_env, char *path, char *command)

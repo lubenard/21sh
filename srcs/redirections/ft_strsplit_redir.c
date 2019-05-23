@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsplit.c                                      :+:      :+:    :+:   */
+/*   ft_strsplit_redir.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 08:59:56 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/22 16:34:54 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/24 00:08:42 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ char			**ft_strsplit_redir(char const *s, char c)
 	while (j < nbrchar)
 	{
 		k = countchar(s, i, c);
-		ret[j] = ft_strnew(k);
 		ret[j] = ft_strsub(s, i, k);
 		while (s[i] && s[i] != c)
 			i++;
