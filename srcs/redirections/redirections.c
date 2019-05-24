@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/24 00:07:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/24 17:49:54 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,12 @@ char	**save_filename(char **tab, int i)
 	e = 0;
 	k = 0;
 	m = 0;
-	printf("i vaut %d\n", i);
 	nbr_elem = count_elem_redir(tab, i);
-	printf("nbr_elem = %d\n", nbr_elem);
 	if (!(filename = (char **)malloc(sizeof(char *) * (nbr_elem + 1))))
 		return (NULL);
 	while (i - 1 < nbr_elem)
 	{
-		if (tab[i][0] == '>')
-			m = 1;
-		while (tab[i][m] == ' ' || tab[i][m] == '\t')
+		while (tab[i][0] == '>' || tab[i][m] == ' ' || tab[i][m] == '\t')
 			m++;
 		while (tab[i][e] && tab[i][e] != ' ')
 			e++;
@@ -185,11 +181,8 @@ char	*get_output_of_command(char *path, char **argv, char **env)
 	char	output[50000];
 	int		wait_pid;
 
-	if (pipe(link) == -1)
+	if (pipe(link) == -1 || (pid = fork()) == -1)
 		return (NULL);
-	if ((pid = fork()) == -1)
-		return (NULL);
-	signal(SIGINT, handle_signals_proc);
 	if (pid == 0)
 	{
 		dup2(link[1], 1);

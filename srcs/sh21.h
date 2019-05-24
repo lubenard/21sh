@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/05/24 00:10:54 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/24 13:39:03 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void				redirections(t_env *lkd_env, char *path, char *command);
 /*
 ** Pipe
 */
-int					handle_pipe(char *command);
+int					handle_pipe(t_env *lkd_env, char *command);
 /*
 ** Handle Signal
 */
