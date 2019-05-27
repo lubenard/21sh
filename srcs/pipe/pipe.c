@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/24 18:04:56 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/27 16:05:24 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,30 +45,38 @@ int		basic_pipe(t_env *lkd_env, char *command)
 	return (0);
 }
 
+int		count_args(char **tab)
+{
+	int		i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	printf("Il y a %d elements\n", i);
+	return (i);
+}
+
 char	***compact_command(char *command)
 {
 	char	***ret;
 	char	**argv;
-	char	**av;
+	int		i;
 
-	int		e = 0;
-	int		i = 0;
-	ret = NULL;
+	i = 0;
 	argv = ft_strsplit(command, '|');
+	if (!(ret = (char ***)malloc(sizeof(char **) * (count_args(argv) + 1))))
+		return (NULL);
 	while (argv[i])
 	{
 		argv[i] = ft_strtrim(argv[i]);
-		printf("argv[%d] vaut '%s'\n", i, argv[i]);
-		av = ft_strsplit(argv[i], ' ');
-		while (av[e])
-		{
-			printf("av[%d] = %s\n", e, av[e]);
-			e++;
-		}
+		ret[i] = ft_strsplit(argv[i], ' ');
+		printf("re[%d] vaut %s\n", i, ret[i][0]);
 		i++;
-		e = 0;
+		free(argv[i]);
 	}
-
+	free(argv);
+	printf("ret[%d] vaut NULL\n", i);
+	ret[i] = NULL;
 	return (ret);
 }
 
@@ -77,11 +85,9 @@ int		multiple_pipe(t_env *lkd_env, char ***command)
 	int		link[2];
 	pid_t	pid;
 	int		fd_in;
-	int		i;
 
-	i = 0;
 	fd_in = 0;
-	while (command[i] != NULL)
+	while (*command != NULL)
 	{
 		if (pipe(link) == -1 || (pid = fork()) == -1)
 			return (0);
@@ -91,15 +97,18 @@ int		multiple_pipe(t_env *lkd_env, char ***command)
 			if (*(command + 1) != NULL)
 				dup2(link[1], 1);
 			close(link[0]);
+			printf("command vaut %s et command[1] vaut %s et command[2] = %s\n", (*command)[0], (*command)[1], (*command)[2]);
 			execve((*command)[0], *command, compact_env(lkd_env));
-			exit(EXIT_FAILURE);
+			perror("error: ");
+			break ;
 		}
 		else
 		{
+			printf("Je suis la avec %s\n", (*command)[0]);
 			wait(NULL);
 			close(link[1]);
 			fd_in = link[0];
-			i++;
+			command++;
 		}
 	}
 	return (0);
@@ -107,10 +116,9 @@ int		multiple_pipe(t_env *lkd_env, char ***command)
 
 int		handle_pipe(t_env *lkd_env, char *command)
 {
-	(void)command;
 	/*
-	 ** Only the last pipe is counted on Bash.
-	 */
+	** Only the last pipe is counted on Bash.
+	*/
 	if (ft_occur(command, '|') == 1)
 		basic_pipe(lkd_env, command);
 	else if (ft_occur(command, '|') > 1)
