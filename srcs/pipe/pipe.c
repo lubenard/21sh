@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/27 16:05:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/28 18:33:58 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,23 @@ int		count_args(char **tab)
 	return (i);
 }
 
-char	***compact_command(char *command)
+char	**get_multiple_path(char **argv)
+{
+	int		i;
+	char	**ret;
+
+	i = 0;
+	if (!(ret = (char **)malloc(sizeof(char *) * (count_args(argv) + 1))))
+		return (NULL);
+	while (argv[i])
+	{
+	//	ret[i] =  refactor find_path
+		i++;
+	}
+	return (ret);
+}
+
+char	***compact_command(char *command, char ***path)
 {
 	char	***ret;
 	char	**argv;
@@ -64,6 +80,7 @@ char	***compact_command(char *command)
 
 	i = 0;
 	argv = ft_strsplit(command, '|');
+	*path = get_multiple_path(argv);
 	if (!(ret = (char ***)malloc(sizeof(char **) * (count_args(argv) + 1))))
 		return (NULL);
 	while (argv[i])
@@ -80,12 +97,14 @@ char	***compact_command(char *command)
 	return (ret);
 }
 
-int		multiple_pipe(t_env *lkd_env, char ***command)
+int		multiple_pipe(t_env *lkd_env, char ***command, char **path)
 {
 	int		link[2];
 	pid_t	pid;
 	int		fd_in;
+	int		i;
 
+	i = 0;
 	fd_in = 0;
 	while (*command != NULL)
 	{
@@ -98,7 +117,7 @@ int		multiple_pipe(t_env *lkd_env, char ***command)
 				dup2(link[1], 1);
 			close(link[0]);
 			printf("command vaut %s et command[1] vaut %s et command[2] = %s\n", (*command)[0], (*command)[1], (*command)[2]);
-			execve((*command)[0], *command, compact_env(lkd_env));
+			execve(path[i], *command, compact_env(lkd_env));
 			perror("error: ");
 			break ;
 		}
@@ -109,6 +128,7 @@ int		multiple_pipe(t_env *lkd_env, char ***command)
 			close(link[1]);
 			fd_in = link[0];
 			command++;
+			i++;
 		}
 	}
 	return (0);
@@ -116,12 +136,17 @@ int		multiple_pipe(t_env *lkd_env, char ***command)
 
 int		handle_pipe(t_env *lkd_env, char *command)
 {
-	/*
-	** Only the last pipe is counted on Bash.
-	*/
+	/*char *ps[] = {"ls","-lha","libft/", NULL};
+	char *grep[] = {"grep", "ft_occur", NULL};
+	char *grep2[] = {"grep", "ft_occur.c", NULL};
+	char **ret[] = {ps, grep, grep2, NULL};
+	char *path[] = {"/bin/ls", "/usr/bin/grep", "/usr/bin/grep", NULL};*/
+
+	char **path;
 	if (ft_occur(command, '|') == 1)
 		basic_pipe(lkd_env, command);
 	else if (ft_occur(command, '|') > 1)
-		multiple_pipe(lkd_env, compact_command(command));
+		multiple_pipe(lkd_env, compact_command(command, &path), path);
+		//multiple_pipe(lkd_env, ret, path);
 	return (0);
 }
