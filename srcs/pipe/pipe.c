@@ -6,44 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/28 18:33:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/29 16:48:54 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../sh21.h"
-
-/*
-** Only exec cat | grep firefox for now
-*/
-
-int		basic_pipe(t_env *lkd_env, char *command)
-{
-	int		link[2];
-	int		pid;
-	char	**env;
-	char *argv[] = {"grep", "firefox", NULL};
-	char *argv2[] = {"cat", NULL};
-
-	(void)command;
-	env = compact_env(lkd_env);
-	if (pipe(link) == -1 || (pid = fork()) == -1)
-		return (0);
-	if (pid == 0)
-	{
-		printf("j'execute grep\n");
-		dup2(link[0], 0);
-		close(link[1]);
-		execve("/usr/bin/grep", argv, env);
-	}
-	else
-	{
-		printf("j'execute cat\n");
-		dup2(link[1], 1);
-		close(link[0]);
-		execve("/bin/cat", argv2, env);
-	}
-	return (0);
-}
 
 int		count_args(char **tab)
 {
@@ -56,23 +23,7 @@ int		count_args(char **tab)
 	return (i);
 }
 
-char	**get_multiple_path(char **argv)
-{
-	int		i;
-	char	**ret;
-
-	i = 0;
-	if (!(ret = (char **)malloc(sizeof(char *) * (count_args(argv) + 1))))
-		return (NULL);
-	while (argv[i])
-	{
-	//	ret[i] =  refactor find_path
-		i++;
-	}
-	return (ret);
-}
-
-char	***compact_command(char *command, char ***path)
+char	***compact_command(char *command)
 {
 	char	***ret;
 	char	**argv;
@@ -80,7 +31,6 @@ char	***compact_command(char *command, char ***path)
 
 	i = 0;
 	argv = ft_strsplit(command, '|');
-	*path = get_multiple_path(argv);
 	if (!(ret = (char ***)malloc(sizeof(char **) * (count_args(argv) + 1))))
 		return (NULL);
 	while (argv[i])
@@ -96,6 +46,30 @@ char	***compact_command(char *command, char ***path)
 	ret[i] = NULL;
 	return (ret);
 }
+int		free_pipe(char ***command)
+{
+	int		i;
+	int		e;
+	int		k;
+
+	k = 0;
+	i = 0;
+	e = 0;
+	printf("Je suis lance\n");
+	while (command[i])
+	{
+		printf("Le debut de la chaine vaut %s\n",command[i][0]);
+		/*while (command[i][e])
+		{
+			printf("Je free %s\n", command[i][e]);
+			//free(command[i][e]);
+			e++;
+		}
+		//free(command[i]);*/
+		i++;
+	}
+	return (0);
+}
 
 int		multiple_pipe(t_env *lkd_env, char ***command, char **path)
 {
@@ -108,6 +82,7 @@ int		multiple_pipe(t_env *lkd_env, char ***command, char **path)
 	fd_in = 0;
 	while (*command != NULL)
 	{
+		printf("find_path vaut = %s\n", ft_strjoin(find_path(path, (*command)[0]), (*command)[0]));
 		if (pipe(link) == -1 || (pid = fork()) == -1)
 			return (0);
 		if (pid == 0)
@@ -117,13 +92,12 @@ int		multiple_pipe(t_env *lkd_env, char ***command, char **path)
 				dup2(link[1], 1);
 			close(link[0]);
 			printf("command vaut %s et command[1] vaut %s et command[2] = %s\n", (*command)[0], (*command)[1], (*command)[2]);
-			execve(path[i], *command, compact_env(lkd_env));
+			execve(ft_strjoin(find_path(path, (*command)[0]), (*command)[0]), *command, compact_env(lkd_env));
 			perror("error: ");
 			break ;
 		}
 		else
 		{
-			printf("Je suis la avec %s\n", (*command)[0]);
 			wait(NULL);
 			close(link[1]);
 			fd_in = link[0];
@@ -131,22 +105,12 @@ int		multiple_pipe(t_env *lkd_env, char ***command, char **path)
 			i++;
 		}
 	}
+	free_pipe(command);
 	return (0);
 }
 
-int		handle_pipe(t_env *lkd_env, char *command)
+int		handle_pipe(t_env *lkd_env, char **path, char *command)
 {
-	/*char *ps[] = {"ls","-lha","libft/", NULL};
-	char *grep[] = {"grep", "ft_occur", NULL};
-	char *grep2[] = {"grep", "ft_occur.c", NULL};
-	char **ret[] = {ps, grep, grep2, NULL};
-	char *path[] = {"/bin/ls", "/usr/bin/grep", "/usr/bin/grep", NULL};*/
-
-	char **path;
-	if (ft_occur(command, '|') == 1)
-		basic_pipe(lkd_env, command);
-	else if (ft_occur(command, '|') > 1)
-		multiple_pipe(lkd_env, compact_command(command, &path), path);
-		//multiple_pipe(lkd_env, ret, path);
+	multiple_pipe(lkd_env, compact_command(command), path);
 	return (0);
 }

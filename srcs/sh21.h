@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/05/24 13:39:03 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/29 12:33:40 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void				redirections(t_env *lkd_env, char *path, char *command);
 /*
 ** Pipe
 */
-int					handle_pipe(t_env *lkd_env, char *command);
+int					handle_pipe(t_env *lkd_env, char **path, char *command);
 /*
 ** Handle Signal
 */
@@ -92,5 +92,6 @@ int					get_error_exec(char path[6000], int mode);
 char				**compact_env(t_env *lkd_env);
 char				**ft_strsplit_redir(char const *s, char c);
 char				*find_path(char **path, char *first_command);
+char				**get_path(char *path_line);
 
 #endif

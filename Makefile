@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/05/24 00:11:32 by lubenard         ###   ########.fr        #
+#    Updated: 2019/05/29 16:49:41 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC = srcs/main.c \
 	  srcs/execute_command.c \
 	  srcs/errors.c \
 	  srcs/find_path.c \
+	  srcs/get_path.c \
 	  srcs/builtins/setenv.c \
 	  srcs/builtins/unsetenv.c \
 	  srcs/builtins/print_env.c \
@@ -56,6 +57,8 @@ clean:
 	@rm -f $(OBJ)
 	@printf "\033[31mclean de $(NAME)...\033[0m"
 	@printf "\033[32m[✓]\033[0m\n"
+	@rm -rf .history
+	@rm -rf 21sh.dSYM
 
 fclean: clean
 	@rm -f $(NAME)
@@ -63,7 +66,6 @@ fclean: clean
 	@printf "\033[31mFclean de srcs/libft.a...\033[0m\033[32m[✓]\033[0m\n"
 	@printf "\033[31mFclean de $(NAME)...\033[0m"
 	@printf "\033[32m[✓]\033[0m\n"
-	@rm -rf .history
 
 re: fclean all
 
