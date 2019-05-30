@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/29 16:48:54 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/30 14:55:44 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int		count_args(char **tab)
 	i = 0;
 	while (tab[i])
 		i++;
-	printf("Il y a %d elements\n", i);
 	return (i);
 }
 
@@ -27,6 +26,7 @@ char	***compact_command(char *command)
 {
 	char	***ret;
 	char	**argv;
+	char	*tmp;
 	int		i;
 
 	i = 0;
@@ -35,17 +35,17 @@ char	***compact_command(char *command)
 		return (NULL);
 	while (argv[i])
 	{
-		argv[i] = ft_strtrim(argv[i]);
-		ret[i] = ft_strsplit(argv[i], ' ');
-		printf("re[%d] vaut %s\n", i, ret[i][0]);
-		i++;
+		tmp = ft_strtrim(argv[i]);
+		ret[i] = ft_strsplit(tmp, ' ');
 		free(argv[i]);
+		i++;
+		free(tmp);
 	}
 	free(argv);
-	printf("ret[%d] vaut NULL\n", i);
 	ret[i] = NULL;
 	return (ret);
 }
+
 int		free_pipe(char ***command)
 {
 	int		i;
@@ -55,46 +55,62 @@ int		free_pipe(char ***command)
 	k = 0;
 	i = 0;
 	e = 0;
-	printf("Je suis lance\n");
 	while (command[i])
 	{
-		printf("Le debut de la chaine vaut %s\n",command[i][0]);
-		/*while (command[i][e])
+		while (command[i][e])
 		{
-			printf("Je free %s\n", command[i][e]);
-			//free(command[i][e]);
+			free(command[i][e]);
 			e++;
 		}
-		//free(command[i]);*/
+		free(command[i]);
 		i++;
+		e = 0;
 	}
+	free(command);
 	return (0);
 }
 
-int		multiple_pipe(t_env *lkd_env, char ***command, char **path)
+char	*path_pipe(char **path, char *command)
+{
+	char *corr_path;
+	char *normal_path;
+
+	normal_path = find_path(path, command);
+	corr_path = ft_strjoin(normal_path, command);
+	free(normal_path);
+	return (corr_path);
+}
+
+int		exec_pipe(t_env *lkd_env, char **path, int link[2], char ***command)
+{
+	char *exec_path;
+
+	if (*(command + 1) != NULL)
+		dup2(link[1], 1);
+	close(link[0]);
+	execve((exec_path = path_pipe(path, (*command)[0])),
+	*command, compact_env(lkd_env));
+	free(exec_path);
+	return (0);
+}
+
+void	multiple_pipe(t_env *lkd_env, char ***command, char **path)
 {
 	int		link[2];
 	pid_t	pid;
 	int		fd_in;
-	int		i;
+	char	***tmp;
 
-	i = 0;
+	tmp = command;
 	fd_in = 0;
 	while (*command != NULL)
 	{
-		printf("find_path vaut = %s\n", ft_strjoin(find_path(path, (*command)[0]), (*command)[0]));
 		if (pipe(link) == -1 || (pid = fork()) == -1)
-			return (0);
+			return ;
 		if (pid == 0)
 		{
 			dup2(fd_in, 0);
-			if (*(command + 1) != NULL)
-				dup2(link[1], 1);
-			close(link[0]);
-			printf("command vaut %s et command[1] vaut %s et command[2] = %s\n", (*command)[0], (*command)[1], (*command)[2]);
-			execve(ft_strjoin(find_path(path, (*command)[0]), (*command)[0]), *command, compact_env(lkd_env));
-			perror("error: ");
-			break ;
+			exec_pipe(lkd_env, path, link, command);
 		}
 		else
 		{
@@ -102,11 +118,9 @@ int		multiple_pipe(t_env *lkd_env, char ***command, char **path)
 			close(link[1]);
 			fd_in = link[0];
 			command++;
-			i++;
 		}
 	}
-	free_pipe(command);
-	return (0);
+	free_pipe(tmp);
 }
 
 int		handle_pipe(t_env *lkd_env, char **path, char *command)
