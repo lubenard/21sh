@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 17:01:28 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/24 00:04:29 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/30 17:44:20 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		free_after_exec(char *get_right_path, char **argv,
 	i = 0;
 	while (argv[i])
 		free(argv[i++]);
-	//free(get_right_path);
+	free(get_right_path);
 	free(argv);
 	free(env);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/24 17:49:54 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/05/30 17:44:04 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,17 +232,22 @@ int		fill_file(char **filenames, char *ret_command, char **tab)
 ** NOTES : arrow is creating the files before executing command
 */
 
-char	*exec_command_redir(t_env *lkd_env, char av[131072])
+char	*exec_command_redir(t_env *lkd_env, char **path, char av[131072])
 {
 	char	**argv;
 	char	*ret_command;
+	char	*normal_path;
 
 	argv = ft_strsplit(av, ' ');
-	ret_command = get_output_of_command(argv[0], argv, compact_env(lkd_env));
+	normal_path = find_path(path, argv[0]);
+	printf("argv[0] vaut %s\n", argv[0]);
+	ret_command = get_output_of_command(ft_strjoin(normal_path, argv[0])
+		, argv, compact_env(lkd_env));
+	free(normal_path);
 	return (ret_command);
 }
 
-void	arrow_right(t_env *lkd_env, char *command)
+void	arrow_right(t_env *lkd_env, char **path, char *command)
 {
 	char	**tab;
 	int		i;
@@ -267,16 +272,15 @@ void	arrow_right(t_env *lkd_env, char *command)
 		i++;
 	}
 	create_file(filenames, tab);
-	fill_file(filenames, exec_command_redir(lkd_env, av), tab);
+	fill_file(filenames, exec_command_redir(lkd_env, path, av), tab);
 }
 
-void	redirections(t_env *lkd_env, char *path, char *command)
+void	redirections(t_env *lkd_env, char **path, char *command)
 {
-	(void)path;
 	if (ft_strstr(command, "<<"))
 		double_arrow_left(lkd_env, command);
 	else if (ft_strchr(command, '<'))
 		simple_arrow_left(lkd_env, command);
 	else if (ft_strchr(command, '>') || ft_strstr(command, ">>"))
-		arrow_right(lkd_env, command);
+		arrow_right(lkd_env, path, command);
 }
