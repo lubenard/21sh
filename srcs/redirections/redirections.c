@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/30 17:44:04 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/01 01:30:27 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int		pass_filename(char **tab, int i)
 	e = 0;
 	if (tab[i][0] == '>')
 		e++;
+	while (tab[i][e] == ' ' || tab[i][e] == '\t')
+		e++;
 	while (ft_isalnum(tab[i][e]))
 		e++;
 	while (tab[i][e] == ' ' || tab[i][e] == '\t')
@@ -87,22 +89,22 @@ char	**save_filename(char **tab, int i)
 	int		k;
 	int		m;
 
-	e = 0;
 	k = 0;
-	m = 0;
 	nbr_elem = count_elem_redir(tab, i);
 	if (!(filename = (char **)malloc(sizeof(char *) * (nbr_elem + 1))))
 		return (NULL);
 	while (i - 1 < nbr_elem)
 	{
-		while (tab[i][0] == '>' || tab[i][m] == ' ' || tab[i][m] == '\t')
+		m = 0;
+		e = 0;
+		while ((tab[i][m] == '>' || tab[i][m] == ' ' || tab[i][m] == '\t') && tab[i][m])
 			m++;
+		e = m;
 		while (tab[i][e] && tab[i][e] != ' ')
 			e++;
 		filename[k] = ft_strsub(tab[i], m, e);
 		printf("filename[%d] = '%s'\n", k, filename[k]);
 		k++;
-		e = 0;
 		i++;
 	}
 	filename[k] = NULL;

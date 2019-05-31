@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/30 16:39:22 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/01 00:19:04 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int		main(int argc, char **argv, char **env)
 	lkd_hist = new_maillon_hist();
 	change_env(lkd_env);
 	path = get_path(find_in_env(lkd_env, ft_strdup("PATH")));
-	//set_env(lkd_env, "setenv PATH=🙄"); add setenv PATH=$PATH:/mon/path and not case sensitive
+	//set_env(lkd_env, "setenv PATH=🙄"); //add setenv PATH=$PATH:/mon/path and not case sensitive
 	//print_env(lkd_env);
 	//history(lkd_hist);
 	redirections(lkd_env, path, argv[1]);
