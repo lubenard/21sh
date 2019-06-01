@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:57:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/15 17:44:22 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/01 02:04:34 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	set_env(t_env *lkd_env, char *command)
 	|| !(to_search = extract_first_env(command, 1)))
 		return ;
 	to_add = extract_params(command);
+	to_search = ft_strupper(to_search);
 	if (set_env2(&lkd_env, to_search, to_extract, to_add) == 0)
 	{
 		to_extract = extract_first_env(lkd_env->env_line, 0);
