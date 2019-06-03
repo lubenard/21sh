@@ -10,7 +10,7 @@ compare_function()
 		return 0
 	else
 		printf '\033[31mThe file "%s" is different from "%s"\n\033[0m' "$1" "$2"
-		#vimdiff $1 $2
+		vimdiff $1 $2
 		return 1
 	fi
 }
