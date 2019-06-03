@@ -10,28 +10,31 @@ compare_function()
 		return 0
 	else
 		printf '\033[31mThe file "%s" is different from "%s"\n\033[0m' "$1" "$2"
+		#vimdiff $1 $2
 		return 1
 	fi
 }
 
+pwd
 rm -rf file1 compare1
+make -C ../
+cp ../auteur .
 
 # Basic redirections
-./21sh "cat auteur > file1"
+../21sh "cat auteur > file1"
 cat auteur > compare1
 compare_function file1 compare1
 
-rm file1 compare1
+rm file* compare*
 
-./21sh "cat auteur >> file1"
+../21sh "cat auteur >> file1"
 cat auteur >> compare1
 compare_function file1 compare1
 
+rm file* compare*
+
 # Multiple redirections
-
-rm file1 compare1
-
-./21sh "cat auteur > file1 >> file2"
+../21sh "cat auteur > file1 >> file2"
 cat auteur > compare1 >> compare2
 compare_function file1 compare1
 compare_function file2 compare2
