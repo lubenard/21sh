@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/01 00:19:04 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/04 17:33:00 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,16 @@ int		main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	lkd_env = get_env(env);
-	display_prompt("user", "mon_path");
-	printf("\n");
+	//display_prompt("user", "mon_path");
+	//printf("\n");
 	lkd_hist = new_maillon_hist();
 	change_env(lkd_env);
 	path = get_path(find_in_env(lkd_env, ft_strdup("PATH")));
 	//set_env(lkd_env, "setenv PATH=🙄"); //add setenv PATH=$PATH:/mon/path and not case sensitive
-	//print_env(lkd_env);
+	print_env(lkd_env, argv[1]);
 	//history(lkd_hist);
-	redirections(lkd_env, path, argv[1]);
+	//redirections(lkd_env, path, argv[1]);
+	//save_redir("cat auteur > file1 >> file2", "mycontent");
 	//handle_pipe(lkd_env, path, argv[1]);
 	free_after_exit(lkd_env, lkd_hist, path);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/05/30 16:01:59 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/04 16:51:44 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@
 
 #include <stdio.h>
 
+# define PE_I 1
+# define PE_P 2
+# define PE_V 4
+
 typedef struct		s_env
 {
 	char			env_line[4096];
@@ -37,6 +41,7 @@ typedef struct		s_hist
 	struct s_hist	*prev;
 	struct s_hist	*next;
 }					t_hist;
+
 /*
 ** Display / error functions
 */
@@ -56,12 +61,13 @@ t_hist				*new_maillon_hist(void);
 */
 void				set_env(t_env *lkd_env, char *command);
 void				unset_env(t_env *lkd_env, char *command);
-void				print_env(t_env *lkd_env);
+int					print_env(t_env *lkd_env, char *command);
 void				history(t_hist *lkd_hist);
 /*
 ** Redirections
 */
 void				redirections(t_env *lkd_env, char **path, char *command);
+void				save_redir(char *command, char *content);
 /*
 ** Pipe
 */

@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 17:36:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/20 16:51:19 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/04 14:44:30 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ char			*ft_strndup(const char *s, size_t n);
 size_t			ft_strlcat(char *dest, char const *src, size_t n);
 size_t			ft_strlen(char const *s);
 t_list			*ft_lstnew(void const *content, size_t content_size);
+size_t			ft_strchri(const char *s, int c);
 t_list			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 int				get_next_line(const int fd, char **line);
 char			*ft_strlower(char *str);

@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/05/29 16:49:41 by lubenard         ###   ########.fr        #
+#    Updated: 2019/06/04 14:20:26 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC = srcs/main.c \
 	  srcs/get_path.c \
 	  srcs/builtins/setenv.c \
 	  srcs/builtins/unsetenv.c \
-	  srcs/builtins/print_env.c \
+	  srcs/builtins/env/env.c \
 	  srcs/redirections/redirections.c \
 	  srcs/redirections/ft_strsplit_redir.c \
 	  srcs/pipe/pipe.c \

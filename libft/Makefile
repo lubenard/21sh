@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/05/16 17:36:15 by lubenard         ###   ########.fr        #
+#    Updated: 2019/06/04 14:43:11 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,8 @@ SRC = ft_memset.c \
 	ft_strupper.c \
 	ft_strlower.c \
 	ft_strnncpy.c \
-	ft_conststrjoin.c
+	ft_conststrjoin.c \
+	ft_strchri.c
 
 OBJ = $(SRC:.c=.o)
 
