@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/06/04 16:51:44 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/06 21:55:58 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 #include <stdio.h>
 
 # define PE_I 1
-# define PE_P 2
-# define PE_V 4
+# define PE_V 2
+# define PE_0 4
 
 typedef struct		s_env
 {

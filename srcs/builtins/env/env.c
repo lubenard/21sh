@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/06 14:21:27 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/06 21:55:44 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int		print_error_env(char option, int mode)
 		ft_putchar(option);
 		ft_putchar('\n');
 	}
-	ft_putstr("usage: env [-iv] [-P utilpath] [--help]\n");
+	ft_putstr("usage: env [-iv0] [--help]\n");
 	ft_putstr("\t   [name=value ...] command\n");
 	return (0);
 }
 
-int		print_basic_env(t_env *lkd_env)
+int		print_basic_env(t_env *lkd_env, int flags, int mode)
 {
 	while (lkd_env)
 	{
@@ -33,7 +33,10 @@ int		print_basic_env(t_env *lkd_env)
 		&& lkd_env->prev && lkd_env->next)
 		{
 			ft_putstr(lkd_env->env_line);
-			ft_putchar('\n');
+			if (mode == 1 && !(flags & PE_0))
+				ft_putchar('\n');
+			else if (mode == 0)
+				ft_putchar('\n');
 		}
 		lkd_env = lkd_env->next;
 	}
@@ -69,10 +72,24 @@ int		count_elem_env(char **command)
 	return (e);
 }
 
-int		print_env_no_command(char **tab, int j)
+int		print_env_no_command(char **tab, int j, char **to_free, int flags)
 {
+	int i;
+
+	i = 0;
 	while (tab[j])
-		ft_putendl(tab[j++]);
+	{
+		ft_putstr(tab[j++]);
+		if (!(flags & PE_0))
+			ft_putchar('\n');
+	}
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
+	i = 0;
+	while (to_free[i])
+		free(to_free[i++]);
+	free(to_free);
 	return (0);
 }
 
@@ -82,34 +99,37 @@ char	**parse_env(char **command, int flags)
 	char	**tab;
 	size_t	k;
 	int		j;
+	int		n;
 
 	printf("J'ai %d elems\n", count_elem_env(command));
-	if (!(tab = (char **)malloc(sizeof(char *) * count_elem_env(command))))
+	if (!count_elem_env(command) && (flags & PE_0) && !(flags & PE_I))
+		return (NULL);
+	if (!(tab = (char **)malloc(sizeof(char *) * (count_elem_env(command) + 1))))
 		return (NULL);
 	i = 0;
+	n = 0;
+	printf("Je suis la\n");
 	if (flags & PE_I)
 	{
 		while (command[i] && !ft_strchr(command[i], '='))
 			i++;
 		j = i;
 		while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
-		{
-			printf("command[%d] = %s\n", i, command[i]);
-			i++;
-		}
+			tab[n++] = ft_strdup(command[i++]);
+		tab[n] = NULL;
 		printf("je check %s\n", command[i]);
 		if (!command[i])
-			print_env_no_command(command, j);
+			print_env_no_command(command, j, tab, flags);
 	}
-	return (0);
+	return (tab);
 }
 
 int		launch_command_env(t_env *lkd_env, int flags, char **command)
 {
-	char **env;
+	char	**env;
 
 	if (!(env = parse_env(command, flags)))
-		return (print_basic_env(lkd_env));
+		return (print_basic_env(lkd_env, flags, 1));
 	return (0);
 }
 
@@ -119,7 +139,7 @@ int		env_available_option(char *tab, int *flags)
 
 	while (*(++tab))
 	{
-		if (!(i = ft_strchri("iPv", tab[0])))
+		if (!(i = ft_strchri("iv0", tab[0])))
 		{
 			print_error_env(tab[0], 0);
 			return (0);
@@ -157,7 +177,7 @@ int		print_env(t_env *lkd_env, char *command)
 {
 	if (!ft_strcmp(command, "env"))
 	{
-		print_basic_env(lkd_env);
+		print_basic_env(lkd_env, 0, 0);
 		return (0);
 	}
 	else
