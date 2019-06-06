@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/04 22:53:12 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/06 14:21:27 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		print_basic_env(t_env *lkd_env)
 	while (lkd_env)
 	{
 		if (ft_strcmp(lkd_env->env_line, "")
-		&& !lkd_env->prev && !lkd_env->next)
+		&& lkd_env->prev && lkd_env->next)
 		{
 			ft_putstr(lkd_env->env_line);
 			ft_putchar('\n');
