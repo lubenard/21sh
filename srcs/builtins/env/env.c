@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/06 21:55:44 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/07 16:31:32 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int		print_basic_env(t_env *lkd_env, int flags, int mode)
 {
 	while (lkd_env)
 	{
-		if (ft_strcmp(lkd_env->env_line, "")
-		&& lkd_env->prev && lkd_env->next)
+		if (ft_strcmp(lkd_env->env_line, ""))
 		{
 			ft_putstr(lkd_env->env_line);
 			if (mode == 1 && !(flags & PE_0))
@@ -60,76 +59,132 @@ int		count_elem_env(char **command)
 	int		i;
 	int		e;
 	size_t	k;
+	int		n;
+	int		j;
 
 	e = 0;
 	i = 0;
+	n = 0;
+	j = 0;
 	while (command[i])
 	{
 		if ((k = ft_strchri(command[i], '=')) && k != 1)
+		{
+			if (!j)
+				j = i;
 			e++;
+		}
 		i++;
 	}
 	return (e);
 }
 
-int		print_env_no_command(char **tab, int j, char **to_free, int flags)
+int		print_env_no_command(t_env *env, char **to_free, int flags)
 {
 	int i;
+	t_env *tmp;
 
+	(void)to_free;
 	i = 0;
-	while (tab[j])
+	while (env)
 	{
-		ft_putstr(tab[j++]);
+		ft_putstr(env->env_line);
 		if (!(flags & PE_0))
 			ft_putchar('\n');
+		env = env->next;
 	}
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
-	i = 0;
-	while (to_free[i])
-		free(to_free[i++]);
-	free(to_free);
+	while (env)
+	{
+		tmp = env;
+		env = env->next;
+		free(tmp);
+	}
+//	while (to_free[i])
+//		free(to_free[i++]);
+//	free(to_free);
 	return (0);
 }
 
-char	**parse_env(char **command, int flags)
+void	fill_env(t_env **env, char **command, int i, t_env *tmp)
+{
+	t_env	*new_element;
+
+	printf("find_in_env return %s for %s\n", find_in_env(tmp, ft_strdup(command[i])), command[i]);
+	if (find_in_env(tmp, ft_strdup(command[i])))
+	{
+		printf("Bruh ?\n");
+		while (tmp)
+		{
+			if (!ft_strcmp(extract_first_env(command[i], 0), extract_first_env(tmp->env_line, 0)))
+			{
+				printf("Je suis sur %s et je copie %s a sa place\n",tmp->env_line, command[i]);
+				ft_strcpy(tmp->env_line, command[i]);
+				break ;
+			}
+			tmp = tmp->next;
+		}
+	}
+	else
+	{
+		printf("Je suis la\n");
+		ft_strcpy((*env)->env_line, command[i]);
+		if (command[i + 1] && ft_strchr(command[i + 1], '=') && !find_in_env(tmp, command[i + 1]))
+		{
+			new_element = new_maillon_env();
+			(*env)->next = new_element;
+			(*env)->next->prev = (*env);
+			(*env) = new_element;
+		}
+	}
+}
+
+void	print_env_and_var(t_env *lkd_env, char **command, int flags)
+{
+	int i;
+	int k;
+
+	i = 0;
+	print_basic_env(lkd_env, flags, 1);
+	while (command[i] && !ft_strchr(command[i], '='))
+		i++;
+	while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
+	{
+		ft_putstr(command[i++]);
+		if (!(flags & PE_0))
+			ft_putchar('\n');
+	}
+}
+
+t_env	*parse_env(t_env *lkd_env, char **command, int flags)
 {
 	int		i;
-	char	**tab;
 	size_t	k;
-	int		j;
-	int		n;
+	t_env	*env;
+	t_env	*tmp;
 
-	printf("J'ai %d elems\n", count_elem_env(command));
-	if (!count_elem_env(command) && (flags & PE_0) && !(flags & PE_I))
-		return (NULL);
-	if (!(tab = (char **)malloc(sizeof(char *) * (count_elem_env(command) + 1))))
-		return (NULL);
 	i = 0;
-	n = 0;
-	printf("Je suis la\n");
 	if (flags & PE_I)
 	{
+		env = new_maillon_env();
+		tmp = env;
 		while (command[i] && !ft_strchr(command[i], '='))
 			i++;
-		j = i;
 		while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
-			tab[n++] = ft_strdup(command[i++]);
-		tab[n] = NULL;
-		printf("je check %s\n", command[i]);
+			fill_env(&env, command, i++, tmp);
 		if (!command[i])
-			print_env_no_command(command, j, tab, flags);
+			print_env_no_command(tmp, command, flags);
+		return (tmp);
 	}
-	return (tab);
+	else
+		print_env_and_var(lkd_env, command, flags);
+	return (NULL);
 }
 
 int		launch_command_env(t_env *lkd_env, int flags, char **command)
 {
-	char	**env;
+	t_env *env;
 
-	if (!(env = parse_env(command, flags)))
-		return (print_basic_env(lkd_env, flags, 1));
+	env = parse_env(lkd_env, command, flags);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:57:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/01 02:04:34 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/07 11:15:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	create_new(t_env *lkd_env, char *to_search, char *to_add)
 		ft_strcpy(lkd_env->env_line, to_add);
 	else
 	{
-		new_element = new_maillon();
+		new_element = new_maillon_env();
 		lkd_env->next = new_element;
 		lkd_env->next->prev = lkd_env;
 		ft_strcpy(new_element->env_line, to_add);

@@ -6,13 +6,13 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:37:25 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/15 20:23:32 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/07 10:46:33 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh21.h"
 
-t_env	*new_maillon(void)
+t_env	*new_maillon_env(void)
 {
 	t_env		*new_element;
 
@@ -38,7 +38,7 @@ t_env	*get_env(char **env)
 	t_env	*new_element;
 
 	i = 0;
-	lkd_env = new_maillon();
+	lkd_env = new_maillon_env();
 	if (env[0] == NULL)
 		return (null_env(lkd_env));
 	tmp = lkd_env;
@@ -47,7 +47,7 @@ t_env	*get_env(char **env)
 		ft_strcpy(lkd_env->env_line, env[i]);
 		if (env[i + 1] != NULL)
 		{
-			new_element = new_maillon();
+			new_element = new_maillon_env();
 			lkd_env->next = new_element;
 			lkd_env->next->prev = lkd_env;
 			lkd_env = lkd_env->next;
