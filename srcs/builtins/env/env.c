@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/08 13:59:09 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/08 23:18:34 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,25 @@ int		count_elem_env(char **command)
 	return (e);
 }
 
-int		print_env_no_command(t_env *env, char **to_free, int flags, int *is_command)
+void	free_env(t_env *env, char **to_free)
 {
-	int i;
 	t_env *tmp;
+	int		i;
 
 	i = 0;
+	while (env)
+	{
+		tmp = env;
+		env = env->next;
+		free(tmp);
+	}
+	while (to_free[i])
+		free(to_free[i++]);
+	free(to_free);
+
+}
+int		print_env_no_command(t_env *env, char **to_free, int flags, int *is_command)
+{
 	*is_command = 0;
 	while (env)
 	{
@@ -96,15 +109,7 @@ int		print_env_no_command(t_env *env, char **to_free, int flags, int *is_command
 		}
 		env = env->next;
 	}
-	while (env)
-	{
-		tmp = env;
-		env = env->next;
-		free(tmp);
-	}
-	while (to_free[i])
-		free(to_free[i++]);
-	free(to_free);
+	free_env(env, to_free);
 	return (0);
 }
 
@@ -173,6 +178,11 @@ t_env	*parse_env(t_env *lkd_env, char **command, int flags, int *is_command)
 		tmp = env;
 		while (command[i] && !ft_strchr(command[i], '='))
 			i++;
+		if (!command[i] && command[i - 1][0] != '-')
+		{
+			*is_command = 1;
+			return (NULL);
+		}
 		while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
 		{
 			fill_env(&env, command, i, tmp);
@@ -189,7 +199,65 @@ t_env	*parse_env(t_env *lkd_env, char **command, int flags, int *is_command)
 	return (NULL);
 }
 
-int		launch_command_env(t_env *lkd_env, int flags, char **command)
+char	**compact_argv_env(char **command, int i)
+{
+	int		nbr_elem;
+	char	**argv;
+	int		k;
+
+	nbr_elem = i;
+	k = 0;
+	while (command[i])
+		i++;
+	printf("nbr_elem = %d\n", i - nbr_elem);
+	if (!(argv = (char **)malloc(sizeof(char *) * ((i - nbr_elem) + 1))))
+		return (NULL);
+	while (command[nbr_elem])
+	{
+		argv[k] = ft_strdup(command[nbr_elem]);
+		nbr_elem++;
+		k++;
+	}
+	argv[k] = NULL;
+	return (argv);
+}
+
+
+
+int		exec_file(t_env *env, char **command, char **path)
+{
+	int		i;
+	char	*right_path;
+	char	*exec_path;
+
+	char **tmp;
+	char **tmp2;
+	i = 1;
+	while (command[i][0] == '-' || ft_strchr(command[i], '='))
+		i++;
+	printf("je suis sur %s\n", command[i]);
+	right_path = find_path(path, command[i]);
+	if (right_path == NULL)
+	{
+		ft_putstr("No file found with the following name: ");
+		ft_putendl(command[i]);
+		free_env(env, command);
+		return (1);
+	}
+	printf("right path = %s\n", right_path);
+	tmp = compact_argv_env(command, i);
+	printf("argv = %s\n", tmp[0]);
+	tmp2 = compact_env(env);
+	printf("env = %s\n", tmp2[0]);
+	printf("------------------ exec ----------------\n");
+	exec_path = ft_strjoin(right_path, command[i]);
+	exec_command_gen(exec_path, tmp, tmp2);
+	free(right_path);
+	free_env(env, command);
+	return (0);
+}
+
+int		launch_command_env(t_env *lkd_env, int flags, char **command, char **path)
 {
 	t_env	*env;
 	int		is_command;
@@ -198,6 +266,8 @@ int		launch_command_env(t_env *lkd_env, int flags, char **command)
 	env = parse_env(lkd_env, command, flags, &is_command);
 	printf("premier maillon vaut %s\n", env->env_line);
 	printf("is_command vaut %d\n", is_command);
+	if (is_command == 1)
+		exec_file(env, command, path);
 	return (0);
 }
 
@@ -218,7 +288,7 @@ int		env_available_option(char *tab, int *flags)
 	return (i);
 }
 
-int		parsing_env(t_env *lkd_env, char *command)
+int		parsing_env(t_env *lkd_env, char *command, char **path)
 {
 	int		flags;
 	int		i;
@@ -237,11 +307,11 @@ int		parsing_env(t_env *lkd_env, char *command)
 			return (0);
 		i++;
 	}
-	launch_command_env(lkd_env, flags, tab);
+	launch_command_env(lkd_env, flags, tab, path);
 	return (0);
 }
 
-int		print_env(t_env *lkd_env, char *command)
+int		print_env(t_env *lkd_env, char *command, char **path)
 {
 	if (!ft_strcmp(command, "env"))
 	{
@@ -249,5 +319,5 @@ int		print_env(t_env *lkd_env, char *command)
 		return (0);
 	}
 	else
-		return (parsing_env(lkd_env, command));
+		return (parsing_env(lkd_env, command, path));
 }

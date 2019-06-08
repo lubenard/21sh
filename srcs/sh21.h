@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/06/07 10:53:37 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/08 22:05:19 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_hist				*new_maillon_hist(void);
 */
 void				set_env(t_env *lkd_env, char *command);
 void				unset_env(t_env *lkd_env, char *command);
-int					print_env(t_env *lkd_env, char *command);
+int					print_env(t_env *lkd_env, char *command, char **path);
 void				history(t_hist *lkd_hist);
 /*
 ** Redirections
@@ -86,6 +86,7 @@ void				save_command(t_hist **lkd_hist, char *command);
 */
 int					execute_command(char *get_right_path,
 	char *command, char **argv, char **env);
+int		exec_command_gen(char *path, char **argv, char **env);
 /*
 ** Other
 */

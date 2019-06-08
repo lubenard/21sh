@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/20 18:23:46 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/08 22:03:31 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,20 @@ char	*check_exec_rights(char *get_right_path, char *command)
 	}
 	free(path);
 	return (ft_strdup(command));
+}
+
+int		exec_command_gen(char *path, char **argv, char **env)
+{
+	g_pid = fork();
+	signal(SIGINT, handle_signals_proc);
+	if (g_pid < 0)
+		return (0);
+	if (g_pid == 0)
+	{
+		execve(path, argv, env);
+	}
+	wait(&g_pid);
+	return (free_after_exec(path, argv, env));
 }
 
 int		execute_command(char *get_right_path, char *command,
