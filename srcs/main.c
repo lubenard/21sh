@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/07 12:55:06 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/08 13:20:20 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	free_after_exit(t_env *lkd_env, t_hist *lkd_hist, char **path)
 	int		i;
 
 	i = 0;
-	(void)path;
 	while (lkd_env)
 	{
 		tmp = lkd_env;

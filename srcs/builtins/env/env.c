@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/07 16:31:32 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/08 13:25:27 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,12 @@ int		print_env_no_command(t_env *env, char **to_free, int flags)
 	i = 0;
 	while (env)
 	{
-		ft_putstr(env->env_line);
-		if (!(flags & PE_0))
-			ft_putchar('\n');
+		if (ft_strcmp(env->env_line, ""))
+		{
+			ft_putstr(env->env_line);
+			if (!(flags & PE_0))
+				ft_putchar('\n');
+		}
 		env = env->next;
 	}
 	while (env)
@@ -99,9 +102,9 @@ int		print_env_no_command(t_env *env, char **to_free, int flags)
 		env = env->next;
 		free(tmp);
 	}
-//	while (to_free[i])
-//		free(to_free[i++]);
-//	free(to_free);
+	while (to_free[i])
+		free(to_free[i++]);
+	free(to_free);
 	return (0);
 }
 
@@ -109,10 +112,11 @@ void	fill_env(t_env **env, char **command, int i, t_env *tmp)
 {
 	t_env	*new_element;
 
-	printf("find_in_env return %s for %s\n", find_in_env(tmp, ft_strdup(command[i])), command[i]);
-	if (find_in_env(tmp, ft_strdup(command[i])))
+	printf("Je suis sur %s\n", command[i]);
+	printf("find_in_env return %s for %s\n", find_in_env(tmp, extract_first_env(command[i], 0)), extract_first_env(command[i], 0));
+	if (find_in_env(tmp, extract_first_env(command[i], 0)))
 	{
-		printf("Bruh ?\n");
+		printf("On remplace le maillon existant\n");
 		while (tmp)
 		{
 			if (!ft_strcmp(extract_first_env(command[i], 0), extract_first_env(tmp->env_line, 0)))
@@ -126,9 +130,9 @@ void	fill_env(t_env **env, char **command, int i, t_env *tmp)
 	}
 	else
 	{
-		printf("Je suis la\n");
+		printf("Pas de remplacement\n");
 		ft_strcpy((*env)->env_line, command[i]);
-		if (command[i + 1] && ft_strchr(command[i + 1], '=') && !find_in_env(tmp, command[i + 1]))
+		if (command[i + 1] && ft_strchr(command[i + 1], '=') && !find_in_env(tmp, ft_strdup(command[i + 1])))
 		{
 			new_element = new_maillon_env();
 			(*env)->next = new_element;
@@ -167,10 +171,24 @@ t_env	*parse_env(t_env *lkd_env, char **command, int flags)
 	{
 		env = new_maillon_env();
 		tmp = env;
+		//int j = 0;
+		//while (command[j++])
+		//	printf("1 Command[%d] vaut %s\n", j, command[j]);
 		while (command[i] && !ft_strchr(command[i], '='))
 			i++;
+		//j = 0;
+		//while (command[j++])
+		//	printf("2 Command[%d] vaut %s\n", j, command[j]);
 		while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
-			fill_env(&env, command, i++, tmp);
+		{
+			fill_env(&env, command, i, tmp);
+			i++;
+		}
+		//j = 0;
+		//while (command[j++])
+		//	printf("3 Command[%d] vaut %s\n", j, command[j]);
+		printf("Command[%d] vaut %s\n",i ,command[i]);
+		printf("K vaut %zu\n", k);
 		if (!command[i])
 			print_env_no_command(tmp, command, flags);
 		return (tmp);

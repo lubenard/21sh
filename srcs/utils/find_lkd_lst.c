@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:56:10 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/16 16:02:38 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/08 13:19:46 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 char	*find_in_env(t_env *lkd_env, char *to_find)
 {
-	int lenght;
-	int i;
-	int e;
+	int		i;
+	int		e;
+	char	*occur;
 
 	i = 0;
 	e = 0;
-	lenght = ft_strlen(to_find);
 	while (lkd_env)
 	{
-		if (ft_strncmp(lkd_env->env_line, to_find, lenght) == 0)
+		occur = extract_first_env(lkd_env->env_line, 0);
+		if (!ft_strcmp(occur, to_find))
 		{
 			while (lkd_env->env_line[i] && lkd_env->env_line[i] != '=')
 				i++;
@@ -31,8 +31,10 @@ char	*find_in_env(t_env *lkd_env, char *to_find)
 			while (lkd_env->env_line[i + e])
 				e++;
 			free(to_find);
+			free(occur);
 			return (ft_strsub(lkd_env->env_line, i, e));
 		}
+		free(occur);
 		lkd_env = lkd_env->next;
 	}
 	free(to_find);
