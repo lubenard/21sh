@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/08 13:25:27 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/08 13:59:09 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ int		count_elem_env(char **command)
 	return (e);
 }
 
-int		print_env_no_command(t_env *env, char **to_free, int flags)
+int		print_env_no_command(t_env *env, char **to_free, int flags, int *is_command)
 {
 	int i;
 	t_env *tmp;
 
-	(void)to_free;
 	i = 0;
+	*is_command = 0;
 	while (env)
 	{
 		if (ft_strcmp(env->env_line, ""))
@@ -159,7 +159,7 @@ void	print_env_and_var(t_env *lkd_env, char **command, int flags)
 	}
 }
 
-t_env	*parse_env(t_env *lkd_env, char **command, int flags)
+t_env	*parse_env(t_env *lkd_env, char **command, int flags, int *is_command)
 {
 	int		i;
 	size_t	k;
@@ -171,26 +171,17 @@ t_env	*parse_env(t_env *lkd_env, char **command, int flags)
 	{
 		env = new_maillon_env();
 		tmp = env;
-		//int j = 0;
-		//while (command[j++])
-		//	printf("1 Command[%d] vaut %s\n", j, command[j]);
 		while (command[i] && !ft_strchr(command[i], '='))
 			i++;
-		//j = 0;
-		//while (command[j++])
-		//	printf("2 Command[%d] vaut %s\n", j, command[j]);
 		while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
 		{
 			fill_env(&env, command, i, tmp);
 			i++;
 		}
-		//j = 0;
-		//while (command[j++])
-		//	printf("3 Command[%d] vaut %s\n", j, command[j]);
 		printf("Command[%d] vaut %s\n",i ,command[i]);
 		printf("K vaut %zu\n", k);
 		if (!command[i])
-			print_env_no_command(tmp, command, flags);
+			print_env_no_command(tmp, command, flags, is_command);
 		return (tmp);
 	}
 	else
@@ -200,9 +191,13 @@ t_env	*parse_env(t_env *lkd_env, char **command, int flags)
 
 int		launch_command_env(t_env *lkd_env, int flags, char **command)
 {
-	t_env *env;
+	t_env	*env;
+	int		is_command;
 
-	env = parse_env(lkd_env, command, flags);
+	is_command = 1;
+	env = parse_env(lkd_env, command, flags, &is_command);
+	printf("premier maillon vaut %s\n", env->env_line);
+	printf("is_command vaut %d\n", is_command);
 	return (0);
 }
 
