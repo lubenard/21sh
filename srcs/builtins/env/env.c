@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/08 23:18:34 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/11 06:21:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,35 @@ int		print_basic_env(t_env *lkd_env, int flags, int mode)
 	return (0);
 }
 
-void	print_verbose_env(int flags, char *argv, int mode)
+void	print_verbose_env(t_env *env, char **argv, int mode)
 {
-	if (flags & PE_I)
-		ft_putstr("#env clearing environ\n");
+	int i;
+
+	i = 0;
 	if (mode == 0)
+		ft_putstr("#env clearing environ\n");
+	else if (mode == 1)
 	{
-		ft_putstr("#env\targv[0]= '");
-		ft_putstr(argv);
-		ft_putendl("'");
+		while (env)
+		{
+			if (ft_strcmp(env->env_line, ""))
+			{
+				ft_putstr("#env setenv:\t");
+				ft_putendl(env->env_line);
+			}
+			env = env->next;
+		}
+	}
+	else if (mode == 2)
+	{
+		while (argv[i])
+		{
+			ft_putstr("#env\targv[");
+			ft_putnbr(i);
+			ft_putstr("]= '");
+			ft_putstr(argv[i++]);
+			ft_putendl("'");
+		}
 	}
 }
 
@@ -81,24 +101,36 @@ int		count_elem_env(char **command)
 
 void	free_env(t_env *env, char **to_free)
 {
-	t_env *tmp;
+	t_env	*tmp;
 	int		i;
 
 	i = 0;
-	while (env)
+	if (env != NULL)
 	{
-		tmp = env;
-		env = env->next;
-		free(tmp);
+		while (env)
+		{
+			tmp = env;
+			env = env->next;
+			free(tmp);
+		}
 	}
-	while (to_free[i])
-		free(to_free[i++]);
+	if (to_free != NULL)
+	{
+		while (to_free[i])
+			free(to_free[i++]);
+	}
 	free(to_free);
-
 }
-int		print_env_no_command(t_env *env, char **to_free, int flags, int *is_command)
+
+t_env	*print_env_no_command(t_env *env, char **to_free,
+	int flags, int *is_command)
 {
+	t_env *tmp;
+
+	tmp = env;
 	*is_command = 0;
+	if (flags & PE_V && flags & PE_I)
+		print_verbose_env(env, NULL, 1);
 	while (env)
 	{
 		if (ft_strcmp(env->env_line, ""))
@@ -109,24 +141,21 @@ int		print_env_no_command(t_env *env, char **to_free, int flags, int *is_command
 		}
 		env = env->next;
 	}
-	free_env(env, to_free);
-	return (0);
+	free_env(tmp, to_free);
+	return (NULL);
 }
 
 void	fill_env(t_env **env, char **command, int i, t_env *tmp)
 {
 	t_env	*new_element;
 
-	printf("Je suis sur %s\n", command[i]);
-	printf("find_in_env return %s for %s\n", find_in_env(tmp, extract_first_env(command[i], 0)), extract_first_env(command[i], 0));
 	if (find_in_env(tmp, extract_first_env(command[i], 0)))
 	{
-		printf("On remplace le maillon existant\n");
 		while (tmp)
 		{
-			if (!ft_strcmp(extract_first_env(command[i], 0), extract_first_env(tmp->env_line, 0)))
+			if (!ft_strcmp(extract_first_env(command[i], 0),
+				extract_first_env(tmp->env_line, 0)))
 			{
-				printf("Je suis sur %s et je copie %s a sa place\n",tmp->env_line, command[i]);
 				ft_strcpy(tmp->env_line, command[i]);
 				break ;
 			}
@@ -135,9 +164,9 @@ void	fill_env(t_env **env, char **command, int i, t_env *tmp)
 	}
 	else
 	{
-		printf("Pas de remplacement\n");
 		ft_strcpy((*env)->env_line, command[i]);
-		if (command[i + 1] && ft_strchr(command[i + 1], '=') && !find_in_env(tmp, ft_strdup(command[i + 1])))
+		if (command[i + 1] && ft_strchr(command[i + 1], '=')
+			&& !find_in_env(tmp, ft_strdup(command[i + 1])))
 		{
 			new_element = new_maillon_env();
 			(*env)->next = new_element;
@@ -147,21 +176,16 @@ void	fill_env(t_env **env, char **command, int i, t_env *tmp)
 	}
 }
 
-void	print_env_and_var(t_env *lkd_env, char **command, int flags)
+t_env *print_env_and_var(t_env *lkd_env, t_env *env,
+	int flags, int *is_command)
 {
-	int i;
-	int k;
-
-	i = 0;
+	if (flags & PE_V)
+		print_verbose_env(env, NULL, 1);
+	*is_command = 0;
 	print_basic_env(lkd_env, flags, 1);
-	while (command[i] && !ft_strchr(command[i], '='))
-		i++;
-	while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
-	{
-		ft_putstr(command[i++]);
-		if (!(flags & PE_0))
-			ft_putchar('\n');
-	}
+	print_basic_env(env, flags, 1);
+	free_env(env, NULL);
+	return (NULL);
 }
 
 t_env	*parse_env(t_env *lkd_env, char **command, int flags, int *is_command)
@@ -171,31 +195,22 @@ t_env	*parse_env(t_env *lkd_env, char **command, int flags, int *is_command)
 	t_env	*env;
 	t_env	*tmp;
 
-	i = 0;
-	if (flags & PE_I)
+	i = 1;
+	env = new_maillon_env();
+	tmp = env;
+	while (command[i] && ft_strchr(command[i], '-'))
+		i++;
+	while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
+		fill_env(&env, command, i++, tmp);
+	if (!command[i] && flags & PE_I)
+		return (print_env_no_command(tmp, command, flags, is_command));
+	else if (!(flags & PE_I))
 	{
-		env = new_maillon_env();
-		tmp = env;
-		while (command[i] && !ft_strchr(command[i], '='))
-			i++;
-		if (!command[i] && command[i - 1][0] != '-')
-		{
-			*is_command = 1;
-			return (NULL);
-		}
-		while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
-		{
-			fill_env(&env, command, i, tmp);
-			i++;
-		}
-		printf("Command[%d] vaut %s\n",i ,command[i]);
-		printf("K vaut %zu\n", k);
-		if (!command[i])
-			print_env_no_command(tmp, command, flags, is_command);
-		return (tmp);
+		free_env(NULL, command);
+		return (print_env_and_var(lkd_env, tmp, flags, is_command));
 	}
-	else
-		print_env_and_var(lkd_env, command, flags);
+	if (tmp->env_line[0] != '\0')
+		return (tmp);
 	return (NULL);
 }
 
@@ -209,7 +224,6 @@ char	**compact_argv_env(char **command, int i)
 	k = 0;
 	while (command[i])
 		i++;
-	printf("nbr_elem = %d\n", i - nbr_elem);
 	if (!(argv = (char **)malloc(sizeof(char *) * ((i - nbr_elem) + 1))))
 		return (NULL);
 	while (command[nbr_elem])
@@ -222,21 +236,30 @@ char	**compact_argv_env(char **command, int i)
 	return (argv);
 }
 
-
-
-int		exec_file(t_env *env, char **command, char **path)
+int		exec_file(t_env *env, char **command, char **path, int flags)
 {
 	int		i;
 	char	*right_path;
 	char	*exec_path;
+	char	**argv;
+	char	**tab_env;
 
-	char **tmp;
-	char **tmp2;
 	i = 1;
 	while (command[i][0] == '-' || ft_strchr(command[i], '='))
 		i++;
-	printf("je suis sur %s\n", command[i]);
 	right_path = find_path(path, command[i]);
+	if (flags & PE_V)
+	{
+		print_verbose_env(env, NULL, 1);
+		if (right_path != NULL)
+		{
+			ft_putstr("#env executing: ");
+			ft_putendl(command[i]);
+		}
+	}
+	argv = compact_argv_env(command, i);
+	if (flags & PE_V)
+		print_verbose_env(NULL, argv, 2);
 	if (right_path == NULL)
 	{
 		ft_putstr("No file found with the following name: ");
@@ -244,15 +267,11 @@ int		exec_file(t_env *env, char **command, char **path)
 		free_env(env, command);
 		return (1);
 	}
-	printf("right path = %s\n", right_path);
-	tmp = compact_argv_env(command, i);
-	printf("argv = %s\n", tmp[0]);
-	tmp2 = compact_env(env);
-	printf("env = %s\n", tmp2[0]);
-	printf("------------------ exec ----------------\n");
+	tab_env = compact_env(env);
 	exec_path = ft_strjoin(right_path, command[i]);
-	exec_command_gen(exec_path, tmp, tmp2);
+	exec_command_gen(exec_path, argv, tab_env);
 	free(right_path);
+	printf("je free la ?");
 	free_env(env, command);
 	return (0);
 }
@@ -264,10 +283,8 @@ int		launch_command_env(t_env *lkd_env, int flags, char **command, char **path)
 
 	is_command = 1;
 	env = parse_env(lkd_env, command, flags, &is_command);
-	printf("premier maillon vaut %s\n", env->env_line);
-	printf("is_command vaut %d\n", is_command);
 	if (is_command == 1)
-		exec_file(env, command, path);
+		exec_file(env, command, path, flags);
 	return (0);
 }
 
@@ -282,9 +299,10 @@ int		env_available_option(char *tab, int *flags)
 			print_error_env(tab[0], 0);
 			return (0);
 		}
-		printf("I vaut %d\n", i);
 		*flags |= (1 << (i - 1));
 	}
+	if (*flags & PE_V && *flags & PE_I)
+		print_verbose_env(NULL, NULL, 0);
 	return (i);
 }
 
