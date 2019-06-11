@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/11 06:21:18 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/11 08:27:50 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,11 @@ void	free_env(t_env *env, char **to_free)
 	int		i;
 
 	i = 0;
-	if (env != NULL)
+	while (env)
 	{
-		while (env)
-		{
-			tmp = env;
-			env = env->next;
-			free(tmp);
-		}
+		tmp = env;
+		env = env->next;
+		free(tmp);
 	}
 	if (to_free != NULL)
 	{
@@ -148,17 +145,25 @@ t_env	*print_env_no_command(t_env *env, char **to_free,
 void	fill_env(t_env **env, char **command, int i, t_env *tmp)
 {
 	t_env	*new_element;
+	char	*first_env;
+	char	*first_env2;
+	char	*fie;
 
-	if (find_in_env(tmp, extract_first_env(command[i], 0)))
+	if ((fie = find_in_env(tmp, extract_first_env(command[i], 0))))
 	{
 		while (tmp)
 		{
-			if (!ft_strcmp(extract_first_env(command[i], 0),
-				extract_first_env(tmp->env_line, 0)))
+			first_env = extract_first_env(command[i], 0);
+			first_env2 = extract_first_env(tmp->env_line, 0);
+			if (!ft_strcmp(first_env, first_env2))
 			{
 				ft_strcpy(tmp->env_line, command[i]);
+				free(first_env);
+				free(first_env2);
 				break ;
 			}
+			free(first_env);
+			free(first_env2);
 			tmp = tmp->next;
 		}
 	}
@@ -174,9 +179,10 @@ void	fill_env(t_env **env, char **command, int i, t_env *tmp)
 			(*env) = new_element;
 		}
 	}
+	free(fie);
 }
 
-t_env *print_env_and_var(t_env *lkd_env, t_env *env,
+t_env	*print_env_and_var(t_env *lkd_env, t_env *env,
 	int flags, int *is_command)
 {
 	if (flags & PE_V)
@@ -204,13 +210,14 @@ t_env	*parse_env(t_env *lkd_env, char **command, int flags, int *is_command)
 		fill_env(&env, command, i++, tmp);
 	if (!command[i] && flags & PE_I)
 		return (print_env_no_command(tmp, command, flags, is_command));
-	else if (!(flags & PE_I))
+	else if (!(flags & PE_I) && !command[i])
 	{
 		free_env(NULL, command);
 		return (print_env_and_var(lkd_env, tmp, flags, is_command));
 	}
 	if (tmp->env_line[0] != '\0')
 		return (tmp);
+	free(env);
 	return (NULL);
 }
 
@@ -236,7 +243,46 @@ char	**compact_argv_env(char **command, int i)
 	return (argv);
 }
 
-int		exec_file(t_env *env, char **command, char **path, int flags)
+int		exec_default_env(t_env *lkd_env, char **command, char **path, int flags)
+{
+	int		i;
+	char	*right_path;
+	char	*exec_path;
+	char	**argv;
+	char	**tab_env;
+
+	i = 1;
+	while (command[i][0] == '-' || ft_strchr(command[i], '='))
+		i++;
+	right_path = find_path(path, command[i]);
+	if (flags & PE_V)
+	{
+		print_verbose_env(lkd_env, NULL, 1);
+		if (right_path != NULL)
+		{
+			ft_putstr("#env executing: ");
+			ft_putendl(command[i]);
+		}
+	}
+	argv = compact_argv_env(command, i);
+	if (flags & PE_V)
+		print_verbose_env(NULL, argv, 2);
+	if (right_path == NULL)
+	{
+		ft_putstr("No file found with the following name: ");
+		ft_putendl(command[i]);
+		free_env(lkd_env, command);
+		return (1);
+	}
+	tab_env = compact_env(lkd_env);
+	exec_path = ft_strjoin(right_path, command[i]);
+	exec_command_gen(exec_path, argv, tab_env);
+	free(right_path);
+	free_env(NULL, command);
+	return (0);
+}
+
+int		exec_file_env(t_env *env, char **command, char **path, int flags)
 {
 	int		i;
 	char	*right_path;
@@ -271,20 +317,29 @@ int		exec_file(t_env *env, char **command, char **path, int flags)
 	exec_path = ft_strjoin(right_path, command[i]);
 	exec_command_gen(exec_path, argv, tab_env);
 	free(right_path);
-	printf("je free la ?");
 	free_env(env, command);
 	return (0);
 }
 
-int		launch_command_env(t_env *lkd_env, int flags, char **command, char **path)
+int		launch_command_env(t_env *lkd_env, int flags,
+	char **command, char **path)
 {
 	t_env	*env;
 	int		is_command;
+	t_env	*tmp;
 
 	is_command = 1;
 	env = parse_env(lkd_env, command, flags, &is_command);
-	if (is_command == 1)
-		exec_file(env, command, path, flags);
+	if (is_command == 1 && flags & PE_I)
+		exec_file_env(env, command, path, flags);
+	else
+	{
+		tmp = lkd_env;
+		while (lkd_env->next)
+			lkd_env = lkd_env->next;
+		lkd_env->next = env;
+		exec_default_env(tmp, command, path, flags);
+	}
 	return (0);
 }
 
