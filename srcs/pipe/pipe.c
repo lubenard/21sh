@@ -6,11 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/05/30 14:55:44 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/11 08:48:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../sh21.h"
+#include <sh21.h>
 
 int		count_args(char **tab)
 {

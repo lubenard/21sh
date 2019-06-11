@@ -6,11 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/11 08:27:50 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/11 08:49:24 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../sh21.h"
+#include <sh21.h>
 
 int		print_error_env(char option, int mode)
 {

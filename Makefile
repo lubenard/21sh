@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/06/04 14:20:26 by lubenard         ###   ########.fr        #
+#    Updated: 2019/06/11 09:04:01 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,10 @@ SRC = srcs/main.c \
 	  srcs/pipe/pipe.c \
 	  srcs/display/display_builtins.c \
 	  srcs/display/display.c \
-	  srcs/utils/find_lkd_lst.c
+	  srcs/utils/find_lkd_lst.c \
+	  srcs/parser/parser.c
+
+INCLUDE_SRC = ./include/
 
 OBJ = $(SRC:.c=.o)
 
@@ -40,7 +43,7 @@ all:  $(NAME)
 
 $(NAME): $(OBJ)
 	@cd libft && make
-	@$(CC) -o $(NAME) $(CFLAGS) $(OBJ) libft/libft.a
+	@$(CC) -o $(NAME) $(CFLAGS) -I$(INCLUDE_SRC) $(OBJ) libft/libft.a
 	@printf "\033[33mCompilation de $(NAME)...\033[0m"
 	@printf "\033[32m[✓]\033[0m\n"
 
@@ -49,7 +52,7 @@ libft:
 
 %.o : %.c
 	@printf "\033[36mCompilation de $<...\033[0m"
-	@$(CC) -c $(CFLAGS) $< -o $@
+	@$(CC) -c $(CFLAGS) -I$(INCLUDE_SRC) $< -o $@
 	@printf "\033[32m[✓]\033[0m\n"
 
 clean:

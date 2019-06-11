@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display_builtins.c                                 :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/15 17:03:58 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/11 08:48:47 by lubenard         ###   ########.fr       */
+/*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
+/*   Updated: 2019/06/11 09:25:30 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-char	*error_setenv(char *command, int i, int e)
+void	parser(char *command)
 {
-	if (ft_strrchr(command, i, ' ') != NULL)
-	{
-		ft_putstr_fd("setenv: invalid syntax\n", 2);
-		ft_putstr_fd("the correct syntax is t=1\n", 2);
-		return (NULL);
-	}
-	return (ft_strsub(command, i, e));
+	char **semicolon;
+
+	semicolon = ft_strsplit(command, ';');
 }

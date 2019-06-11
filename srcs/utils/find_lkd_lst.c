@@ -6,11 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:56:10 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/08 13:19:46 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/11 09:04:25 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../sh21.h"
+#include <sh21.h>
 
 char	*find_in_env(t_env *lkd_env, char *to_find)
 {
