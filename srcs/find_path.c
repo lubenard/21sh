@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/12 12:49:48 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/12 14:56:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char	*search_absolute_path2(char *command, char *str, char *str2)
 {
 	free(str);
 	free(str2);
-	printf("Je rentre pas ici\n");
 	return (ft_strdup(command));
 }
 

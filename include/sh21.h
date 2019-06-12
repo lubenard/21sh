@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/06/11 08:42:36 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/12 16:47:43 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <dirent.h>
 # include <signal.h>
+# include <limits.h>
 
 #include <stdio.h>
 
@@ -63,6 +64,8 @@ void				set_env(t_env *lkd_env, char *command);
 void				unset_env(t_env *lkd_env, char *command);
 int					print_env(t_env *lkd_env, char *command, char **path);
 void				history(t_hist *lkd_hist);
+int					find_exit(char *command);
+int					ft_exit(int nbr);
 /*
 ** Redirections
 */

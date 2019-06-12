@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/11 08:47:18 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/12 15:30:26 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,31 +68,32 @@ char	*reduce_command(char *command)
 	return (NULL);
 }
 
-char	*check_exec_rights(char *get_right_path, char *command)
+int		check_exec_rights(char *path)
 {
-	char *path;
-
-	if (access((path = ft_strjoin(get_right_path, command)), X_OK)
+	if (access(path, X_OK)
 	|| get_error_exec(path, 0))
 	{
 		get_error_exec(path, 1);
 		free(path);
-		return (NULL);
+		return (1);
 	}
 	free(path);
-	return (ft_strdup(command));
+	return (0);
 }
 
 int		exec_command_gen(char *path, char **argv, char **env)
 {
+	if (check_exec_rights(path))
+	{
+		printf("You have no rights to execute this file (printf)\n");
+		return (1);
+	}
 	g_pid = fork();
 	signal(SIGINT, handle_signals_proc);
 	if (g_pid < 0)
 		return (0);
 	if (g_pid == 0)
-	{
 		execve(path, argv, env);
-	}
 	wait(&g_pid);
 	return (free_after_exec(path, argv, env));
 }
@@ -104,8 +105,11 @@ int		execute_command(char *get_right_path, char *command,
 
 	if (command[0] == '/' || command[0] == '.')
 		command = reduce_command(command);
-	else
-		command = check_exec_rights(get_right_path, command);
+	if (check_exec_rights(get_right_path))
+	{
+		printf("You cannot exec this file (printf)\n");
+		return (1);
+	}
 	if (command == NULL)
 		return (free_after_exec(get_right_path, argv, env));
 	g_pid = fork();
