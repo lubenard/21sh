@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/11 08:48:01 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/12 13:03:04 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ char	**prepare_tab(char *command, char signe)
 		free(tmp);
 		i++;
 	}
-	i = 0;
-	while (tab[i])
-		printf("tab[i] vaut '%s'\n", tab[i++]);
 	return (tab);
 }
 
@@ -242,7 +239,6 @@ char	*exec_command_redir(t_env *lkd_env, char **path, char av[131072])
 
 	argv = ft_strsplit(av, ' ');
 	normal_path = find_path(path, argv[0]);
-	printf("argv[0] vaut %s\n", argv[0]);
 	ret_command = get_output_of_command(ft_strjoin(normal_path, argv[0])
 		, argv, compact_env(lkd_env));
 	free(normal_path);
@@ -270,7 +266,6 @@ void	arrow_right(t_env *lkd_env, char **path, char *command)
 		if (tab[i][0] == '>')
 			e++;
 		ft_str_start_cat(av, tab[i], e);
-		printf("av = '%s'\n", av);
 		i++;
 	}
 	create_file(filenames, tab);
