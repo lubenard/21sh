@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/11 08:46:26 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/12 12:40:37 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@ int		main(int argc, char **argv, char **env)
 	change_env(lkd_env);
 	path = get_path(find_in_env(lkd_env, ft_strdup("PATH")));
 	//set_env(lkd_env, "setenv PATH=🙄"); //add setenv PATH=$PATH:/mon/path and not case sensitive
-	print_env(lkd_env, argv[1], path);
+	//print_env(lkd_env, argv[1], path);
 	//history(lkd_hist);
+	printf("find rigth path = %s\n", find_path(path, ft_strdup(argv[1])));
 	//redirections(lkd_env, path, argv[1]);
 	//save_redir("cat auteur > file1 >> file2", "mycontent");
 	//handle_pipe(lkd_env, path, argv[1]);

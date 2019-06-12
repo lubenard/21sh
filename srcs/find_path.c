@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/11 08:47:11 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/12 12:49:48 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,10 @@
 
 char	*search_absolute_path2(char *command, char *str, char *str2)
 {
-	int length;
-
-	length = ft_strlen(command);
-	while (command[length] != '/')
-		length--;
 	free(str);
 	free(str2);
-	return (ft_strndup(command, length + 1));
+	printf("Je rentre pas ici\n");
+	return (ft_strdup(command));
 }
 
 char	*search_absolute_path(char *command)
@@ -35,9 +31,9 @@ char	*search_absolute_path(char *command)
 	if (command[0] != '/' && ft_strncmp(command, "..", 2)
 	&& command[0] && !access(str, F_OK))
 	{
-		free(str);
+		free(str2);
 		if (ft_strchr(command, '/'))
-			return (str2);
+			return (str);
 		free(str2);
 		return (NULL);
 	}
@@ -66,7 +62,7 @@ char	*find_path(char **path, char *first_command)
 			if (ft_strcmp(p_dirent->d_name, first_command) == 0)
 			{
 				closedir(p_dir);
-				return (ft_strdup(path[i]));
+				return (ft_strjoin(path[i], first_command));
 			}
 		}
 		closedir(p_dir);

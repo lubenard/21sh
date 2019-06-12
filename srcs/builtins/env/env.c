@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/11 08:49:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/12 12:01:53 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,7 +247,6 @@ int		exec_default_env(t_env *lkd_env, char **command, char **path, int flags)
 {
 	int		i;
 	char	*right_path;
-	char	*exec_path;
 	char	**argv;
 	char	**tab_env;
 
@@ -275,9 +274,7 @@ int		exec_default_env(t_env *lkd_env, char **command, char **path, int flags)
 		return (1);
 	}
 	tab_env = compact_env(lkd_env);
-	exec_path = ft_strjoin(right_path, command[i]);
-	exec_command_gen(exec_path, argv, tab_env);
-	free(right_path);
+	exec_command_gen(right_path, argv, tab_env);
 	free_env(NULL, command);
 	return (0);
 }
