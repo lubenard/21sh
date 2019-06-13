@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/06/13 17:45:17 by lubenard         ###   ########.fr        #
+#    Updated: 2019/06/13 21:27:46 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,8 @@ SRC = srcs/main.c \
 	  srcs/builtins/env/env.c \
 	  srcs/builtins/echo.c \
 	  srcs/builtins/echo2.c \
+	  srcs/builtins/cd.c \
+	  srcs/builtins/cd2.c \
 	  srcs/redirections/redirections.c \
 	  srcs/redirections/ft_strsplit_redir.c \
 	  srcs/pipe/pipe.c \

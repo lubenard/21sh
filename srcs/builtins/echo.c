@@ -6,13 +6,13 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/13 19:51:12 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/13 21:45:44 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-int		handle_dollar(t_env *lkd_env, char *command, int i)
+int		handle_dollar(t_hustru *big_struc, char *command, int i)
 {
 	int		e;
 	char	*str;
@@ -20,11 +20,16 @@ int		handle_dollar(t_env *lkd_env, char *command, int i)
 	e = 0;
 	if (command[i] == '$' && command[i + 1] != ' ')
 	{
+		if (command[i + 1] == '?')
+		{
+			ft_putnbr(big_struc->last_ret);
+			return (i + 1);
+		}
 		i++;
 		while (command[i + e] && command[i + e] != ' '
 		&& ft_isalnum(command[i + e]))
 			e++;
-		str = find_in_env(lkd_env, ft_strsub(command, i, e));
+		str = find_in_env(big_struc->lkd_env, ft_strsub(command, i, e));
 		ft_putstr(str);
 		free(str);
 		return (i + e);
@@ -121,7 +126,7 @@ int		echo(t_hustru *big_struc, char *command)
 		&& (command[i + 1] == ' ' || command[i - 1] == ' ')))
 			i++;
 		else if (command[i] == '$')
-			i = handle_dollar(big_struc->lkd_env, command, i);
+			i = handle_dollar(big_struc, command, i);
 		else if (command[i] == '~')
 		{
 			if ((i = handle_tilde(big_struc, command, i)) == -1)

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/13 19:50:56 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/13 21:46:54 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int		main(int argc, char **argv, char **env)
 	t_env		*lkd_env;
 	t_hist		*lkd_hist;
 	char		**path;
-	t_hustru	*huge_struc;
+	t_hustru	*big_struc;
 
 	(void)argc;
 	(void)argv;
@@ -102,8 +102,9 @@ int		main(int argc, char **argv, char **env)
 	lkd_hist = new_maillon_hist();
 	change_env(lkd_env);
 	path = get_path(find_in_env(lkd_env, ft_strdup("PATH")));
-	huge_struc = fill_huge_struc(lkd_env, lkd_hist, path);
-	echo(huge_struc, argv[1]);
+	big_struc = fill_huge_struc(lkd_env, lkd_hist, path);
+	//echo(big_struc, argv[1]);
+	//cd(big_struc, argv[1]);
 	//set_env(lkd_env, "setenv PATH=🙄"); //add setenv PATH=$PATH:/mon/path and not case sensitive
 	//print_env(lkd_env, argv[1], path);
 	//history(lkd_hist);
@@ -111,6 +112,5 @@ int		main(int argc, char **argv, char **env)
 	//redirections(lkd_env, path, argv[1]);
 	//save_redir("cat auteur > file1 >> file2", "mycontent");
 	//handle_pipe(lkd_env, path, argv[1]);
-	return (find_exit("exit", huge_struc)); // NOTE: Control D exit wiht 0
-	return (0);
+	return (find_exit("exit", big_struc)); // NOTE: Control D exit wiht 0
 }

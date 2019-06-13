@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 14:01:27 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/13 19:28:00 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/13 21:41:21 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int		parse_exit(char *command, int i, t_hustru *big_struc)
 		i++;
 	ft_putstr_fd("exit\n", 2);
 	if (!command[i])
-		return (ft_exit(big_struc->last_ret, big_struc));
+		return (ft_exit(0, big_struc));
 	else
 	{
 		if (command[i + e] == '-')

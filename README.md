@@ -30,13 +30,17 @@ usage: unsetenv VAR1 VAR2 ...
   Si plusieurs arguments sont spécifiés, un "Too many arguments" sera affiché.
   Si une valeur non numérique est spécifiée comme argument, le code de retour sera fixé à 255 et "Error: Too many arguments" sera affiché.
 ```
+- cd [POSIX]
+```
+usage: cd chemin...
+```
 
 ## English Version
 
 21sh is a project that makes you cr21sh is a project that makes you create a summary but functional shell. It is more complete than minishell since it contains the redirections,
 pipes and other general improvements.
 
-### -Features 
+### -Features
 
 ####    Builtins
 - echo [POSIX COMPLIANT]
@@ -60,4 +64,8 @@ usage: unsetenv VAR1 VAR2 ...
   When a valid numeric argument is specified, exit with passed value
   If multiple arguments are specified, an too many arguments error will be printed
   If a non-numeric value is specified as argument, return code will be set to 255 and an "invalid arguments" error will be printed
+```
+- cd [POSIX COMPLIANT]
+```
+usage: cd path...
 ```

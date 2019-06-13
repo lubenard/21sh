@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/06/13 19:21:11 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/13 21:26:52 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void				history(t_hist *lkd_hist);
 int					find_exit(char *command, t_hustru *big_struc);
 int					ft_exit(int nbr, t_hustru *big_struc);
 int					echo(t_hustru *big_struc, char *command);
+void				cd(t_hustru *big_struc, char *commmand);
 /*
 ** Redirections
 */
@@ -116,5 +117,6 @@ char				**get_path(char *path_line);
 void				free_after_exit(t_env *lkd_env,
 	t_hist *lkd_hist, char **path);
 int					handle_tilde2(t_env *lkd_env, int i);
+char				*extract_path(char *command);
 
 #endif
