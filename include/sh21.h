@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/06/12 16:47:43 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/13 11:18:17 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,14 @@ typedef struct		s_hist
 	struct s_hist	*next;
 }					t_hist;
 
+typedef struct		s_hustru
+{
+	struct s_env	*lkd_env;
+	struct s_hist	*lkd_hist;
+	char			**path;
+	int				last_ret;
+}					t_hustru;
+
 /*
 ** Display / error functions
 */
@@ -64,8 +72,8 @@ void				set_env(t_env *lkd_env, char *command);
 void				unset_env(t_env *lkd_env, char *command);
 int					print_env(t_env *lkd_env, char *command, char **path);
 void				history(t_hist *lkd_hist);
-int					find_exit(char *command);
-int					ft_exit(int nbr);
+int					find_exit(char *command, t_hustru *big_struc);
+int					ft_exit(int nbr, t_hustru *big_struc);
 /*
 ** Redirections
 */
@@ -103,5 +111,7 @@ char				**compact_env(t_env *lkd_env);
 char				**ft_strsplit_redir(char const *s, char c);
 char				*find_path(char **path, char *first_command);
 char				**get_path(char *path_line);
+void				free_after_exit(t_env *lkd_env,
+	t_hist *lkd_hist, char **path);
 
 #endif
