@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 08:59:56 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/11 08:47:48 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/13 16:45:49 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int		countwords(char const *s, char c)
 	return (compteur);
 }
 
-int		countchar(char const *str, int j, char c)
+int				countchar(char const *str, int j, char c)
 {
 	int nbrchar;
 
@@ -54,16 +54,14 @@ char			**ft_strsplit_redir(char const *s, char c)
 	int		j;
 	int		i;
 	int		k;
-	int		nbrchar;
 
 	j = 0;
 	i = 0;
 	k = 0;
-	nbrchar = countwords(s, c);
-	if (!(ret = (char **)malloc(sizeof(char *) * (nbrchar + 1)))
-	|| nbrchar == 0)
+	if (!(ret = (char **)malloc(sizeof(char *) * (countwords(s, c) + 1)))
+	|| countwords(s, c) == 0)
 		return (0);
-	while (j < nbrchar)
+	while (j < countwords(s, c))
 	{
 		k = countchar(s, i, c);
 		ret[j] = ft_strsub(s, i, k);

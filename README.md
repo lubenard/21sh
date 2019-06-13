@@ -8,7 +8,7 @@ les pipes et d'autres améliorations générales.
 ### -Fonctionnalitées
 
 ####    Builtins
-- echo
+- echo [POSIX]
 - env
 ```
 [--help] Affiche l'aide et quitte 
@@ -20,11 +20,11 @@ les pipes et d'autres améliorations générales.
 ```
 usage: setenv VAR1=VALUE1 VAR2=VALUE2 ...
 ```
-- unsetenv 
+- unsetenv
 ```
 usage: unsetenv VAR1 VAR2 ...
 ```
-- exit
+- exit [POSIX]
 ```
   Lorsqu'un argument numérique valide est spécifié, quitte avec la valeur passée
   Si plusieurs arguments sont spécifiés, un "Too many arguments" sera affiché.
@@ -39,7 +39,7 @@ pipes and other general improvements.
 ### -Features 
 
 ####    Builtins
-- echo
+- echo [POSIX COMPLIANT]
 - env
 ```
 [--help] Print help and exit
@@ -51,11 +51,11 @@ pipes and other general improvements.
 ```
 usage: setenv VAR1=VALUE1 VAR2=VALUE2 ...
 ```
-- unsetenv 
+- unsetenv
 ```
 usage: unsetenv VAR1 VAR2 ...
 ```
-- exit
+- exit [POSIX COMPLIANT]
 ```
   When a valid numeric argument is specified, exit with passed value
   If multiple arguments are specified, an too many arguments error will be printed

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 14:01:27 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/13 14:44:43 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/13 19:28:00 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		ft_atoi_exit(char *str)
 
 int		check_exit_val(char *str, int i, int e)
 {
-	while (str[i + e] != ' ')
+	while (str[i + e] && str[i + e] != ' ')
 	{
 		if (!ft_isdigit(str[i + e]))
 		{
@@ -100,7 +100,10 @@ int		find_exit(char *command, t_hustru *big_struc)
 		i++;
 	ret = ft_strsub(command, 0, i);
 	if (ft_strequ(ret, "exit"))
+	{
+		free(ret);
 		return (parse_exit(command, i, big_struc));
+	}
 	free(ret);
 	return (0);
 }

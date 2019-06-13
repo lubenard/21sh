@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:40:41 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/11 08:48:38 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/13 16:55:44 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,7 @@ int		get_error_exec(char path[6000], int mode)
 
 	if (stat(path, &filestat) < 0)
 		return (1);
-	if (!(filestat.st_mode & S_IXUSR))
-	{
-		if (mode == 1)
-			ft_putstr_fd("You cannot execute the file (´ ͡༎ຶ ͜ʖ ͡༎ຶ )\n", 2);
-		return (1);
-	}
-	else if (S_ISDIR(filestat.st_mode))
+	if (S_ISDIR(filestat.st_mode))
 	{
 		if (mode == 1)
 			ft_putstr_fd("Hum, apparently it's a folder (●__●)\n", 2);
@@ -73,4 +67,3 @@ char	*find_name(t_env *lkd_env)
 		return (name);
 	return (ft_strdup("John Doe"));
 }
-

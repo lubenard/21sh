@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/12 15:30:26 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/13 16:38:53 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int		exec_command_gen(char *path, char **argv, char **env)
 {
 	if (check_exec_rights(path))
 	{
-		printf("You have no rights to execute this file (printf)\n");
+		ft_putstr_fd("You cannot execute the file (´ ͡༎ຶ ͜ʖ ͡༎ຶ )\n", 2);
 		return (1);
 	}
 	g_pid = fork();
@@ -107,7 +107,7 @@ int		execute_command(char *get_right_path, char *command,
 		command = reduce_command(command);
 	if (check_exec_rights(get_right_path))
 	{
-		printf("You cannot exec this file (printf)\n");
+		ft_putstr_fd("You cannot execute the file (´ ͡༎ຶ ͜ʖ ͡༎ຶ )\n", 2);
 		return (1);
 	}
 	if (command == NULL)

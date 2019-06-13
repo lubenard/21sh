@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 22:01:21 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/11 08:46:55 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/13 16:55:16 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ int		ft_len(char *path_line)
 		++i;
 	}
 	return (++j);
+}
+
+char	**return_path(char **path, int k, char *path_line)
+{
+	free(path_line);
+	path[k] = NULL;
+	return (path);
 }
 
 char	**get_path(char *path_line)
@@ -53,7 +60,5 @@ char	**get_path(char *path_line)
 		i = 0;
 		++k;
 	}
-	free(path_line);
-	path[k] = NULL;
-	return (path);
+	return (return_path(path, k, path_line));
 }

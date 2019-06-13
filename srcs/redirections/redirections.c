@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/12 13:03:04 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/13 17:15:34 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ char	**save_filename(char **tab, int i)
 	while (i - 1 < nbr_elem)
 	{
 		m = 0;
-		e = 0;
-		while ((tab[i][m] == '>' || tab[i][m] == ' ' || tab[i][m] == '\t') && tab[i][m])
+		while ((tab[i][m] == '>' || tab[i][m] == ' '
+			|| tab[i][m] == '\t') && tab[i][m])
 			m++;
 		e = m;
 		while (tab[i][e] && tab[i][e] != ' ')
@@ -278,7 +278,7 @@ void	save_redir(char *command, char *content)
 	char **filenames;
 
 	tab = prepare_tab(command, '>');
-	filenames= save_filename(tab, 1);
+	filenames = save_filename(tab, 1);
 	create_file(filenames, tab);
 	fill_file(filenames, ft_strdup(content), tab);
 }

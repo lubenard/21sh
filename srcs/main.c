@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/13 12:15:32 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/13 19:50:56 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,12 @@ void	free_after_exit(t_env *lkd_env, t_hist *lkd_hist, char **path)
 		lkd_hist = lkd_hist->next;
 		free(tmp2);
 	}
-	while (path[i])
-		free(path[i++]);
-	free(path);
+	if (path != NULL)
+	{
+		while (path[i])
+			free(path[i++]);
+		free(path);
+	}
 }
 
 char	*get_path_hist(void)
@@ -92,6 +95,7 @@ int		main(int argc, char **argv, char **env)
 	t_hustru	*huge_struc;
 
 	(void)argc;
+	(void)argv;
 	lkd_env = get_env(env);
 	//display_prompt("user", "mon_path");
 	//printf("\n");
@@ -99,13 +103,14 @@ int		main(int argc, char **argv, char **env)
 	change_env(lkd_env);
 	path = get_path(find_in_env(lkd_env, ft_strdup("PATH")));
 	huge_struc = fill_huge_struc(lkd_env, lkd_hist, path);
+	echo(huge_struc, argv[1]);
 	//set_env(lkd_env, "setenv PATH=🙄"); //add setenv PATH=$PATH:/mon/path and not case sensitive
 	//print_env(lkd_env, argv[1], path);
 	//history(lkd_hist);
 	//printf("find rigth path = %s\n", find_path(path, ft_strdup(argv[1])));
-	return (find_exit(argv[1], huge_struc));
 	//redirections(lkd_env, path, argv[1]);
 	//save_redir("cat auteur > file1 >> file2", "mycontent");
 	//handle_pipe(lkd_env, path, argv[1]);
-	//free_after_exit(lkd_env, lkd_hist, path);
+	return (find_exit("exit", huge_struc)); // NOTE: Control D exit wiht 0
+	return (0);
 }

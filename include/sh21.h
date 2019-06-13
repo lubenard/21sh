@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/06/13 11:18:17 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/13 19:21:11 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct		s_hustru
 */
 void				display_prompt(char *username, char *curr_dir);
 char				*error_setenv(char *command, int i, int e);
+void				error_echo(char user[33]);
 /*
 ** Linked list env
 */
@@ -74,6 +75,7 @@ int					print_env(t_env *lkd_env, char *command, char **path);
 void				history(t_hist *lkd_hist);
 int					find_exit(char *command, t_hustru *big_struc);
 int					ft_exit(int nbr, t_hustru *big_struc);
+int					echo(t_hustru *big_struc, char *command);
 /*
 ** Redirections
 */
@@ -97,7 +99,7 @@ void				save_command(t_hist **lkd_hist, char *command);
 */
 int					execute_command(char *get_right_path,
 	char *command, char **argv, char **env);
-int		exec_command_gen(char *path, char **argv, char **env);
+int					exec_command_gen(char *path, char **argv, char **env);
 /*
 ** Other
 */
@@ -113,5 +115,6 @@ char				*find_path(char **path, char *first_command);
 char				**get_path(char *path_line);
 void				free_after_exit(t_env *lkd_env,
 	t_hist *lkd_hist, char **path);
+int					handle_tilde2(t_env *lkd_env, int i);
 
 #endif
