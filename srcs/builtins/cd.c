@@ -6,25 +6,25 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 15:05:11 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/13 21:35:39 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/14 16:39:43 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-void	change_env_cd(t_env *lkd_env, char *old_pwd, char *new_pwd)
+void	change_env_cd(t_hustru *big_struc, char *old_pwd, char *new_pwd)
 {
 	char new_line[5000];
 	char old_line[5000];
 
 	ft_strcpy(new_line, "setenv PWD=");
-	set_env(lkd_env, ft_strcat(new_line, new_pwd));
+	set_env(big_struc->lkd_env, ft_strcat(new_line, new_pwd));
 	ft_strcpy(old_line, "setenv OLDPWD=");
 	if (!old_pwd)
 		ft_strcat(old_line, new_pwd);
 	else
 		ft_strcat(old_line, old_pwd);
-	set_env(lkd_env, old_line);
+	set_env(big_struc->lkd_env, old_line);
 }
 
 int		get_shortcut_path(t_env *lkd_env, char **spec_path, char *path)
@@ -93,7 +93,7 @@ void	change_dir(t_hustru *big_struc, char *path)
 		big_struc->last_ret = 1;
 	}
 	else
-		change_env_cd(big_struc->lkd_env, curr_dir,
+		change_env_cd(big_struc, curr_dir,
 		(new_dir = getcwd(buff_dir2, 4096)));
 	free(path);
 }

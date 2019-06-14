@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/13 21:46:54 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/14 16:37:01 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)
 	big_struc->lkd_env = lkd_env;
 	big_struc->lkd_hist = lkd_hist;
 	big_struc->path = path;
-	big_struc->last_ret = 0;
+	big_struc->last_ret = 50;
 	return (big_struc);
 }
 
@@ -97,20 +97,21 @@ int		main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	lkd_env = get_env(env);
-	//display_prompt("user", "mon_path");
-	//printf("\n");
 	lkd_hist = new_maillon_hist();
-	change_env(lkd_env);
 	path = get_path(find_in_env(lkd_env, ft_strdup("PATH")));
 	big_struc = fill_huge_struc(lkd_env, lkd_hist, path);
-	//echo(big_struc, argv[1]);
+	//display_prompt("user", "mon_path");
+	//printf("\n");
+	change_env(lkd_env);
+	//echo(big_struc, argv[1]); [POSIX]
 	//cd(big_struc, argv[1]);
-	//set_env(lkd_env, "setenv PATH=🙄"); //add setenv PATH=$PATH:/mon/path and not case sensitive
+	big_struc->last_ret = set_env(lkd_env, argv[1]);//"setenv PATH=🙄"); //add setenv PATH=$PATH:/mon/path and not case sensitive
 	//print_env(lkd_env, argv[1], path);
 	//history(lkd_hist);
 	//printf("find rigth path = %s\n", find_path(path, ft_strdup(argv[1])));
 	//redirections(lkd_env, path, argv[1]);
 	//save_redir("cat auteur > file1 >> file2", "mycontent");
 	//handle_pipe(lkd_env, path, argv[1]);
+	printf("retour derniere commande vaut %d\n", big_struc->last_ret);
 	return (find_exit("exit", big_struc)); // NOTE: Control D exit wiht 0
 }

@@ -6,11 +6,21 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:56:10 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/11 09:04:25 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/14 12:30:43 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+char	*extract_first(char *command, char stop)
+{
+	int		i;
+
+	i = 0;
+	while (command[i] != stop && command[i])
+		++i;
+	return (ft_strsub(command, 0, i));
+}
 
 char	*find_in_env(t_env *lkd_env, char *to_find)
 {
@@ -22,7 +32,7 @@ char	*find_in_env(t_env *lkd_env, char *to_find)
 	e = 0;
 	while (lkd_env)
 	{
-		occur = extract_first_env(lkd_env->env_line, 0);
+		occur = extract_first(lkd_env->env_line, '=');
 		if (!ft_strcmp(occur, to_find))
 		{
 			while (lkd_env->env_line[i] && lkd_env->env_line[i] != '=')

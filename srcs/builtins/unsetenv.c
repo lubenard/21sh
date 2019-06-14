@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 12:05:25 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/11 08:49:10 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/14 16:38:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,30 +67,30 @@ int			unset_env2(t_env *lkd_env, char *to_extract, char *to_remove)
 	return (0);
 }
 
-void		unset_env(t_env *lkd_env, char *command)
+void		unset_env(t_hustru *big_struc, char *command)
 {
 	char	*to_extract;
 	int		i;
 	char	*to_remove;
 
 	to_remove = (ft_strchr(command, '=')) ? extract_params(command)
-		: extract_first_env(command, 1);
-	while (to_remove && lkd_env)
+		: extract_first_env(command);
+	while (to_remove && big_struc->lkd_env)
 	{
 		i = 0;
-		while (lkd_env->env_line[i] != '=')
+		while (big_struc->lkd_env->env_line[i] != '=')
 			++i;
-		to_extract = ft_strsub(lkd_env->env_line, 0, i);
+		to_extract = ft_strsub(big_struc->lkd_env->env_line, 0, i);
 		if (ft_strcmp(to_extract, to_remove) == 0)
 		{
-			if (unset_env2(lkd_env, to_extract, to_remove) == 1)
+			if (unset_env2(big_struc->lkd_env, to_extract, to_remove) == 1)
 				return ;
 			free(to_extract);
-			free(lkd_env);
+			free(big_struc->lkd_env);
 			break ;
 		}
 		free(to_extract);
-		lkd_env = lkd_env->next;
+		big_struc->lkd_env = big_struc->lkd_env->next;
 	}
 	free(to_remove);
 }

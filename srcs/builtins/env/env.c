@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/12 12:01:53 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/14 14:52:05 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int		print_error_env(char option, int mode)
 	}
 	ft_putstr("usage: env [-iv0] [--help]\n");
 	ft_putstr("\t   [name=value ...] command\n");
+	if (mode == 0)
+		return (1);
 	return (0);
 }
 
@@ -149,12 +151,12 @@ void	fill_env(t_env **env, char **command, int i, t_env *tmp)
 	char	*first_env2;
 	char	*fie;
 
-	if ((fie = find_in_env(tmp, extract_first_env(command[i], 0))))
+	if ((fie = find_in_env(tmp, extract_first(command[i], '='))))
 	{
 		while (tmp)
 		{
-			first_env = extract_first_env(command[i], 0);
-			first_env2 = extract_first_env(tmp->env_line, 0);
+			first_env = extract_first(command[i], '=');
+			first_env2 = extract_first(tmp->env_line, '=');
 			if (!ft_strcmp(first_env, first_env2))
 			{
 				ft_strcpy(tmp->env_line, command[i]);
@@ -243,7 +245,7 @@ char	**compact_argv_env(char **command, int i)
 	return (argv);
 }
 
-int		exec_default_env(t_env *lkd_env, char **command, char **path, int flags)
+int		exec_default_env(t_env *lkd_env, char **command, t_hustru *big_struc, int flags)
 {
 	int		i;
 	char	*right_path;
@@ -253,7 +255,7 @@ int		exec_default_env(t_env *lkd_env, char **command, char **path, int flags)
 	i = 1;
 	while (command[i][0] == '-' || ft_strchr(command[i], '='))
 		i++;
-	right_path = find_path(path, command[i]);
+	right_path = find_path(big_struc->path, command[i]);
 	if (flags & PE_V)
 	{
 		print_verbose_env(lkd_env, NULL, 1);
@@ -269,6 +271,7 @@ int		exec_default_env(t_env *lkd_env, char **command, char **path, int flags)
 	if (right_path == NULL)
 	{
 		ft_putstr("No file found with the following name: ");
+		big_struc->last_ret = 127;
 		ft_putendl(command[i]);
 		free_env(lkd_env, command);
 		return (1);
@@ -279,7 +282,7 @@ int		exec_default_env(t_env *lkd_env, char **command, char **path, int flags)
 	return (0);
 }
 
-int		exec_file_env(t_env *env, char **command, char **path, int flags)
+int		exec_file_env(t_env *env, char **command, t_hustru *big_struc, int flags)
 {
 	int		i;
 	char	*right_path;
@@ -290,7 +293,7 @@ int		exec_file_env(t_env *env, char **command, char **path, int flags)
 	i = 1;
 	while (command[i][0] == '-' || ft_strchr(command[i], '='))
 		i++;
-	right_path = find_path(path, command[i]);
+	right_path = find_path(big_struc->path, command[i]);
 	if (flags & PE_V)
 	{
 		print_verbose_env(env, NULL, 1);
@@ -318,24 +321,26 @@ int		exec_file_env(t_env *env, char **command, char **path, int flags)
 	return (0);
 }
 
-int		launch_command_env(t_env *lkd_env, int flags,
-	char **command, char **path)
+int		launch_command_env(t_hustru *big_struc, int flags,
+	char **command)
 {
 	t_env	*env;
 	int		is_command;
 	t_env	*tmp;
+	t_env	*lkd_env;
 
+	lkd_env = big_struc->lkd_env;
 	is_command = 1;
 	env = parse_env(lkd_env, command, flags, &is_command);
 	if (is_command == 1 && flags & PE_I)
-		exec_file_env(env, command, path, flags);
+		exec_file_env(env, command, big_struc, flags);
 	else
 	{
 		tmp = lkd_env;
 		while (lkd_env->next)
 			lkd_env = lkd_env->next;
 		lkd_env->next = env;
-		exec_default_env(tmp, command, path, flags);
+		exec_default_env(tmp, command, big_struc, flags);
 	}
 	return (0);
 }
@@ -358,7 +363,7 @@ int		env_available_option(char *tab, int *flags)
 	return (i);
 }
 
-int		parsing_env(t_env *lkd_env, char *command, char **path)
+int		parsing_env(t_hustru *big_struc, char *command)
 {
 	int		flags;
 	int		i;
@@ -377,17 +382,18 @@ int		parsing_env(t_env *lkd_env, char *command, char **path)
 			return (0);
 		i++;
 	}
-	launch_command_env(lkd_env, flags, tab, path);
+	launch_command_env(big_struc, flags, tab);
 	return (0);
 }
 
-int		print_env(t_env *lkd_env, char *command, char **path)
+int		print_env(t_hustru *big_struc, char *command)
 {
 	if (!ft_strcmp(command, "env"))
 	{
-		print_basic_env(lkd_env, 0, 0);
-		return (0);
+		print_basic_env(big_struc->lkd_env, 0, 0);
+		big_struc = 0;
 	}
 	else
-		return (parsing_env(lkd_env, command, path));
+		big_struc->last_ret = parsing_env(big_struc, command);
+	return (0);
 }

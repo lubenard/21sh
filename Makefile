@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/06/13 21:27:46 by lubenard         ###   ########.fr        #
+#    Updated: 2019/06/14 11:46:23 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ all:  $(NAME)
 
 $(NAME): $(OBJ)
 	@cd libft && make
-	@$(CC) -o $(NAME) $(CFLAGS) -I$(INCLUDE_SRC) $(OBJ) libft/libft.a
+	@$(CC) -o $(NAME) $(CFLAGS) $(OBJ) libft/libft.a
 	@printf "\033[33mCompilation de $(NAME)...\033[0m"
 	@printf "\033[32m[✓]\033[0m\n"
 

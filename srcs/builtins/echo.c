@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/13 21:45:44 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/14 15:44:42 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int		handle_tilde(t_hustru *big_struc, char *command, int i)
 			big_struc->last_ret = 1;
 			return (-1);
 		}
+		big_struc->last_ret = 0;
 		return (i + e + 1);
 	}
 	else
