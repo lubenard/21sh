@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/06/14 16:34:43 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/17 22:54:04 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef struct		s_hustru
 	int				last_ret;
 }					t_hustru;
 
-
 /*
 ** Display / error functions
 */
@@ -99,6 +98,10 @@ void				save_redir(char *command, char *content);
 */
 int					handle_pipe(t_env *lkd_env, char **path, char *command);
 /*
+** Parser
+*/
+int					parser(t_hustru *big_struc, char *command);
+/*
 ** Handle Signal
 */
 void				handle_signals(int sig);
@@ -131,5 +134,16 @@ void				free_after_exit(t_env *lkd_env,
 int					handle_tilde2(t_env *lkd_env, int i);
 char				*extract_path(char *command);
 char				*extract_first(char *command, char stop);
+/*
+** Redirections utils
+*/
+void				ft_str_start_cat(char *dest, const char *src, int start);
+int					count_elem_redir(char **tab, int i);
+int					pass_filename(char **tab, int i);
+void				arrow_right(t_env *lkd_env, char **path, char *command);
+void				double_arrow_left(t_env *lkd_env, char *command);
+void				simple_arrow_left(t_env *lkd_env, char *command);
+int					print_error_redirect(char **tab, char *code);
+char				**prepare_tab(char *command, char signe);
 
 #endif

@@ -31,7 +31,7 @@ typedef	struct		s_coord
 	char			*tmpx;
 }					t_coord;
 
-typedef	struct		get_prompt_pos
+typedef	struct		s_get_prompt_pos
 {
 	int				y;
 	int				x;
@@ -51,7 +51,6 @@ void				move_toword(char *line, char *buf, int *prompt);
 int					get_row(int r, int i, int pc);
 void				clean(int i, int *prompt, int r);
 char				*delete_c(int r, int *prompt, char *line, int *sizel);
-int					ft_strlenu(char *str);
 int					go_last_row(int tmp, int maxc, int r);
 void				go_first_char(int *prompt, int i, int r);
 void				right_arrow(int i, int *prompt);

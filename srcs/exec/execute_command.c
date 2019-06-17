@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/13 16:38:53 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/17 21:21:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int		check_exec_rights(char *path)
 		free(path);
 		return (1);
 	}
-	free(path);
 	return (0);
 }
 

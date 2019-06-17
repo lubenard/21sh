@@ -26,7 +26,7 @@ typedef struct	s_list
 	void			*content;
 	size_t			content_size;
 	struct s_list	*next;
-} t_list;
+}				t_list;
 
 void			ft_putchar(char c);
 void			ft_putstr(char const *s);
@@ -69,6 +69,7 @@ int				ft_occur(char const *s, char c);
 int				ft_countwords(char const *s);
 int				ft_sqrt(int nb);
 int				ft_isblank(char *str);
+int				ft_strlenu(char *str);
 char			*ft_strdup(char const *s);
 char			*ft_strcpy(char *dest, char const *src);
 char			*ft_strncpy(char *dest, char const *src, unsigned int n);

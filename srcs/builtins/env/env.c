@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/14 14:52:05 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/17 23:24:39 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,12 @@ int		exec_default_env(t_env *lkd_env, char **command, t_hustru *big_struc, int f
 
 	i = 1;
 	while (command[i][0] == '-' || ft_strchr(command[i], '='))
+	{
+		printf("je suis sur %s\n", command[i]);
 		i++;
+		printf("je suis sur %s\n", command[i]);
+	}
+	printf("je suis sur v2 %s\n", command[i]);
 	right_path = find_path(big_struc->path, command[i]);
 	if (flags & PE_V)
 	{
@@ -340,6 +345,7 @@ int		launch_command_env(t_hustru *big_struc, int flags,
 		while (lkd_env->next)
 			lkd_env = lkd_env->next;
 		lkd_env->next = env;
+		//printf("le premier element %s\n", command[0]);
 		exec_default_env(tmp, command, big_struc, flags);
 	}
 	return (0);
@@ -382,6 +388,7 @@ int		parsing_env(t_hustru *big_struc, char *command)
 			return (0);
 		i++;
 	}
+	//printf("le premier element vaut %s\n", tab[0]);
 	launch_command_env(big_struc, flags, tab);
 	return (0);
 }
@@ -389,11 +396,8 @@ int		parsing_env(t_hustru *big_struc, char *command)
 int		print_env(t_hustru *big_struc, char *command)
 {
 	if (!ft_strcmp(command, "env"))
-	{
 		print_basic_env(big_struc->lkd_env, 0, 0);
-		big_struc = 0;
-	}
 	else
-		big_struc->last_ret = parsing_env(big_struc, command);
+		return(parsing_env(big_struc, command));
 	return (0);
 }

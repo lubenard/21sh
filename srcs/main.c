@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/14 16:37:01 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/17 22:39:44 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)
 	big_struc->lkd_env = lkd_env;
 	big_struc->lkd_hist = lkd_hist;
 	big_struc->path = path;
-	big_struc->last_ret = 50;
+	big_struc->last_ret = 0;
 	return (big_struc);
 }
 
@@ -113,7 +113,7 @@ int		main(int argc, char **argv, char **env)
 	t_hist		*lkd_hist;
 	char		**path;
 	t_hustru	*big_struc;
-	char		*line;
+	//char		*line;
 
 	(void)argc;
 	(void)argv;
@@ -133,12 +133,15 @@ int		main(int argc, char **argv, char **env)
 	//redirections(lkd_env, path, argv[1]);
 	//save_redir("cat auteur > file1 >> file2", "mycontent");
 	//handle_pipe(lkd_env, path, argv[1]);
-	while (ft_read_1(0, &line) == 0)
+	//ft_putstr("Luca - mypath >");
+	parser(big_struc, ft_strdup(argv[1]));
+	/*while (ft_read_1(0, &line) == 0)
 	{
-	printf("Luca - monpath >");
-	//	ft_putendl("OK");	
-	//display_prompt("user", "mon_path", 1);
-	}
+		ft_putstr("Luca - mypath >");
+		//parser(big_struc, ft_strdup(argv[1])); // a remplacer par line je suppose
+		//display_prompt("user", "mon_path", 1);
+	}*/
+	//printf("la ligne vaut %s\n",line);
 	printf("retour derniere commande vaut %d\n", big_struc->last_ret);
 	return (find_exit("exit", big_struc)); // NOTE: Control D exit wiht 0
 }

@@ -83,7 +83,8 @@ SRC = ft_memset.c \
 	ft_strnncpy.c \
 	ft_conststrjoin.c \
 	ft_strchri.c \
-	ft_strjoinnf.c
+	ft_strjoinnf.c\
+	ft_strlenu.c
 
 OBJ = $(SRC:.c=.o)
 

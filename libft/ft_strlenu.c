@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <input.h>
+#include "libft.h"
 
 int		ft_strlenu(char *str)
 {
-	int i;
-	int y;
+	int				i;
+	int				y;
 	unsigned char	*tmp;
 
 	i = 0;
@@ -28,11 +28,10 @@ int		ft_strlenu(char *str)
 			if (tmp[i] >> 5 == 0b00000110)
 				y--;
 			else if (tmp[i] >> 4 == 0b00001110)
-				y = y -2;
+				y = y - 2;
 			else if (tmp[i] >> 3 == 0b00011110)
 				y = y - 3;
 		}
-
 		i++;
 		y++;
 	}

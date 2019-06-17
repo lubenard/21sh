@@ -44,8 +44,8 @@ void    ra3_init(int r, int *tmp, int cc, int cm)
 
 void    right_arrow(int i, int *prompt)
 {
-    struct  get_prompt_pos  gpp;
-    struct  winsize w;
+    t_getprompt_pos    gpp;
+    struct  winsize     w;
 
     ioctl(0, TIOCGWINSZ, &w);
     if (!(gpp.coord = get_coord(get_cursor_position())))

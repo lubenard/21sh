@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 12:13:40 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/17 12:13:42 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/17 15:11:56 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,19 +161,3 @@ void	move_toword(char *line, char *buf, int *prompt)
 	else if (buf[0] == 6)
 		ft_next_line(line, prompt, r);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

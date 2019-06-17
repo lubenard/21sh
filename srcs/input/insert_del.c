@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 12:13:02 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/17 12:13:04 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/17 15:00:10 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		get_row(int r, int i, int pc)
 {
-	struct winsize 	w;
+	struct winsize	w;
 	int				tmp;
 	int				*coord;
 
@@ -38,7 +38,7 @@ int		get_row(int r, int i, int pc)
 void	clean(int i, int *prompt, int r)
 {
 	struct winsize	w;
-	int 			tmp;
+	int				tmp;
 
 	ioctl(0, TIOCGWINSZ, &w);
 	tmp = 0;
@@ -48,22 +48,22 @@ void	clean(int i, int *prompt, int r)
 	{
 		while (tmp++ < r)
 		{
-			 ft_putstr("\e[B");
-			 ft_putstr("\e[2K");
-   		 }
-   		 go_first_char(prompt, i, r);
+			ft_putstr("\e[B");
+			ft_putstr("\e[2K");
+		}
+		go_first_char(prompt, i, r);
 	}
 }
 
 char	*delete_c(int r, int *prompt, char *line, int *sizel)
 {
-	int 			i;
+	int				i;
 	int				j;
 	int				*coord;
 	int				*newcoord;
 	int				*acoord;
 	char			*str;
-	struct winsize 	w;
+	struct winsize	w;
 	int				tmp;
 	int				tmp2;
 
@@ -77,21 +77,18 @@ char	*delete_c(int r, int *prompt, char *line, int *sizel)
 	coord = get_coord(get_cursor_position());
 	if ((coord[1] <= prompt[1] && prompt[0] == coord[0])
 		|| (coord[0] == 1 && coord[1] <= prompt[1]))
-			ft_putstr("");
+		ft_putstr("");
 	else
 	{
 		clean(ft_strlenu(line), prompt, r);
 		acoord = get_coord(get_cursor_position());
 		while (line && line[i])
 		{
-
 			if ((i + prompt[1]) != coord[1] - 1 && prompt[0] == coord[0])
 				tmp = 1;
-			if ((i + prompt[1]) != (coord[1] - 1) + w.ws_col*(coord[0] - prompt[0]) && coord[0]
-				> prompt[0]  && r > 0 )
-			{
+			if ((i + prompt[1]) != (coord[1] - 1) + w.ws_col *
+				(coord[0] - prompt[0]) && coord[0] > prompt[0] && r > 0)
 				tmp2 = 1;
-			}
 			if (tmp == 1 || tmp2 == 1)
 				str[j++] = line[i];
 			i++;
@@ -157,20 +154,3 @@ ft_putstr("Acoord[0] : ");
 	free(coord);
 	return (line);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

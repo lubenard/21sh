@@ -16,9 +16,7 @@ SRC = srcs/main.c \
 	  srcs/get_env.c \
 	  srcs/handle_signals.c \
 	  srcs/save_command.c \
-	  srcs/execute_command.c \
 	  srcs/free.c \
-	  srcs/find_path.c \
 	  srcs/get_path.c \
 	  srcs/builtins/setenv.c \
 	  srcs/builtins/exit.c \
@@ -29,19 +27,23 @@ SRC = srcs/main.c \
 	  srcs/builtins/cd.c \
 	  srcs/builtins/cd2.c \
 	  srcs/redirections/redirections.c \
+	  srcs/redirections/left_redir.c \
+	  srcs/redirections/right_redir.c \
+	  srcs/redirections/parsing_redir.c \
 	  srcs/redirections/ft_strsplit_redir.c \
 	  srcs/pipe/pipe.c \
 	  srcs/display/display_builtins.c \
 	  srcs/display/display.c \
 	  srcs/utils/find_lkd_lst.c \
 	  srcs/parser/parser.c \
+	  srcs/exec/execute_command.c \
+	  srcs/exec/find_path.c \
 	  srcs/input/line_edition.c \
 	  srcs/input/term_mode.c \
 	  srcs/input/get_cursor_pos.c \
 	  srcs/input/move_cursor.c \
 	  srcs/input/go_last_char.c \
 	  srcs/input/right_arrow.c \
-	  srcs/input/ft_strlenu.c \
 	  srcs/input/insert_del.c \
 	  srcs/input/move_toword.c \
 	  srcs/input/manage_quotes.c
