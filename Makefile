@@ -34,7 +34,17 @@ SRC = srcs/main.c \
 	  srcs/display/display_builtins.c \
 	  srcs/display/display.c \
 	  srcs/utils/find_lkd_lst.c \
-	  srcs/parser/parser.c
+	  srcs/parser/parser.c \
+	  srcs/input/line_edition.c \
+	  srcs/input/term_mode.c \
+	  srcs/input/get_cursor_pos.c \
+	  srcs/input/move_cursor.c \
+	  srcs/input/go_last_char.c \
+	  srcs/input/right_arrow.c \
+	  srcs/input/ft_strlenu.c \
+	  srcs/input/insert_del.c \
+	  srcs/input/move_toword.c \
+	  srcs/input/manage_quotes.c
 
 INCLUDE_SRC = ./include/
 
@@ -48,7 +58,7 @@ all:  $(NAME)
 
 $(NAME): $(OBJ)
 	@cd libft && make
-	@$(CC) -o $(NAME) $(CFLAGS) $(OBJ) libft/libft.a
+	@$(CC) -o $(NAME) $(CFLAGS) $(OBJ) -ltermcap libft/libft.a
 	@printf "\033[33mCompilation de $(NAME)...\033[0m"
 	@printf "\033[32m[✓]\033[0m\n"
 

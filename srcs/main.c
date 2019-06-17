@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sh21.h>
+#include <input.h>
 
 char	*g_username;
 char	*g_curr_dir;
@@ -74,6 +74,26 @@ char	*get_path_hist(void)
 	return (path);
 }
 
+int		init_termcaps()
+{
+	int		ret;
+	char	*term_name;
+
+	if ((term_name = getenv("TERM")) == NULL)
+	{
+		ft_putstr("TERM must be set");
+		return (-1);
+	}
+	ret = tgetent(NULL, term_name);
+	if (ret < 0)
+	{
+		ret == -1 ? ft_putstr("Failed to access termcaps database") : 
+		ft_putstr("Your term is not defined in termcaps db / too few infos");
+		return (-1);
+	}
+	return (0);
+}
+
 t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)
 {
 	t_hustru *big_struc;
@@ -93,6 +113,7 @@ int		main(int argc, char **argv, char **env)
 	t_hist		*lkd_hist;
 	char		**path;
 	t_hustru	*big_struc;
+	char		*line;
 
 	(void)argc;
 	(void)argv;
@@ -105,13 +126,19 @@ int		main(int argc, char **argv, char **env)
 	change_env(lkd_env);
 	//echo(big_struc, argv[1]); [POSIX]
 	//cd(big_struc, argv[1]);
-	big_struc->last_ret = set_env(lkd_env, argv[1]);//"setenv PATH=🙄"); //add setenv PATH=$PATH:/mon/path and not case sensitive
+	//big_struc->last_ret = set_env(lkd_env, argv[1]);//"setenv PATH=🙄"); //add setenv PATH=$PATH:/mon/path and not case sensitive
 	//print_env(lkd_env, argv[1], path);
 	//history(lkd_hist);
 	//printf("find rigth path = %s\n", find_path(path, ft_strdup(argv[1])));
 	//redirections(lkd_env, path, argv[1]);
 	//save_redir("cat auteur > file1 >> file2", "mycontent");
 	//handle_pipe(lkd_env, path, argv[1]);
+	while (ft_read_1(0, &line) == 0)
+	{
+	printf("Luca - monpath >");
+	//	ft_putendl("OK");	
+	//display_prompt("user", "mon_path", 1);
+	}
 	printf("retour derniere commande vaut %d\n", big_struc->last_ret);
 	return (find_exit("exit", big_struc)); // NOTE: Control D exit wiht 0
 }

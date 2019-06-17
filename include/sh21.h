@@ -18,7 +18,6 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <sys/ioctl.h>
-# include <unistd.h>
 # include <dirent.h>
 # include <signal.h>
 # include <limits.h>
@@ -29,12 +28,20 @@
 # define PE_V 2
 # define PE_0 4
 
+/*
+** Env linked list
+*/
+
 typedef struct		s_env
 {
 	char			env_line[4096];
 	struct s_env	*prev;
 	struct s_env	*next;
 }					t_env;
+
+/*
+** History linked list
+*/
 
 typedef struct		s_hist
 {
@@ -43,6 +50,10 @@ typedef struct		s_hist
 	struct s_hist	*next;
 }					t_hist;
 
+/*
+** Main structure conatining linked list
+*/
+
 typedef struct		s_hustru
 {
 	struct s_env	*lkd_env;
@@ -50,6 +61,7 @@ typedef struct		s_hustru
 	char			**path;
 	int				last_ret;
 }					t_hustru;
+
 
 /*
 ** Display / error functions
@@ -75,7 +87,7 @@ int					print_env(t_hustru *big_struc, char *command);
 void				history(t_hist *lkd_hist);
 int					find_exit(char *command, t_hustru *big_struc);
 int					ft_exit(int nbr, t_hustru *big_struc);
-int					echo(t_hustru *big_struc, char *command);
+int					ft_echo(t_hustru *big_struc, char *command);
 void				cd(t_hustru *big_struc, char *commmand);
 /*
 ** Redirections

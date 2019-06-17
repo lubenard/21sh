@@ -26,7 +26,7 @@ typedef struct	s_list
 	void			*content;
 	size_t			content_size;
 	struct s_list	*next;
-}				t_list;
+} t_list;
 
 void			ft_putchar(char c);
 void			ft_putstr(char const *s);
@@ -100,5 +100,6 @@ char			*ft_strupper(char *str);
 char			*ft_strnncpy(char *dest, char const *src,
 	unsigned int i, unsigned int n);
 const char		*ft_conststrjoin(char const *s1, char const *s2);
+char			*ft_strjoinnf(char const *s1, char const *s2);
 
 #endif

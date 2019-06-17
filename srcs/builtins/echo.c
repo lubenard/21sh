@@ -109,7 +109,7 @@ int		return_i(char *command)
 	return (++i);
 }
 
-int		echo(t_hustru *big_struc, char *command)
+int		ft_echo(t_hustru *big_struc, char *command)
 {
 	int e;
 	int i;
