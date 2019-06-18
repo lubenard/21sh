@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/17 23:24:39 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/18 14:11:11 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	free_env(t_env *env, char **to_free)
 		while (to_free[i])
 			free(to_free[i++]);
 	}
-	free(to_free);
+	//free(to_free);
 }
 
 t_env	*print_env_no_command(t_env *env, char **to_free,
@@ -257,7 +257,6 @@ int		exec_default_env(t_env *lkd_env, char **command, t_hustru *big_struc, int f
 	{
 		printf("je suis sur %s\n", command[i]);
 		i++;
-		printf("je suis sur %s\n", command[i]);
 	}
 	printf("je suis sur v2 %s\n", command[i]);
 	right_path = find_path(big_struc->path, command[i]);
@@ -345,7 +344,6 @@ int		launch_command_env(t_hustru *big_struc, int flags,
 		while (lkd_env->next)
 			lkd_env = lkd_env->next;
 		lkd_env->next = env;
-		//printf("le premier element %s\n", command[0]);
 		exec_default_env(tmp, command, big_struc, flags);
 	}
 	return (0);
