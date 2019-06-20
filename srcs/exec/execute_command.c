@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/20 15:41:51 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/20 17:00:14 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ int		check_exec_rights(char *path)
 
 int		exec_command_gen(char *path, char **argv, char **env)
 {
-	printf("mon path vaut %s\n", path);
 	if (check_exec_rights(path))
 	{
 		ft_putstr_fd("You cannot execute the file (´ ͡༎ຶ ͜ʖ ͡༎ຶ )\n", 2);

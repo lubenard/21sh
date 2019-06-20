@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/20 14:57:02 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/20 17:22:44 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,21 +245,27 @@ char	**compact_argv_env(char **command, int i)
 	return (argv);
 }
 
-int		exec_default_env(t_env *lkd_env, char **command, t_hustru *big_struc, int flags)
+int		exec_default_env(t_env *env, char **command, t_hustru *big_struc, int flags)
 {
 	int		i;
 	char	*right_path;
 	char	**argv;
 	char	**tab_env;
+	t_env	*tmp;
 
 	i = 1;
+	tmp = big_struc->lkd_env;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = env;
+	while (tmp->prev)
+		tmp = tmp->prev;
 	while (command[i][0] == '-' || ft_strchr(command[i], '='))
 		i++;
-	printf("je suis sur v2 %s\n", command[i]);
 	right_path = find_path(big_struc->path, command[i]);
 	if (flags & PE_V)
 	{
-		print_verbose_env(lkd_env, NULL, 1);
+		print_verbose_env(env, NULL, 1);
 		if (right_path != NULL)
 		{
 			ft_putstr("#env executing: ");
@@ -274,10 +280,10 @@ int		exec_default_env(t_env *lkd_env, char **command, t_hustru *big_struc, int f
 		ft_putstr("No file found with the following name: ");
 		big_struc->last_ret = 127;
 		ft_putendl(command[i]);
-		free_env(lkd_env, command);
+		free_env(tmp, command);
 		return (1);
 	}
-	tab_env = compact_env(lkd_env);
+	tab_env = compact_env(tmp);
 	exec_command_gen(right_path, argv, tab_env);
 	free_env(NULL, command);
 	return (0);
@@ -293,9 +299,7 @@ int		exec_file_env(t_env *env, char **command, t_hustru *big_struc, int flags)
 	i = 1;
 	while (command[i][0] == '-' || ft_strchr(command[i], '='))
 		i++;
-	printf("command[i] vaut %s\n", command[i]);
 	right_path = find_path(big_struc->path, command[i]);
-	printf("right_path vaut %s\n", right_path);
 	if (flags & PE_V)
 	{
 		print_verbose_env(env, NULL, 1);
@@ -326,7 +330,6 @@ int		launch_command_env(t_hustru *big_struc, int flags,
 {
 	t_env	*env;
 	int		is_command;
-	t_env	*tmp;
 	t_env	*lkd_env;
 
 	lkd_env = big_struc->lkd_env;
@@ -336,11 +339,7 @@ int		launch_command_env(t_hustru *big_struc, int flags,
 		exec_file_env(env, command, big_struc, flags);
 	else if (is_command == 1)
 	{
-		tmp = lkd_env;
-		while (lkd_env->next)
-			lkd_env = lkd_env->next;
-		lkd_env->next = env;
-		exec_default_env(tmp, command, big_struc, flags);
+		exec_default_env(env, command, big_struc, flags);
 	}
 	return (0);
 }

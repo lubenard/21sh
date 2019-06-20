@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/06/20 16:14:33 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/20 18:20:30 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,13 @@ t_hist				*new_maillon_hist(void);
 ** Builtins
 */
 int					set_env(t_env *lkd_env, char *command);
-void				unset_env(t_hustru *big_struc, char *command);
+int					unset_env(t_hustru *big_struc, char *command);
 int					print_env(t_hustru *big_struc, char *command);
 void				history(t_hist *lkd_hist);
 int					find_exit(char *command, t_hustru *big_struc);
 int					ft_exit(int nbr, t_hustru *big_struc);
 int					ft_echo(t_hustru *big_struc, char *command);
-void				cd(t_hustru *big_struc, char *commmand);
+int					cd(t_hustru *big_struc, char *commmand);
 /*
 ** Redirections
 */

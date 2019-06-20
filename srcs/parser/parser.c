@@ -6,29 +6,48 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/17 22:30:35 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/20 19:10:52 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
+int		exec_external_command(t_hustru *big_struc, char *command)
+{
+	char *path;
+	char **argv;
+
+	if (!(path = find_path(big_struc->path, command)))
+	{
+		free(path);
+		return (1);
+	}
+	printf("path = %s\n", path);
+	argv = ft_strsplit(command, ' ');
+	exec_command_gen(path,argv, compact_env(big_struc->lkd_env));
+	return (0);
+}
+
 int		basic_command(t_hustru *big_struc, char *command)
 {
-	char *extract;
+	char	*extract;
+	int		ret_code;
 
 	extract = extract_first(command, ' ');
 	if (!ft_strcmp(extract, "env"))
-		print_env(big_struc, command);
+		ret_code = print_env(big_struc, command);
 	else if (!ft_strcmp(extract, "setenv"))
-		set_env(big_struc->lkd_env, command);
+		ret_code = set_env(big_struc->lkd_env, command);
 	else if (!ft_strcmp(extract, "unsetenv"))
-		unset_env(big_struc, command);
+		ret_code = unset_env(big_struc, command);
 	else if (!ft_strcmp(extract, "echo"))
-		ft_echo(big_struc, command);
+		ret_code = ft_echo(big_struc, command);
 	else if (!ft_strcmp(extract, "cd"))
-		cd(big_struc, command);
+		ret_code = cd(big_struc, command);
+	else
+		ret_code = exec_external_command(big_struc, command);
 	free(extract);
-	return(0);
+	return(ret_code);
 }
 
 int		decide_commande(t_hustru *big_struc, char *command)
