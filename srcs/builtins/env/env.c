@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/18 14:11:11 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/20 14:57:02 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,10 +254,7 @@ int		exec_default_env(t_env *lkd_env, char **command, t_hustru *big_struc, int f
 
 	i = 1;
 	while (command[i][0] == '-' || ft_strchr(command[i], '='))
-	{
-		printf("je suis sur %s\n", command[i]);
 		i++;
-	}
 	printf("je suis sur v2 %s\n", command[i]);
 	right_path = find_path(big_struc->path, command[i]);
 	if (flags & PE_V)
@@ -290,14 +287,15 @@ int		exec_file_env(t_env *env, char **command, t_hustru *big_struc, int flags)
 {
 	int		i;
 	char	*right_path;
-	char	*exec_path;
 	char	**argv;
 	char	**tab_env;
 
 	i = 1;
 	while (command[i][0] == '-' || ft_strchr(command[i], '='))
 		i++;
+	printf("command[i] vaut %s\n", command[i]);
 	right_path = find_path(big_struc->path, command[i]);
+	printf("right_path vaut %s\n", right_path);
 	if (flags & PE_V)
 	{
 		print_verbose_env(env, NULL, 1);
@@ -318,9 +316,7 @@ int		exec_file_env(t_env *env, char **command, t_hustru *big_struc, int flags)
 		return (1);
 	}
 	tab_env = compact_env(env);
-	exec_path = ft_strjoin(right_path, command[i]);
-	exec_command_gen(exec_path, argv, tab_env);
-	free(right_path);
+	exec_command_gen(right_path, argv, tab_env);
 	free_env(env, command);
 	return (0);
 }
@@ -338,7 +334,7 @@ int		launch_command_env(t_hustru *big_struc, int flags,
 	env = parse_env(lkd_env, command, flags, &is_command);
 	if (is_command == 1 && flags & PE_I)
 		exec_file_env(env, command, big_struc, flags);
-	else
+	else if (is_command == 1)
 	{
 		tmp = lkd_env;
 		while (lkd_env->next)

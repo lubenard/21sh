@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/17 22:39:44 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/20 16:36:48 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int		main(int argc, char **argv, char **env)
 	t_hist		*lkd_hist;
 	char		**path;
 	t_hustru	*big_struc;
-	//char		*line;
+	char		*line;
 
 	(void)argc;
 	(void)argv;
@@ -128,19 +128,21 @@ int		main(int argc, char **argv, char **env)
 	//cd(big_struc, argv[1]);
 	//big_struc->last_ret = set_env(lkd_env, argv[1]);//"setenv PATH=🙄"); //add setenv PATH=$PATH:/mon/path and not case sensitive
 	//print_env(lkd_env, argv[1], path);
-	//history(lkd_hist);
+	save_command(&lkd_hist, "ma commande");
+	save_command(&lkd_hist, "ma seconde command");
+	history(lkd_hist);
 	//printf("find rigth path = %s\n", find_path(path, ft_strdup(argv[1])));
 	//redirections(lkd_env, path, argv[1]);
 	//save_redir("cat auteur > file1 >> file2", "mycontent");
 	//handle_pipe(lkd_env, path, argv[1]);
 	//ft_putstr("Luca - mypath >");
-	parser(big_struc, ft_strdup(argv[1]));
-	/*while (ft_read_1(0, &line) == 0)
+	//parser(big_struc, ft_strdup(argv[1]));
+	while (ft_read_1(0, &line) == 0)
 	{
-		ft_putstr("Luca - mypath >");
+		//ft_putstr("Luca - mypath >");
 		//parser(big_struc, ft_strdup(argv[1])); // a remplacer par line je suppose
-		//display_prompt("user", "mon_path", 1);
-	}*/
+		display_prompt("user", "mon_path");
+	}
 	//printf("la ligne vaut %s\n",line);
 	printf("retour derniere commande vaut %d\n", big_struc->last_ret);
 	return (find_exit("exit", big_struc)); // NOTE: Control D exit wiht 0
