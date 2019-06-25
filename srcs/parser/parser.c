@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/20 19:10:52 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/25 15:54:01 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,15 @@ int		basic_command(t_hustru *big_struc, char *command)
 
 int		decide_commande(t_hustru *big_struc, char *command)
 {
-	if (!ft_strchr(command, '>') && 
+	if (!ft_strchr(command, '>') &&
 		!ft_strchr(command, '<') && !ft_strchr(command, '|'))
 		basic_command(big_struc, command);
+	else if (!ft_strchr(command, '>') && !ft_strchr(command, '<') &&
+		ft_strchr(command, '|'))
+		handle_pipe(big_struc->lkd_env, big_struc->path, command);
+	else if ((ft_strchr(command, '>') || ft_strchr(command, '<')) &&
+		!ft_strchr(command, '|'))
+		redirections(big_struc->lkd_env, big_struc->path, command);
 	else
 		printf("Je regarde %s\n", command);
 	return (0);

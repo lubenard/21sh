@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/17 16:07:31 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/25 15:56:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,9 +140,8 @@ char	*exec_command_redir(t_env *lkd_env, char **path, char av[131072])
 
 	argv = ft_strsplit(av, ' ');
 	normal_path = find_path(path, argv[0]);
-	ret_command = get_output_of_command(ft_strjoin(normal_path, argv[0])
-		, argv, compact_env(lkd_env));
-	free(normal_path);
+	ret_command = get_output_of_command(normal_path,
+		argv, compact_env(lkd_env));
 	return (ret_command);
 }
 

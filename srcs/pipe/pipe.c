@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/11 08:48:13 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/25 15:52:54 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,6 @@ int		free_pipe(char ***command)
 	return (0);
 }
 
-char	*path_pipe(char **path, char *command)
-{
-	char *corr_path;
-	char *normal_path;
-
-	normal_path = find_path(path, command);
-	corr_path = ft_strjoin(normal_path, command);
-	free(normal_path);
-	return (corr_path);
-}
-
 int		exec_pipe(t_env *lkd_env, char **path, int link[2], char ***command)
 {
 	char *exec_path;
@@ -88,7 +77,7 @@ int		exec_pipe(t_env *lkd_env, char **path, int link[2], char ***command)
 	if (*(command + 1) != NULL)
 		dup2(link[1], 1);
 	close(link[0]);
-	execve((exec_path = path_pipe(path, (*command)[0])),
+	execve((exec_path = find_path(path, (*command)[0])),
 	*command, compact_env(lkd_env));
 	free(exec_path);
 	return (0);

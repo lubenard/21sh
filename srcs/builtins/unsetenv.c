@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 12:05:25 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/14 16:38:59 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/25 13:40:36 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int			unset_env2(t_env *lkd_env, char *to_extract, char *to_remove)
 	return (0);
 }
 
-void		unset_env(t_hustru *big_struc, char *command)
+int			unset_env(t_hustru *big_struc, char *command)
 {
 	char	*to_extract;
 	int		i;
@@ -84,7 +84,7 @@ void		unset_env(t_hustru *big_struc, char *command)
 		if (ft_strcmp(to_extract, to_remove) == 0)
 		{
 			if (unset_env2(big_struc->lkd_env, to_extract, to_remove) == 1)
-				return ;
+				return (1);
 			free(to_extract);
 			free(big_struc->lkd_env);
 			break ;
@@ -93,4 +93,5 @@ void		unset_env(t_hustru *big_struc, char *command)
 		big_struc->lkd_env = big_struc->lkd_env->next;
 	}
 	free(to_remove);
+	return (0);
 }

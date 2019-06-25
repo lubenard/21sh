@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 15:05:11 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/14 16:39:43 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/25 13:41:19 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,11 @@ void	change_dir(t_hustru *big_struc, char *path)
 	free(path);
 }
 
-void	cd(t_hustru *big_struc, char *command)
+int		cd(t_hustru *big_struc, char *command)
 {
 	char	*extracted_path;
 
 	extracted_path = extract_path(command);
 	change_dir(big_struc, extracted_path);
+	return (0);
 }

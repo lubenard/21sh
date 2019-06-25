@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/20 16:59:29 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/25 14:06:36 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ int		main(int argc, char **argv, char **env)
 	/*while (ft_read_1(0, &line) == 0)
 	{
 		//ft_putstr("Luca - mypath >");
+		ft_putstr(line);
 		//parser(big_struc, ft_strdup(argv[1])); // a remplacer par line je suppose
 		display_prompt("user", "mon_path");
 	}*/
