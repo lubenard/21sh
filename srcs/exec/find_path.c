@@ -55,16 +55,21 @@ char	*find_path(char **path, char *first_command)
 	e = (path != NULL) ? 1 : 0;
 	while (e == 1 && path[i])
 	{
+		printf("Path de i vaut %s\n",path[i]);
 		p_dir = opendir(path[i]);
-		while ((p_dirent = readdir(p_dir)) != NULL)
+		//printf("opendir vaut %p\n", p_dir);
+		if (p_dir)
 		{
-			if (ft_strcmp(p_dirent->d_name, first_command) == 0)
+			while ((p_dirent = readdir(p_dir)) != NULL)
 			{
-				closedir(p_dir);
-				return (ft_strjoin(path[i], first_command));
+				if (ft_strcmp(p_dirent->d_name, first_command) == 0)
+				{
+					closedir(p_dir);
+					return (ft_strjoin(path[i], first_command));
+				}
 			}
+			closedir(p_dir);
 		}
-		closedir(p_dir);
 		i++;
 	}
 	if ((does_it_exist = search_absolute_path(first_command)))

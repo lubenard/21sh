@@ -137,7 +137,7 @@ int		main(int argc, char **argv, char **env)
 	//save_redir("cat auteur > file1 >> file2", "mycontent");
 	//handle_pipe(lkd_env, path, argv[1]);
 	//ft_putstr("Luca - mypath >");
-	parser(big_struc, ft_strdup(argv[1]));
+	parser(big_struc,ft_strdup(argv[1]));
 	/*while (ft_read_1(0, &line) == 0)
 	{
 		//ft_putstr("Luca - mypath >");
