@@ -16,11 +16,8 @@ int		exec_external_command(t_hustru *big_struc, char *command)
 {
 	char	*path;
 	char	**argv;
-	char	*trimmed_str;
 
-	trimmed_str = ft_strtrim(command);
-	argv = ft_strsplit(trimmed_str, ' ');
-	free(trimmed_str);
+	argv = ft_strsplit(command, ' ');
 	if (!(path = find_path(big_struc->path, argv[0])))
 	{
 		free(path);
@@ -37,21 +34,27 @@ int		basic_command(t_hustru *big_struc, char *command)
 {
 	char	*extract;
 	int		ret_code;
+	char	*trimmed_str;
 
-	extract = extract_first(command, ' ');
+	//printf("untrimmed str: |%s|\n",command);
+	trimmed_str = ft_strtrim(command);
+	//printf("trimmed str |%s|\n",trimmed_str);
+	extract = extract_first(trimmed_str, ' ');
+	//printf("extract vaut '%s'\n",extract);
 	if (!ft_strcmp(extract, "env"))
-		ret_code = print_env(big_struc, command);
+		ret_code = print_env(big_struc, trimmed_str);
 	else if (!ft_strcmp(extract, "setenv"))
-		ret_code = set_env(big_struc->lkd_env, command);
+		ret_code = set_env(big_struc->lkd_env, trimmed_str);
 	else if (!ft_strcmp(extract, "unsetenv"))
-		ret_code = unset_env(big_struc, command);
+		ret_code = unset_env(big_struc, trimmed_str);
 	else if (!ft_strcmp(extract, "echo"))
-		ret_code = ft_echo(big_struc, command);
+		ret_code = ft_echo(big_struc, trimmed_str);
 	else if (!ft_strcmp(extract, "cd"))
-		ret_code = cd(big_struc, command);
+		ret_code = cd(big_struc, trimmed_str);
 	else
-		ret_code = exec_external_command(big_struc, command);
+		ret_code = exec_external_command(big_struc, trimmed_str);
 	free(extract);
+	free(trimmed_str);
 	return(ret_code);
 }
 
