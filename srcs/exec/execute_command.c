@@ -48,9 +48,9 @@ char	*reduce_command(char *command)
 
 	i = 0;
 	e = 0;
-	if (access(command, X_OK) == -1 || get_error_exec(command, 0))
+	if (access(command, X_OK) == -1 || get_error_exec(command))
 	{
-		get_error_exec(command, 1);
+		invalid_command(command);
 		free(command);
 		return (NULL);
 	}
@@ -71,9 +71,9 @@ char	*reduce_command(char *command)
 int		check_exec_rights(char *path)
 {
 	if (access(path, X_OK)
-	|| get_error_exec(path, 0))
+	|| get_error_exec(path))
 	{
-		get_error_exec(path, 1);
+		invalid_command(path);
 		free(path);
 		return (1);
 	}

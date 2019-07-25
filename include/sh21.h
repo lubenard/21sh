@@ -125,7 +125,7 @@ char				*extract_first_env(char *command);
 char				*find_in_env(t_env *lkd_env, char *to_find);
 int					free_after_exec(char *get_right_path,
 	char **argv, char **env);
-int					get_error_exec(char path[6000], int mode);
+int					get_error_exec(char path[6000]);
 char				**compact_env(t_env *lkd_env);
 char				**ft_strsplit_redir(char const *s, char c);
 char				*find_path(char **path, char *first_command);

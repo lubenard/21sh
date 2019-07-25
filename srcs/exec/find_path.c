@@ -53,6 +53,7 @@ char	*find_path(char **path, char *first_command)
 
 	i = 0;
 	e = (path != NULL) ? 1 : 0;
+	printf("Je cherche %s\n", first_command);
 	while (e == 1 && path[i])
 	{
 		//printf("Path de i vaut %s\n",path[i]);

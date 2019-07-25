@@ -14,17 +14,21 @@
 
 int		exec_external_command(t_hustru *big_struc, char *command)
 {
-	char *path;
-	char **argv;
+	char	*path;
+	char	**argv;
+	char	*trimmed_str;
 
-	if (!(path = find_path(big_struc->path, command)))
+	trimmed_str = ft_strtrim(command);
+	argv = ft_strsplit(trimmed_str, ' ');
+	free(trimmed_str);
+	if (!(path = find_path(big_struc->path, argv[0])))
 	{
 		free(path);
+		ft_deltab(argv);
 		invalid_command(command);
 		return (1);
 	}
 	printf("path = %s\n", path);
-	argv = ft_strsplit(command, ' ');
 	exec_command_gen(path,argv, compact_env(big_struc->lkd_env));
 	return (0);
 }

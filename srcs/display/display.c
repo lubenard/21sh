@@ -28,6 +28,17 @@ void	invalid_command(char *command)
 	ft_putstr_fd(" : command not found ¯\\_(ツ)_/¯\n", 2);
 }
 
+int		get_error_exec(char path[6000])
+{
+	struct stat filestat;
+
+	if (stat(path, &filestat) < 0)
+		return (1);
+	else if (S_ISDIR(filestat.st_mode))
+		return (1);
+	return (0);
+}
+
 char	*find_cur_dir(t_env *lkd_env)
 {
 	char *dir;
