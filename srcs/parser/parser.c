@@ -20,6 +20,7 @@ int		exec_external_command(t_hustru *big_struc, char *command)
 	if (!(path = find_path(big_struc->path, command)))
 	{
 		free(path);
+		invalid_command(command);
 		return (1);
 	}
 	printf("path = %s\n", path);

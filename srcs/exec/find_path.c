@@ -55,7 +55,7 @@ char	*find_path(char **path, char *first_command)
 	e = (path != NULL) ? 1 : 0;
 	while (e == 1 && path[i])
 	{
-		printf("Path de i vaut %s\n",path[i]);
+		//printf("Path de i vaut %s\n",path[i]);
 		p_dir = opendir(path[i]);
 		//printf("opendir vaut %p\n", p_dir);
 		if (p_dir)

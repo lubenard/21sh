@@ -20,6 +20,9 @@ rm -rf file1 compare1
 make -C ../
 cp ../auteur .
 
+../21sh "ls"
+../21sh "env"
+
 # Basic redirections
 ../21sh "cat auteur > file1"
 cat auteur > compare1

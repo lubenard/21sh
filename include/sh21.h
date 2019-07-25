@@ -68,6 +68,7 @@ typedef struct		s_hustru
 void				display_prompt(char *username, char *curr_dir);
 char				*error_setenv(char *command, int i, int e);
 void				error_echo(char user[33]);
+void				invalid_command(char  *command);
 /*
 ** Linked list env
 */
