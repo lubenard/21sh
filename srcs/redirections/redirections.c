@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/13 17:15:34 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/07/29 17:40:00 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,41 @@ char	**prepare_tab(char *command, char signe)
 		i++;
 	}
 	return (tab);
+}
+
+void	redir_and_pipe(t_env *lkd_env, char **path, char *command)
+{
+	char **arg;
+	int i = 0;
+	int		link[2];
+	pid_t	pid;
+	char	output[50000];
+	int		wait_pid;
+
+	(void)lkd_env;
+	(void)path;
+	arg = ft_strsplit_redir(command, '>');
+	while (arg[i])
+		printf("Element vaut %s\n", arg[i++]);
+
+	if (pipe(link) == -1 || (pid = fork()) == -1)
+		return ;
+	if (pid == 0)
+	{
+		dup2(link[1], 1);
+		close(link[0]);
+		close(link[1]);
+		handle_pipe(lkd_env, path, arg[0]);
+		wait(&pid);
+	}
+	else
+	{
+		while ((wait_pid = wait(&pid)) > 0)
+			;
+		close(link[1]);
+		read(link[0], output, 50000);
+		printf("Output vaut |%s|\n", output);
+	}
 }
 
 void	redirections(t_env *lkd_env, char **path, char *command)
