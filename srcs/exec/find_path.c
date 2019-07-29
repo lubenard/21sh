@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/12 14:56:59 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/07/29 14:49:31 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,7 @@ char	*find_path(char **path, char *first_command)
 	printf("Je cherche %s\n", first_command);
 	while (e == 1 && path[i])
 	{
-		//printf("Path de i vaut %s\n",path[i]);
 		p_dir = opendir(path[i]);
-		//printf("opendir vaut %p\n", p_dir);
 		if (p_dir)
 		{
 			while ((p_dirent = readdir(p_dir)) != NULL)
@@ -73,7 +71,9 @@ char	*find_path(char **path, char *first_command)
 		}
 		i++;
 	}
+	printf("%s n'est pas dans le path\n", first_command);
 	if ((does_it_exist = search_absolute_path(first_command)))
 		return (does_it_exist);
+	printf("je suis ici...\n");
 	return (NULL);
 }

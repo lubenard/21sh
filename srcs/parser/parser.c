@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/25 15:54:01 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/07/29 14:19:26 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ int		exec_external_command(t_hustru *big_struc, char *command)
 	argv = ft_strsplit(command, ' ');
 	if (!(path = find_path(big_struc->path, argv[0])))
 	{
+		printf("j'affiche NULL\n");
 		free(path);
 		ft_deltab(argv);
 		invalid_command(command);
+		printf("j'ai bien tout free\n");
 		return (1);
 	}
 	printf("path = %s\n", path);

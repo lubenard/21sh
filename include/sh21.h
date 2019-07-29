@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/06/20 18:20:30 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/07/29 14:17:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct		s_hustru
 void				display_prompt(char *username, char *curr_dir);
 char				*error_setenv(char *command, int i, int e);
 void				error_echo(char user[33]);
-void				invalid_command(char  *command);
+void				invalid_command(char *command);
 /*
 ** Linked list env
 */

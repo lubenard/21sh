@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/20 17:22:44 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/07/29 14:48:24 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,6 +391,6 @@ int		print_env(t_hustru *big_struc, char *command)
 	if (!ft_strcmp(command, "env"))
 		print_basic_env(big_struc->lkd_env, 0, 0);
 	else
-		return(parsing_env(big_struc, command));
+		return (parsing_env(big_struc, command));
 	return (0);
 }
