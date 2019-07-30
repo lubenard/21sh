@@ -3,6 +3,9 @@
 # Because we can pass argv[1] as first command, we can automate it
 # Please run this script inside the executable's directory
 
+
+# TEST with pipe  "cat /dev/urandom | head -c 1000 | wc -l"
+
 compare_function()
 {
 	if cmp -s "$1" "$2"; then

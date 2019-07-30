@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/25 15:56:59 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/07/30 21:47:37 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void	save_redir(char *command, char *content)
 	tab = prepare_tab(command, '>');
 	filenames = save_filename(tab, 1);
 	create_file(filenames, tab);
-	fill_file(filenames, ft_strdup(content), tab);
+	fill_file(filenames, content, tab);
 }
 
 void	arrow_right(t_env *lkd_env, char **path, char *command)

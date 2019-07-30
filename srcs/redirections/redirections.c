@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/07/30 18:43:21 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/07/30 21:47:42 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	redir_and_pipe(t_env *lkd_env, char **path, char *command)
 		read(link[0], output, 50000);
 		printf("Output vaut |\n%s|\n", output);
 	}
-	save_redir(command, output);
+	save_redir(command, ft_strndup(output, ft_strlen(output) - 1));
 	printf("supposed to print once\n");
 }
 
