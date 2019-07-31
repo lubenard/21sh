@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/07/30 20:09:18 by lubenard         ###   ########.fr        #
+#    Updated: 2019/07/31 17:09:57 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,10 @@ $(NAME): $(OBJ)
 
 libft:
 	@cd libft && make
+
+linklib:
+	@cd libft && make
+	@$(CC) -o $(NAME) $(CFLAGS) $(OBJ) -ltermcap libft/libft.a
 
 %.o : %.c
 	@printf "\033[36mCompilation de $<...\033[0m"

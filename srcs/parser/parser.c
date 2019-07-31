@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/07/31 12:01:00 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/07/31 16:56:30 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ int		parser(t_hustru *big_struc, char *command)
 	semicolon = ft_strsplit(command, ';');
 	while (semicolon[i])
 		big_struc->last_ret = decide_commande(big_struc, semicolon[i++]);
-	i = 0;
-	while (semicolon[i])
-		free(semicolon[i++]);
-	free(semicolon);
-	free(command);
+	//i = 0;
+	//while (semicolon[i])
+	//	free(semicolon[i++]);
+	//free(semicolon);
+	//free(command);
 	return (0);
 }
