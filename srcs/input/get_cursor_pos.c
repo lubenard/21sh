@@ -6,17 +6,17 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 20:16:02 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/06/17 14:43:54 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/06/20 17:20:08 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <input.h>
+#include "../../include/input.h"
 
-char	*get_cursor_position(void)
+char    *get_cursor_position()
 {
-	char	buf[255];
-	int		ret;
-	char	*tmp;
+	char    buf[255];
+	int     ret;
+	char    *tmp;
 
 	write(1, "\033[6n", 4);
 	if ((ret = read(1, buf, 254)) == -1)
@@ -26,14 +26,10 @@ char	*get_cursor_position(void)
 	return (tmp);
 }
 
-/*
-** Use ioctl to get the max size of the term
-*/
-
-int		alloc(t_coord *co)
+int     alloc(t_coord *co)
 {
-	co->tmpx = ft_strnew(1023);
-	if (!co->tmpx || !(co->tmpy = malloc(sizeof(char) * 1024)))
+	//	use ioctl to get the max size of the term
+	if (!(co->tmpx = malloc(sizeof(char) * 1024)) || !(co->tmpy = malloc(sizeof(char) * 1024)))
 	{
 		if (co->tmpx)
 			free(co->tmpx);
@@ -48,7 +44,7 @@ int		alloc(t_coord *co)
 	return (0);
 }
 
-int		*get_coord(char *buf)
+int     *get_coord(char *buf)
 {
 	t_coord co;
 
@@ -75,3 +71,4 @@ int		*get_coord(char *buf)
 	free(buf);
 	return (co.coord);
 }
+

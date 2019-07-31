@@ -6,10 +6,11 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/06/04 22:40:54 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/08/01 00:32:57 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sh21.h>
 #include <input.h>
 
 void	init_esc_seq()
@@ -28,9 +29,23 @@ void	manage_tab(char *buf)
 		ft_putstr("tab");
 }
 
-void	test()
+int		singleton(int stock, int action)
 {
-	ft_putstr("lol");
+	static int	i = 0;
+
+	//i = ;
+	if (action)
+	{
+		i = stock;
+	}
+	return (i);	
+}
+
+void	signalHandler(int signal)
+{
+	ft_putnbr(signal);
+	if (signal == SIGINT)
+		singleton(signal, 1);
 }
 
 char	*ft_copy_paste(char *line, char *buf, int **prompt, int *i)
@@ -75,20 +90,20 @@ char	*ft_copy_paste(char *line, char *buf, int **prompt, int *i)
 			go_last_char(ft_strlenu(line), prompt[0]);
 			ft_putstr(str);
 			newcoord = get_coord(get_cursor_position());
+			t = get_row(0, ft_strlenu(line), prompt[0][1]);
+			line = ft_strjoinnf(line, str);
+			*i += ft_strlenu(str);
+			r = get_row(0, ft_strlenu(line), prompt[0][1]);
 			if (newcoord[1] == w.ws_col || coord[1] == w.ws_col)// && newcoord[0] != prompt[0])
 			{
 				if (coord[0] == w.ws_row)
 				{
 					ft_putstr("\e[S");
+					if (r > 0 && r > t)
+						prompt[0][0] = prompt[0][0] - (r - t);
 				}
 				ft_putstr("\e[E");
 			}
-			line = ft_strjoinnf(line, str);
-			*i += ft_strlenu(str);
-			r = get_row(0, ft_strlenu(line), prompt[0][1]);
-			if (r > 0)
-				prompt[0][0] = prompt[0][0] - r;
-
 		}
 		else
 		{
@@ -112,8 +127,32 @@ char	*ft_copy_paste(char *line, char *buf, int **prompt, int *i)
 			}
 			tmp[j] = '\0';
 			ft_putstr(tmp);
+			newcoord = get_coord(get_cursor_position());
+			if (newcoord[1] > coord[1])
+			{
+				while (newcoord[1]-- > (coord[1] + ft_strlenu(str)))
+					ft_putchar('\b');
+			}
+			else
+			{
+				while (newcoord[1]++ < coord[1])
+							ft_putstr("\e[C");
+			}
+			if (newcoord[0] > coord[0])
+			{
+				while (newcoord[0]-- > coord[0])
+					ft_putstr("\e[B");
+			}
+			else
+			{
+				while (newcoord[0]++ < coord[0])
+					ft_putstr("\e[A");
+			}
 			free(line);
 			line = ft_strdup(tmp);
+			r = get_row(0, ft_strlenu(line), prompt[0][1]);
+			if (w.ws_row - prompt[0][0] < r)
+				prompt[0][0] -= r - (w.ws_row - prompt[0][0]);
 		}
 	}
 	if (buf[0] == 127)
@@ -178,6 +217,11 @@ char	*test1(int index, char *buf, char *line, int **prompt)
 		ft_putstr(str);
 		i = j + prompt[0][1];
 		newcoord = get_coord(get_cursor_position());
+	/*	if (newcoord[1] == w.ws_col && newcoord[0] == w.ws_row)
+		{
+			ft_putstr("\e[S");
+		//	ft_putstr("\e[E");
+		}*/
 		if (coord[1] == w.ws_col && coord[0] > prompt[0][0])
 		{
 				i = newcoord[1];
@@ -212,6 +256,10 @@ char	*test1(int index, char *buf, char *line, int **prompt)
 		}
 		free(line);
 		line = ft_strdup(str);
+		r = get_row(0, ft_strlenu(line), prompt[0][1]);
+		if (w.ws_row - prompt[0][0] < r)
+			prompt[0][0] -= r - (w.ws_row - prompt[0][0]);
+//		ft_putnbr(prompt[0][0]);
 	}
 	return (line);
 }
@@ -228,9 +276,13 @@ int		ft_read_1(const int fd, char **line)
 	int		t;
 	int		i;
 	int		cmax;
+	int		check;
+	t_hist	*lkd_hist;
 
 	r = 0;
 	i = 0;
+	check = 0;
+	lkd_hist = new_maillon_hist();
 	coord = NULL;
 	ioctl(0, TIOCGWINSZ, &w);
 	cmax = w.ws_col;
@@ -238,7 +290,7 @@ int		ft_read_1(const int fd, char **line)
 	*line = ft_strnew(1);
 	tmp = ft_strnew(1);
 	init_esc_seq();
-	if (set_none_canon_mode(fd) == -1 || signal(SIGINT, test) == SIG_ERR)
+	if (set_none_canon_mode(fd) == -1 )//|| signal(SIGINT, signalHandler) == SIG_ERR)
 	{
 		free(tmp);
 		return (-1);
@@ -247,26 +299,33 @@ int		ft_read_1(const int fd, char **line)
 	while (42)
 	{
 		bzero(buf, sizeof(buf));
-		if ((ret = read(fd, buf, 8)) == -1 || buf[0] == 'q')
+		if ((ret = read(fd, buf, 8)) == -1 || buf[0] == 'q' || (buf[0] == 4 && !buf[1] && !tmp[0]))
 		{
+			ft_putstr("exit");
 			reset_shell_attr(fd);
 			free(tmp);
 			return (-1);
 		}
 		buf[ret] = '\0';
 		coord = get_coord(get_cursor_position());
+		if (buf[0] == 3 && !buf[1])
+		{
+			ft_putstr("\n\r");
+			return (0);
+		}
 		if (coord[0] == 1)
 			prompt[0] = 1;
 		if (buf[0] != '\n' && buf[0] > 31 && buf[0] > 0 && buf[0] < 127)
 		{
 			tmp = test1(i, buf, tmp, &prompt);
-			i++;
+			i = ft_strlenu(tmp);
 		}
 		r = get_row(0, ft_strlenu(tmp), prompt[1]);
 		move_with_arrows(buf, ft_strlenu(tmp), prompt, r);
 		manage_tab(buf);
 		move_toword(tmp, buf, prompt);
 		tmp = ft_copy_paste(tmp, buf, &prompt, &i);
+		tmp = move_hist(buf, tmp, &prompt, &lkd_hist);
 		if (buf[0] == '\n')
 		{
 			t = r;
@@ -276,6 +335,9 @@ int		ft_read_1(const int fd, char **line)
 			while (t++ < r)
 				ft_putstr("\e[B");
 			ft_putstr("\n\r");
+			tmp = get_quotes(tmp, &lkd_hist);
+		//	if (tmp[0] && lkd_hist && ft_strcmp(lkd_hist->history, tmp))
+				save_command(&lkd_hist, tmp);
 			free(coord);
 			free(prompt);
 			return (0);						//ma line si il y a deja un caractere									

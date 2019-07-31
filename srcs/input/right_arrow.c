@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   right_arrow.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/17 12:13:59 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/17 12:14:01 by lubenard         ###   ########.fr       */
+/*   Created: 2019/06/20 17:16:24 by ymarcill          #+#    #+#             */
+/*   Updated: 2019/06/20 17:24:34 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <input.h>
+#include "../../include/sh21.h"
+#include "../../include/input.h"
 
 void    ra(int cc, int cmax, int r)
 {
@@ -44,8 +45,8 @@ void    ra3_init(int r, int *tmp, int cc, int cm)
 
 void    right_arrow(int i, int *prompt)
 {
-    t_getprompt_pos    gpp;
-    struct  winsize     w;
+    struct  s_get_prompt_pos  gpp;
+    struct  winsize w;
 
     ioctl(0, TIOCGWINSZ, &w);
     if (!(gpp.coord = get_coord(get_cursor_position())))

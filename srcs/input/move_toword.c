@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   move_toword.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/17 12:13:40 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/17 15:11:56 by lubenard         ###   ########.fr       */
+/*   Created: 2019/06/20 17:15:57 by ymarcill          #+#    #+#             */
+/*   Updated: 2019/06/20 17:17:47 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <input.h>
+#include "../../include/sh21.h"
+#include "../../include/input.h"
 
 void 	ft_prev_word(char *line, int *prompt)
 {
@@ -161,3 +162,19 @@ void	move_toword(char *line, char *buf, int *prompt)
 	else if (buf[0] == 6)
 		ft_next_line(line, prompt, r);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

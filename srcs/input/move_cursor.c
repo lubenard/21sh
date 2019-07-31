@@ -1,16 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   move_cursor.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/17 12:13:29 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/17 12:13:31 by lubenard         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
-#include <input.h>
+#include "../../include/sh21.h"
+#include "../../include/input.h"
 
 void	go_first_char(int *prompt, int i, int r)
 {
@@ -25,6 +15,9 @@ void	go_first_char(int *prompt, int i, int r)
 	if (coord[0] == prompt[0] && r > 0 &&prompt[1] == coord[1])
 		return ;
 	c = coord[1];
+	/*ft_putnbr(coord[0]);
+	ft_putnbr(prompt[0]);
+	ft_putnbr(r);*/
 	if (coord[0] == 1 || coord[0] == prompt[0])
 	{
 		while (c-- > prompt[1])
@@ -33,19 +26,25 @@ void	go_first_char(int *prompt, int i, int r)
 	else
 	{
 		ft_putstr("\e[u");
-	//	ft_putnbr(prompt[0]);
-	//	ft_putnbr(r);
 		newcoord = get_coord(get_cursor_position());
+		//ft_putnbr(r);
+		//ft_putnbr(coord[0]);
 		if (prompt[0] == 1)
 		{
 			c = 0;
 			while (c++ < prompt[1] - 1)
 				ft_putstr("\e[C");
 		}
-		else
+		else if (coord[0] == w.ws_row)
 		{
 			c = 0;
 			while (c++ < r)
+				ft_putstr("\e[A");
+		}
+		else if (coord[0] == prompt[0] + r)
+		{
+			c = newcoord[0];
+			while (c-- > prompt[0])
 				ft_putstr("\e[A");
 		}
 	}
@@ -87,6 +86,11 @@ void	left_arrow(int *prompt, int i)
 	prompt[0] = x;
 }
 
+/*void	history_print(char *line, int *prompt, int r)
+{
+	clean(ft_strlenu(line), prompt, r);
+}*/
+
 void    move_with_arrows(char *buf, int i, int *prompt, int r)
 {
     if (buf[0] == 27 && buf[1] == 91)
@@ -96,11 +100,11 @@ void    move_with_arrows(char *buf, int i, int *prompt, int r)
         else if (buf[2] == 67)
 			right_arrow(i, prompt);
         /*apl fonction historique et SET une globale a 1 si historique ouvert*/
-        else if (buf[2] == 65)
-          ft_putstr("Historique");
+     //   else if (buf[2] == 65)
+       //   history_print(line, prompt, r);
         /*si deja dans l'historique aller jusqu'a la fin sinon ne rien faire*/
-        else if (buf[2] == 66)
-            ft_putstr("down historique");
+       // else if (buf[2] == 66)
+         //   ft_putstr("down historique");
     }
     if (buf[0] == 1)
         go_first_char(prompt, i, r);

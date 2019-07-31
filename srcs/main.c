@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/25 14:06:36 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/01 00:47:52 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,14 +137,15 @@ int		main(int argc, char **argv, char **env)
 	//save_redir("cat auteur > file1 >> file2", "mycontent");
 	//handle_pipe(lkd_env, path, argv[1]);
 	//ft_putstr("Luca - mypath >");
-	parser(big_struc,ft_strdup(argv[1]));
-	/*while (ft_read_1(0, &line) == 0)
+	//parser(big_struc,ft_strdup(argv[1]));
+	display_prompt("user", "mon_path");
+	while (ft_read_1(0, &line) == 0)
 	{
 		//ft_putstr("Luca - mypath >");
 		ft_putstr(line);
 		//parser(big_struc, ft_strdup(argv[1])); // a remplacer par line je suppose
 		display_prompt("user", "mon_path");
-	}*/
+	}
 	//printf("la ligne vaut %s\n",line);
 	printf("retour derniere commande vaut %d\n", big_struc->last_ret);
 	return (find_exit("exit", big_struc)); // NOTE: Control D exit wiht 0
