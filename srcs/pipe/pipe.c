@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/07/30 22:40:15 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/07/31 13:44:46 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	multiple_pipe(t_env *lkd_env, char ***command, char **path)
 	fd_in = 0;
 	while (*command != NULL)
 	{
+		printf("Je fork maintenant %s\n", **command);
 		if (pipe(link) == -1 || (pid = fork()) == -1)
 			return ;
 		if (pid == 0)
@@ -103,7 +104,7 @@ void	multiple_pipe(t_env *lkd_env, char ***command, char **path)
 		}
 		else
 		{
-			wait(NULL);
+			//wait(NULL);
 			close(link[1]);
 			fd_in = link[0];
 			command++;
