@@ -6,11 +6,11 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:12:43 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/06/20 17:24:19 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/08/01 11:44:04 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/input.h"
+#include <input.h>
 
 void    go_last_char_underft(int pc, int c, int y, int cc)
 {

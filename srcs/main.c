@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/01 00:47:52 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/01 17:09:41 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,11 +139,21 @@ int		main(int argc, char **argv, char **env)
 	//ft_putstr("Luca - mypath >");
 	//parser(big_struc,ft_strdup(argv[1]));
 	display_prompt("user", "mon_path");
-	while (ft_read_1(0, &line) == 0)
+	while (ft_read_1(big_struc , 0, &line) == 0)
 	{
 		//ft_putstr("Luca - mypath >");
-		ft_putstr(line);
-		//parser(big_struc, ft_strdup(argv[1])); // a remplacer par line je suppose
+		ft_putendl(line);
+		ft_putstr("Derniere ligne de l'historique : ");
+		ft_putendl(big_struc->lkd_hist->history);
+		t_hist *tmp;
+		tmp = big_struc->lkd_hist;
+		ft_putendl("L'historique des commandes, de la plus recente a la + vieille");
+		while (tmp->prev)
+		{
+			ft_putendl(tmp->history);
+			tmp = tmp->prev;
+		}
+		parser(big_struc, line); // a remplacer par line je suppose
 		display_prompt("user", "mon_path");
 	}
 	//printf("la ligne vaut %s\n",line);

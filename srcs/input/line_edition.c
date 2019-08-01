@@ -6,12 +6,12 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/01 00:32:57 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/01 15:13:19 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sh21.h>
 #include <input.h>
+#include <sh21.h>
 
 void	init_esc_seq()
 {
@@ -206,7 +206,7 @@ char	*test1(int index, char *buf, char *line, int **prompt)
 		{
 			if ((i == coord[1] - prompt[0][1] && prompt[0][0] == coord[0]) ||
 				(coord[0] > prompt[0][0] && i == coord[1] + (w.ws_col*(coord[0]
-				-prompt[0][0])	- prompt[0][1])))
+				-prompt[0][0]) - prompt[0][1])))
 			{
 				str[j++] = buf[0];
 			}
@@ -264,46 +264,42 @@ char	*test1(int index, char *buf, char *line, int **prompt)
 	return (line);
 }
 
-int		ft_read_1(const int fd, char **line)
+int		ft_read_1(t_hustru *big_struc, const int fd, char **line)
 {
 	char	buf[9];
 	int		ret;
 	int		*prompt;
 	int		*coord;
-	char	*tmp;
 	struct  winsize w;
 	int		r;
 	int		t;
 	int		i;
 	int		cmax;
 	int		check;
-	t_hist	*lkd_hist;
 
 	r = 0;
 	i = 0;
 	check = 0;
-	lkd_hist = new_maillon_hist();
 	coord = NULL;
 	ioctl(0, TIOCGWINSZ, &w);
 	cmax = w.ws_col;
 	//apl fonction : READ 1e char si ctrl-D apl fonction de gestion ctrl-D
 	*line = ft_strnew(1);
-	tmp = ft_strnew(1);
 	init_esc_seq();
 	if (set_none_canon_mode(fd) == -1 )//|| signal(SIGINT, signalHandler) == SIG_ERR)
 	{
-		free(tmp);
+		free(*line);
 		return (-1);
 	}
 	prompt = get_coord(get_cursor_position());
 	while (42)
 	{
 		bzero(buf, sizeof(buf));
-		if ((ret = read(fd, buf, 8)) == -1 || buf[0] == 'q' || (buf[0] == 4 && !buf[1] && !tmp[0]))
+		if ((ret = read(fd, buf, 8)) == -1 || buf[0] == 'q' || (buf[0] == 4 && !buf[1] && !*line[0]))
 		{
 			ft_putstr("exit");
 			reset_shell_attr(fd);
-			free(tmp);
+			free(*line);
 			return (-1);
 		}
 		buf[ret] = '\0';
@@ -317,15 +313,15 @@ int		ft_read_1(const int fd, char **line)
 			prompt[0] = 1;
 		if (buf[0] != '\n' && buf[0] > 31 && buf[0] > 0 && buf[0] < 127)
 		{
-			tmp = test1(i, buf, tmp, &prompt);
-			i = ft_strlenu(tmp);
+			*line = test1(i, buf, *line, &prompt);
+			i = ft_strlenu(*line);
 		}
-		r = get_row(0, ft_strlenu(tmp), prompt[1]);
-		move_with_arrows(buf, ft_strlenu(tmp), prompt, r);
+		r = get_row(0, ft_strlenu(*line), prompt[1]);
+		move_with_arrows(buf, ft_strlenu(*line), prompt, r);
 		manage_tab(buf);
-		move_toword(tmp, buf, prompt);
-		tmp = ft_copy_paste(tmp, buf, &prompt, &i);
-		tmp = move_hist(buf, tmp, &prompt, &lkd_hist);
+		move_toword(*line, buf, prompt);
+		*line = ft_copy_paste(*line, buf, &prompt, &i);
+		*line = move_hist(buf, *line, &prompt, big_struc->lkd_hist);
 		if (buf[0] == '\n')
 		{
 			t = r;
@@ -335,9 +331,9 @@ int		ft_read_1(const int fd, char **line)
 			while (t++ < r)
 				ft_putstr("\e[B");
 			ft_putstr("\n\r");
-			tmp = get_quotes(tmp, &lkd_hist);
+			*line = get_quotes(*line, big_struc->lkd_hist);
 		//	if (tmp[0] && lkd_hist && ft_strcmp(lkd_hist->history, tmp))
-				save_command(&lkd_hist, tmp);
+			save_command(big_struc, *line);
 			free(coord);
 			free(prompt);
 			return (0);						//ma line si il y a deja un caractere									

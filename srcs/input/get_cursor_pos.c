@@ -6,11 +6,11 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 20:16:02 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/06/20 17:20:08 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/08/01 11:43:54 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/input.h"
+#include <input.h>
 
 char    *get_cursor_position()
 {

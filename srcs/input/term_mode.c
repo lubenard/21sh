@@ -6,12 +6,12 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:48:08 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/07/30 23:44:35 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/08/01 11:46:03 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/sh21.h"
-#include "../../include/input.h"
+#include <sh21.h>
+#include <input.h>
 
 int set_none_canon_mode(int fd)
 {

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 00:23:47 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/20 16:34:56 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/01 13:00:44 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,23 @@ void		write_history(char *command, char *path)
 	free(history_path);
 }
 
-void		save_command(t_hist **lkd_hist, char *command)
+void		save_command(t_hustru *big_struc, char *command)
 {
 	t_hist *new_element;
+	t_hist *lkd_hist;
 
 	new_element = NULL;
-	if (!ft_strcmp((*lkd_hist)->history, "") && !(*lkd_hist)->prev)
-		ft_strcpy((*lkd_hist)->history, command);
+	lkd_hist = big_struc->lkd_hist;
+	if (!ft_strcmp(lkd_hist->history, "") && !lkd_hist->prev)
+		ft_strcpy(lkd_hist->history, command);
 	else
 	{
 		new_element = new_maillon_hist();
 		ft_strcpy(new_element->history, command);
-		(*lkd_hist)->next = new_element;
-		new_element->prev = (*lkd_hist);
-		*lkd_hist = (*lkd_hist)->next;
+		lkd_hist->next = new_element;
+		new_element->prev = lkd_hist;
+		lkd_hist = lkd_hist->next;
+		big_struc->lkd_hist = new_element;
 	}
 	write_history(command, ".");
 }

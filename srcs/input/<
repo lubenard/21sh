@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:50:59 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/01 14:36:21 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/01 14:20:55 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	clean_for_quotes(char *line, int *prompt, int r)
 	go_first_char(prompt, ft_strlenu(line), r);
 }
 
-char	*history_prev(char *line, int **prompt, t_hist *lkd_hist)
+char	*history_prev(char *line, int **prompt, t_hist **lkd_hist)
 {
 	int	r;
 	char	*tmp;
@@ -55,15 +55,17 @@ char	*history_prev(char *line, int **prompt, t_hist *lkd_hist)
 	ioctl(0, TIOCGWINSZ, &w);
 	tmp = ft_strdup(line);
 	r = get_row(0, ft_strlenu(line), prompt[0][1]);
-	if (lkd_hist && lkd_hist->history[0])
+	if ((*lkd_hist) && (*lkd_hist)->history[0])
 	{
 		clean_for_quotes(line, *prompt, r);
 		free(tmp);
-		tmp = ft_strdup(lkd_hist->history);
+		tmp = ft_strdup((*lkd_hist)->history);
 		ft_putstr(tmp);
 	}
-	if (lkd_hist && lkd_hist->prev)
-		lkd_hist = lkd_hist->prev;
+	if ((*lkd_hist) && (*lkd_hist)->prev)
+	{
+		(*lkd_hist)= (*lkd_hist)->prev;
+	}
 	r = get_row(0, ft_strlenu(tmp), prompt[0][1]);
 	if (w.ws_row - prompt[0][0] < r)
 		prompt[0][0] -= r -(w.ws_row - prompt[0][0]);

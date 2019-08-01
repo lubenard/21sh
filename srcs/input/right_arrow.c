@@ -6,12 +6,12 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:16:24 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/06/20 17:24:34 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/08/01 11:45:49 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/sh21.h"
-#include "../../include/input.h"
+#include <sh21.h>
+#include <input.h>
 
 void    ra(int cc, int cmax, int r)
 {

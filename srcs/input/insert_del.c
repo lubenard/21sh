@@ -6,11 +6,11 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:13:06 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/07/22 16:38:36 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/08/01 11:44:14 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/input.h"
+#include <input.h>
 
 int		get_row(int r, int i, int pc)
 {

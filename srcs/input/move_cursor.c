@@ -1,6 +1,6 @@
 
-#include "../../include/sh21.h"
-#include "../../include/input.h"
+#include <sh21.h>
+#include <input.h>
 
 void	go_first_char(int *prompt, int i, int r)
 {

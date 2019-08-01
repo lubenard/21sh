@@ -6,14 +6,14 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:08:51 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/07/31 20:02:18 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/08/01 14:20:30 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/sh21.h"
-#include "../../include/input.h"
+#include <sh21.h>
+#include <input.h>
 
-char	*get_inline(char *line, t_hist **lkd_hist)
+char	*get_inline(char *line, t_hist *lkd_hist)
 {
 	int		*prompt;
 	int		*coord;
@@ -96,7 +96,7 @@ int		*quotes_tab(char *line, int *i, int *quotes)
 	return (quotes);
 }
 
-char	*get_quotes(char *line, t_hist **lkd_hist)
+char	*get_quotes(char *line, t_hist *lkd_hist)
 {
 	int i;
 	int	f;

@@ -6,12 +6,12 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:15:57 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/06/20 17:17:47 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/08/01 11:45:27 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/sh21.h"
-#include "../../include/input.h"
+#include <sh21.h>
+#include <input.h>
 
 void 	ft_prev_word(char *line, int *prompt)
 {

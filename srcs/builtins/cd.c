@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 15:05:11 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/25 13:41:19 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/01 17:29:15 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,11 @@ int		cd(t_hustru *big_struc, char *command)
 {
 	char	*extracted_path;
 
-	extracted_path = extract_path(command);
+	if ((extracted_path = extract_path(command)) == NULL)
+	{
+		ft_putstr_fd("cd : Too many arguments\n", 2);
+		return (0);
+	}
 	change_dir(big_struc, extracted_path);
 	return (0);
 }
