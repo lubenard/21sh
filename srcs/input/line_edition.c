@@ -6,12 +6,11 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/01 15:13:19 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/01 18:34:40 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
-#include <sh21.h>
 
 void	init_esc_seq()
 {
@@ -321,7 +320,7 @@ int		ft_read_1(t_hustru *big_struc, const int fd, char **line)
 		manage_tab(buf);
 		move_toword(*line, buf, prompt);
 		*line = ft_copy_paste(*line, buf, &prompt, &i);
-		*line = move_hist(buf, *line, &prompt, big_struc->lkd_hist);
+		*line = move_hist(buf, *line, &prompt, big_struc);
 		if (buf[0] == '\n')
 		{
 			t = r;

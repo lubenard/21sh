@@ -6,11 +6,10 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:16:24 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/01 11:45:49 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/01 18:09:34 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sh21.h>
 #include <input.h>
 
 void    ra(int cc, int cmax, int r)

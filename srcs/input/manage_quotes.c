@@ -6,14 +6,13 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:08:51 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/01 14:20:30 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/01 19:08:55 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sh21.h>
 #include <input.h>
 
-char	*get_inline(char *line, t_hist *lkd_hist)
+char	*get_inline(char *line, t_hustru *big_struc)
 {
 	int		*prompt;
 	int		*coord;
@@ -52,7 +51,7 @@ char	*get_inline(char *line, t_hist *lkd_hist)
 		manage_tab(buf);
 		move_toword(tmp, buf, prompt);
 		tmp = ft_copy_paste(tmp, buf, &prompt, &i);
-		tmp = move_hist(buf, tmp, &prompt, lkd_hist);
+		tmp = move_hist(buf, tmp, &prompt, big_struc);
 		if (buf[0] == '\n')
 		{
 			t = r;
@@ -96,7 +95,7 @@ int		*quotes_tab(char *line, int *i, int *quotes)
 	return (quotes);
 }
 
-char	*get_quotes(char *line, t_hist *lkd_hist)
+char	*get_quotes(char *line, t_hustru *big_struc)
 {
 	int i;
 	int	f;
@@ -159,7 +158,7 @@ char	*get_quotes(char *line, t_hist *lkd_hist)
 					quotes[0] = 0;
 				}
 				line = ft_strjoinnf(line, "\n");
-				while ((line = get_inline(line, lkd_hist)))
+				while ((line = get_inline(line, big_struc)))
 				{
 					while (line[i])
 					{

@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/01 13:01:13 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/01 19:16:21 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void				display_prompt(char *username, char *curr_dir);
 char				*error_setenv(char *command, int i, int e);
 void				error_echo(char user[33]);
 void				invalid_command(char *command);
+char				*find_name(t_env *lkd_env);
+char				*find_cur_dir(t_env *lkd_env);
 /*
 ** Linked list env
 */
@@ -111,9 +113,9 @@ void				handle_signals_proc(int sig);
 /*
 ** History
 */
-char				*move_hist(char *buf, char *line, int **prompt, t_hist *lkd_hist);
+char				*move_hist(char *buf, char *line, int **prompt, t_hustru *big_struc);
 void				save_command(t_hustru *big_struc, char *command);
-char				*get_quotes(char *line, t_hist *lkd_hist);
+char				*get_quotes(char *line, t_hustru *big_struc);
 /*
 ** Execution of command
 */

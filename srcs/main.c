@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/01 17:09:41 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/01 19:17:41 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,12 @@ int		main(int argc, char **argv, char **env)
 {
 	t_env		*lkd_env;
 	t_hist		*lkd_hist;
-	char		**path;
 	t_hustru	*big_struc;
 	char		*line;
+	char		**path;
 
 	(void)argc;
 	(void)argv;
-	(void)line;
 	lkd_env = get_env(env);
 	lkd_hist = new_maillon_hist();
 	path = get_path(find_in_env(lkd_env, ft_strdup("PATH")));
@@ -138,23 +137,22 @@ int		main(int argc, char **argv, char **env)
 	//handle_pipe(lkd_env, path, argv[1]);
 	//ft_putstr("Luca - mypath >");
 	//parser(big_struc,ft_strdup(argv[1]));
-	display_prompt("user", "mon_path");
+	display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	while (ft_read_1(big_struc , 0, &line) == 0)
 	{
-		//ft_putstr("Luca - mypath >");
 		ft_putendl(line);
 		ft_putstr("Derniere ligne de l'historique : ");
 		ft_putendl(big_struc->lkd_hist->history);
 		t_hist *tmp;
 		tmp = big_struc->lkd_hist;
 		ft_putendl("L'historique des commandes, de la plus recente a la + vieille");
-		while (tmp->prev)
+		while (tmp)
 		{
 			ft_putendl(tmp->history);
 			tmp = tmp->prev;
 		}
 		parser(big_struc, line); // a remplacer par line je suppose
-		display_prompt("user", "mon_path");
+		display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	}
 	//printf("la ligne vaut %s\n",line);
 	printf("retour derniere commande vaut %d\n", big_struc->last_ret);
