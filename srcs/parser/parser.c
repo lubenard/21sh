@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/02 14:39:33 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/02 14:48:52 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		exec_external_command(t_hustru *big_struc, char *command)
 		return (1);
 	}
 	printf("path = %s\n", path);
-	exec_command_gen(path,argv, compact_env(big_struc->lkd_env));
+	exec_command_gen(path, argv, compact_env(big_struc->lkd_env));
 	return (0);
 }
 
@@ -53,13 +53,11 @@ int		basic_command(t_hustru *big_struc, char *command)
 	else
 		ret_code = exec_external_command(big_struc, command);
 	free(extract);
-	return(ret_code);
+	return (ret_code);
 }
 
 int		decide_commande(t_hustru *big_struc, char *command)
 {
-
-
 	if (!ft_strchr(command, '>') &&
 		!ft_strchr(command, '<') && !ft_strchr(command, '|'))
 		basic_command(big_struc, command);

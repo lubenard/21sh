@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 17:03:58 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/14 16:38:26 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/02 16:45:28 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,13 @@ char	*error_setenv(char *command, int i, int e)
 		return (NULL);
 	}
 	return (ft_strsub(command, i, e));
+}
+
+int		print_shell_help(void)
+{
+	ft_putendl("Usage:");
+	ft_putendl("-l     : Load history from .history file");
+	ft_putendl("--help : Print this help");
+	ft_putendl("\nExample: ./21sh -l");
+	return (1);
 }

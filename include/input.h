@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/02 14:13:21 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/02 15:53:49 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int					*get_coord(char *buf);
 int					set_none_canon_mode(int fd);
 int					reset_shell_attr(int fd);
 int					ft_read_1(t_hustru *big_struc, const int fd, char **line);
-void				manage_tab(char *buf, char *line);
+void				manage_tab(char *buf);
 char				*ft_copy_paste(char *line, char *buf, int **prompt, int *i);
 /*
 ** Weird function

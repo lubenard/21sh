@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/02 14:33:42 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/02 16:47:27 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		init_termcaps()
 	if (ret < 0)
 	{
 		ret == -1 ? ft_putstr("Failed to access termcaps database") : 
-		ft_putstr("Your term is not defined in termcaps db / too few infos");
+			ft_putstr("Your term is not defined in termcaps db / too few infos");
 		return (-1);
 	}
 	return (0);
@@ -107,6 +107,45 @@ t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)
 	return (big_struc);
 }
 
+void	load_from_history(t_hustru *big_struc)
+{
+	int		fd;
+	char	buff[5000];
+	char	**arr;
+	int		i;
+
+	i = 0;
+	if (access(".history", F_OK) != -1)
+	{
+		fd = open(".history", O_RDONLY);
+		read(fd, buff, 5000);
+		printf("Buffer vaut \n%s\n", buff);
+		close(fd);
+		arr = ft_strsplit(buff, '\n');
+		while (arr[i])
+			i++;
+		i-=1;
+		while (i != 0)
+			save_command(big_struc, arr[i--]);
+		ft_deltab(arr);
+	}
+	else
+		ft_putendl("-l option : history file has not been found. \
+History will not be loaded.");
+}
+
+int		get_option(t_hustru *big_struc, char **argv)
+{
+	if (argv[1])
+	{
+		if (!ft_strcmp(argv[1], "-l"))
+			load_from_history(big_struc);
+		else if (!ft_strcmp(argv[1], "-h") || !ft_strcmp(argv[1], "--help"))
+			return (print_shell_help());
+	}
+	return (0);
+}
+
 int		main(int argc, char **argv, char **env)
 {
 	t_env		*lkd_env;
@@ -116,7 +155,6 @@ int		main(int argc, char **argv, char **env)
 	char		**path;
 
 	(void)argc;
-	(void)argv;
 	lkd_env = get_env(env);
 	lkd_hist = new_maillon_hist();
 	path = get_path(find_in_env(lkd_env, ft_strdup("PATH")));
@@ -124,6 +162,8 @@ int		main(int argc, char **argv, char **env)
 	//display_prompt("user", "mon_path");
 	//printf("\n");
 	change_env(lkd_env);
+	if (get_option(big_struc, argv) == 1)
+		return (find_exit("exit", big_struc));
 	//echo(big_struc, argv[1]); [POSIX]
 	//cd(big_struc, argv[1]);
 	//big_struc->last_ret = set_env(lkd_env, argv[1]);//"setenv PATH=🙄"); //add setenv PATH=$PATH:/mon/path and not case sensitive
@@ -136,7 +176,7 @@ int		main(int argc, char **argv, char **env)
 	//ft_putstr("Luca - mypath >");
 	//parser(big_struc,ft_strdup(argv[1]));
 	display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
-	while (ft_read_1(big_struc , 0, &line) == 0)
+	while (ft_read_1(big_struc, 0, &line) == 0)
 	{
 		ft_putendl(line);
 		ft_putstr("Derniere ligne de l'historique : ");
