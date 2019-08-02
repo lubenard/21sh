@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/01 19:17:41 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/02 14:33:42 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,6 @@ int		main(int argc, char **argv, char **env)
 	//cd(big_struc, argv[1]);
 	//big_struc->last_ret = set_env(lkd_env, argv[1]);//"setenv PATH=🙄"); //add setenv PATH=$PATH:/mon/path and not case sensitive
 	//print_env(lkd_env, argv[1], path);
-	//save_command(&lkd_hist, "ma commande");
-	//save_command(&lkd_hist, "ma seconde command");
 	//history(lkd_hist);
 	//printf("find rigth path = %s\n", find_path(path, ft_strdup(argv[1])));
 	//redirections(lkd_env, path, argv[1]);
@@ -151,6 +149,7 @@ int		main(int argc, char **argv, char **env)
 			ft_putendl(tmp->history);
 			tmp = tmp->prev;
 		}
+		ft_putendl("-------------------");
 		parser(big_struc, line); // a remplacer par line je suppose
 		display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	}

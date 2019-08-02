@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/07/31 16:56:30 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/02 14:39:33 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		exec_external_command(t_hustru *big_struc, char *command)
 		printf("j'affiche NULL\n");
 		free(path);
 		ft_deltab(argv);
-		invalid_command(command);
+		invalid_command(extract_first(command, ' '));
 		printf("j'ai bien tout free\n");
 		return (1);
 	}
@@ -36,32 +36,30 @@ int		basic_command(t_hustru *big_struc, char *command)
 {
 	char	*extract;
 	int		ret_code;
-	char	*trimmed_str;
 
-	//printf("untrimmed str: |%s|\n",command);
-	trimmed_str = ft_strtrim(command);
-	//printf("trimmed str |%s|\n",trimmed_str);
-	extract = extract_first(trimmed_str, ' ');
-	//printf("extract vaut '%s'\n",extract);
+	extract = extract_first(command, ' ');
 	if (!ft_strcmp(extract, "env"))
-		ret_code = print_env(big_struc, trimmed_str);
+		ret_code = print_env(big_struc, command);
 	else if (!ft_strcmp(extract, "setenv"))
-		ret_code = set_env(big_struc->lkd_env, trimmed_str);
+		ret_code = set_env(big_struc->lkd_env, command);
 	else if (!ft_strcmp(extract, "unsetenv"))
-		ret_code = unset_env(big_struc, trimmed_str);
+		ret_code = unset_env(big_struc, command);
 	else if (!ft_strcmp(extract, "echo"))
-		ret_code = ft_echo(big_struc, trimmed_str);
+		ret_code = ft_echo(big_struc, command);
 	else if (!ft_strcmp(extract, "cd"))
-		ret_code = cd(big_struc, trimmed_str);
+		ret_code = cd(big_struc, command);
+	else if (!ft_strcmp(extract, "history"))
+		ret_code = history(big_struc->lkd_hist);
 	else
-		ret_code = exec_external_command(big_struc, trimmed_str);
+		ret_code = exec_external_command(big_struc, command);
 	free(extract);
-	free(trimmed_str);
 	return(ret_code);
 }
 
 int		decide_commande(t_hustru *big_struc, char *command)
 {
+
+
 	if (!ft_strchr(command, '>') &&
 		!ft_strchr(command, '<') && !ft_strchr(command, '|'))
 		basic_command(big_struc, command);
@@ -81,15 +79,23 @@ int		parser(t_hustru *big_struc, char *command)
 {
 	char	**semicolon;
 	int		i;
+	char	*trimmed_str;
 
 	i = 0;
 	semicolon = ft_strsplit(command, ';');
 	while (semicolon[i])
-		big_struc->last_ret = decide_commande(big_struc, semicolon[i++]);
-	//i = 0;
-	//while (semicolon[i])
-	//	free(semicolon[i++]);
-	//free(semicolon);
-	//free(command);
+		printf("Mon maillon vaut |%s|\n", semicolon[i++]);
+	i = 0;
+	while (semicolon[i])
+	{
+		trimmed_str = ft_strtrim(semicolon[i++]);
+		big_struc->last_ret = decide_commande(big_struc, trimmed_str);
+		free(trimmed_str);
+	}
+	i = 0;
+	while (semicolon[i])
+		free(semicolon[i++]);
+	free(semicolon);
+	free(command);
 	return (0);
 }

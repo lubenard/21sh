@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/01 18:34:40 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/02 10:36:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,7 +330,7 @@ int		ft_read_1(t_hustru *big_struc, const int fd, char **line)
 			while (t++ < r)
 				ft_putstr("\e[B");
 			ft_putstr("\n\r");
-			*line = get_quotes(*line, big_struc->lkd_hist);
+			*line = get_quotes(*line, big_struc);
 		//	if (tmp[0] && lkd_hist && ft_strcmp(lkd_hist->history, tmp))
 			save_command(big_struc, *line);
 			free(coord);

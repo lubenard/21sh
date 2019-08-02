@@ -6,13 +6,13 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 00:23:47 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/01 13:00:44 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/02 14:42:21 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-void		history(t_hist *lkd_hist)
+int			history(t_hist *lkd_hist)
 {
 	static int	i = 1;
 	int			tmp;
@@ -38,6 +38,7 @@ void		history(t_hist *lkd_hist)
 		ft_putendl(lkd_hist->history);
 		lkd_hist = lkd_hist->next;
 	}
+	return (0);
 }
 
 t_hist		*new_maillon_hist(void)

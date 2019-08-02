@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:40:41 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/01 19:19:51 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/02 14:08:31 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	invalid_command(char *command)
 	ft_putstr_fd("Error: ", 2);
 	ft_putstr_fd(command, 2);
 	ft_putstr_fd(" : command not found ¯\\_(ツ)_/¯\n", 2);
+	free(command);
 }
 
 int		get_error_exec(char path[6000])

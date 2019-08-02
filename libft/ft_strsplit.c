@@ -6,12 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 08:59:56 by lubenard          #+#    #+#             */
-/*   Updated: 2019/07/31 17:12:04 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/02 13:14:23 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static int		countwords(char const *s, char c)
 {
@@ -31,11 +30,19 @@ static int		countwords(char const *s, char c)
 	return (compteur);
 }
 
+static int		return_i(char const *str, int i, char c)
+{
+	while (str[i] == c)
+		i++;
+	return (i);
+}
+
 static int		countchar(char const *str, int i, char c)
 {
 	int nbrchar;
 
 	nbrchar = 0;
+	i = return_i(str, i, c);
 	while (str[i])
 	{
 		if (str[i] && str[i] != c)
@@ -58,22 +65,18 @@ char			**ft_strsplit(char const *s, char c)
 	j = 0;
 	i = 0;
 	nbr_words = countwords(s, c);
-	printf("countchar vaut %d\n", countchar(s,i, c));
 	if (!s)
 		return (0);
 	if (!(ret = (char **)malloc(sizeof(char *) * (nbr_words + 1))))
 		return (0);
-	while (s[i] == c)
-		i++;
 	while (j < nbr_words)
 	{
+		i = return_i(s, i, c);
 		k = 0;
-		printf("countchar vaut %d\n", countchar(s,i, c));
 		if (!(ret[j] = ft_strnew(countchar(s, i, c))))
 			return (0);
 		while (s[i] && s[i] != c)
 			ret[j][k++] = s[i++];
-		i++;
 		j++;
 	}
 	ret[j] = 0;
