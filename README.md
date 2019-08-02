@@ -7,6 +7,12 @@ les pipes et d'autres améliorations générales.
 
 ### -Fonctionnalitées
 
+
+###    Options du shell
+```
+[--help] Affiche l'aide du shell et quitte
+[- l]    Permet de charger le fichier historique dans le shell
+```
 ####    Builtins
 - echo [POSIX]
 - env
@@ -41,6 +47,12 @@ usage: cd chemin...
 pipes and other general improvements.
 
 ### -Features
+
+###    Shell options
+```
+[--help] Print shell help and exit
+[- l]    Load history file into the shell
+```
 
 ####    Builtins
 - echo [POSIX COMPLIANT]
