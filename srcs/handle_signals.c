@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 14:21:03 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/04 12:41:40 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/04 16:34:34 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	handle_signals_proc(int sig)
 {
 	extern pid_t g_pid;
 
+	printf("Je suis appele\n");
 	if (sig == SIGINT)
 		ft_putstr("\n");
 }

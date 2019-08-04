@@ -6,11 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/04 12:21:18 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/04 16:39:07 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sh21.h>
+#include <input.h>
 
 pid_t	g_pid;
 
@@ -89,12 +89,14 @@ int		exec_command_gen(char *path, char **argv, char **env)
 	}
 	printf("C'es une commande generale\n");
 	g_pid = fork();
+	reset_shell_attr(0);
 	signal(SIGINT, handle_signals_proc);
 	if (g_pid < 0)
 		return (0);
 	if (g_pid == 0)
 		execve(path, argv, env);
 	wait(&g_pid);
+	set_none_canon_mode(0);
 	return (free_after_exec(path, argv, env));
 }
 
@@ -103,6 +105,7 @@ int		execute_command(char *get_right_path, char *command,
 {
 	char	path[6000];
 
+	
 	if (command[0] == '/' || command[0] == '.')
 		command = reduce_command(command);
 	if (check_exec_rights(get_right_path))

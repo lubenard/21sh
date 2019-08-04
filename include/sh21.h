@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/02 16:37:44 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/04 16:40:38 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,6 @@ t_hist				*new_maillon_hist(void);
 ** Builtins
 */
 
-int					what_quote(char *command);
-char				*check_q_esp(char *cmd);
 int					set_env(t_env *lkd_env, char *command);
 int					unset_env(t_hustru *big_struc, char *command);
 int					print_env(t_hustru *big_struc, char *command);
