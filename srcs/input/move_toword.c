@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:15:57 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/01 18:09:26 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/04 19:20:54 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void 	ft_prev_word(char *line, int *prompt)
 	ioctl(0, TIOCGWINSZ, &w);
 	r = get_row(0, ft_strlenu(line), prompt[1]);
 	coord = get_coord(get_cursor_position());
-	if ((prompt[0] == w.ws_row || coord[0] == w.ws_row)&& r > 0)
-	    prompt[0] -= r;
 	while (line[i++])
 		j = line[i] == ' ' ? 'y' : 0;
 	if ((prompt[1] == coord[1] && coord[0] == prompt[0]) || j == 'y')
@@ -44,7 +42,7 @@ void 	ft_prev_word(char *line, int *prompt)
 	}	
 	while (i > 0 && line[i] != ' ')
 	{
-		ft_putchar('\b');
+		left_arrow(prompt, ft_strlenu(line));
 		i--;
 	}
 	prompt[0] = x;
@@ -66,12 +64,6 @@ void	ft_next_word(char *line, int *prompt)
 	ioctl(0, TIOCGWINSZ, &w);
 	r = get_row(0, ft_strlenu(line), prompt[1]);
 	coord = get_coord(get_cursor_position());
-	if ((prompt[0] == w.ws_row || coord[0] == w.ws_row)&& r > 0)
-		prompt[0] -= r;
-	while (line[i++])
-		j = line[i] == ' ' ? 'y' : 0;
-	if (j == 'y')
-		return ;
 	if (prompt[0] != coord[0])
 		i = coord[1] + (w.ws_col*(coord[0] - prompt[0]) - prompt[1]);
 	else

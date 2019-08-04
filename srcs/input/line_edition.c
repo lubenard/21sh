@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/02 10:36:59 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/04 19:41:01 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,7 @@ char	*ft_copy_paste(char *line, char *buf, int **prompt, int *i)
 	}
 	else if (str && buf[0] == 16)
 	{
-		if ((coord[1] >= ft_strlenu(line) + prompt[0][1] && r == 0) ||
-		(coord[1] >= (ft_strlenu(line) + prompt[0][1]) - w.ws_col * r && r > 0)
+		if ((coord[1] == (ft_strlenu(line) + prompt[0][1]) - w.ws_col * r)
 	   || (coord[1] == 1 && coord[0] == w.ws_row))
 		{
 			//ft_putstr("COCOU");
@@ -93,7 +92,7 @@ char	*ft_copy_paste(char *line, char *buf, int **prompt, int *i)
 			line = ft_strjoinnf(line, str);
 			*i += ft_strlenu(str);
 			r = get_row(0, ft_strlenu(line), prompt[0][1]);
-			if (newcoord[1] == w.ws_col || coord[1] == w.ws_col)// && newcoord[0] != prompt[0])
+			if (ft_strlenu(str) == 1 + (w.ws_col - (coord[1])))
 			{
 				if (coord[0] == w.ws_row)
 				{
@@ -180,10 +179,7 @@ char	*test1(int index, char *buf, char *line, int **prompt)
 	str = malloc(sizeof(char) * index + 102);
 	r = get_row(0, ft_strlenu(line), prompt[0][1]);
 	coord = get_coord(get_cursor_position());
-	//if (*prompt[0]== w.ws_row && r > 0)
-	//	*prompt[0] = prompt[0] - r;
-	if ((coord[1] >= index + prompt[0][1] && r == 0) ||
-		(coord[1] >= (index + prompt[0][1]) - w.ws_col * r && r > 0)
+	if ((coord[1] == (index + prompt[0][1]) - w.ws_col * r)
 	   || (coord[1] == 1 && coord[0] == w.ws_row))
 	{
 		line = ft_strjoinnf(line, buf);
@@ -282,10 +278,9 @@ int		ft_read_1(t_hustru *big_struc, const int fd, char **line)
 	coord = NULL;
 	ioctl(0, TIOCGWINSZ, &w);
 	cmax = w.ws_col;
-	//apl fonction : READ 1e char si ctrl-D apl fonction de gestion ctrl-D
 	*line = ft_strnew(1);
 	init_esc_seq();
-	if (set_none_canon_mode(fd) == -1 )//|| signal(SIGINT, signalHandler) == SIG_ERR)
+	if (set_none_canon_mode(fd) == -1)
 	{
 		free(*line);
 		return (-1);
@@ -294,7 +289,7 @@ int		ft_read_1(t_hustru *big_struc, const int fd, char **line)
 	while (42)
 	{
 		bzero(buf, sizeof(buf));
-		if ((ret = read(fd, buf, 8)) == -1 || buf[0] == 'q' || (buf[0] == 4 && !buf[1] && !*line[0]))
+		if ((ret = read(fd, buf, 8)) == -1 || (buf[0] == 4 && !buf[1] && !*line[0]))
 		{
 			ft_putstr("exit");
 			reset_shell_attr(fd);
@@ -310,7 +305,7 @@ int		ft_read_1(t_hustru *big_struc, const int fd, char **line)
 		}
 		if (coord[0] == 1)
 			prompt[0] = 1;
-		if (buf[0] != '\n' && buf[0] > 31 && buf[0] > 0 && buf[0] < 127)
+		if (buf[0] != '\n' && buf[0] > 31  && buf[0] < 127)
 		{
 			*line = test1(i, buf, *line, &prompt);
 			i = ft_strlenu(*line);
