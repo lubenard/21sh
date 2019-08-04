@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/02 16:47:27 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/04 14:22:23 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int		main(int argc, char **argv, char **env)
 	t_env		*lkd_env;
 	t_hist		*lkd_hist;
 	t_hustru	*big_struc;
-	char		*line;
+//	char		*line;
 	char		**path;
 
 	(void)argc;
@@ -174,8 +174,8 @@ int		main(int argc, char **argv, char **env)
 	//save_redir("cat auteur > file1 >> file2", "mycontent");
 	//handle_pipe(lkd_env, path, argv[1]);
 	//ft_putstr("Luca - mypath >");
-	//parser(big_struc,ft_strdup(argv[1]));
-	display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
+	parser(big_struc,ft_strdup(argv[1]));
+	/*display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	while (ft_read_1(big_struc, 0, &line) == 0)
 	{
 		ft_putendl(line);
@@ -192,7 +192,7 @@ int		main(int argc, char **argv, char **env)
 		ft_putendl("-------------------");
 		parser(big_struc, line); // a remplacer par line je suppose
 		display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
-	}
+	}*/
 	//printf("la ligne vaut %s\n",line);
 	printf("retour derniere commande vaut %d\n", big_struc->last_ret);
 	return (find_exit("exit", big_struc)); // NOTE: Control D exit wiht 0

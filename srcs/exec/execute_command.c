@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/20 17:00:14 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/04 12:21:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int		exec_command_gen(char *path, char **argv, char **env)
 		ft_putstr_fd("You cannot execute the file (´ ͡༎ຶ ͜ʖ ͡༎ຶ )\n", 2);
 		return (1);
 	}
+	printf("C'es une commande generale\n");
 	g_pid = fork();
 	signal(SIGINT, handle_signals_proc);
 	if (g_pid < 0)
