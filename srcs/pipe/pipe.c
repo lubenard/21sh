@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/08 13:32:43 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/08 19:23:38 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,51 +70,20 @@ int		free_pipe(char ***command)
 	return (0);
 }
 
-int		exec_pipe(t_env *lkd_env, char **path, int link[2], char ***command)
+int		handle_pipe(t_hustru *big_struc, char **path, char *command)
 {
-	char *exec_path;
-
-	if (*(command + 1) != NULL)
-		dup2(link[1], 1);
-	close(link[1]);
-	execve((exec_path = find_path(path, (*command)[0])),
-			*command, compact_env(lkd_env));
-	free(exec_path);
-	return (0);
-}
-
-void	multiple_pipe(t_env *lkd_env, char ***command, char **path)
-{
-	int		link[2];
-	pid_t	pid;
-	int		fd_in;
+	char	***tab;
 	char	***tmp;
 
-	tmp = command;
-	fd_in = 0;
-	reset_shell_attr(0);
-	while (*command != NULL)
+	(void)big_struc;
+	(void)path;
+	tab = compact_command(command);
+	tmp = tab;
+	while (*tab)
 	{
-		if (pipe(link) == -1 || (pid = fork()) == -1)
-			return ;
-		if (pid == 0)
-		{
-			dup2(fd_in, 0);
-			exec_pipe(lkd_env, path, link, command);
-		}
-		else
-		{
-			close(link[0]);
-			fd_in = link[0];
-			command++;
-		}
+		printf("Exec de %s\n", *tab[0]);
+		tab++;
 	}
-	set_none_canon_mode(0);
 	free_pipe(tmp);
-}
-
-int		handle_pipe(t_env *lkd_env, char **path, char *command)
-{
-	multiple_pipe(lkd_env, compact_command(command), path);
 	return (0);
 }

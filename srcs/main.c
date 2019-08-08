@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/08 14:50:45 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/08 15:39:04 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)
 	big_struc->lkd_hist = lkd_hist;
 	big_struc->path = path;
 	big_struc->last_ret = 0;
+	big_struc->is_exec = 0;
 	return (big_struc);
 }
 
@@ -131,7 +132,7 @@ int		main(int argc, char **argv, char **env)
 	t_env		*lkd_env;
 	t_hist		*lkd_hist;
 	t_hustru	*big_struc;
-	char		*line;
+//	char		*line;
 	char		**path;
 
 	(void)argc;
@@ -139,23 +140,12 @@ int		main(int argc, char **argv, char **env)
 	lkd_hist = new_maillon_hist();
 	path = get_path(find_in_env(lkd_env, ft_strdup("PATH")));
 	big_struc = fill_huge_struc(lkd_env, lkd_hist, path);
-	//display_prompt("user", "mon_path");
-	//printf("\n");
 	change_env(lkd_env);
 	if (get_option(big_struc, argv) == 1)
 		return (find_exit("exit", big_struc));
-	//echo(big_struc, argv[1]); [POSIX]
-	//cd(big_struc, argv[1]);
 	//big_struc->last_ret = set_env(lkd_env, argv[1]);//"setenv PATH=🙄"); //add setenv PATH=$PATH:/mon/path and not case sensitive
-	//print_env(lkd_env, argv[1], path);
-	//history(lkd_hist);
-	//printf("find rigth path = %s\n", find_path(path, ft_strdup(argv[1])));
-	//redirections(lkd_env, path, argv[1]);
-	//save_redir("cat auteur > file1 >> file2", "mycontent");
-	//handle_pipe(lkd_env, path, argv[1]);
-	//ft_putstr("Luca - mypath >");
-	//parser(big_struc,ft_strdup(argv[1]));
-	display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
+	parser(big_struc,ft_strdup(argv[1]));
+	/*display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	while (ft_read_1(big_struc, 0, &line) == 0)
 	{
 		ft_putendl(line);
@@ -172,7 +162,7 @@ int		main(int argc, char **argv, char **env)
 		ft_putendl("-------------------");
 		parser(big_struc, line); // a remplacer par line je suppose
 		display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
-	}
+	}*/
 	//printf("la ligne vaut %s\n",line);
 	printf("retour derniere commande vaut %d\n", big_struc->last_ret);
 	return (find_exit("exit", big_struc)); // NOTE: Control D exit wiht 0

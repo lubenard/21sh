@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/08 14:57:51 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/08 17:43:10 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void				save_redir(char *command, char *content);
 /*
 ** Pipe
 */
-int					handle_pipe(t_env *lkd_env, char **path, char *command);
+int					handle_pipe(t_hustru *big_struc, char **path, char *command);
 /*
 ** Parser
 */
