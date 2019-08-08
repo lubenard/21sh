@@ -6,17 +6,19 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/08 13:29:08 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/08 14:56:54 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INPUT_H
 # define INPUT_H
 
-# include "sh21.h"
+# include "struc.h"
 # include <termios.h>
 # include <term.h>
 # include <curses.h>
+# include <stdlib.h>
+# include <sys/ioctl.h>
 
 /*
 ** Termcaps structs
@@ -60,9 +62,15 @@ char				*get_cursor_position();
 int					*get_coord(char *buf);
 int					set_none_canon_mode(int fd);
 int					reset_shell_attr(int fd);
-int					ft_read_1(t_hustru *big_struc, const int fd, char **line);
 void				manage_tab(char *buf);
 char				*ft_copy_paste(char *line, char *buf, int **prompt, int *i);
+/*
+** History
+*/
+char				*move_hist(char *buf, char *line, int **prompt,
+	t_hustru *big_struc);
+void				save_command(t_hustru *big_struc, char *command);
+char				*get_quotes(char *line, t_hustru *big_struc);
 /*
 ** Weird function
 */

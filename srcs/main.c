@@ -6,11 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/08 13:29:21 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/08 14:50:45 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <input.h>
+#include <sh21.h>
 
 char	*g_username;
 char	*g_curr_dir;
@@ -72,26 +72,6 @@ char	*get_path_hist(void)
 
 	path = getcwd(buff, 4096);
 	return (path);
-}
-
-int		init_termcaps()
-{
-	int		ret;
-	char	*term_name;
-
-	if ((term_name = getenv("TERM")) == NULL)
-	{
-		ft_putstr("TERM must be set");
-		return (-1);
-	}
-	ret = tgetent(NULL, term_name);
-	if (ret < 0)
-	{
-		ret == -1 ? ft_putstr("Failed to access termcaps database") : 
-			ft_putstr("Your term is not defined in termcaps db / too few infos");
-		return (-1);
-	}
-	return (0);
 }
 
 t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)

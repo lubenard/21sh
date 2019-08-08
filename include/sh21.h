@@ -6,19 +6,16 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/08 13:28:56 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/08 14:57:51 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH21_H
 # define SH21_H
 
-# include "../libft/libft.h"
 # include "struc.h"
 # include <sys/wait.h>
-# include <sys/types.h>
 # include <sys/stat.h>
-# include <sys/ioctl.h>
 # include <dirent.h>
 # include <signal.h>
 # include <limits.h>
@@ -29,41 +26,13 @@
 # define PE_V 2
 # define PE_0 4
 
-#include "../libft/libft.h"
-/*
-** Env linked list
-*/
-
-typedef struct		s_env
-{
-	char			env_line[4096];
-	struct s_env	*prev;
-	struct s_env	*next;
-}					t_env;
 
 /*
-** History linked list
+** Line Edition
 */
-
-typedef struct		s_hist
-{
-	char			history[131073];
-	struct s_hist	*prev;
-	struct s_hist	*next;
-}					t_hist;
-
-/*
-** Main structure conatining linked list
-*/
-
-typedef struct		s_hustru
-{
-	struct s_env	*lkd_env;
-	struct s_hist	*lkd_hist;
-	char			**path;
-	int				last_ret;
-}					t_hustru;
-
+int					ft_read_1(t_hustru *big_struc, const int fd, char **line);
+int					set_none_canon_mode(int fd);
+int					reset_shell_attr(int fd);
 
 /*
 ** Display / error functions
@@ -87,7 +56,6 @@ t_hist				*new_maillon_hist(void);
 /*
 ** Builtins
 */
-
 int					set_env(t_env *lkd_env, char *command);
 int					unset_env(t_hustru *big_struc, char *command);
 int					print_env(t_hustru *big_struc, char *command);
@@ -118,10 +86,7 @@ void				handle_signals_proc(int sig);
 /*
 ** History
 */
-char				*move_hist(char *buf, char *line, int **prompt,
-	t_hustru *big_struc);
 void				save_command(t_hustru *big_struc, char *command);
-char				*get_quotes(char *line, t_hustru *big_struc);
 /*
 ** Execution of command
 */

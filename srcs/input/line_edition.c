@@ -6,11 +6,31 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/08 13:45:05 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/08 14:46:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
+
+int		init_termcaps()
+{
+	int		ret;
+	char	*term_name;
+
+	if ((term_name = getenv("TERM")) == NULL)
+	{
+		ft_putstr("TERM must be set");
+		return (-1);
+	}
+	ret = tgetent(NULL, term_name);
+	if (ret < 0)
+	{
+		ret == -1 ? ft_putstr("Failed to access termcaps database") : 
+			ft_putstr("Your term is not defined in termcaps db / too few infos");
+		return (-1);
+	}
+	return (0);
+}
 
 void	init_esc_seq()
 {
