@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/02 14:48:52 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/08 12:46:40 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int		basic_command(t_hustru *big_struc, char *command)
 		ret_code = cd(big_struc, command);
 	else if (!ft_strcmp(extract, "history"))
 		ret_code = history(big_struc->lkd_hist);
+	else if (!ft_strcmp(extract, "exit"))
+		ret_code = find_exit(command, big_struc);
 	else
 		ret_code = exec_external_command(big_struc, command);
 	free(extract);

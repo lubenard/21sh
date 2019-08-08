@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/04 15:28:43 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/08 13:32:43 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int		exec_pipe(t_env *lkd_env, char **path, int link[2], char ***command)
 
 	if (*(command + 1) != NULL)
 		dup2(link[1], 1);
-	close(link[0]);
+	close(link[1]);
 	execve((exec_path = find_path(path, (*command)[0])),
 			*command, compact_env(lkd_env));
 	free(exec_path);
@@ -92,6 +92,7 @@ void	multiple_pipe(t_env *lkd_env, char ***command, char **path)
 
 	tmp = command;
 	fd_in = 0;
+	reset_shell_attr(0);
 	while (*command != NULL)
 	{
 		if (pipe(link) == -1 || (pid = fork()) == -1)
@@ -103,11 +104,12 @@ void	multiple_pipe(t_env *lkd_env, char ***command, char **path)
 		}
 		else
 		{
-			close(link[1]);
+			close(link[0]);
 			fd_in = link[0];
 			command++;
 		}
 	}
+	set_none_canon_mode(0);
 	free_pipe(tmp);
 }
 

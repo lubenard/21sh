@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/04 19:41:01 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/08/08 13:45:05 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,8 +326,8 @@ int		ft_read_1(t_hustru *big_struc, const int fd, char **line)
 				ft_putstr("\e[B");
 			ft_putstr("\n\r");
 			*line = get_quotes(*line, big_struc);
-		//	if (tmp[0] && lkd_hist && ft_strcmp(lkd_hist->history, tmp))
-			save_command(big_struc, *line);
+			if (*line[0])
+				save_command(big_struc, *line);
 			free(coord);
 			free(prompt);
 			return (0);						//ma line si il y a deja un caractere									

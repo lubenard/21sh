@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/04 16:40:38 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/08 13:28:56 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SH21_H
 
 # include "../libft/libft.h"
+# include "struc.h"
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -28,6 +29,7 @@
 # define PE_V 2
 # define PE_0 4
 
+#include "../libft/libft.h"
 /*
 ** Env linked list
 */
@@ -61,6 +63,7 @@ typedef struct		s_hustru
 	char			**path;
 	int				last_ret;
 }					t_hustru;
+
 
 /*
 ** Display / error functions
