@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/08 14:56:54 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/09 17:14:19 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <curses.h>
 # include <stdlib.h>
 # include <sys/ioctl.h>
-
+# include <signal.h>
 /*
 ** Termcaps structs
 */

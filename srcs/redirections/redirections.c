@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/09 14:53:10 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/09 17:01:37 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	**prepare_tab(char *command, char signe)
 	return (tab);
 }
 
-void	redir_and_pipe(t_hustru *big_struc, char **path, char *command)
+void	redir_and_pipe(t_hustru *big_struc, char *command)
 {
 	char **arg;
 	int i = 0;
@@ -68,7 +68,7 @@ void	redir_and_pipe(t_hustru *big_struc, char **path, char *command)
 		dup2(link[1], 1);
 		close(link[0]);
 		close(link[1]);
-		handle_pipe(big_struc, path, arg[0]);
+		handle_pipe(big_struc, arg[0]);
 		exit(0);
 	}
 	else
@@ -83,12 +83,12 @@ void	redir_and_pipe(t_hustru *big_struc, char **path, char *command)
 	printf("supposed to print once\n");
 }
 
-void	redirections(t_hustru *big_struc, char **path, char *command)
+void	redirections(t_hustru *big_struc, char *command)
 {
 	if (ft_strstr(command, "<<"))
 		double_arrow_left(big_struc->lkd_env, command);
 	else if (ft_strchr(command, '<'))
 		simple_arrow_left(big_struc->lkd_env, command);
 	else if (ft_strchr(command, '>') || ft_strstr(command, ">>"))
-		arrow_right(big_struc->lkd_env, path, command);
+		arrow_right(big_struc->lkd_env, big_struc->path, command);
 }
