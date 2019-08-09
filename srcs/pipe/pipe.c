@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/08 19:23:38 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/09 16:52:33 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,20 +70,45 @@ int		free_pipe(char ***command)
 	return (0);
 }
 
-int		handle_pipe(t_hustru *big_struc, char **path, char *command)
+int		handle_pipe(t_hustru *big_struc, char *command)
 {
 	char	***tab;
 	char	***tmp;
+	//int		pipe_fd[2];
+	//pid_t	pid;
+	//char	*path;
+//	int		i = 0;
 
 	(void)big_struc;
-	(void)path;
 	tab = compact_command(command);
 	tmp = tab;
+
+
 	while (*tab)
 	{
-		printf("Exec de %s\n", *tab[0]);
-		tab++;
+		printf("tab vaut %s\n", *tab[0]);
+		++tab;
 	}
-	free_pipe(tmp);
+	/*while (*tab)
+	{
+		if (pipe(pipe_fd) == -1 || (pid = fork()) == -1)
+			return (-1);
+		if (!pid)
+		{
+			printf("Exec de %s\n", *tab[0]);
+			dup2(pipe_fd[1], 1);
+			exec_command_gen(path = find_path(big_struc->path, *tab[0]),
+			*tab, compact_env(big_struc->lkd_env));
+		}
+		else
+		{
+			printf("Exec de %s\n", ++(*tab[0]));
+			if (tab + 1)
+				exec_command_gen(path = find_path(big_struc->path, ++(*tab[0])),
+			*tab, compact_env(big_struc->lkd_env));
+			close(pipe_fd[1]);
+		}
+	}*/
 	return (0);
+	//return(free_pipe(tmp));
 }
