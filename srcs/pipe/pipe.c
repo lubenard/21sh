@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/09 17:32:11 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/10 17:58:47 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,42 +73,76 @@ int		free_pipe(char ***command)
 int		handle_pipe(t_hustru *big_struc, char *command)
 {
 	char	***tab;
+	int		pipe_fd[2];
+	pid_t	pid;
+
+	(void)big_struc;
+	(void)command;
+
+	tab = compact_command(command);
+	if (pipe(pipe_fd) || (pid = fork()) == -1)
+		return (-1);
+	if (!pid)
+	{
+		printf("je suis enfant\n");
+		close(pipe_fd[0]);
+	}
+	else
+	{
+		printf("Je suis parent\n");
+		close(pipe_fd[1]);
+	}
+	return (0);
+}
+
+int		handle_pipe2(t_hustru *big_struc, char *command)
+{
+	char	***tab;
 	char	***tmp;
 	int		pipe_fd[2];
 	pid_t	pid;
-	char	*path;
+	int fd_in;
 
-	(void)big_struc;
 	tab = compact_command(command);
 	tmp = tab;
-
 	while (*tab)
 	{
 		printf("tab vaut %s\n", *tab[0]);
 		++tab;
 	}
+	printf("-----------------------------\n");
 	tab = tmp;
-	while (*tab)
+	fd_in = 0;
+	//reset_shell_attr(0);
+	while (*tab != NULL)
 	{
 		if (pipe(pipe_fd) == -1 || (pid = fork()) == -1)
 			return (-1);
-		if (!pid)
+		if (pid == 0)
 		{
-			printf("Exec de %s\n", *tab[0]);
-			dup2(pipe_fd[1], 1);
-			exec_command_gen(path = find_path(big_struc->path, *tab[0]),
-			*tab, compact_env(big_struc->lkd_env));
+			dup2(fd_in, 0);
+			printf("je dup2 %d et 0\n", fd_in);
+			if (*(tab + 1) != NULL)
+			{
+				printf("je rentre dans le if et je dup2\n");
+				dup2(pipe_fd[1], 1);
+			}
+			printf("Je ferme pipe_fd[1]\n");
+			close(pipe_fd[1]);
+			printf("J'exec %s\n", *tab[0]);
+			execve(find_path(big_struc->path, *tab[0]), *tab, compact_env(big_struc->lkd_env));
+			exit(0);
 		}
 		else
 		{
+			close(pipe_fd[0]);
+			fd_in = pipe_fd[0];
 			tab++;
-			printf("Exec de %s\n", *tab[0]);
-			if (tab + 1)
-				exec_command_gen(path = find_path(big_struc->path, ++(*tab[0])),
-			*tab, compact_env(big_struc->lkd_env));
-			close(pipe_fd[1]);
 		}
 	}
+	
+	//set_none_canon_mode(0);
+	free_pipe(tmp);
 	return (0);
 	//return(free_pipe(tmp));
 }

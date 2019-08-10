@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/08 14:53:10 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/10 15:03:53 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ int		exec_command_gen(char *path, char **argv, char **env)
 		execve(path, argv, env);
 	wait(&g_pid);
 	set_none_canon_mode(0);
-	return (free_after_exec(path, argv, env));
+	return (0);
+	//return (free_after_exec(path, argv, env));
 }
 
 int		execute_command(char *get_right_path, char *command,
