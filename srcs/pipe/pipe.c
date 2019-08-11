@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/10 17:58:47 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/11 16:12:22 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,27 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 	(void)command;
 
 	tab = compact_command(command);
-	if (pipe(pipe_fd) || (pid = fork()) == -1)
-		return (-1);
-	if (!pid)
+	while (*tab)
 	{
-		printf("je suis enfant\n");
-		close(pipe_fd[0]);
+		if (pipe(pipe_fd) || (pid = fork()) == -1)
+			return (-1);
+		if (!pid)
+		{
+			printf("je suis enfant\n");
+			close(pipe_fd[1]);
+			dup2(pipe_fd[0], 0);
+			tab++;
+			execve(find_path(big_struc->path, *tab[0]), *tab, compact_env(big_struc->lkd_env));
+		}
+		else
+		{
+			printf("Je suis parent\n");
+			close(pipe_fd[0]);
+			dup2(pipe_fd[1], 1);
+			execve(find_path(big_struc->path, *tab[0]), *tab, compact_env(big_struc->lkd_env));
+		}
 	}
-	else
-	{
-		printf("Je suis parent\n");
-		close(pipe_fd[1]);
-	}
+	printf("returning\n");
 	return (0);
 }
 
@@ -120,27 +129,22 @@ int		handle_pipe2(t_hustru *big_struc, char *command)
 			return (-1);
 		if (pid == 0)
 		{
+			printf("Je suis enfant\n");
 			dup2(fd_in, 0);
-			printf("je dup2 %d et 0\n", fd_in);
 			if (*(tab + 1) != NULL)
-			{
-				printf("je rentre dans le if et je dup2\n");
 				dup2(pipe_fd[1], 1);
-			}
-			printf("Je ferme pipe_fd[1]\n");
 			close(pipe_fd[1]);
-			printf("J'exec %s\n", *tab[0]);
 			execve(find_path(big_struc->path, *tab[0]), *tab, compact_env(big_struc->lkd_env));
 			exit(0);
 		}
 		else
 		{
+			printf("Je suis parent\n");
 			close(pipe_fd[0]);
 			fd_in = pipe_fd[0];
 			tab++;
 		}
 	}
-	
 	//set_none_canon_mode(0);
 	free_pipe(tmp);
 	return (0);
