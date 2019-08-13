@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:57:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/14 16:31:38 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/13 18:08:42 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,15 @@ int		set_env2(t_env **lkd_env, char *to_search,
 	return (0);
 }
 
-int		set_env(t_env *lkd_env, char *command)
+int		set_env(t_hustru *big_struc, char *command)
 {
 	char	*to_add;
 	char	*to_search;
 	char	*to_extract;
 	int		ret;
+	t_env	*lkd_env;
 
+	lkd_env = big_struc->lkd_env;
 	to_extract = NULL;
 	ret = 0;
 	if (ft_strchr(command, '=') == 0
@@ -96,5 +98,6 @@ int		set_env(t_env *lkd_env, char *command)
 			ret = create_new(lkd_env, to_search, to_add);
 		free(to_extract);
 	}
+	big_struc->path = get_path(find_in_env(big_struc->lkd_env, ft_strdup("PATH")));
 	return (ret);
 }

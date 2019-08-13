@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/07/29 14:49:31 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/13 12:26:34 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*find_path(char **path, char *first_command)
 
 	i = 0;
 	e = (path != NULL) ? 1 : 0;
-	printf("Je cherche %s\n", first_command);
+	//printf("Je cherche %s\n", first_command);
 	while (e == 1 && path[i])
 	{
 		p_dir = opendir(path[i]);

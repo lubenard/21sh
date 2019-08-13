@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 15:05:11 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/01 18:06:51 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/13 17:55:51 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ void	change_env_cd(t_hustru *big_struc, char *old_pwd, char *new_pwd)
 	char old_line[5000];
 
 	ft_strcpy(new_line, "setenv PWD=");
-	set_env(big_struc->lkd_env, ft_strcat(new_line, new_pwd));
+	set_env(big_struc, ft_strcat(new_line, new_pwd));
 	ft_strcpy(old_line, "setenv OLDPWD=");
 	if (!old_pwd)
 		ft_strcat(old_line, new_pwd);
 	else
 		ft_strcat(old_line, old_pwd);
-	set_env(big_struc->lkd_env, old_line);
+	set_env(big_struc, old_line);
 }
 
 int		get_shortcut_path(t_env *lkd_env, char **spec_path, char *path)

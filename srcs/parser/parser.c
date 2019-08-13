@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/09 17:11:55 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/13 17:52:55 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		basic_command(t_hustru *big_struc, char *command)
 	if (!ft_strcmp(extract, "env"))
 		ret_code = print_env(big_struc, command);
 	else if (!ft_strcmp(extract, "setenv"))
-		ret_code = set_env(big_struc->lkd_env, command);
+		ret_code = set_env(big_struc, command);
 	else if (!ft_strcmp(extract, "unsetenv"))
 		ret_code = unset_env(big_struc, command);
 	else if (!ft_strcmp(extract, "echo"))

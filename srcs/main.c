@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/08 15:39:04 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/13 18:00:36 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 char	*g_username;
 char	*g_curr_dir;
 
-void	change_env(t_env *lkd_env)
+void	change_env(t_hustru *big_struc)
 {
 	char	buff[4096];
 	char	*str;
 	int		i;
 
-	str = find_in_env(lkd_env, ft_strdup("SHLVL"));
+	str = find_in_env(big_struc->lkd_env, ft_strdup("SHLVL"));
 	if (str == NULL)
 	{
 		ft_strcpy(buff, "setenv SHLVL=1");
 		free(str);
-		set_env(lkd_env, buff);
+		set_env(big_struc, buff);
 	}
 	else
 	{
 		ft_strcpy(buff, "setenv SHLVL=");
 		i = ft_atoi(str) + 1;
 		free(str);
-		set_env(lkd_env, ft_strcat(buff, str = ft_itoa(i)));
+		set_env(big_struc, ft_strcat(buff, str = ft_itoa(i)));
 		free(str);
 	}
 }
@@ -140,7 +140,7 @@ int		main(int argc, char **argv, char **env)
 	lkd_hist = new_maillon_hist();
 	path = get_path(find_in_env(lkd_env, ft_strdup("PATH")));
 	big_struc = fill_huge_struc(lkd_env, lkd_hist, path);
-	change_env(lkd_env);
+	change_env(big_struc);
 	if (get_option(big_struc, argv) == 1)
 		return (find_exit("exit", big_struc));
 	//big_struc->last_ret = set_env(lkd_env, argv[1]);//"setenv PATH=🙄"); //add setenv PATH=$PATH:/mon/path and not case sensitive

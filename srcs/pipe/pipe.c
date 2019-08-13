@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/11 16:12:22 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/13 16:33:42 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,23 +70,31 @@ int		free_pipe(char ***command)
 	return (0);
 }
 
-int		handle_pipe(t_hustru *big_struc, char *command)
+int		handle_pipe2(t_hustru *big_struc, char *command)
 {
 	char	***tab;
 	int		pipe_fd[2];
 	pid_t	pid;
-
-	(void)big_struc;
-	(void)command;
+	pid_t	pid2;
 
 	tab = compact_command(command);
-	while (*tab)
+	if (pipe(pipe_fd) || (pid = fork()) == -1)
+		return (-1);
+	if (!pid)
 	{
-		if (pipe(pipe_fd) || (pid = fork()) == -1)
-			return (-1);
-		if (!pid)
+		printf("Enfant 2\n");
+		close(pipe_fd[1]);
+		tab++;
+		dup2(pipe_fd[0], 0);
+		dup2(pipe_fd[1], 1);
+		execve(find_path(big_struc->path, *tab[0]), *tab, compact_env(big_struc->lkd_env));
+	}
+	else
+	{
+		pid2 = fork();
+		if (pid2 == 0)
 		{
-			printf("je suis enfant\n");
+			printf("Enfant 1\n");
 			close(pipe_fd[1]);
 			dup2(pipe_fd[0], 0);
 			tab++;
@@ -94,17 +102,18 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 		}
 		else
 		{
-			printf("Je suis parent\n");
+			printf("Parent\n");
 			close(pipe_fd[0]);
 			dup2(pipe_fd[1], 1);
 			execve(find_path(big_struc->path, *tab[0]), *tab, compact_env(big_struc->lkd_env));
 		}
 	}
-	printf("returning\n");
+	printf("Je suis la\n");
+	//printf("returning\n");
 	return (0);
 }
 
-int		handle_pipe2(t_hustru *big_struc, char *command)
+int		handle_pipe(t_hustru *big_struc, char *command)
 {
 	char	***tab;
 	char	***tmp;

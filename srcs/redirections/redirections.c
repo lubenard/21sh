@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/09 17:01:37 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/13 17:18:35 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ void	redir_and_pipe(t_hustru *big_struc, char *command)
 
 void	redirections(t_hustru *big_struc, char *command)
 {
-	if (ft_strstr(command, "<<"))
-		double_arrow_left(big_struc->lkd_env, command);
-	else if (ft_strchr(command, '<'))
-		simple_arrow_left(big_struc->lkd_env, command);
+	if (ft_strstr(command, "<"))
+		arrow_left(big_struc, command);
+	//else if (ft_strchr(command, '<'))
+	//	simple_arrow_left(big_struc->lkd_env, command);
 	else if (ft_strchr(command, '>') || ft_strstr(command, ">>"))
 		arrow_right(big_struc->lkd_env, big_struc->path, command);
 }
