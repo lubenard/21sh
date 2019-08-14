@@ -23,9 +23,6 @@ rm -rf file1 compare1
 make -C ../
 cp ../auteur .
 
-../21sh "ls"
-../21sh "env"
-
 # Basic redirections
 ../21sh "cat auteur > file1"
 cat auteur > compare1
@@ -44,3 +41,7 @@ rm file* compare*
 cat auteur > compare1 >> compare2
 compare_function file1 compare1
 compare_function file2 compare2
+
+# Input directions
+../21sh "cat < Makefile"
+cat < Makefile

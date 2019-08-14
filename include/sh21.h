@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/13 18:47:22 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/14 15:52:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int					count_elem_redir(char **tab, int i);
 int					pass_filename(char **tab, int i);
 void				arrow_right(t_env *lkd_env, char **path, char *command);
 void				double_arrow_left(t_env *lkd_env, char *command);
-void				arrow_left(t_hustru *big_struc, char *command);
+int					arrow_left(t_hustru *big_struc, char *command);
 int					print_error_redirect(char **tab, char *code);
 char				**prepare_tab(char *command, char signe);
 

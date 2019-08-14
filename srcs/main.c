@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/13 19:47:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/14 13:15:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int		main(int argc, char **argv, char **env)
 	t_env		*lkd_env;
 	t_hist		*lkd_hist;
 	t_hustru	*big_struc;
-//	char		*line;
+	//char		*line;
 	char		**path;
 
 	(void)argc;

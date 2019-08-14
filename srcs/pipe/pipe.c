@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/13 19:36:02 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/14 21:23:45 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,50 +70,84 @@ int		free_pipe(char ***command)
 	return (0);
 }
 
-int		handle_pipe2(t_hustru *big_struc, char *command)
+void	close_pipe(int *pipes, int i)
 {
-	char	***tab;
-	int		pipe_fd[2];
-	pid_t	pid;
-	pid_t	pid2;
+	int j;
 
-	tab = compact_command(command);
-	if (pipe(pipe_fd) || (pid = fork()) == -1)
-		return (-1);
-	if (!pid)
+	j = 0;
+	while (j != i)
 	{
-		printf("Enfant 2\n");
-		close(pipe_fd[1]);
-		tab++;
-		dup2(pipe_fd[0], 0);
-		dup2(pipe_fd[1], 1);
-		execve(find_path(big_struc->path, *tab[0]), *tab, compact_env(big_struc->lkd_env));
+		dprintf(2, "je ferme pipes[%d]\n", j);
+		close(pipes[j++]);
 	}
-	else
-	{
-		pid2 = fork();
-		if (pid2 == 0)
-		{
-			printf("Enfant 1\n");
-			close(pipe_fd[1]);
-			dup2(pipe_fd[0], 0);
-			tab++;
-			execve(find_path(big_struc->path, *tab[0]), *tab, compact_env(big_struc->lkd_env));
-		}
-		else
-		{
-			printf("Parent\n");
-			close(pipe_fd[0]);
-			dup2(pipe_fd[1], 1);
-			execve(find_path(big_struc->path, *tab[0]), *tab, compact_env(big_struc->lkd_env));
-		}
-	}
-	printf("Je suis la\n");
-	//printf("returning\n");
-	return (0);
+	dprintf(2, "**************************\n");
 }
 
 int		handle_pipe(t_hustru *big_struc, char *command)
+{
+
+	int		status;
+	int		i;
+	char	***tab;
+	int		*pipes;
+	int		e;
+
+	tab = compact_command(command);
+	e = 0;
+	i = ft_occur(command, '|'); // To fix if a pipe is at the end
+	printf("I vaut %d\n", i);
+	printf("close fera %d\n", i*2);
+	printf("wait fera %d\n", i + 1);
+	if (!(pipes = (int *)malloc(sizeof(int) * (i * 2))))
+		return (0);
+	pipe(pipes);
+	pipe(pipes + 2);
+	pipe(pipes + 4);
+	if (fork() == 0)
+	{
+		dup2(pipes[1], 1);
+		close_pipe(pipes, i * 2);
+		execve(find_path(big_struc->path, tab[0][0]), tab[0], compact_env(big_struc->lkd_env));
+	}
+	else
+	{
+		if (fork() == 0)
+		{
+			dup2(pipes[0], 0);
+			dup2(pipes[3], 1);
+			close_pipe(pipes, i * 2);
+			execve(find_path(big_struc->path, tab[1][0]), tab[1], compact_env(big_struc->lkd_env));
+		}
+		else
+		{
+			if (fork() == 0)
+			{
+				dup2(pipes[2], 0);
+				dup2(pipes[5], 1);
+				close_pipe(pipes, i * 2);
+				execve(find_path(big_struc->path, tab[2][0]), tab[2], compact_env(big_struc->lkd_env));
+			}
+			else
+			{
+				if (fork() == 0)
+				{
+					dup2(pipes[4], 0);
+					close_pipe(pipes, i * 2);
+					execve(find_path(big_struc->path, tab[3][0]), tab[3], compact_env(big_struc->lkd_env));
+				}
+			}
+		}
+	}
+	close_pipe(pipes, i * 2);
+	while (e < i + 1)
+	{
+		wait(&status);
+		e++;
+	}
+	return (0);
+}
+
+int		handle_pipe2(t_hustru *big_struc, char *command)
 {
 	char	***tab;
 	char	***tmp;
@@ -123,15 +157,15 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 
 	tab = compact_command(command);
 	tmp = tab;
-	while (*tab)
-	{
-		printf("tab vaut %s\n", *tab[0]);
-		++tab;
-	}
-	printf("-----------------------------\n");
+	/*while (*tab)
+	  {
+	  printf("tab vaut %s\n", *tab[0]);
+	  ++tab;
+	  }
+	  printf("-----------------------------\n");*/
 	tab = tmp;
 	fd_in = 0;
-	//reset_shell_attr(0);
+	reset_shell_attr(0);
 	while (*tab != NULL)
 	{
 		if (pipe(pipe_fd) == -1 || (pid = fork()) == -1)
@@ -154,8 +188,8 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 			tab++;
 		}
 	}
-	//set_none_canon_mode(0);
+	set_none_canon_mode(0);
 	free_pipe(tmp);
 	return (0);
-	//return(free_pipe(tmp));
+	return(free_pipe(tmp));
 }

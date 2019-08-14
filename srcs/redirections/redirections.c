@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/13 17:18:35 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/14 16:33:12 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ int		print_error_redirect(char **tab, char *code)
 	i = 0;
 	ft_putstr_fd("ymarsh: parse error near ", 2);
 	ft_putendl_fd(code, 2);
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
+	ft_deltab(tab);
 	return (1);
 }
 
@@ -60,7 +58,6 @@ void	redir_and_pipe(t_hustru *big_struc, char *command)
 	arg = ft_strsplit_redir(command, '>');
 	while (arg[i])
 		printf("Element vaut %s\n", arg[i++]);
-
 	if (pipe(link) == -1 || (pid = fork()) == -1)
 		return ;
 	if (pid == 0)
@@ -80,15 +77,14 @@ void	redir_and_pipe(t_hustru *big_struc, char *command)
 		printf("Output vaut |\n%s|\n", output);
 	}
 	save_redir(command, ft_strndup(output, ft_strlen(output) - 1));
-	printf("supposed to print once\n");
 }
 
 void	redirections(t_hustru *big_struc, char *command)
 {
 	if (ft_strstr(command, "<"))
 		arrow_left(big_struc, command);
-	//else if (ft_strchr(command, '<'))
-	//	simple_arrow_left(big_struc->lkd_env, command);
+	//else if (ft_strchr(command, '<<'))
+	//	double_arrow_left(big_struc, command);
 	else if (ft_strchr(command, '>') || ft_strstr(command, ">>"))
 		arrow_right(big_struc->lkd_env, big_struc->path, command);
 }

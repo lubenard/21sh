@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:48:08 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/01 18:09:40 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/14 13:13:53 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int     reset_shell_attr(int fd)
 	old.c_lflag |= ISIG;// N'affiche pa ce qu'on ecrit.
 	if (tcsetattr(fd, TCSADRAIN, &old) == -1)
 		return (-1);
-	ft_putchar('\n');
 	return (0);
 }
 
