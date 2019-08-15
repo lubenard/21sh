@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/14 21:23:45 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/15 18:44:11 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,14 @@ void	close_pipe(int *pipes, int i)
 	j = 0;
 	while (j != i)
 	{
-		dprintf(2, "je ferme pipes[%d]\n", j);
+		//dprintf(2, "je ferme pipes[%d]\n", j);
 		close(pipes[j++]);
 	}
-	dprintf(2, "**************************\n");
+	dprintf(2, "All (%d) pipes have been closed\n", i);
+	//dprintf(2, "**************************\n");
 }
+
+
 
 int		handle_pipe(t_hustru *big_struc, char *command)
 {
@@ -91,27 +94,76 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 	char	***tab;
 	int		*pipes;
 	int		e;
+	int		j;
+	int		k;
 
 	tab = compact_command(command);
 	e = 0;
+	/*while (*tab)
+	{
+		printf("tab[%d] vaut %s\n", e++, *tab[0]);
+		++tab;
+	}*/
+	//printf("-----------------------------\n");
+	e = 0;
+	j = 0;
+	k = 0;
 	i = ft_occur(command, '|'); // To fix if a pipe is at the end
 	printf("I vaut %d\n", i);
-	printf("close fera %d\n", i*2);
+	printf("close fera %d\n", i * 2);
 	printf("wait fera %d\n", i + 1);
 	if (!(pipes = (int *)malloc(sizeof(int) * (i * 2))))
 		return (0);
-	pipe(pipes);
-	pipe(pipes + 2);
-	pipe(pipes + 4);
-	if (fork() == 0)
+	while (e != i * 2)
+	{
+		printf("je pipe a + %d\n", e);
+		pipe(pipes + e);
+		e += 2;
+	}
+	e = 0;
+	/*if (fork() == 0)
 	{
 		dup2(pipes[1], 1);
 		close_pipe(pipes, i * 2);
-		execve(find_path(big_struc->path, tab[0][0]), tab[0], compact_env(big_struc->lkd_env));
+		execve(find_path(big_struc->path, tab[j][0]), tab[j], compact_env(big_struc->lkd_env));
 	}
 	else
-	{
-		if (fork() == 0)
+	{*/
+		while (tab[j])
+		{
+			if (fork() == 0)
+			{
+				dprintf(2, "J'exec tab[%d][0] = %s\n", j, tab[j][0]);
+				if (j != 0)
+				{
+					dprintf(2, "dup2(pipes[%d], 0)\n", k);
+					dup2(pipes[k], 0);
+				}
+				if (tab[j + 1] && j != 0)
+				{
+					dprintf(2, "dup2(pipes[%d], 1)\n", k + 3);
+					dup2(pipes[k + 3], 1);
+				}
+				if (j == 0)
+				{
+					dprintf(2, "dup2(pipes[%d], 1)\n", k + 1);
+					dup2(pipes[1], 1);
+				}
+				close_pipe(pipes, i * 2);
+				execve(find_path(big_struc->path, tab[j][0]), tab[j], compact_env(big_struc->lkd_env));
+			}
+			if (j != 0)
+				k += 2;
+			j++;
+		}
+/*		if (fork() == 0)
+		{
+			dprintf(2, "J'exec derniere tab\n");
+			dup2(pipes[6], 0);
+			close_pipe(pipes, i * 2);
+			execve(find_path(big_struc->path, tab[j][0]), tab[j], compact_env(big_struc->lkd_env));
+		}*/
+		/*if (fork() == 0)
 		{
 			dup2(pipes[0], 0);
 			dup2(pipes[3], 1);
@@ -132,19 +184,30 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 				if (fork() == 0)
 				{
 					dup2(pipes[4], 0);
+					dup2(pipes[7], 1);
 					close_pipe(pipes, i * 2);
 					execve(find_path(big_struc->path, tab[3][0]), tab[3], compact_env(big_struc->lkd_env));
 				}
+				else
+				{
+					if (fork() == 0)
+					{
+					dup2(pipes[6], 0);
+					close_pipe(pipes, i * 2);
+					execve(find_path(big_struc->path, tab[4][0]), tab[4], compact_env(big_struc->lkd_env));
+					}
+				}
 			}
-		}
-	}
+		}*/
+	//}
 	close_pipe(pipes, i * 2);
 	while (e < i + 1)
 	{
 		wait(&status);
 		e++;
 	}
-	return (0);
+	free(pipes);
+	return(free_pipe(tab));
 }
 
 int		handle_pipe2(t_hustru *big_struc, char *command)
