@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 17:36:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/04 14:44:30 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/15 20:31:30 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int				ft_countwords(char const *s);
 int				ft_sqrt(int nb);
 int				ft_isblank(char *str);
 int				ft_strlenu(char *str);
+int				ft_tablen(char **tab);
 char			*ft_strdup(char const *s);
 char			*ft_strcpy(char *dest, char const *src);
 char			*ft_strncpy(char *dest, char const *src, unsigned int n);
