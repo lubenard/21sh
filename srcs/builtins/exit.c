@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 14:01:27 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/16 16:16:45 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/16 22:46:51 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int		ft_atoi_exit(char *str)
 
 int		parse_exit(t_hustru *big_struc, char **command)
 {
-	char	*ret_val;
 	int		e;
 
 	e = 0;
@@ -63,7 +62,7 @@ int		parse_exit(t_hustru *big_struc, char **command)
 		if (command[2])
 			ft_putstr_fd("ymarsh: exit: Too many arguments\n", 2);
 		else
-			return (ft_exit(big_struc, ft_atoi_exit(ret_val)));
+			return (ft_exit(big_struc, ft_atoi_exit(command[1])));
 	}
 	return (0);
 }

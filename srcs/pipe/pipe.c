@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/15 20:34:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/17 01:13:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 	int		j;
 	int		k;
 
-	(void)big_struc;
 	tab = compact_command(command);
 	e = 0;
 	j = 0;

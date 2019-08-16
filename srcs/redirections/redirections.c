@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/15 19:55:32 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/17 00:23:43 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	**prepare_tab(char *command, char signe)
 	return (tab);
 }
 
-void	redir_and_pipe(t_hustru *big_struc, char *command)
+void	redir_and_pipe(t_hustru *big_struc, char **command)
 {
 	char **arg;
 	int i = 0;
@@ -55,7 +55,9 @@ void	redir_and_pipe(t_hustru *big_struc, char *command)
 	char	output[50000];
 	int		wait_pid;
 
-	arg = ft_strsplit_redir(command, '>');
+	(void)command;
+	(void)big_struc;
+	arg = ft_strsplit_redir(command[0], '>');
 	while (arg[i])
 		printf("Element vaut %s\n", arg[i++]);
 	if (pipe(link) == -1 || (pid = fork()) == -1)
@@ -65,7 +67,7 @@ void	redir_and_pipe(t_hustru *big_struc, char *command)
 		dup2(link[1], 1);
 		close(link[0]);
 		close(link[1]);
-		handle_pipe(big_struc, arg[0]);
+		//handle_pipe(big_struc, arg[0]);
 		exit(0);
 	}
 	else
@@ -76,15 +78,17 @@ void	redir_and_pipe(t_hustru *big_struc, char *command)
 		read(link[0], output, 50000);
 		printf("Output vaut |\n%s|\n", output);
 	}
-	save_redir(command, ft_strndup(output, ft_strlen(output) - 1));
+	//save_redir(command, ft_strndup(output, ft_strlen(output) - 1));
 }
 
-void	redirections(t_hustru *big_struc, char *command)
+void	redirections(t_hustru *big_struc, char **command)
 {
-	if (ft_strstr(command, "<"))
+	(void)big_struc;
+	(void)command;
+	/*if (ft_tabchr(command, '<'))
 		arrow_left(big_struc, command);
 	//else if (ft_strchr(command, '<<'))
 	//	double_arrow_left(big_struc, command);
-	else if (ft_strchr(command, '>') || ft_strstr(command, ">>"))
-		arrow_right(big_struc->lkd_env, big_struc->path, command);
+	else if (ft_tabchr(command, '>') || ft_tabstr(command, ">>"))
+		arrow_right(big_struc->lkd_env, big_struc->path, command);*/
 }

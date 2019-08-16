@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 12:05:25 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/16 17:00:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/17 00:26:58 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,15 @@ int			unset_env2(t_env *lkd_env, char *to_extract, char *to_remove)
 int			unset_env(t_hustru *big_struc, char **command)
 {
 	char	*to_extract;
-	int		i;
 	char	*to_remove;
 	t_env	*lkd_env;
 
 	lkd_env = big_struc->lkd_env;
-	to_remove = (ft_strchr(command, '=')) ? extract_params(command)
-		: extract_first_env(command);
+	to_remove = (ft_tabchr(command, '=')) ? extract_first(command[1], '=')
+		: extract_first(command[1], ' ');
 	while (to_remove && lkd_env)
 	{
-		i = 0;
-		while (lkd_env->env_line[i] != '=')
-			++i;
-		to_extract = ft_strsub(lkd_env->env_line, 0, i);
+		to_extract = extract_first(lkd_env->env_line, '=');
 		if (ft_strcmp(to_extract, to_remove) == 0)
 		{
 			if (unset_env2(lkd_env, to_extract, to_remove) == 1)

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 13:21:09 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/16 12:06:53 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/17 01:14:23 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct		s_hustru
 	struct s_hist	*lkd_hist;
 	char			**path;
 	int				last_ret;
+	char			*line;
 }					t_hustru;
 
 #endif

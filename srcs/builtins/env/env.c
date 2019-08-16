@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/07/29 14:48:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/16 23:14:56 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		print_error_env(char option, int mode)
 		ft_putchar(option);
 		ft_putchar('\n');
 	}
-	ft_putstr("usage: env [-iv0] [--help]\n");
+	ft_putstr("usage: env [--help] [-iv0]\n");
 	ft_putstr("\t   [name=value ...] command\n");
 	if (mode == 0)
 		return (1);
@@ -101,7 +101,7 @@ int		count_elem_env(char **command)
 	return (e);
 }
 
-void	free_env(t_env *env, char **to_free)
+void	free_env(t_env *env)
 {
 	t_env	*tmp;
 	int		i;
@@ -113,16 +113,9 @@ void	free_env(t_env *env, char **to_free)
 		env = env->next;
 		free(tmp);
 	}
-	if (to_free != NULL)
-	{
-		while (to_free[i])
-			free(to_free[i++]);
-	}
-	//free(to_free);
 }
 
-t_env	*print_env_no_command(t_env *env, char **to_free,
-	int flags, int *is_command)
+t_env	*print_env_no_command(t_env *env, int flags, int *is_command)
 {
 	t_env *tmp;
 
@@ -140,7 +133,7 @@ t_env	*print_env_no_command(t_env *env, char **to_free,
 		}
 		env = env->next;
 	}
-	free_env(tmp, to_free);
+	free_env(tmp);
 	return (NULL);
 }
 
@@ -192,7 +185,7 @@ t_env	*print_env_and_var(t_env *lkd_env, t_env *env,
 	*is_command = 0;
 	print_basic_env(lkd_env, flags, 1);
 	print_basic_env(env, flags, 1);
-	free_env(env, NULL);
+	free_env(env);
 	return (NULL);
 }
 
@@ -211,12 +204,9 @@ t_env	*parse_env(t_env *lkd_env, char **command, int flags, int *is_command)
 	while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
 		fill_env(&env, command, i++, tmp);
 	if (!command[i] && flags & PE_I)
-		return (print_env_no_command(tmp, command, flags, is_command));
+		return (print_env_no_command(tmp, flags, is_command));
 	else if (!(flags & PE_I) && !command[i])
-	{
-		free_env(NULL, command);
 		return (print_env_and_var(lkd_env, tmp, flags, is_command));
-	}
 	if (tmp->env_line[0] != '\0')
 		return (tmp);
 	free(env);
@@ -280,12 +270,11 @@ int		exec_default_env(t_env *env, char **command, t_hustru *big_struc, int flags
 		ft_putstr("No file found with the following name: ");
 		big_struc->last_ret = 127;
 		ft_putendl(command[i]);
-		free_env(tmp, command);
+		free_env(tmp);
 		return (1);
 	}
 	tab_env = compact_env(tmp);
 	exec_command_gen(right_path, argv, tab_env);
-	free_env(NULL, command);
 	return (0);
 }
 
@@ -316,12 +305,12 @@ int		exec_file_env(t_env *env, char **command, t_hustru *big_struc, int flags)
 	{
 		ft_putstr("No file found with the following name: ");
 		ft_putendl(command[i]);
-		free_env(env, command);
+		free_env(env);
 		return (1);
 	}
 	tab_env = compact_env(env);
 	exec_command_gen(right_path, argv, tab_env);
-	free_env(env, command);
+	free_env(env);
 	return (0);
 }
 
@@ -338,9 +327,7 @@ int		launch_command_env(t_hustru *big_struc, int flags,
 	if (is_command == 1 && flags & PE_I)
 		exec_file_env(env, command, big_struc, flags);
 	else if (is_command == 1)
-	{
 		exec_default_env(env, command, big_struc, flags);
-	}
 	return (0);
 }
 
@@ -362,33 +349,31 @@ int		env_available_option(char *tab, int *flags)
 	return (i);
 }
 
-int		parsing_env(t_hustru *big_struc, char *command)
+int		parsing_env(t_hustru *big_struc, char **command)
 {
 	int		flags;
 	int		i;
-	char	**tab;
 
 	flags = 0;
 	i = 1;
-	if (ft_strstr(command, "--help"))
+	if (!ft_strcmp(command[1], "--help"))
 		return (print_error_env('c', 1));
-	tab = ft_strsplit(command, ' ');
-	while (tab[i] && tab[i][0] == '-' && tab[i][1])
+	while (command[i] && command[i][0] == '-' && command[i][1])
 	{
-		if (tab[i][1] == '-' && !tab[i][2])
+		if (command[i][1] == '-' && !command[i][2])
 			return (1 + i);
-		if (!env_available_option(tab[i], &flags))
+		if (!env_available_option(command[i], &flags))
 			return (0);
 		i++;
 	}
 	//printf("le premier element vaut %s\n", tab[0]);
-	launch_command_env(big_struc, flags, tab);
+	launch_command_env(big_struc, flags, command);
 	return (0);
 }
 
-int		print_env(t_hustru *big_struc, char *command)
+int		print_env(t_hustru *big_struc, char **command)
 {
-	if (!ft_strcmp(command, "env"))
+	if (!command[1])
 		print_basic_env(big_struc->lkd_env, 0, 0);
 	else
 		return (parsing_env(big_struc, command));

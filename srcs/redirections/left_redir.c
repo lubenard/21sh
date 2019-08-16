@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:59:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/14 16:12:12 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/17 00:24:24 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int		arrow_left(t_hustru *big_struc, char *command)
 	char	*first_command;
 	char	*trimmed_str;
 
+	(void)big_struc;
 	tab = ft_strsplit(command, '<');
 	i = 1;
 	while (tab[i])
@@ -53,7 +54,7 @@ int		arrow_left(t_hustru *big_struc, char *command)
 		fd = open(trimmed_str, O_RDONLY);
 		dup2(fd, 0);
 		close(fd);
-		basic_command(big_struc, first_command);
+		//basic_command(big_struc, first_command);
 		i++;
 	}
 	ft_deltab(tab);
