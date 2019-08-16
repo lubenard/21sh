@@ -6,71 +6,65 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/14 14:22:26 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/16 15:42:35 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-int		exec_external_command(t_hustru *big_struc, char *command)
+int		exec_external_command(t_hustru *big_struc, char **command)
 {
 	char	*path;
-	char	**argv;
 
-	argv = ft_strsplit(command, ' ');
-	if (!(path = find_path(big_struc->path, argv[0])))
+	if (!(path = find_path(big_struc->path, command[0])))
 	{
 		printf("j'affiche NULL\n");
 		free(path);
-		ft_deltab(argv);
-		invalid_command(extract_first(command, ' '));
+		invalid_command(command[0]);
 		printf("j'ai bien tout free\n");
 		return (1);
 	}
 	printf("path = %s\n", path);
-	exec_command_gen(path, argv, compact_env(big_struc->lkd_env));
+	exec_command_gen(path, command, compact_env(big_struc->lkd_env));
 	return (0);
 }
 
-int		basic_command(t_hustru *big_struc, char *command)
+int		basic_command(t_hustru *big_struc, char **command)
 {
-	char	*extract;
 	int		ret_code;
 
-	extract = extract_first(command, ' ');
-	if (!ft_strcmp(extract, "env"))
+	if (!ft_strcmp(command[0], "env"))
 		ret_code = print_env(big_struc, command);
-	else if (!ft_strcmp(extract, "setenv"))
+	else if (!ft_strcmp(command[0], "setenv"))
 		ret_code = set_env(big_struc, command);
-	else if (!ft_strcmp(extract, "unsetenv"))
+	else if (!ft_strcmp(command[0], "unsetenv"))
 		ret_code = unset_env(big_struc, command);
-	else if (!ft_strcmp(extract, "echo"))
+	else if (!ft_strcmp(command[0], "echo"))
 		ret_code = ft_echo(big_struc, command);
-	else if (!ft_strcmp(extract, "cd"))
+	else if (!ft_strcmp(command[0], "cd"))
 		ret_code = cd(big_struc, command);
-	else if (!ft_strcmp(extract, "history"))
+	else if (!ft_strcmp(command[0], "history"))
 		ret_code = history(big_struc->lkd_hist);
-	else if (!ft_strcmp(extract, "exit"))
-		ret_code = find_exit(command, big_struc);
+	else if (!ft_strcmp(command[0], "exit"))
+		ret_code = find_exit(big_struc, command);
 	else
 		ret_code = exec_external_command(big_struc, command);
-	free(extract);
 	return (ret_code);
 }
 
-int		decide_commande(t_hustru *big_struc, char *command)
+int		decide_commande(t_hustru *big_struc, char **command)
 {
-	if (!ft_strchr(command, '>') &&
-		!ft_strchr(command, '<') && !ft_strchr(command, '|'))
+	if (!ft_tabchr(command, '>') &&
+		!ft_tabchr(command, '<') && !ft_tabchr(command, '|'))
 		basic_command(big_struc, command);
-	else if (!ft_strchr(command, '>') && !ft_strchr(command, '<') &&
-		ft_strchr(command, '|'))
+	else if (!ft_tabchr(command, '>') && !ft_tabchr(command, '<') &&
+		ft_tabchr(command, '|'))
 		handle_pipe(big_struc, command);
-	else if ((ft_strchr(command, '>') || ft_strchr(command, '<')) &&
-		!ft_strchr(command, '|'))
+	else if ((ft_tabchr(command, '>') || ft_tabchr(command, '<')) &&
+		!ft_tabchr(command, '|'))
 		redirections(big_struc, command);
-	else if ((ft_strchr(command, '>') || ft_strchr(command, '<')) &&
-		ft_strchr(command, '|'))
+	else if ((ft_tabchr(command, '>') || ft_tabchr(command, '<')) &&
+		ft_tabchr(command, '|'))
 		redir_and_pipe(big_struc, command);
 	return (0);
 }
@@ -79,7 +73,7 @@ int		parser(t_hustru *big_struc, char *command)
 {
 	char	**semicolon;
 	int		i;
-	char	*trimmed_str;
+	char	**split_space;
 
 	i = 0;
 	semicolon = ft_strsplit(command, ';');
@@ -88,14 +82,11 @@ int		parser(t_hustru *big_struc, char *command)
 	i = 0;
 	while (semicolon[i])
 	{
-		trimmed_str = ft_strtrim(semicolon[i++]);
-		big_struc->last_ret = decide_commande(big_struc, trimmed_str);
-		free(trimmed_str);
+		split_space = ft_strsplit(semicolon[i++], ' ');
+		big_struc->last_ret = decide_commande(big_struc, split_space);
+		ft_deltab(split_space);
 	}
-	i = 0;
-	while (semicolon[i])
-		free(semicolon[i++]);
-	free(semicolon);
+	ft_deltab(semicolon);
 	free(command);
 	return (0);
 }

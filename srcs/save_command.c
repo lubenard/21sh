@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 00:23:47 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/02 14:42:21 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/16 12:38:20 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void		write_history(char *command, char *path)
 	free(history_path);
 }
 
-void		save_command(t_hustru *big_struc, char *command)
+void		save_command(t_hustru *big_struc, char *command, int save)
 {
 	t_hist *new_element;
 	t_hist *lkd_hist;
@@ -92,5 +92,6 @@ void		save_command(t_hustru *big_struc, char *command)
 		lkd_hist = lkd_hist->next;
 		big_struc->lkd_hist = new_element;
 	}
-	write_history(command, ".");
+	if (save == 1)
+		write_history(command, ".");
 }

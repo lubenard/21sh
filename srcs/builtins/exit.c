@@ -6,13 +6,13 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 14:01:27 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/08 13:20:08 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/16 16:16:45 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-int		ft_exit(int nbr, t_hustru *big_struc)
+int		ft_exit(t_hustru *big_struc, int nbr)
 {
 	free_after_exit(big_struc->lkd_env, big_struc->lkd_hist, big_struc->path);
 	free(big_struc);
@@ -49,62 +49,28 @@ int		ft_atoi_exit(char *str)
 	return (output * mult);
 }
 
-int		check_exit_val(char *str, int i, int e)
-{
-	while (str[i + e] && str[i + e] != ' ')
-	{
-		if (!ft_isdigit(str[i + e]))
-		{
-			ft_putstr_fd("ymarsh: exit: integer is expected\n", 2);
-			return (-1);
-		}
-		e++;
-	}
-	return (0);
-}
-
-int		parse_exit(char *command, int i, t_hustru *big_struc)
+int		parse_exit(t_hustru *big_struc, char **command)
 {
 	char	*ret_val;
 	int		e;
 
 	e = 0;
-	while (command[i] == ' ')
-		i++;
 	ft_putstr_fd("exit\n", 2);
-	if (!command[i])
-		return (ft_exit(0, big_struc));
+	if (!command[1])
+		return (ft_exit(big_struc, 0));
 	else
 	{
-		if (command[i + e] == '-')
-			e++;
-		if (check_exit_val(command, i, e) == -1)
-			return (ft_exit(255, big_struc));
-		while (ft_isdigit(command[i + e]))
-			e++;
-		ret_val = ft_strsub(command, i, e);
-		if (command[i + e])
+		if (command[2])
 			ft_putstr_fd("ymarsh: exit: Too many arguments\n", 2);
 		else
-			return (ft_exit(ft_atoi_exit(ret_val), big_struc));
+			return (ft_exit(big_struc, ft_atoi_exit(ret_val)));
 	}
 	return (0);
 }
 
-int		find_exit(char *command, t_hustru *big_struc)
+int		find_exit(t_hustru *big_struc, char **command)
 {
-	char	*ret;
-	int		i;
-
-	i = 0;
-	while (ft_isalnum(command[i]))
-		i++;
-	ret = ft_strsub(command, 0, i);
-	if (ft_strequ(ret, "exit"))
-	{
-		free(ret);
-		return (parse_exit(command, i, big_struc));
-	}
-	free(ret);
+	if (ft_strequ(command[0], "exit"))
+		return (parse_exit(big_struc, command));
 	return (0);
 }

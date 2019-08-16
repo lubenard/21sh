@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/09 17:14:19 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/16 12:39:50 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char				*ft_copy_paste(char *line, char *buf, int **prompt, int *i);
 */
 char				*move_hist(char *buf, char *line, int **prompt,
 	t_hustru *big_struc);
-void				save_command(t_hustru *big_struc, char *command);
+void				save_command(t_hustru *big_struc, char *command, int save);
 char				*get_quotes(char *line, t_hustru *big_struc);
 /*
 ** Weird function

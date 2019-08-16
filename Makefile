@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/08/02 11:29:12 by lubenard         ###   ########.fr        #
+#    Updated: 2019/08/16 15:49:13 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,6 @@ SRC = srcs/main.c \
 	  srcs/builtins/echo.c \
 	  srcs/builtins/echo2.c \
 	  srcs/builtins/cd.c \
-	  srcs/builtins/cd2.c \
 	  srcs/redirections/redirections.c \
 	  srcs/redirections/left_redir.c \
 	  srcs/redirections/right_redir.c \

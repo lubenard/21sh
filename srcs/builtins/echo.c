@@ -6,17 +6,19 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/14 15:44:42 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/16 16:06:02 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-int		handle_dollar(t_hustru *big_struc, char *command, int i)
+int		handle_dollar(t_hustru *big_struc, char *command)
 {
 	int		e;
 	char	*str;
+	int		i;
 
+	i = 0;
 	e = 0;
 	if (command[i] == '$' && command[i + 1] != ' ')
 	{
@@ -97,44 +99,26 @@ int		handle_tilde(t_hustru *big_struc, char *command, int i)
 		return (handle_tilde2(big_struc->lkd_env, i));
 }
 
-int		return_i(char *command)
-{
-	int i;
-
-	i = 0;
-	while (command[i] == ' ' || command[i] == '\t')
-		i++;
-	while (command[i] && ft_isalnum(command[i]))
-		i++;
-	return (++i);
-}
-
-int		ft_echo(t_hustru *big_struc, char *command)
+int		ft_echo(t_hustru *big_struc, char **command)
 {
 	int e;
 	int i;
 
 	e = 0;
-	i = return_i(command);
-	if (ft_strstr(command, "-n") != NULL)
-	{
+	i = 0;
+	if (!ft_strcmp(command[1], "-n"))
 		e = 1;
-		i += 3;
-	}
-	while (command[i - 1])
+	while (command[i])
 	{
-		if (command[i] == '\t' || (command[i] == ' '
-		&& (command[i + 1] == ' ' || command[i - 1] == ' ')))
-			i++;
-		else if (command[i] == '$')
-			i = handle_dollar(big_struc, command, i);
-		else if (command[i] == '~')
+		if (command[i][0] == '$')
+			handle_dollar(big_struc, command[i]);
+		else if (command[i][0] == '~')
 		{
-			if ((i = handle_tilde(big_struc, command, i)) == -1)
+			if (handle_tilde(big_struc, command[i], 0) == -1)
 				return (big_struc->last_ret);
 		}
 		else
-			ft_putchar(command[i++]);
+			ft_putstr(command[i++]);
 	}
 	if (e == 0)
 		ft_putchar('\n');

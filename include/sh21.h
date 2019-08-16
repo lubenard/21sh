@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/14 15:52:13 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/16 16:10:19 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,24 @@ t_hist				*new_maillon_hist(void);
 /*
 ** Builtins
 */
-int					set_env(t_hustru *big_struc, char *command);
-int					unset_env(t_hustru *big_struc, char *command);
-int					print_env(t_hustru *big_struc, char *command);
+int					set_env(t_hustru *big_struc, char **command);
+int					unset_env(t_hustru *big_struc, char **command);
+int					print_env(t_hustru *big_struc, char **command);
 int					history(t_hist *lkd_hist);
-int					find_exit(char *command, t_hustru *big_struc);
-int					ft_exit(int nbr, t_hustru *big_struc);
-int					ft_echo(t_hustru *big_struc, char *command);
-int					cd(t_hustru *big_struc, char *commmand);
+int					find_exit(t_hustru *big_struc, char **command);
+int					ft_exit(t_hustru *big_struc, int nbr);
+int					ft_echo(t_hustru *big_struc, char **command);
+int					cd(t_hustru *big_struc, char **commmand);
 /*
 ** Redirections
 */
-void				redirections(t_hustru *big_struc, char *command);
-void				redir_and_pipe(t_hustru *big_struc, char *command);
+void				redirections(t_hustru *big_struc, char **command);
+void				redir_and_pipe(t_hustru *big_struc, char **command);
 void				save_redir(char *command, char *content);
 /*
 ** Pipe
 */
-int					handle_pipe(t_hustru *big_struc, char *command);
+int					handle_pipe(t_hustru *big_struc, char **command);
 /*
 ** Parser
 */
@@ -86,7 +86,7 @@ void				handle_signals_proc(int sig);
 /*
 ** History
 */
-void				save_command(t_hustru *big_struc, char *command);
+void				save_command(t_hustru *big_struc, char *command, int save);
 /*
 ** Execution of command
 */
@@ -111,7 +111,7 @@ void				free_after_exit(t_env *lkd_env,
 int					handle_tilde2(t_env *lkd_env, int i);
 char				*extract_path(char *command);
 char				*extract_first(char *command, char stop);
-int					basic_command(t_hustru *big_struc, char *command);
+int					basic_command(t_hustru *big_struc, char **command);
 /*
 ** Redirections utils
 */

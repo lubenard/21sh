@@ -6,27 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 12:05:25 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/13 18:41:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/16 17:00:58 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
-
-char		*extract_params(char *command)
-{
-	int		i;
-	int		e;
-
-	i = 0;
-	e = 0;
-	while (command[i] && command[i] != ' ')
-		++i;
-	while (command[i] == ' ' || command[i] == '\t')
-		++i;
-	while (command[i + e])
-		++e;
-	return (ft_strsub(command, i, e));
-}
 
 int			move_elements(t_env *lkd_env, char *to_extract, char *to_remove)
 {
@@ -67,7 +51,7 @@ int			unset_env2(t_env *lkd_env, char *to_extract, char *to_remove)
 	return (0);
 }
 
-int			unset_env(t_hustru *big_struc, char *command)
+int			unset_env(t_hustru *big_struc, char **command)
 {
 	char	*to_extract;
 	int		i;

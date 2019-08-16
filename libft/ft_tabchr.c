@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd2.c                                              :+:      :+:    :+:   */
+/*   ft_tabchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/03 15:13:49 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/01 17:26:49 by lubenard         ###   ########.fr       */
+/*   Created: 2019/08/16 15:15:26 by lubenard          #+#    #+#             */
+/*   Updated: 2019/08/16 15:24:11 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sh21.h>
+#include "libft.h"
 
-char	*extract_path(char *command)
+int		ft_tabchr(char **tab, int pattern)
 {
 	int i;
-	int e;
 
-	if (!ft_strcmp(command, ".."))
-		return (ft_strdup(".."));
 	i = 0;
-	e = 0;
-	while (command[i] == ' ' || command[i] == '\t')
-		i++;
-	while (command[i] && command[i] != ' ')
-		i++;
-	while (command[i] == ' ' || command[i] == '\t')
-		i++;
-	while (command[i + e])
+	while (tab[i])
 	{
-		if (command[i + e] == ' ')
-			return (NULL);
-		e++;
+		if (ft_strchri(tab[i++], pattern) > 0)
+			return (1);
+		else
+			i++;
 	}
-	return (ft_strsub(command, i, e));
+	return (0);
 }
