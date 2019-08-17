@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/17 18:28:52 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/17 21:39:51 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,41 @@ void	redir_and_pipe(t_hustru *big_struc, char **command)
 		read(link[0], output, 50000);
 		printf("Output vaut |\n%s|\n", output);
 	}
-	//save_redir(command, ft_strndup(output, ft_strlen(output) - 1));
+	save_redir(big_struc->line, ft_strndup(output, ft_strlen(output) - 1));
+}
+
+void	double_redir(t_hustru *big_struc, char *command)
+{
+	int		link[2];
+	pid_t	pid;
+	char	output[50000];
+	int		wait_pid;
+
+	if (pipe(link) == -1 || (pid = fork()) == -1)
+		return ;
+	if (pid == 0)
+	{
+		dup2(link[1], 1);
+		close(link[0]);
+		close(link[1]);
+		arrow_left(big_struc, command);
+		exit(0);
+	}
+	else
+	{
+		while ((wait_pid = wait(&pid)) > 0)
+			;
+		close(link[1]);
+		read(link[0], output, 50000);
+	}
+	save_redir(big_struc->line, ft_strndup(output, ft_strlen(output) - 1));
 }
 
 void	redirections(t_hustru *big_struc, char *command)
 {
-	if (ft_strchr(command, '<'))
+	if (ft_strchr(command, '<') && ft_strchr(command, '>'))
+		double_redir(big_struc, command);
+	else if (ft_strchr(command, '<'))
 		arrow_left(big_struc, command);
 	//else if (ft_strchr(command, '<<'))
 	//	double_arrow_left(big_struc, command);

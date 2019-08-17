@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/13 12:26:34 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/17 21:19:47 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,5 @@ char	*find_path(char **path, char *first_command)
 	printf("%s n'est pas dans le path\n", first_command);
 	if ((does_it_exist = search_absolute_path(first_command)))
 		return (does_it_exist);
-	printf("je suis ici...\n");
 	return (NULL);
 }
