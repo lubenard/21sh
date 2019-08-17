@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/17 01:21:00 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/17 18:29:51 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int		decide_commande(t_hustru *big_struc, char **command)
 		handle_pipe(big_struc, big_struc->line);
 	else if ((ft_tabchr(command, '>') || ft_tabchr(command, '<')) &&
 		!ft_tabchr(command, '|'))
-		redirections(big_struc, command);
+		redirections(big_struc, big_struc->line);
 	else if ((ft_tabchr(command, '>') || ft_tabchr(command, '<')) &&
 		ft_tabchr(command, '|'))
 		redir_and_pipe(big_struc, command);
@@ -76,13 +76,13 @@ int		parser(t_hustru *big_struc, char *command)
 	char	**split_space;
 
 	i = 0;
-	big_struc->line = ft_strdup(command);
 	semicolon = ft_strsplit(command, ';');
 	while (semicolon[i])
 		printf("Mon maillon vaut |%s|\n", semicolon[i++]);
 	i = 0;
 	while (semicolon[i])
 	{
+		big_struc->line = semicolon[i];
 		split_space = ft_strsplit(semicolon[i++], ' ');
 		big_struc->last_ret = decide_commande(big_struc, split_space);
 		ft_deltab(split_space);

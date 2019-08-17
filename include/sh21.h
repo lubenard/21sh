@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/17 01:16:36 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/17 18:29:03 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int					cd(t_hustru *big_struc, char **commmand);
 /*
 ** Redirections
 */
-void				redirections(t_hustru *big_struc, char **command);
+void				redirections(t_hustru *big_struc, char *command);
 void				redir_and_pipe(t_hustru *big_struc, char **command);
 void				save_redir(char *command, char *content);
 /*
@@ -99,8 +99,7 @@ int					exec_command_gen(char *path, char **argv, char **env);
 char				*extract_params(char *command);
 char				*extract_first_env(char *command);
 char				*find_in_env(t_env *lkd_env, char *to_find);
-int					free_after_exec(char *get_right_path,
-	char **argv, char **env);
+int					free_after_exec(char *get_right_path, char **env);
 int					get_error_exec(char path[6000]);
 char				**compact_env(t_env *lkd_env);
 char				**ft_strsplit_redir(char const *s, char c);

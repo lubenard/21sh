@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/17 00:23:43 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/17 18:28:52 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	redir_and_pipe(t_hustru *big_struc, char **command)
 		dup2(link[1], 1);
 		close(link[0]);
 		close(link[1]);
-		//handle_pipe(big_struc, arg[0]);
+		handle_pipe(big_struc, arg[0]);
 		exit(0);
 	}
 	else
@@ -81,14 +81,12 @@ void	redir_and_pipe(t_hustru *big_struc, char **command)
 	//save_redir(command, ft_strndup(output, ft_strlen(output) - 1));
 }
 
-void	redirections(t_hustru *big_struc, char **command)
+void	redirections(t_hustru *big_struc, char *command)
 {
-	(void)big_struc;
-	(void)command;
-	/*if (ft_tabchr(command, '<'))
+	if (ft_strchr(command, '<'))
 		arrow_left(big_struc, command);
 	//else if (ft_strchr(command, '<<'))
 	//	double_arrow_left(big_struc, command);
-	else if (ft_tabchr(command, '>') || ft_tabstr(command, ">>"))
-		arrow_right(big_struc->lkd_env, big_struc->path, command);*/
+	else if (ft_strchr(command, '>') || ft_strstr(command, ">>"))
+		arrow_right(big_struc->lkd_env, big_struc->path, command);
 }

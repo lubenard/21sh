@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/14 11:25:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/17 18:57:58 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	*get_output_of_command(char *path, char **argv, char **env)
 		close(link[1]);
 		read(link[0], output, 50000);
 	}
-	free_after_exec(path, argv, env);
+	free_after_exec(path, env);
 	return (ft_strndup(output, ft_strlen(output) - 1));
 }
 

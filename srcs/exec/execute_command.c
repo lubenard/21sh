@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/14 13:09:38 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/17 18:20:00 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int		exec_command_gen(char *path, char **argv, char **env)
 		execve(path, argv, env);
 	wait(&g_pid);
 	set_none_canon_mode(0);
-	return (free_after_exec(path, argv, env));
+	return (free_after_exec(path, env));
 }
 
 int		execute_command(char *get_right_path, char *command,
@@ -114,7 +114,7 @@ int		execute_command(char *get_right_path, char *command,
 		return (1);
 	}
 	if (command == NULL)
-		return (free_after_exec(get_right_path, argv, env));
+		return (free_after_exec(get_right_path, env));
 	g_pid = fork();
 	signal(SIGINT, handle_signals_proc);
 	if (g_pid < 0)
@@ -126,5 +126,5 @@ int		execute_command(char *get_right_path, char *command,
 	}
 	wait(&g_pid);
 	free(command);
-	return (free_after_exec(get_right_path, argv, env));
+	return (free_after_exec(get_right_path, env));
 }

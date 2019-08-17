@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:59:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/17 00:24:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/17 18:57:17 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,12 @@ int		arrow_left(t_hustru *big_struc, char *command)
 	char	*first_command;
 	char	*trimmed_str;
 
-	(void)big_struc;
 	tab = ft_strsplit(command, '<');
 	i = 1;
 	while (tab[i])
 	{
 		trimmed_str = ft_strtrim(tab[i]);
-		printf("Tab[i] vaut %s\n", tab[i++]);
+		printf("Tab[i] vaut %s\n", trimmed_str);
 		if (access(trimmed_str, F_OK) == -1)
 			return (print_error_redirect(tab, trimmed_str));
 		else
@@ -47,16 +46,19 @@ int		arrow_left(t_hustru *big_struc, char *command)
 		i++;
 	}
 	first_command = extract_first(command, '<');
+	char **tab2 = ft_strsplit(first_command, ' ');
 	printf("first_command = %s\n", first_command);
 	i = 1;
 	while (tab[i])
 	{
-		fd = open(trimmed_str, O_RDONLY);
+		printf("2: Tab[%d] vaut %s\n",i, tab[i]);
+		fd = open(tab[i], O_RDONLY);
 		dup2(fd, 0);
 		close(fd);
-		//basic_command(big_struc, first_command);
+		basic_command(big_struc, tab2);
 		i++;
 	}
+	ft_deltab(tab2);
 	ft_deltab(tab);
 	free(first_command);
 	return (0);

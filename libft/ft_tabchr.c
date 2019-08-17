@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/16 15:15:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/16 15:24:11 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/17 18:14:53 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ int		ft_tabchr(char **tab, int pattern)
 	i = 0;
 	while (tab[i])
 	{
-		if (ft_strchri(tab[i++], pattern) > 0)
+		if (ft_strchri(tab[i++], pattern))
 			return (1);
-		else
-			i++;
 	}
 	return (0);
 }
