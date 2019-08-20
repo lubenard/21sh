@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/17 14:40:00 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/20 11:06:24 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	***compact_command(char *command)
 	int		i;
 
 	i = 0;
+	if (command[ft_strlen(command) - 1] == '|')
+		return (NULL);
 	argv = ft_strsplit(command, '|');
 	if (!(ret = (char ***)malloc(sizeof(char **) * (ft_tablen(argv) + 1))))
 		return (NULL);
@@ -91,7 +93,11 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 	int		j;
 	int		k;
 
-	tab = compact_command(command);
+	if ((tab = compact_command(command)) == NULL)
+	{
+		ft_putendl("Pipe: Invalid pipe");
+		return (1);
+	}
 	e = 0;
 	j = 0;
 	k = 0;
