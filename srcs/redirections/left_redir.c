@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:59:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/17 18:57:17 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/20 18:26:44 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	double_arrow_left(t_env *lkd_env, char *command)
 	(void)lkd_env;
 }
 
+// Bugged when typing things like "cat < auteur > file1"
+
 int		arrow_left(t_hustru *big_struc, char *command)
 {
 	char	**tab;
@@ -31,9 +33,16 @@ int		arrow_left(t_hustru *big_struc, char *command)
 	char	*trimmed_str;
 
 	tab = ft_strsplit(command, '<');
+	i = 0;
+	while (tab[i])
+		printf("Tab[i] vaut |%s|\n", tab[i++]);
 	i = 1;
 	while (tab[i])
 	{
+		printf("Je boucle %s\n", tab[i]);
+		printf("Tab[i] vaut %s\n", tab[i]);
+		if (ft_strchr(tab[i], '>'))
+			break ;
 		trimmed_str = ft_strtrim(tab[i]);
 		printf("Tab[i] vaut %s\n", trimmed_str);
 		if (access(trimmed_str, F_OK) == -1)
@@ -51,6 +60,9 @@ int		arrow_left(t_hustru *big_struc, char *command)
 	i = 1;
 	while (tab[i])
 	{
+		printf("Je boucle %s\n", tab[i]);
+		if (ft_strchr(tab[i], '>'))
+			break ;
 		printf("2: Tab[%d] vaut %s\n",i, tab[i]);
 		fd = open(tab[i], O_RDONLY);
 		dup2(fd, 0);
