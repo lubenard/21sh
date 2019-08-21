@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 00:23:47 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/20 12:59:29 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/21 16:14:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,15 +110,13 @@ void		save_command(t_hustru *big_struc, char *command, int save)
 	lkd_hist = big_struc->lkd_hist;
 	new_element = new_maillon_hist();
 	ft_strcpy(new_element->history, command);
+	new_element->next = lkd_hist;
 	if (!lkd_hist->prev && !lkd_hist->next)
-	{
 		lkd_hist->prev = new_element;
-		new_element->next = lkd_hist;
-	}
 	else
 	{
+		lkd_hist->prev->next = new_element;
 		new_element->prev = lkd_hist->prev;
-		new_element->next = lkd_hist;
 		lkd_hist->prev = new_element;
 	}
 	if (save == 1)
