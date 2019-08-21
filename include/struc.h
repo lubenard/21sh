@@ -6,15 +6,15 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 13:21:09 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/17 01:14:23 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/21 16:59:48 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef STRUC_H
 # define STRUC_H
 
 # include "../libft/libft.h"
+
 /*
 ** Env linked list
 */

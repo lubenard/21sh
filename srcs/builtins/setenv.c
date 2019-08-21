@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:57:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/17 19:39:27 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/21 17:04:08 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int		create_new(t_env *lkd_env, char *to_search, char *to_add)
 		ft_strcpy(new_element->env_line, to_add);
 	}
 	free(to_search);
-	//free(to_add);
 	return (0);
 }
 

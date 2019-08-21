@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/17 18:29:03 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/21 16:58:39 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,11 @@
 # include <dirent.h>
 # include <signal.h>
 # include <limits.h>
-
 #include <stdio.h>
 
 # define PE_I 1
 # define PE_V 2
 # define PE_0 4
-
 
 /*
 ** Line Edition
