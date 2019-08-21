@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/20 16:14:46 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/21 11:20:24 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	double_redir(t_hustru *big_struc, char *command)
 		dup2(link[1], 1);
 		close(link[0]);
 		close(link[1]);
-		arrow_left(big_struc, command);
+		arrow_left(big_struc, extract_first(command, '>'));
 		exit(0);
 	}
 	else
