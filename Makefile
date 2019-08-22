@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/08/16 15:49:13 by lubenard         ###   ########.fr        #
+#    Updated: 2019/08/22 14:13:36 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,10 +21,13 @@ SRC = srcs/main.c \
 	  srcs/builtins/setenv.c \
 	  srcs/builtins/exit.c \
 	  srcs/builtins/unsetenv.c \
-	  srcs/builtins/env/env.c \
 	  srcs/builtins/echo.c \
 	  srcs/builtins/echo2.c \
 	  srcs/builtins/cd.c \
+	  srcs/builtins/env/env.c \
+	  srcs/builtins/env/display_env.c \
+	  srcs/builtins/env/display_env2.c \
+	  srcs/builtins/env/parsing_env.c \
 	  srcs/redirections/redirections.c \
 	  srcs/redirections/left_redir.c \
 	  srcs/redirections/right_redir.c \
@@ -59,7 +62,7 @@ CFLAGS = -Wall -Wextra -Werror -g3
 all:  $(NAME)
 
 $(NAME): $(OBJ)
-	@cd libft && make
+	@make -C libft
 	@$(CC) -o $(NAME) $(CFLAGS) $(OBJ) -ltermcap libft/libft.a
 	@printf "\033[33mCompilation de $(NAME)...\033[0m"
 	@printf "\033[32m[✓]\033[0m\n"

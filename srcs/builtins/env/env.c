@@ -6,75 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/16 23:14:56 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/22 17:24:43 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sh21.h>
-
-int		print_error_env(char option, int mode)
-{
-	if (mode == 0)
-	{
-		ft_putstr("env : illegal option -- ");
-		ft_putchar(option);
-		ft_putchar('\n');
-	}
-	ft_putstr("usage: env [--help] [-iv0]\n");
-	ft_putstr("\t   [name=value ...] command\n");
-	if (mode == 0)
-		return (1);
-	return (0);
-}
-
-int		print_basic_env(t_env *lkd_env, int flags, int mode)
-{
-	while (lkd_env)
-	{
-		if (ft_strcmp(lkd_env->env_line, ""))
-		{
-			ft_putstr(lkd_env->env_line);
-			if (mode == 1 && !(flags & PE_0))
-				ft_putchar('\n');
-			else if (mode == 0)
-				ft_putchar('\n');
-		}
-		lkd_env = lkd_env->next;
-	}
-	return (0);
-}
-
-void	print_verbose_env(t_env *env, char **argv, int mode)
-{
-	int i;
-
-	i = 0;
-	if (mode == 0)
-		ft_putstr("#env clearing environ\n");
-	else if (mode == 1)
-	{
-		while (env)
-		{
-			if (ft_strcmp(env->env_line, ""))
-			{
-				ft_putstr("#env setenv:\t");
-				ft_putendl(env->env_line);
-			}
-			env = env->next;
-		}
-	}
-	else if (mode == 2)
-	{
-		while (argv[i])
-		{
-			ft_putstr("#env\targv[");
-			ft_putnbr(i);
-			ft_putstr("]= '");
-			ft_putstr(argv[i++]);
-			ft_putendl("'");
-		}
-	}
-}
+#include <env.h>
 
 int		count_elem_env(char **command)
 {
@@ -99,42 +35,6 @@ int		count_elem_env(char **command)
 		i++;
 	}
 	return (e);
-}
-
-void	free_env(t_env *env)
-{
-	t_env	*tmp;
-	int		i;
-
-	i = 0;
-	while (env)
-	{
-		tmp = env;
-		env = env->next;
-		free(tmp);
-	}
-}
-
-t_env	*print_env_no_command(t_env *env, int flags, int *is_command)
-{
-	t_env *tmp;
-
-	tmp = env;
-	*is_command = 0;
-	if (flags & PE_V && flags & PE_I)
-		print_verbose_env(env, NULL, 1);
-	while (env)
-	{
-		if (ft_strcmp(env->env_line, ""))
-		{
-			ft_putstr(env->env_line);
-			if (!(flags & PE_0))
-				ft_putchar('\n');
-		}
-		env = env->next;
-	}
-	free_env(tmp);
-	return (NULL);
 }
 
 void	fill_env(t_env **env, char **command, int i, t_env *tmp)
@@ -177,42 +77,6 @@ void	fill_env(t_env **env, char **command, int i, t_env *tmp)
 	free(fie);
 }
 
-t_env	*print_env_and_var(t_env *lkd_env, t_env *env,
-	int flags, int *is_command)
-{
-	if (flags & PE_V)
-		print_verbose_env(env, NULL, 1);
-	*is_command = 0;
-	print_basic_env(lkd_env, flags, 1);
-	print_basic_env(env, flags, 1);
-	free_env(env);
-	return (NULL);
-}
-
-t_env	*parse_env(t_env *lkd_env, char **command, int flags, int *is_command)
-{
-	int		i;
-	size_t	k;
-	t_env	*env;
-	t_env	*tmp;
-
-	i = 1;
-	env = new_maillon_env();
-	tmp = env;
-	while (command[i] && ft_strchr(command[i], '-'))
-		i++;
-	while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
-		fill_env(&env, command, i++, tmp);
-	if (!command[i] && flags & PE_I)
-		return (print_env_no_command(tmp, flags, is_command));
-	else if (!(flags & PE_I) && !command[i])
-		return (print_env_and_var(lkd_env, tmp, flags, is_command));
-	if (tmp->env_line[0] != '\0')
-		return (tmp);
-	free(env);
-	return (NULL);
-}
-
 char	**compact_argv_env(char **command, int i)
 {
 	int		nbr_elem;
@@ -235,33 +99,30 @@ char	**compact_argv_env(char **command, int i)
 	return (argv);
 }
 
-int		exec_default_env(t_env *env, char **command, t_hustru *big_struc, int flags)
+void	verbose(t_env *env, char *right_path, char *command)
 {
-	int		i;
+	print_verbose_env(env, NULL, 1);
+	if (right_path != NULL)
+	{
+		ft_putstr("#env executing: ");
+		ft_putendl(command);
+	}
+}
+
+char	*exec_file_env(t_env *env, char **command,
+	t_hustru *big_struc, int flags)
+{
+	char	**tab_env;
 	char	*right_path;
 	char	**argv;
-	char	**tab_env;
-	t_env	*tmp;
+	int		i;
 
 	i = 1;
-	tmp = big_struc->lkd_env;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = env;
-	while (tmp->prev)
-		tmp = tmp->prev;
 	while (command[i][0] == '-' || ft_strchr(command[i], '='))
 		i++;
 	right_path = find_path(big_struc->path, command[i]);
 	if (flags & PE_V)
-	{
-		print_verbose_env(env, NULL, 1);
-		if (right_path != NULL)
-		{
-			ft_putstr("#env executing: ");
-			ft_putendl(command[i]);
-		}
-	}
+		verbose(env, right_path, command[i]);
 	argv = compact_argv_env(command, i);
 	if (flags & PE_V)
 		print_verbose_env(NULL, argv, 2);
@@ -270,47 +131,28 @@ int		exec_default_env(t_env *env, char **command, t_hustru *big_struc, int flags
 		ft_putstr("No file found with the following name: ");
 		big_struc->last_ret = 127;
 		ft_putendl(command[i]);
-		free_env(tmp);
-		return (1);
-	}
-	tab_env = compact_env(tmp);
-	exec_command_gen(right_path, argv, tab_env);
-	return (0);
-}
-
-int		exec_file_env(t_env *env, char **command, t_hustru *big_struc, int flags)
-{
-	int		i;
-	char	*right_path;
-	char	**argv;
-	char	**tab_env;
-
-	i = 1;
-	while (command[i][0] == '-' || ft_strchr(command[i], '='))
-		i++;
-	right_path = find_path(big_struc->path, command[i]);
-	if (flags & PE_V)
-	{
-		print_verbose_env(env, NULL, 1);
-		if (right_path != NULL)
-		{
-			ft_putstr("#env executing: ");
-			ft_putendl(command[i]);
-		}
-	}
-	argv = compact_argv_env(command, i);
-	if (flags & PE_V)
-		print_verbose_env(NULL, argv, 2);
-	if (right_path == NULL)
-	{
-		ft_putstr("No file found with the following name: ");
-		ft_putendl(command[i]);
 		free_env(env);
-		return (1);
+		return (NULL);
 	}
+	printf("J'exec %s et son path %s, donc le premier elem de l'env est %s\n", argv[0], right_path, env->env_line);
 	tab_env = compact_env(env);
 	exec_command_gen(right_path, argv, tab_env);
-	free_env(env);
+	return (right_path);
+}
+
+int		exec_default_env(t_env *env, char **command,
+	t_hustru *big_struc, int flags)
+{
+	t_env	*tmp;
+
+	printf("Je passe par ici\n");
+	tmp = big_struc->lkd_env;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = env;
+	while (tmp->prev)
+		tmp = tmp->prev;
+	exec_file_env(env, command, big_struc, flags);
 	return (0);
 }
 
@@ -331,51 +173,10 @@ int		launch_command_env(t_hustru *big_struc, int flags,
 	return (0);
 }
 
-int		env_available_option(char *tab, int *flags)
-{
-	int i;
-
-	while (*(++tab))
-	{
-		if (!(i = ft_strchri("iv0", tab[0])))
-		{
-			print_error_env(tab[0], 0);
-			return (0);
-		}
-		*flags |= (1 << (i - 1));
-	}
-	if (*flags & PE_V && *flags & PE_I)
-		print_verbose_env(NULL, NULL, 0);
-	return (i);
-}
-
-int		parsing_env(t_hustru *big_struc, char **command)
-{
-	int		flags;
-	int		i;
-
-	flags = 0;
-	i = 1;
-	if (!ft_strcmp(command[1], "--help"))
-		return (print_error_env('c', 1));
-	while (command[i] && command[i][0] == '-' && command[i][1])
-	{
-		if (command[i][1] == '-' && !command[i][2])
-			return (1 + i);
-		if (!env_available_option(command[i], &flags))
-			return (0);
-		i++;
-	}
-	//printf("le premier element vaut %s\n", tab[0]);
-	launch_command_env(big_struc, flags, command);
-	return (0);
-}
-
 int		print_env(t_hustru *big_struc, char **command)
 {
 	if (!command[1])
-		print_basic_env(big_struc->lkd_env, 0, 0);
+		return (print_basic_env(big_struc->lkd_env, 0, 0));
 	else
 		return (parsing_env(big_struc, command));
-	return (0);
 }

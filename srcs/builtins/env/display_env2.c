@@ -1,47 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   display_env2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/03 17:01:28 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/22 15:24:46 by lubenard         ###   ########.fr       */
+/*   Created: 2019/08/22 13:46:20 by lubenard          #+#    #+#             */
+/*   Updated: 2019/08/22 14:19:42 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh21.h"
+#include <env.h>
 
-int		free_after_exec(char *get_right_path, char **env)
+t_env	*print_env_no_command(t_env *env, int flags, int *is_command)
 {
-	free(get_right_path);
-	free(env);
-	return (0);
-}
+	t_env *tmp;
 
-void	free_env(t_env *env)
-{
-	t_env	*tmp;
-	int		i;
-
-	i = 0;
+	tmp = env;
+	*is_command = 0;
+	if (flags & PE_V && flags & PE_I)
+		print_verbose_env(env, NULL, 1);
 	while (env)
 	{
-		tmp = env;
+		if (ft_strcmp(env->env_line, ""))
+		{
+			ft_putstr(env->env_line);
+			if (!(flags & PE_0))
+				ft_putchar('\n');
+		}
 		env = env->next;
-		free(tmp);
 	}
-}
-
-char	*extract_command(char *command)
-{
-	int i;
-	int e;
-
-	i = 0;
-	e = 0;
-	while (ft_isalnum(command[i + e])
-	|| command[i + e] == '.' || command[i + e] == '/')
-		++i;
-	return (ft_strlower(ft_strsub(command, e, i)));
+	free_env(tmp);
+	return (NULL);
 }

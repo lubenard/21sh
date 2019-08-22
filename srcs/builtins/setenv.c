@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:57:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/21 17:04:08 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/22 11:56:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,20 @@ int		set_env2(t_env **lkd_env, char *to_search,
 	return (0);
 }
 
+void	set_env3(t_env **lkd_env, char *to_extract,
+	char *to_search, char *command)
+{
+	to_extract = extract_first((*lkd_env)->env_line, '=');
+	if (ft_strcmp(to_search, to_extract) == 0)
+	{
+		ft_strcpy((*lkd_env)->env_line, command);
+		free(to_search);
+	}
+	else
+		create_new((*lkd_env), to_search, command);
+	free(to_extract);
+}
+
 int		set_env(t_hustru *big_struc, char **command)
 {
 	char	*to_search;
@@ -66,20 +80,11 @@ int		set_env(t_hustru *big_struc, char **command)
 			return (1);
 		to_search = ft_strupper(to_search);
 		if (set_env2(&lkd_env, to_search, to_extract, command[i]) == 0)
-		{
-			to_extract = extract_first(lkd_env->env_line, '=');
-			if (ft_strcmp(to_search, to_extract) == 0)
-			{
-				ft_strcpy(lkd_env->env_line, command[i]);
-				free(to_search);
-			}
-			else
-				create_new(lkd_env, to_search, command[i]);
-			free(to_extract);
-		}
+			set_env3(&lkd_env, to_extract, to_search, command[i]);
 		i++;
 	}
 	ft_deltab(big_struc->path);
-	big_struc->path = get_path(find_in_env(big_struc->lkd_env, ft_strdup("PATH")));
+	big_struc->path = get_path(find_in_env(big_struc->lkd_env,
+		ft_strdup("PATH")));
 	return (0);
 }
