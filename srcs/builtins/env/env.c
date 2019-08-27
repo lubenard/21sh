@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/22 17:24:43 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/27 15:21:09 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int		exec_default_env(t_env *env, char **command,
 	tmp->next = env;
 	while (tmp->prev)
 		tmp = tmp->prev;
-	exec_file_env(env, command, big_struc, flags);
+	exec_file_env(big_struc->lkd_env, command, big_struc, flags);
 	return (0);
 }
 
