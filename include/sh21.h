@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/22 14:27:14 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/27 18:14:08 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char				*find_path(char **path, char *first_command);
 char				**get_path(char *path_line);
 void				free_after_exit(t_env *lkd_env,
 	t_hist *lkd_hist, char **path);
-int					handle_tilde2(t_env *lkd_env, int i);
+int					handle_tilde2(t_env *lkd_env);
 char				*extract_path(char *command);
 char				*extract_first(char *command, char stop);
 int					basic_command(t_hustru *big_struc, char **command);

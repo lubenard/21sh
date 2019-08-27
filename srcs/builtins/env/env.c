@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/27 15:21:09 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/27 17:11:32 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ char	*exec_file_env(t_env *env, char **command,
 		free_env(env);
 		return (NULL);
 	}
-	printf("J'exec %s et son path %s, donc le premier elem de l'env est %s\n", argv[0], right_path, env->env_line);
 	tab_env = compact_env(env);
 	exec_command_gen(right_path, argv, tab_env);
 	return (right_path);
@@ -143,15 +142,8 @@ char	*exec_file_env(t_env *env, char **command,
 int		exec_default_env(t_env *env, char **command,
 	t_hustru *big_struc, int flags)
 {
-	t_env	*tmp;
-
+	(void)env;
 	printf("Je passe par ici\n");
-	tmp = big_struc->lkd_env;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = env;
-	while (tmp->prev)
-		tmp = tmp->prev;
 	exec_file_env(big_struc->lkd_env, command, big_struc, flags);
 	return (0);
 }
