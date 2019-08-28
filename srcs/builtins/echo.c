@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/27 18:50:03 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/28 10:16:22 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,28 +39,30 @@ int		handle_dollar(t_hustru *big_struc, char *command)
 	return (i + 1);
 }
 
-int		verify_folder(char buffer[4096], char user_name[33], char *str)
+int		verify_folder(char buffer[4096], char user_name[4096], char *str)
 {
 	struct stat		s;
 	int				err;
+	char			*str2;
+	int				j;
 
-	free(str);
-	ft_strcat(buffer, user_name);
+	j = ft_strlen(str);
+	while (str[j - 1] != '/')
+		j--;
+	str2 = ft_strsub(str, 0, j);
+	ft_strcpy(buffer, str2);
+	ft_stricpy(buffer, user_name, 1);
 	err = stat(buffer, &s);
+	free(str);
+	free(str2);
 	if (err == -1)
-	{
-		error_echo(user_name);
-		return (-1);
-	}
+		return (error_echo(user_name));
 	else
 	{
 		if (S_ISDIR(s.st_mode))
 			ft_putstr(buffer);
 		else
-		{
-			error_echo(user_name);
-			return (-1);
-		}
+			return (error_echo(user_name));
 	}
 	return (0);
 }
@@ -69,34 +71,26 @@ int		handle_tilde(t_hustru *big_struc, char *command)
 {
 	char	*str;
 	char	buff[4096];
-	char	user_name[33];
-	int		j;
+	char	user_name[4096];
 
 	ft_bzero(buff, 4096);
-	ft_bzero(user_name, 33);
+	ft_bzero(user_name, 4096);
 	if (command[1] && (ft_isalpha(command[1]) || command[1] == '/'))
 	{
 		str = find_in_env(big_struc->lkd_env, ft_strdup("HOME"));
-		printf("je parse %s\n", command);
 		ft_strcpy(user_name, command);
-		j = ft_strlen(command);
-		while (command[j] != '/')
-			j--;
-		ft_strnncpy(buff, command, j + 1, ft_strlen(command)); //Faire une fonction qui copie depuis n char jusqu'a la fin
 		if (command[1] == '/')
 		{
+			ft_stricpy(buff, command, 1);
 			handle_tilde2(big_struc->lkd_env);
-			ft_putstr("/"); //Faire une fonction qui permet d'afficher une chaine puis une variable et inversion
 			ft_putendl(buff);
+			free(str);
 			return (0);
 		}
 		if (verify_folder(buff, user_name, str) == -1)
-		{
-			big_struc->last_ret = 1;
-			return (-1);
-		}
-		big_struc->last_ret = 0;
-		return (0);
+			return (big_struc->last_ret = -1);
+		handle_tilde2(big_struc->lkd_env);
+		return (big_struc->last_ret = 0);
 	}
 	else
 		return (handle_tilde2(big_struc->lkd_env));

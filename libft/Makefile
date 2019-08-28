@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/08/20 14:50:57 by lubenard         ###   ########.fr        #
+#    Updated: 2019/08/28 09:27:35 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,8 @@ SRC = ft_memset.c \
 	ft_deltab.c \
 	ft_tablen.c \
 	ft_tabchr.c \
-	ft_tabstr.c
+	ft_tabstr.c \
+	ft_stricpy.c
 
 OBJ = $(SRC:.c=.o)
 
