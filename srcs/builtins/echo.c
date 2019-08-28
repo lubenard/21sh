@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/28 10:16:22 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/28 10:34:37 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,20 @@ int		handle_dollar(t_hustru *big_struc, char *command)
 
 	i = 0;
 	e = 0;
-	if (command[i] == '$' && command[i + 1] != ' ')
+	if (command[1])
 	{
 		if (command[i + 1] == '?')
 		{
 			ft_putnbr(big_struc->last_ret);
-			return (i + 1);
+			return (0);
 		}
-		i++;
-		while (command[i + e] && command[i + e] != ' '
-		&& ft_isalnum(command[i + e]))
+		while (command[e] && ft_isalnum(command[e]))
 			e++;
 		str = find_in_env(big_struc->lkd_env, ft_strsub(command, i, e));
 		ft_putstr(str);
 		free(str);
-		return (i + e);
 	}
-	return (i + 1);
+	return (0);
 }
 
 int		verify_folder(char buffer[4096], char user_name[4096], char *str)
