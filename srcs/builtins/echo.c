@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/28 10:34:37 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/28 10:42:10 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int		handle_tilde(t_hustru *big_struc, char *command)
 			return (0);
 		}
 		if (verify_folder(buff, user_name, str) == -1)
-			return (big_struc->last_ret = -1);
+			return (big_struc->last_ret = 1);
 		handle_tilde2(big_struc->lkd_env);
 		return (big_struc->last_ret = 0);
 	}

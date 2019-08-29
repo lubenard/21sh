@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/21 11:20:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/29 11:54:34 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	redir_and_pipe(t_hustru *big_struc, char **command)
 			;
 		close(link[1]);
 		read(link[0], output, 50000);
-		printf("Output vaut |\n%s|\n", output);
+		printf("Output vaut |%s|\n", output);
 	}
 	save_redir(big_struc->line, ft_strndup(output, ft_strlen(output) - 1));
 }
@@ -117,5 +117,5 @@ void	redirections(t_hustru *big_struc, char *command)
 	//else if (ft_strchr(command, '<<'))
 	//	double_arrow_left(big_struc, command);
 	else if (ft_strchr(command, '>') || ft_strstr(command, ">>"))
-		arrow_right(big_struc->lkd_env, big_struc->path, command);
+		arrow_right(big_struc, big_struc->path, command);
 }

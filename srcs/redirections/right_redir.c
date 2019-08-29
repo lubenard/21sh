@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/20 16:15:04 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/08/29 11:54:10 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		create_file(char **filenames, char **tab)
 	return (0);
 }
 
-char	*get_output_of_command(char *path, char **argv, char **env)
+char	*get_output_of_command(t_hustru *big_struc, char *path, char **argv)
 {
 	int		link[2];
 	pid_t	pid;
@@ -92,7 +92,7 @@ char	*get_output_of_command(char *path, char **argv, char **env)
 		dup2(link[1], 1);
 		close(link[0]);
 		close(link[1]);
-		execve(path, argv, env);
+		basic_command(big_struc, argv);
 		wait(&pid);
 	}
 	else
@@ -102,7 +102,7 @@ char	*get_output_of_command(char *path, char **argv, char **env)
 		close(link[1]);
 		read(link[0], output, 50000);
 	}
-	free_after_exec(path, env);
+	free_after_exec(path, compact_env(big_struc->lkd_env));
 	return (ft_strndup(output, ft_strlen(output) - 1));
 }
 
@@ -132,7 +132,7 @@ int		fill_file(char **filenames, char *ret_command, char **tab)
 	return (0);
 }
 
-char	*exec_command_redir(t_env *lkd_env, char **path, char av[131072])
+char	*exec_command_redir(t_hustru *big_struc, char **path, char av[131072])
 {
 	char	**argv;
 	char	*ret_command;
@@ -140,8 +140,8 @@ char	*exec_command_redir(t_env *lkd_env, char **path, char av[131072])
 
 	argv = ft_strsplit(av, ' ');
 	normal_path = find_path(path, argv[0]);
-	ret_command = get_output_of_command(normal_path,
-		argv, compact_env(lkd_env));
+	ret_command = get_output_of_command(big_struc, normal_path,
+		argv);
 	return (ret_command);
 }
 
@@ -156,7 +156,7 @@ void	save_redir(char *command, char *content)
 	fill_file(filenames, content, tab);
 }
 
-void	arrow_right(t_env *lkd_env, char **path, char *command)
+void	arrow_right(t_hustru *big_struc, char **path, char *command)
 {
 	char	**tab;
 	int		i;
@@ -180,5 +180,5 @@ void	arrow_right(t_env *lkd_env, char **path, char *command)
 		i++;
 	}
 	create_file(filenames, tab);
-	fill_file(filenames, exec_command_redir(lkd_env, path, av), tab);
+	fill_file(filenames, exec_command_redir(big_struc, path, av), tab);
 }

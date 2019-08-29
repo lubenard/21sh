@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/08/22 14:13:36 by lubenard         ###   ########.fr        #
+#    Updated: 2019/08/29 11:07:17 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,6 +88,7 @@ clean:
 	@printf "\033[32m[✓]\033[0m\n"
 	@rm -rf .history
 	@rm -rf 21sh.dSYM
+	@rm -rf vgcore.*
 
 fclean: clean
 	@rm -f $(NAME)
