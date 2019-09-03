@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/29 11:54:10 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/03 16:48:25 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,32 +78,38 @@ int		create_file(char **filenames, char **tab)
 	return (0);
 }
 
-char	*get_output_of_command(t_hustru *big_struc, char *path, char **argv)
+char	*get_output_of_command(t_hustru *big_struc, char **argv)
 {
-	int		link[2];
+	int		link[4];
 	pid_t	pid;
-	char	output[50000];
-	int		wait_pid;
+	char	output_std[50000];
+	char	output_err[50000];
 
-	if (pipe(link) == -1 || (pid = fork()) == -1)
+	if (pipe(link) == -1 || pipe(link + 2) || (pid = fork()) == -1)
 		return (NULL);
 	if (pid == 0)
 	{
 		dup2(link[1], 1);
-		close(link[0]);
-		close(link[1]);
+		dup2(link[3], 2);
+		close_pipe(link, 4);
 		basic_command(big_struc, argv);
-		wait(&pid);
+		exit(0);
 	}
 	else
 	{
-		while ((wait_pid = wait(&pid)) > 0)
-			;
+		wait(&pid);
 		close(link[1]);
-		read(link[0], output, 50000);
+		close(link[3]);
+		read(link[0], output_std, 50000);
+		read(link[2], output_err, 50000);
 	}
-	free_after_exec(path, compact_env(big_struc->lkd_env));
-	return (ft_strndup(output, ft_strlen(output) - 1));
+	printf("------------------start-------------------------\n");
+	printf("[Exec redir] output_std vaut %s\n", output_std);
+	printf("[Exec redir] output_err vaut %s\n", output_err);
+	printf("-------------------end-----------------------\n");
+	ft_bzero(output_std, 50000);
+	ft_bzero(output_err, 50000);
+	return (ft_strndup(output_std, ft_strlen(output_std) - 1));
 }
 
 int		fill_file(char **filenames, char *ret_command, char **tab)
@@ -140,9 +146,8 @@ char	*exec_command_redir(t_hustru *big_struc, char **path, char av[131072])
 
 	argv = ft_strsplit(av, ' ');
 	normal_path = find_path(path, argv[0]);
-	ret_command = get_output_of_command(big_struc, normal_path,
-		argv);
-	return (ret_command);
+	ret_command = get_output_of_command(big_struc, argv);
+	return (0);
 }
 
 void	save_redir(char *command, char *content)
@@ -167,6 +172,7 @@ void	arrow_right(t_hustru *big_struc, char **path, char *command)
 	i = 1;
 	ft_bzero(av, 131072);
 	tab = prepare_tab(command, '>');
+	printf("Tab[0] vaut %s\n", tab[0]);
 	ft_str_start_cat(av, tab[0], 0);
 	if (check_errors_redirect(tab, command, i) == 1)
 		return ;

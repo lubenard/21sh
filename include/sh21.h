@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/29 11:55:13 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/03 16:35:23 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int					cd(t_hustru *big_struc, char **commmand);
 /*
 ** Redirections
 */
-void				redirections(t_hustru *big_struc, char *command);
+void				redirections(t_hustru *big_struc, char *command, char **parsed_command);
 void				redir_and_pipe(t_hustru *big_struc, char **command);
 void				save_redir(char *command, char *content);
 /*
@@ -116,5 +116,12 @@ void				double_arrow_left(t_env *lkd_env, char *command);
 int					arrow_left(t_hustru *big_struc, char *command);
 int					print_error_redirect(char **tab, char *code);
 char				**prepare_tab(char *command, char signe);
+char				*get_output_of_command(t_hustru *big_struc, char **argv);
+/*
+** Pipe utils
+*/
+void	close_pipe(int *pipes, int i);
+
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/29 11:54:34 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/03 16:49:24 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	**prepare_tab(char *command, char signe)
 	tab = ft_strsplit_redir(command, signe);
 	while (tab[i])
 	{
+		printf("tab[%d] vaut %s\n", i,tab[i]);
 		tmp = ft_strdup(tab[i]);
 		free(tab[i]);
 		tab[i] = ft_strtrim(tmp);
@@ -108,7 +109,30 @@ void	double_redir(t_hustru *big_struc, char *command)
 	save_redir(big_struc->line, ft_strndup(output, ft_strlen(output) - 1));
 }
 
-void	redirections(t_hustru *big_struc, char *command)
+int		arrow_right2(t_hustru *big_struc, char **command)
+{
+	int		i = 0;
+	char	*extract;
+
+	while (!ft_strchr(command[i], '>'))
+	{
+		printf("[Redirections]: Je passe sur %s\n", command[i]);
+		i++;
+	}
+	printf("[Redirections] Je m'arrete sur %s\n", command[i]);
+	if (command[i][0] != '>')
+	{
+		extract = extract_first(command[i], '>');
+		printf("[Redirections] extract vaut %s\n", extract);
+	}
+	char *argv[] = {"cat", "auteur", NULL};
+	char *argv2[] = {"cat", "trucmuche", NULL};
+	free(get_output_of_command(big_struc, argv));
+	free(get_output_of_command(big_struc, argv2));
+	return (0);
+}
+
+void	redirections(t_hustru *big_struc, char *command, char **parsed_command)
 {
 	if (ft_strchr(command, '<') && ft_strchr(command, '>'))
 		double_redir(big_struc, command);
@@ -117,5 +141,5 @@ void	redirections(t_hustru *big_struc, char *command)
 	//else if (ft_strchr(command, '<<'))
 	//	double_arrow_left(big_struc, command);
 	else if (ft_strchr(command, '>') || ft_strstr(command, ">>"))
-		arrow_right(big_struc, big_struc->path, command);
+		arrow_right2(big_struc, parsed_command);
 }
