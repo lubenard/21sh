@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/03 16:35:23 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/04 16:42:28 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,10 @@ void				double_arrow_left(t_env *lkd_env, char *command);
 int					arrow_left(t_hustru *big_struc, char *command);
 int					print_error_redirect(char **tab, char *code);
 char				**prepare_tab(char *command, char signe);
-char				*get_output_of_command(t_hustru *big_struc, char **argv);
+char				**get_output_of_command(t_hustru *big_struc, char **argv);
+char				**save_filename(char **command, int i);
+int					create_file(char **filenames);
+int					fill_file(char **filenames, char **output, char **command);
 /*
 ** Pipe utils
 */

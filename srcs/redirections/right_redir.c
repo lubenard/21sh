@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/03 16:48:25 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/04 16:46:28 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,24 @@
 
 char	**save_filename(char **tab, int i)
 {
-	int		e;
 	int		nbr_elem;
 	char	**filename;
 	int		k;
-	int		m;
 
 	k = 0;
 	nbr_elem = count_elem_redir(tab, i);
 	if (!(filename = (char **)malloc(sizeof(char *) * (nbr_elem + 1))))
 		return (NULL);
-	while (i - 1 < nbr_elem)
+	while(!ft_strchr(tab[i], '>'))
+		i++;
+	while (tab[i])
 	{
-		m = 0;
-		while ((tab[i][m] == '>' || tab[i][m] == ' '
-			|| tab[i][m] == '\t') && tab[i][m])
-			m++;
-		e = m;
-		while (tab[i][e] && tab[i][e] != ' ')
-			e++;
-		filename[k] = ft_strsub(tab[i], m, e);
-		printf("filename[%d] = '%s'\n", k, filename[k]);
-		k++;
+		if (!ft_strchr(tab[i], '>'))
+		{
+			filename[k] = tab[i];
+			printf("filename[%d] = '%s'\n", k, filename[k]);
+			k++;
+		}
 		i++;
 	}
 	filename[k] = NULL;
@@ -55,37 +51,34 @@ int		check_errors_redirect(char **tab, char *command, int i)
 	return (0);
 }
 
-int		create_file(char **filenames, char **tab)
+int		create_file(char **filenames)
 {
 	int i;
 	int file;
-	int e;
 
 	i = 0;
-	e = 1;
 	while (filenames[i])
 	{
-		if (tab[e][0] == '>')
-			file = open(filenames[i], O_CREAT, 0666);
-		else
-			file = open(filenames[i], O_CREAT | O_TRUNC, 0666);
+		//check if file exist first
+		file = open(filenames[i], O_CREAT, 0666);
 		if (file <= 0)
 			return (1);
 		close(file);
 		i++;
-		e++;
 	}
 	return (0);
 }
 
-char	*get_output_of_command(t_hustru *big_struc, char **argv)
+char	**get_output_of_command(t_hustru *big_struc, char **argv)
 {
 	int		link[4];
 	pid_t	pid;
 	char	output_std[50000];
 	char	output_err[50000];
+	char	**tab;
 
-	if (pipe(link) == -1 || pipe(link + 2) || (pid = fork()) == -1)
+	if (!(tab = (char **)malloc(sizeof(char *) * 2))
+		|| pipe(link) < 0 || pipe(link + 2) < 0 || (pid = fork()) < 0)
 		return (NULL);
 	if (pid == 0)
 	{
@@ -107,12 +100,12 @@ char	*get_output_of_command(t_hustru *big_struc, char **argv)
 	printf("[Exec redir] output_std vaut %s\n", output_std);
 	printf("[Exec redir] output_err vaut %s\n", output_err);
 	printf("-------------------end-----------------------\n");
-	ft_bzero(output_std, 50000);
-	ft_bzero(output_err, 50000);
-	return (ft_strndup(output_std, ft_strlen(output_std) - 1));
+	tab[0] = output_std;
+	tab[1] = output_err;
+	return(tab);
 }
 
-int		fill_file(char **filenames, char *ret_command, char **tab)
+int		fill_file(char **filenames, char **output, char **tab)
 {
 	int		out;
 	int		i;
@@ -124,29 +117,26 @@ int		fill_file(char **filenames, char *ret_command, char **tab)
 			out = open(filenames[i], O_APPEND | O_WRONLY);
 		else
 			out = open(filenames[i], O_WRONLY);
-		ft_putendl_fd(ret_command, out);
+		ft_putendl_fd(output[0], out);
 		close(out);
-		free(filenames[i]);
+		//free(filenames[i]);
 		i++;
 	}
-	free(ret_command);
-	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
-	free(filenames);
+	//free(ret_command);
+	//ft_deltab(tab);
+	//free(filenames);
 	return (0);
 }
 
 char	*exec_command_redir(t_hustru *big_struc, char **path, char av[131072])
 {
 	char	**argv;
-	char	*ret_command;
+	//char	*ret_command;
 	char	*normal_path;
-
+	(void)big_struc;
 	argv = ft_strsplit(av, ' ');
 	normal_path = find_path(path, argv[0]);
-	ret_command = get_output_of_command(big_struc, argv);
+	//ret_command = get_output_of_command(big_struc, argv);
 	return (0);
 }
 
@@ -155,10 +145,11 @@ void	save_redir(char *command, char *content)
 	char **tab;
 	char **filenames;
 
+	(void)content;
 	tab = prepare_tab(command, '>');
 	filenames = save_filename(tab, 1);
-	create_file(filenames, tab);
-	fill_file(filenames, content, tab);
+	//create_file(filenames, tab);
+	//fill_file(filenames, content, tab);
 }
 
 void	arrow_right(t_hustru *big_struc, char **path, char *command)
@@ -169,6 +160,8 @@ void	arrow_right(t_hustru *big_struc, char **path, char *command)
 	char	**filenames;
 	int		e;
 
+	(void)path;
+	(void)big_struc;
 	i = 1;
 	ft_bzero(av, 131072);
 	tab = prepare_tab(command, '>');
@@ -185,6 +178,6 @@ void	arrow_right(t_hustru *big_struc, char **path, char *command)
 		ft_str_start_cat(av, tab[i], e);
 		i++;
 	}
-	create_file(filenames, tab);
-	fill_file(filenames, exec_command_redir(big_struc, path, av), tab);
+	//create_file(filenames, tab);
+	//fill_file(filenames, exec_command_redir(big_struc, path, av), tab);
 }

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/03 16:49:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/04 16:46:39 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,12 @@ int		arrow_right2(t_hustru *big_struc, char **command)
 {
 	int		i = 0;
 	char	*extract;
+	int		k = 0;
+	char	*tab[50];
+	char	**filenames;
+	char	**output;
 
+	(void)big_struc;
 	while (!ft_strchr(command[i], '>'))
 	{
 		printf("[Redirections]: Je passe sur %s\n", command[i]);
@@ -125,11 +130,18 @@ int		arrow_right2(t_hustru *big_struc, char **command)
 		extract = extract_first(command[i], '>');
 		printf("[Redirections] extract vaut %s\n", extract);
 	}
-	char *argv[] = {"cat", "auteur", NULL};
-	char *argv2[] = {"cat", "trucmuche", NULL};
-	free(get_output_of_command(big_struc, argv));
-	free(get_output_of_command(big_struc, argv2));
-	return (0);
+	while (k != i)
+	{
+		printf("Je copie %s\n", command[k]);
+		tab[k] = command[k];
+		k++;
+	}
+	tab[k] = NULL;
+	filenames = save_filename(command, i); //merge save_filename and create_file
+	create_file(filenames);
+	output = get_output_of_command(big_struc, tab);
+	fill_file(filenames, output, command);
+	return (0)
 }
 
 void	redirections(t_hustru *big_struc, char *command, char **parsed_command)

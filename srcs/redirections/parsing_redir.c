@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 14:50:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/02 14:50:18 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/04 15:15:20 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		count_elem_redir(char **tab, int i)
 	elem = 0;
 	while (tab[i])
 	{
-		if (tab[i][0] != 0)
+		if (ft_strchr(tab[i], '>'))
 			elem++;
 		i++;
 	}
