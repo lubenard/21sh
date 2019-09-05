@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/04 16:46:39 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/05 16:08:41 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,6 @@
 /*
 ** NOTES : arrow is creating the files before executing command
 */
-
-int		print_error_redirect(char **tab, char *code)
-{
-	int i;
-
-	i = 0;
-	ft_putstr_fd("ymarsh: parse error near ", 2);
-	ft_putendl_fd(code, 2);
-	ft_deltab(tab);
-	return (1);
-}
-
-char	**prepare_tab(char *command, char signe)
-{
-	int		i;
-	char	**tab;
-	char	*tmp;
-
-	i = 0;
-	tab = ft_strsplit_redir(command, signe);
-	while (tab[i])
-	{
-		printf("tab[%d] vaut %s\n", i,tab[i]);
-		tmp = ft_strdup(tab[i]);
-		free(tab[i]);
-		tab[i] = ft_strtrim(tmp);
-		free(tmp);
-		i++;
-	}
-	return (tab);
-}
 
 void	redir_and_pipe(t_hustru *big_struc, char **command)
 {
@@ -109,41 +78,6 @@ void	double_redir(t_hustru *big_struc, char *command)
 	save_redir(big_struc->line, ft_strndup(output, ft_strlen(output) - 1));
 }
 
-int		arrow_right2(t_hustru *big_struc, char **command)
-{
-	int		i = 0;
-	char	*extract;
-	int		k = 0;
-	char	*tab[50];
-	char	**filenames;
-	char	**output;
-
-	(void)big_struc;
-	while (!ft_strchr(command[i], '>'))
-	{
-		printf("[Redirections]: Je passe sur %s\n", command[i]);
-		i++;
-	}
-	printf("[Redirections] Je m'arrete sur %s\n", command[i]);
-	if (command[i][0] != '>')
-	{
-		extract = extract_first(command[i], '>');
-		printf("[Redirections] extract vaut %s\n", extract);
-	}
-	while (k != i)
-	{
-		printf("Je copie %s\n", command[k]);
-		tab[k] = command[k];
-		k++;
-	}
-	tab[k] = NULL;
-	filenames = save_filename(command, i); //merge save_filename and create_file
-	create_file(filenames);
-	output = get_output_of_command(big_struc, tab);
-	fill_file(filenames, output, command);
-	return (0)
-}
-
 void	redirections(t_hustru *big_struc, char *command, char **parsed_command)
 {
 	if (ft_strchr(command, '<') && ft_strchr(command, '>'))
@@ -153,5 +87,5 @@ void	redirections(t_hustru *big_struc, char *command, char **parsed_command)
 	//else if (ft_strchr(command, '<<'))
 	//	double_arrow_left(big_struc, command);
 	else if (ft_strchr(command, '>') || ft_strstr(command, ">>"))
-		arrow_right2(big_struc, parsed_command);
+		arrow_right(big_struc, parsed_command);
 }

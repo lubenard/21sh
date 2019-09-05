@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/04 16:46:28 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/05 17:12:45 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,12 @@ int		create_file(char **filenames)
 	i = 0;
 	while (filenames[i])
 	{
-		//check if file exist first
-		file = open(filenames[i], O_CREAT, 0666);
-		if (file <= 0)
-			return (1);
-		close(file);
+		if (access(filenames[i], F_OK) != -1)
+		{
+			if ((file = open(filenames[i], O_CREAT, 0666) <= 0))
+				return (1);
+			close(file);
+		}
 		i++;
 	}
 	return (0);
@@ -100,7 +101,7 @@ char	**get_output_of_command(t_hustru *big_struc, char **argv)
 	printf("[Exec redir] output_std vaut %s\n", output_std);
 	printf("[Exec redir] output_err vaut %s\n", output_err);
 	printf("-------------------end-----------------------\n");
-	tab[0] = output_std;
+	tab[0] = ft_strndup(output_std, ft_strlen(output_std) - 1);
 	tab[1] = output_err;
 	return(tab);
 }
@@ -111,16 +112,25 @@ int		fill_file(char **filenames, char **output, char **tab)
 	int		i;
 
 	i = 0;
-	while (filenames[i])
+	(void)filenames;
+	while (tab[i])
+		printf("tab[i] = %s\n", tab[i++]);
+	i = ft_tablen(tab) - 1;
+	while (i != 0)
 	{
-		if (tab[i + 1][0] == '>')
-			out = open(filenames[i], O_APPEND | O_WRONLY);
-		else
-			out = open(filenames[i], O_WRONLY);
-		ft_putendl_fd(output[0], out);
-		close(out);
+		if (!ft_strchr(tab[i], '>'))
+		{
+			printf("J'ouvre %s\n", tab[i]);
+			printf("tab[%d - 1] = %s\n", i, tab[i - 1]);
+			if (!ft_strcmp(tab[i - 1], ">>"))
+				out = open(tab[i], O_APPEND | O_WRONLY);
+			else
+				out = open(tab[i], O_WRONLY);
+			ft_putendl_fd(output[0], out);
+			close(out);
+		}
 		//free(filenames[i]);
-		i++;
+		i--;
 	}
 	//free(ret_command);
 	//ft_deltab(tab);
@@ -145,39 +155,48 @@ void	save_redir(char *command, char *content)
 	char **tab;
 	char **filenames;
 
+	(void)command;
+	(void)tab;
+	(void)filenames;
 	(void)content;
-	tab = prepare_tab(command, '>');
-	filenames = save_filename(tab, 1);
+	//tab = prepare_tab(command, '>');
+	//filenames = save_filename(tab, 1);
 	//create_file(filenames, tab);
-	//fill_file(filenames, content, tab);
+	////fill_file(filenames, content	, tab);
 }
 
-void	arrow_right(t_hustru *big_struc, char **path, char *command)
-{
-	char	**tab;
-	int		i;
-	char	av[131072];
-	char	**filenames;
-	int		e;
 
-	(void)path;
+int		arrow_right(t_hustru *big_struc, char **command)
+{
+	int		i = 0;
+	char	*extract;
+	int		k = 0;
+	char	*tab[50];
+	char	**filenames;
+	char	**output;
+
 	(void)big_struc;
-	i = 1;
-	ft_bzero(av, 131072);
-	tab = prepare_tab(command, '>');
-	printf("Tab[0] vaut %s\n", tab[0]);
-	ft_str_start_cat(av, tab[0], 0);
-	if (check_errors_redirect(tab, command, i) == 1)
-		return ;
-	filenames = save_filename(tab, i);
-	while (tab[i])
+	while (!ft_strchr(command[i], '>'))
 	{
-		e = pass_filename(tab, i);
-		if (tab[i][0] == '>')
-			e++;
-		ft_str_start_cat(av, tab[i], e);
+		printf("[Redirections]: Je passe sur %s\n", command[i]);
 		i++;
 	}
-	//create_file(filenames, tab);
-	//fill_file(filenames, exec_command_redir(big_struc, path, av), tab);
+	printf("[Redirections] Je m'arrete sur %s\n", command[i]);
+	if (command[i][0] != '>')
+	{
+		extract = extract_first(command[i], '>');
+		printf("[Redirections] extract vaut %s\n", extract);
+	}
+	while (k != i)
+	{
+		printf("Je copie %s\n", command[k]);
+		tab[k] = command[k];
+		k++;
+	}
+	tab[k] = NULL;
+	filenames = save_filename(command, i); //merge save_filename and create_file
+	create_file(filenames);
+	output = get_output_of_command(big_struc, tab);
+	fill_file(filenames, output, command);
+	return (0);
 }
