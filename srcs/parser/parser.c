@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/03 14:19:42 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/09 18:48:34 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,22 @@ int		parser(t_hustru *big_struc, char *command)
 	char	**semicolon;
 	int		i;
 	char	**split_space;
+	int		e;
 
 	i = 0;
+	e = 0;
 	semicolon = ft_strsplit(command, ';');
 	while (semicolon[i])
 		printf("Mon maillon vaut |%s|\n", semicolon[i++]);
 	i = 0;
 	while (semicolon[i])
 	{
+		while (semicolon[i][e] != '>')
+		{
+			printf("[Parsing] Je parscours %s et je suis sur %c\n", semicolon[i], semicolon[i][e]);
+			e++;
+		}
+		printf("[Parsing] Je m'arrete sur %c\n", semicolon[i][e]);
 		big_struc->line = semicolon[i];
 		split_space = ft_strsplit(semicolon[i++], ' ');
 		big_struc->last_ret = decide_commande(big_struc, split_space);

@@ -7,3 +7,4 @@ file*
 compare*
 vgcore.*
 .vscode
+.DS_Store

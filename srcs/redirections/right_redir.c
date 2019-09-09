@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/05 17:12:45 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/09 17:20:52 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,36 @@ char	**save_filename(char **tab, int i)
 	int		nbr_elem;
 	char	**filename;
 	int		k;
+	char	*tmp;
+//	char	*tmp2;
 
 	k = 0;
 	nbr_elem = count_elem_redir(tab, i);
 	if (!(filename = (char **)malloc(sizeof(char *) * (nbr_elem + 1))))
 		return (NULL);
-	while(!ft_strchr(tab[i], '>'))
+	while (!ft_strchr(tab[i], '>'))
+	{
+		printf("Je passe %s\n", tab[i]);
 		i++;
+	}
+	i++;
 	while (tab[i])
 	{
+		printf("[Save Filename] Je regarde %s\n", tab[i]);
 		if (!ft_strchr(tab[i], '>'))
 		{
 			filename[k] = tab[i];
 			printf("filename[%d] = '%s'\n", k, filename[k]);
 			k++;
+		}
+		else
+		{
+			if (ft_strcmp(tmp = extract_first(tab[i], '>'), ""))
+			{
+				filename[k] = tmp;
+				printf("filename[%d] = '%s'\n", k, filename[k]);
+				k++;
+			}
 		}
 		i++;
 	}
@@ -59,8 +75,9 @@ int		create_file(char **filenames)
 	i = 0;
 	while (filenames[i])
 	{
-		if (access(filenames[i], F_OK) != -1)
+		if (access(filenames[i], F_OK) == -1)
 		{
+			printf("Je cree %s\n", filenames[i]);
 			if ((file = open(filenames[i], O_CREAT, 0666) <= 0))
 				return (1);
 			close(file);
@@ -162,7 +179,7 @@ void	save_redir(char *command, char *content)
 	//tab = prepare_tab(command, '>');
 	//filenames = save_filename(tab, 1);
 	//create_file(filenames, tab);
-	////fill_file(filenames, content	, tab);
+	////fill_file(filenames, content, tab);
 }
 
 

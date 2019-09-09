@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:56:10 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/14 12:30:43 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/09 17:47:48 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,22 @@ char	*extract_first(char *command, char stop)
 	while (command[i] != stop && command[i])
 		++i;
 	return (ft_strsub(command, 0, i));
+}
+
+char	*extract_last(char *command, char last)
+{
+	int		i;
+	int		e;
+
+	i = 0;
+	e = 0;
+	while (command[i] && command[i] != last)
+		i++;
+	while (command[i] == last)
+		i++;
+	while (command[i + e])
+		e++;
+	return (ft_strsub(command, i, e));
 }
 
 char	*find_in_env(t_env *lkd_env, char *to_find)

@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/05 16:49:18 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/09 16:47:37 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int					exec_command_gen(char *path, char **argv, char **env);
 */
 char				*extract_params(char *command);
 char				*extract_first_env(char *command);
+char				*extract_last(char *command, char start);
 char				*find_in_env(t_env *lkd_env, char *to_find);
 int					free_after_exec(char *get_right_path, char **env);
 int					get_error_exec(char path[6000]);

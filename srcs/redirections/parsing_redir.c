@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 14:50:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/05 17:50:41 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/09 13:48:10 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,8 @@ void	ft_str_start_cat(char *dest, const char *src, int start)
 
 int		ft_str_is_alpha(char *str, int i)
 {
-	while (str[i])
-	{
-		if (ft_isalpha(str[i]))
-			return (1);
-		i++;
-	}
+	if (ft_isalpha(str[i]))
+		return (1);
 	return (0);
 }
 
@@ -47,22 +43,22 @@ int		count_elem_redir(char **tab, int i)
 	elem = 0;
 	while (tab[i])
 	{
-		printf("Je regarde %s\n", tab[i]);
+		//printf("Je regarde %s\n", tab[i]);
 		if (!ft_strchr(tab[i], '>'))
 		{
-			printf("Je rajoute %s\n", tab[i]);
+		//	printf("Je rajoute %s\n", tab[i]);
 			elem++;
 		}
 		else
 		{
 			if (ft_str_is_alpha(tab[i], 0))
 			{
-				printf("Je rajoute avant %s\n", tab[i]);
+			//	printf("Je rajoute avant %s\n", tab[i]);
 				elem++;
 			}
 			if (ft_str_is_alpha(tab[i], ft_strchri(tab[i], '>')))
 			{
-				printf("Je rajoute apres %s\n", tab[i]);
+			//	printf("Je rajoute apres %s\n", tab[i]);
 				elem++;
 			}
 		}
