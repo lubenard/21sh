@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/10 14:50:19 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/10 15:05:23 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,22 @@ void	redirections(t_hustru *big_struc, char *command, char **parsed_command)
 	(void)parsed_command;
 	char **tab;
 	int i = 0;
+	char *tmp;
 
 	tab = ft_strsplit_redir(command, '>');
 	while (tab[i])
+	{
+		tmp = ft_strtrim(tab[i]);
+		free(tab[i]);
+		tab[i] = tmp;
 		printf("tab[i] = %s\n", tab[i++]);
-	/*if (ft_strchr(command, '<') && ft_strchr(command, '>'))
+	}
+	if (ft_strchr(command, '<') && ft_strchr(command, '>'))
 		double_redir(big_struc, command);
 	else if (ft_strchr(command, '<'))
 		arrow_left(big_struc, command);
 	//else if (ft_strchr(command, '<<'))
 	//	double_arrow_left(big_struc, command);
 	else if (ft_strchr(command, '>') || ft_strstr(command, ">>"))
-		arrow_right(big_struc, parsed_command);*/
+		arrow_right(big_struc, tab);
 }
