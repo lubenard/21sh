@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/09 18:44:01 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/10 14:50:19 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,64 +78,25 @@ void	double_redir(t_hustru *big_struc, char *command)
 	save_redir(big_struc->line, ft_strndup(output, ft_strlen(output) - 1));
 }
 
-/*char	**parse_redir(char **command, char stop)
-{
-	char	**tab;
-	int		i;
-	char	*extract;
-	char	*extract2;
-	int		malloc_size;
-	int		test;
 
-	i = 0;
-	test = 0;
-	malloc_size = 0;
-	while (command[i])
-	{
-		if (!ft_strchr(command[i], stop))
-			malloc_size++;
-		else
-		{
-			if (ft_strcmp(extract = extract_first(command[i], stop), ""))
-				malloc_size++;
-			if (ft_strcmp(extract2 = extract_last(command[i], stop), ""))
-				malloc_size++;
-			malloc_size++;
-		}
-		i++;
-	}
-	printf("Malloc_size = %d\n", malloc_size);
-	i = 0;
-	tab = (char **)malloc(sizeof(char *) * (malloc_size + 1));
-	while (command[i])
-	{
-		if (!ft_strchr(command[i], '>'))
-			tab[i] = ft_strdup(command[i]);
-		else
-		{
-
-		}
-		i++;
-	}
-
-	tab[i] = NULL;
-	i = 0;
-	while (tab[i])
-		printf("parse_redir vaut %s\n", tab[i++]);
-	return (tab);
-}*/
 
 void	redirections(t_hustru *big_struc, char *command, char **parsed_command)
 {
 	(void)big_struc;
 	(void)command;
-	//parse_redir(parsed_command, '>');
-	if (ft_strchr(command, '<') && ft_strchr(command, '>'))
+	(void)parsed_command;
+	char **tab;
+	int i = 0;
+
+	tab = ft_strsplit_redir(command, '>');
+	while (tab[i])
+		printf("tab[i] = %s\n", tab[i++]);
+	/*if (ft_strchr(command, '<') && ft_strchr(command, '>'))
 		double_redir(big_struc, command);
 	else if (ft_strchr(command, '<'))
 		arrow_left(big_struc, command);
 	//else if (ft_strchr(command, '<<'))
 	//	double_arrow_left(big_struc, command);
 	else if (ft_strchr(command, '>') || ft_strstr(command, ">>"))
-		arrow_right(big_struc, parsed_command);
+		arrow_right(big_struc, parsed_command);*/
 }
