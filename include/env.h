@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 14:06:51 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/22 15:18:18 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/11 20:27:57 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_env	*print_env_and_var(t_env *lkd_env, t_env *env,
 void	free_env(t_env *env);
 int		launch_command_env(t_hustru *big_struc, int flags,
 	char **command);
-void	fill_env(t_env **env, char **command, int i, t_env *tmp);
+void	fill_env(t_env *env, char **command, int i, t_env *tmp);
 
 t_env	*new_maillon_env();
 char				*find_in_env(t_env *lkd_env, char *to_find);

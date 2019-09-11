@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/03 16:54:16 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/11 16:24:05 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	change_env(t_hustru *big_struc)
 	}
 	else
 	{
-		free(str);
 		i = ft_atoi(str) + 1;
+		free(str);
 		str = ft_itoa(i);
 		buff[1] = ft_strjoin("SHLVL=", str);
 		set_env(big_struc, buff);
@@ -125,8 +125,6 @@ int		get_option(t_hustru *big_struc, char **argv)
 	}
 	return (0);
 }
-
-char	***compact_command(char **command);
 
 int		main(int argc, char **argv, char **env)
 {

@@ -83,7 +83,7 @@ int		set_env(t_hustru *big_struc, char **command)
 			set_env3(&lkd_env, to_extract, to_search, command[i]);
 		i++;
 	}
-	ft_deltab(big_struc->path);
+	//ft_deltab(big_struc->path);
 	big_struc->path = get_path(find_in_env(big_struc->lkd_env,
 		ft_strdup("PATH")));
 	return (0);

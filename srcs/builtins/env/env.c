@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/27 17:11:32 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/11 22:52:49 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,42 +37,55 @@ int		count_elem_env(char **command)
 	return (e);
 }
 
-void	fill_env(t_env **env, char **command, int i, t_env *tmp)
+void	fill_env2(t_env *tmp, char **command, int i)
+{
+	char *first_env;
+	char *first_env2;
+
+	while (tmp)
+	{
+		first_env = extract_first(command[i], '=');
+		first_env2 = extract_first(tmp->env_line, '=');
+		if (!ft_strcmp(first_env, first_env2))
+		{
+			ft_strcpy(tmp->env_line, command[i]);
+			free(first_env);
+			free(first_env2);
+			break ;
+		}
+		free(first_env);
+		free(first_env2);
+		tmp = tmp->next;
+	}
+}
+
+void	fill_env(t_env *env, char **command, int i, t_env *tmp)
 {
 	t_env	*new_element;
-	char	*first_env;
-	char	*first_env2;
 	char	*fie;
 
 	if ((fie = find_in_env(tmp, extract_first(command[i], '='))))
 	{
-		while (tmp)
-		{
-			first_env = extract_first(command[i], '=');
-			first_env2 = extract_first(tmp->env_line, '=');
-			if (!ft_strcmp(first_env, first_env2))
-			{
-				ft_strcpy(tmp->env_line, command[i]);
-				free(first_env);
-				free(first_env2);
-				break ;
-			}
-			free(first_env);
-			free(first_env2);
-			tmp = tmp->next;
-		}
+		printf("[Env Builtin]{fill_env} je rentre ici\n");
+		fill_env2(tmp, command, i);
 	}
 	else
 	{
-		ft_strcpy((*env)->env_line, command[i]);
-		if (command[i + 1] && ft_strchr(command[i + 1], '=')
-			&& !find_in_env(tmp, ft_strdup(command[i + 1])))
+		printf("[Env Builtin]{fill_env} je traite %s\n", command[i]);
+		printf("[Env Builtin]{fill_env} (*env)->env_line vaut %s\n", env->env_line);
+		if (ft_strcmp(env->env_line, ""))
 		{
+			while (env->next)
+				env = env->next;
+			printf("[Env Builtin]{fill_env} je rentre dans cette condition\n");
 			new_element = new_maillon_env();
-			(*env)->next = new_element;
-			(*env)->next->prev = (*env);
-			(*env) = new_element;
+			ft_strcpy(new_element->env_line, command[i]);
+			env->next = new_element;
+			env->next->prev = env;
+			env = new_element;
 		}
+		else
+			ft_strcpy(env->env_line, command[i]);
 	}
 	free(fie);
 }
@@ -109,7 +122,7 @@ void	verbose(t_env *env, char *right_path, char *command)
 	}
 }
 
-char	*exec_file_env(t_env *env, char **command,
+int		exec_file_env(t_env *env, char **command,
 	t_hustru *big_struc, int flags)
 {
 	char	**tab_env;
@@ -129,23 +142,21 @@ char	*exec_file_env(t_env *env, char **command,
 	if (right_path == NULL)
 	{
 		ft_putstr("No file found with the following name: ");
-		big_struc->last_ret = 127;
 		ft_putendl(command[i]);
 		free_env(env);
-		return (NULL);
+		return (127);
 	}
 	tab_env = compact_env(env);
 	exec_command_gen(right_path, argv, tab_env);
-	return (right_path);
+	return (0);
 }
 
 int		exec_default_env(t_env *env, char **command,
 	t_hustru *big_struc, int flags)
 {
 	(void)env;
-	printf("Je passe par ici\n");
-	exec_file_env(big_struc->lkd_env, command, big_struc, flags);
-	return (0);
+	//printf("J'execute avec l'environnemnt par defaut\n");
+	return(exec_file_env(big_struc->lkd_env, command, big_struc, flags));
 }
 
 int		launch_command_env(t_hustru *big_struc, int flags,
@@ -155,13 +166,14 @@ int		launch_command_env(t_hustru *big_struc, int flags,
 	int		is_command;
 	t_env	*lkd_env;
 
+	printf("[Env Builtin]{launch_command_env} J'exec en ayant deja traite mes options\n");
 	lkd_env = big_struc->lkd_env;
 	is_command = 1;
 	env = parse_env(lkd_env, command, flags, &is_command);
-	if (is_command == 1 && flags & PE_I)
+	if (is_command == 1 && (flags & PE_I || ft_tabchr(command, '=')))
 		exec_file_env(env, command, big_struc, flags);
 	else if (is_command == 1)
-		exec_default_env(env, command, big_struc, flags);
+		return(exec_default_env(env, command, big_struc, flags));
 	return (0);
 }
 

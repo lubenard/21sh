@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:37:44 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/22 17:47:29 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/11 20:37:36 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,15 @@ t_env	*parse_env(t_env *lkd_env, char **command, int flags, int *is_command)
 	env = new_maillon_env();
 	tmp = env;
 	while (command[i] && ft_strchr(command[i], '-'))
+	{
+		printf("\033[0;31m[Env Builtin]{parse_env} Je passe %s\033[0m\n", command[i]);
 		i++;
+	}
 	while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
-		fill_env(&env, command, i++, tmp);
+	{
+		printf("\033[0;31m[Env Builtin]{parse_env} Je traite %s\033[0m\n", command[i]);
+		fill_env(env, command, i++, tmp);
+	}
 	if (!command[i] && flags & PE_I)
 		return (print_env_no_command(tmp, flags, is_command));
 	else if (!(flags & PE_I) && !command[i])

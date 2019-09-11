@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 08:59:56 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/02 13:14:23 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/11 15:25:35 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,7 @@ char			**ft_strsplit(char const *s, char c)
 	j = 0;
 	i = 0;
 	nbr_words = countwords(s, c);
-	if (!s)
-		return (0);
-	if (!(ret = (char **)malloc(sizeof(char *) * (nbr_words + 1))))
+	if (!s || !(ret = (char **)malloc(sizeof(char *) * (nbr_words + 1))))
 		return (0);
 	while (j < nbr_words)
 	{
@@ -79,6 +77,6 @@ char			**ft_strsplit(char const *s, char c)
 			ret[j][k++] = s[i++];
 		j++;
 	}
-	ret[j] = 0;
+	ret[j] = NULL;
 	return (ret);
 }

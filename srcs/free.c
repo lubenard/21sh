@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 17:01:28 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/22 15:24:46 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/11 22:40:23 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int		free_after_exec(char *get_right_path, char **env)
 
 void	free_env(t_env *env)
 {
-	t_env	*tmp;
+	(void)env;
+	/*t_env	*tmp;
 	int		i;
 
 	i = 0;
@@ -30,7 +31,7 @@ void	free_env(t_env *env)
 		tmp = env;
 		env = env->next;
 		free(tmp);
-	}
+	}*/
 }
 
 char	*extract_command(char *command)

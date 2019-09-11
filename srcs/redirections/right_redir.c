@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/10 18:20:59 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/11 16:25:01 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,6 @@ void	save_redir(char *command, char *content)
 	//create_file(filenames, tab);
 	////fill_file(filenames, content, tab);
 }
-
 
 int		arrow_right(t_hustru *big_struc, char **command)
 {
