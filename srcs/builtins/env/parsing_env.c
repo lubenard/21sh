@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:37:44 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/11 20:37:36 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/12 14:29:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,27 +53,22 @@ t_env	*parse_env(t_env *lkd_env, char **command, int flags, int *is_command)
 	int		i;
 	size_t	k;
 	t_env	*env;
-	t_env	*tmp;
 
 	i = 1;
 	env = new_maillon_env();
-	tmp = env;
 	while (command[i] && ft_strchr(command[i], '-'))
-	{
-		printf("\033[0;31m[Env Builtin]{parse_env} Je passe %s\033[0m\n", command[i]);
 		i++;
-	}
 	while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
 	{
 		printf("\033[0;31m[Env Builtin]{parse_env} Je traite %s\033[0m\n", command[i]);
-		fill_env(env, command, i++, tmp);
+		fill_env(env, command, i++);
 	}
 	if (!command[i] && flags & PE_I)
-		return (print_env_no_command(tmp, flags, is_command));
+		return (print_env_no_command(env, flags, is_command));
 	else if (!(flags & PE_I) && !command[i])
-		return (print_env_and_var(lkd_env, tmp, flags, is_command));
-	if (tmp->env_line[0] != '\0')
-		return (tmp);
+		return (print_env_and_var(lkd_env, env, flags, is_command));
+	if (env->env_line[0] != '\0')
+		return (env);
 	free(env);
 	return (NULL);
 }

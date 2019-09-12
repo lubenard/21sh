@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/11 16:24:05 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/12 15:02:12 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,6 @@ void	change_env(t_hustru *big_struc)
 		free(buff[1]);
 	}
 	free(str);
-}
-
-void	free_after_exit(t_env *lkd_env, t_hist *lkd_hist, char **path)
-{
-	t_env	*tmp;
-	t_hist	*tmp2;
-
-	while (lkd_env)
-	{
-		tmp = lkd_env;
-		lkd_env = lkd_env->next;
-		free(tmp);
-	}
-	while (lkd_hist)
-	{
-		tmp2 = lkd_hist;
-		lkd_hist = lkd_hist->prev;
-		free(tmp2);
-	}
-	if (path != NULL)
-		ft_deltab(path);
 }
 
 char	*get_path_hist(void)

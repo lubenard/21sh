@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/11 22:52:49 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/12 15:01:01 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,29 +59,23 @@ void	fill_env2(t_env *tmp, char **command, int i)
 	}
 }
 
-void	fill_env(t_env *env, char **command, int i, t_env *tmp)
+void	fill_env(t_env *env, char **command, int i)
 {
 	t_env	*new_element;
 	char	*fie;
 
-	if ((fie = find_in_env(tmp, extract_first(command[i], '='))))
-	{
-		printf("[Env Builtin]{fill_env} je rentre ici\n");
-		fill_env2(tmp, command, i);
-	}
+	if ((fie = find_in_env(env, extract_first(command[i], '='))))
+		fill_env2(env, command, i);
 	else
 	{
-		printf("[Env Builtin]{fill_env} je traite %s\n", command[i]);
-		printf("[Env Builtin]{fill_env} (*env)->env_line vaut %s\n", env->env_line);
 		if (ft_strcmp(env->env_line, ""))
 		{
+			printf("Je rentre ici\n");
 			while (env->next)
 				env = env->next;
-			printf("[Env Builtin]{fill_env} je rentre dans cette condition\n");
 			new_element = new_maillon_env();
 			ft_strcpy(new_element->env_line, command[i]);
 			env->next = new_element;
-			env->next->prev = env;
 			env = new_element;
 		}
 		else
@@ -112,16 +106,6 @@ char	**compact_argv_env(char **command, int i)
 	return (argv);
 }
 
-void	verbose(t_env *env, char *right_path, char *command)
-{
-	print_verbose_env(env, NULL, 1);
-	if (right_path != NULL)
-	{
-		ft_putstr("#env executing: ");
-		ft_putendl(command);
-	}
-}
-
 int		exec_file_env(t_env *env, char **command,
 	t_hustru *big_struc, int flags)
 {
@@ -147,16 +131,38 @@ int		exec_file_env(t_env *env, char **command,
 		return (127);
 	}
 	tab_env = compact_env(env);
+	ft_deltab(argv);
 	exec_command_gen(right_path, argv, tab_env);
 	return (0);
 }
 
-int		exec_default_env(t_env *env, char **command,
+int		exec_custom_env(t_env *env, char **command,
 	t_hustru *big_struc, int flags)
 {
-	(void)env;
-	//printf("J'execute avec l'environnemnt par defaut\n");
-	return(exec_file_env(big_struc->lkd_env, command, big_struc, flags));
+	t_env	*lkd_env;
+	int		ret;
+	int		save;
+	int		i;
+
+	save = 0;
+	i = 0;
+	lkd_env = big_struc->lkd_env;
+	while (lkd_env->next)
+	{
+		lkd_env = lkd_env->next;
+		save++;
+	}
+	lkd_env->next = env;
+	ret = (flags & PE_I) ? exec_file_env(env, command, big_struc, flags) :
+	exec_file_env(big_struc->lkd_env, command, big_struc, flags);
+	lkd_env = big_struc->lkd_env;
+	while (i != save)
+	{
+		lkd_env = lkd_env->next;
+		i++;
+	}
+	lkd_env->next = NULL;
+	return (ret);
 }
 
 int		launch_command_env(t_hustru *big_struc, int flags,
@@ -165,15 +171,22 @@ int		launch_command_env(t_hustru *big_struc, int flags,
 	t_env	*env;
 	int		is_command;
 	t_env	*lkd_env;
+	t_env	*tmp;
 
-	printf("[Env Builtin]{launch_command_env} J'exec en ayant deja traite mes options\n");
 	lkd_env = big_struc->lkd_env;
 	is_command = 1;
 	env = parse_env(lkd_env, command, flags, &is_command);
 	if (is_command == 1 && (flags & PE_I || ft_tabchr(command, '=')))
-		exec_file_env(env, command, big_struc, flags);
+	{
+		printf("J'exec avec un env custom\n");
+		exec_custom_env(env, command, big_struc, flags);
+	}
 	else if (is_command == 1)
-		return(exec_default_env(env, command, big_struc, flags));
+	{
+		printf("J'exec avec un env par defaut\n");
+		return (exec_file_env(big_struc->lkd_env, command, big_struc, flags));
+	}
+	free_env(env);
 	return (0);
 }
 
