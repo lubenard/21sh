@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/12 14:48:06 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/12 18:30:38 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int					handle_tilde2(t_env *lkd_env);
 char				*extract_path(char *command);
 char				*extract_first(char *command, char stop);
 int					basic_command(t_hustru *big_struc, char **command);
+
 /*
 ** Redirections utils
 */

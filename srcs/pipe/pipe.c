@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/20 11:06:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/12 18:32:21 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	close_pipe(int *pipes, int i)
 	j = 0;
 	while (j != i)
 		close(pipes[j++]);
-	//dprintf(2, "All (%d) pipes have been closed\n", i);
 }
 
 int		count_args_triple_tab(char ***tab)
@@ -82,65 +81,28 @@ int		count_args_triple_tab(char ***tab)
 	return (i);
 }
 
-int		handle_pipe(t_hustru *big_struc, char *command)
+int		*prepare_pipe(int i)
 {
-
-	int		status;
-	int		i;
-	char	***tab;
 	int		*pipes;
 	int		e;
-	int		j;
-	int		k;
 
-	if ((tab = compact_command(command)) == NULL)
-	{
-		ft_putendl("Pipe: Invalid pipe");
-		return (1);
-	}
 	e = 0;
-	j = 0;
-	k = 0;
-	i = count_args_triple_tab(tab) - 1; // To fix if a pipe is at the end
-	printf("I vaut %d\n", i);
-	//printf("close fera %d\n", i * 2);
-	//printf("wait fera %d\n", i + 1);
 	if (!(pipes = (int *)malloc(sizeof(int) * (i * 2))))
 		return (0);
 	while (e != i * 2)
 	{
-		//printf("je pipe a + %d\n", e);
 		pipe(pipes + e);
 		e += 2;
 	}
+	return (pipes);
+}
+
+int		wait_pipe(int i, int *pipes, char ***tab)
+{
+	int e;
+	int status;
+
 	e = 0;
-	while (tab[j])
-	{
-		if (fork() == 0)
-		{
-			//dprintf(2, "J'exec tab[%d][0] = %s\n", j, tab[j][0]);
-			if (j != 0)
-			{
-			//	dprintf(2, "dup2(pipes[%d], 0)\n", k);
-				dup2(pipes[k], 0);
-			}
-			if (tab[j + 1] && j != 0)
-			{
-			//	dprintf(2, "dup2(pipes[%d], 1)\n", k + 3);
-				dup2(pipes[k + 3], 1);
-			}
-			if (j == 0)
-			{
-			//	dprintf(2, "dup2(pipes[%d], 1)\n", k + 1);
-				dup2(pipes[1], 1);
-			}
-			close_pipe(pipes, i * 2);
-			execve(find_path(big_struc->path, tab[j][0]), tab[j], compact_env(big_struc->lkd_env));
-		}
-		if (j != 0)
-			k += 2;
-		j++;
-	}
 	close_pipe(pipes, i * 2);
 	while (e < i + 1)
 	{
@@ -148,5 +110,50 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 		e++;
 	}
 	free(pipes);
-	return(free_pipe(tab));
+	return (free_pipe(tab));
+}
+
+int		print_error_pipe(void)
+{
+	ft_putendl_fd("Pipe: Invalid pipe", 2);
+	return (1);
+}
+
+void	exec_pipe(int j, int k, int *pipes, char ***tab)
+{
+	if (j != 0)
+		dup2(pipes[k], 0);
+	if (tab[j + 1] && j != 0)
+		dup2(pipes[k + 3], 1);
+	if (j == 0)
+		dup2(pipes[1], 1);
+}
+
+int		handle_pipe(t_hustru *big_struc, char *command)
+{
+	int		i;
+	char	***tab;
+	int		*pipes;
+	int		j;
+	int		k;
+
+	if ((tab = compact_command(command)) == NULL)
+		return (print_error_pipe());
+	j = 0;
+	k = 0;
+	i = count_args_triple_tab(tab) - 1;
+	pipes = prepare_pipe(i);
+	while (tab[j])
+	{
+		if (fork() == 0)
+		{
+			exec_pipe(j, k, pipes, tab);
+			close_pipe(pipes, i * 2);
+			execve(find_path(big_struc->path, tab[j][0]), tab[j], compact_env(big_struc->lkd_env)); //replace with decide_command
+		}
+		if (j != 0)
+			k += 2;
+		j++;
+	}
+	return (wait_pipe(i, pipes, tab));
 }

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 17:01:28 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/12 15:02:05 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/12 16:55:41 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	free_env(t_env *env)
 
 void	free_after_exit(t_env *lkd_env, t_hist *lkd_hist, char **path)
 {
-	t_env	*tmp;
 	t_hist	*tmp2;
 
 	free_env(lkd_env);
@@ -46,7 +45,6 @@ void	free_after_exit(t_env *lkd_env, t_hist *lkd_hist, char **path)
 	if (path != NULL)
 		ft_deltab(path);
 }
-
 
 char	*extract_command(char *command)
 {

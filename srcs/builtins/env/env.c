@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/12 15:01:01 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/12 16:56:06 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,6 @@ int		launch_command_env(t_hustru *big_struc, int flags,
 	t_env	*env;
 	int		is_command;
 	t_env	*lkd_env;
-	t_env	*tmp;
 
 	lkd_env = big_struc->lkd_env;
 	is_command = 1;
