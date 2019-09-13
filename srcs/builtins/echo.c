@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/13 22:57:09 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/13 23:01:54 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*verify_folder(char buffer[4096], char user_name[4096], char *str)
 	free(str);
 	free(str2);
 	err = stat(buffer, &s);
-	if (err == -1 || S_ISDIR(s.st_mode))
+	if (err == -1 || !S_ISDIR(s.st_mode))
 		return (ft_strjoin("~", user_name));
 	return (ft_strdup(buffer));
 }
