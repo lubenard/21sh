@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 15:05:11 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/21 17:02:23 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/13 18:58:42 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,7 @@ char	*handle_sortcut(t_env *lkd_env, char *path)
 
 	if (!get_shortcut_path(lkd_env, &spec_path, path))
 		return (spec_path);
-	else if (!ft_strcmp(path, "~")
-	|| !ft_strcmp(path, "") || !ft_strcmp(path, "--")
-	|| !ft_strcmp(path, "~/"))
+	else if (!ft_strcmp(path, "") || !ft_strcmp(path, "--"))
 	{
 		free(path);
 		path = find_in_env(lkd_env, ft_strdup("HOME"));

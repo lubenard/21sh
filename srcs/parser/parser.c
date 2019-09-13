@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/11 22:38:55 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/13 22:52:36 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,33 @@ int		basic_command(t_hustru *big_struc, char **command)
 	return (ret_code);
 }
 
+char	**parse_line(t_hustru *big_struc, char **command)
+{
+	int i;
+	int e;
+	char *tmp;
+
+	e = 0;
+	i = 0;
+	while (command[i])
+	{
+		if (command[i][0] == '$')
+		{
+			tmp = handle_dollar(big_struc, command[i]);
+			free(command[i]);
+			command[i] = tmp;
+		}
+		if (command[i][0] == '~')
+		{
+			tmp = handle_tilde(big_struc, command[i]);
+			free(command[i]);
+			command[i] = tmp;
+		}
+		i++;
+	}
+	return (command);
+}
+
 int		decide_commande(t_hustru *big_struc, char **command)
 {
 	if (!ft_tabchr(command, '>') &&
@@ -88,7 +115,7 @@ int		parser(t_hustru *big_struc, char *command)
 	while (semicolon[i])
 	{
 		big_struc->line = semicolon[i];
-		split_space = ft_strsplit(semicolon[i++], ' ');
+		split_space = parse_line(big_struc, ft_strsplit(semicolon[i++], ' '));
 		big_struc->last_ret = decide_commande(big_struc, split_space);
 		ft_deltab(split_space);
 	}

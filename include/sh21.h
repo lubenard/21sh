@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/12 18:30:38 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/13 22:29:00 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int					reset_shell_attr(int fd);
 */
 void				display_prompt(char *username, char *curr_dir);
 char				*error_setenv(char *command, int i, int e);
-int					error_echo(char user[4096]);
+char				*error_echo(char user[4096]);
 void				invalid_command(char *command);
 char				*find_name(t_env *lkd_env);
 char				*find_cur_dir(t_env *lkd_env);
@@ -103,7 +103,6 @@ char				*find_path(char **path, char *first_command);
 char				**get_path(char *path_line);
 void				free_after_exit(t_env *lkd_env,
 	t_hist *lkd_hist, char **path);
-int					handle_tilde2(t_env *lkd_env);
 char				*extract_path(char *command);
 char				*extract_first(char *command, char stop);
 int					basic_command(t_hustru *big_struc, char **command);
@@ -125,5 +124,10 @@ int					fill_file(char **filenames, char **output, char **command);
 ** Pipe utils
 */
 void				close_pipe(int *pipes, int i);
+/*
+** Buitltins Utils
+*/
+char				*handle_dollar(t_hustru *big_struc, char *command);
+char				*handle_tilde(t_hustru *big_struc, char *command);
 
 #endif
