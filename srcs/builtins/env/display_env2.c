@@ -6,11 +6,33 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:46:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/12 14:27:31 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/14 16:09:35 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <env.h>
+
+void	fill_env2(t_env *tmp, char **command, int i)
+{
+	char *first_env;
+	char *first_env2;
+
+	while (tmp)
+	{
+		first_env = extract_first(command[i], '=');
+		first_env2 = extract_first(tmp->env_line, '=');
+		if (!ft_strcmp(first_env, first_env2))
+		{
+			ft_strcpy(tmp->env_line, command[i]);
+			free(first_env);
+			free(first_env2);
+			break ;
+		}
+		free(first_env);
+		free(first_env2);
+		tmp = tmp->next;
+	}
+}
 
 t_env	*print_env_no_command(t_env *env, int flags, int *is_command)
 {

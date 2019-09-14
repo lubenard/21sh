@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:37:44 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/14 12:10:59 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/14 16:06:57 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,51 @@ t_env	*parse_env(t_env *lkd_env, char **command, int flags, int *is_command)
 		return (env);
 	free(env);
 	return (NULL);
+}
+
+char	**compact_argv_env(char **command, int i)
+{
+	int		nbr_elem;
+	char	**argv;
+	int		k;
+
+	nbr_elem = i;
+	k = 0;
+	while (command[i])
+		i++;
+	if (!(argv = (char **)malloc(sizeof(char *) * ((i - nbr_elem) + 1))))
+		return (NULL);
+	while (command[nbr_elem])
+	{
+		argv[k] = ft_strdup(command[nbr_elem]);
+		nbr_elem++;
+		k++;
+	}
+	argv[k] = NULL;
+	return (argv);
+}
+
+int		count_elem_env(char **command)
+{
+	int		i;
+	int		e;
+	size_t	k;
+	int		n;
+	int		j;
+
+	e = 0;
+	i = 0;
+	n = 0;
+	j = 0;
+	while (command[i])
+	{
+		if ((k = ft_strchri(command[i], '=')) && k != 1)
+		{
+			if (!j)
+				j = i;
+			e++;
+		}
+		i++;
+	}
+	return (e);
 }

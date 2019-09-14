@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 14:01:27 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/29 12:26:12 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/14 17:04:11 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int		ft_exit(t_hustru *big_struc, int nbr)
 	printf("nbr vaut %d\n", nbr);
 	reset_shell_attr(0);
 	exit(nbr);
-	return (nbr);
 }
 
 int		ft_atoi_exit(char *str)
@@ -55,22 +54,19 @@ int		parse_exit(t_hustru *big_struc, char **command)
 	int		e;
 
 	e = 0;
-	ft_putstr_fd("exit\n", 2);
-	if (!command[1])
-		return (ft_exit(big_struc, 0));
-	else
+	if (command[2])
 	{
-		if (command[2])
-			ft_putstr_fd("ymarsh: exit: Too many arguments\n", 2);
-		else
-			return (ft_exit(big_struc, ft_atoi_exit(command[1])));
+		ft_putstr_fd("ymarsh: exit: Too many arguments\n", 2);
+		return (ft_exit(big_struc, 255));
 	}
-	return (0);
+	else
+		return (ft_exit(big_struc, ft_atoi_exit(command[1])));
 }
 
 int		find_exit(t_hustru *big_struc, char **command)
 {
-	if (ft_strequ(command[0], "exit"))
+	ft_putstr_fd("exit\n", 2);
+	if (command[1])
 		return (parse_exit(big_struc, command));
-	return (0);
+	return (ft_exit(big_struc, 0));
 }

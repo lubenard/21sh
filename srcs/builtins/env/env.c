@@ -6,58 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/12 16:56:06 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/14 16:23:30 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <env.h>
-
-int		count_elem_env(char **command)
-{
-	int		i;
-	int		e;
-	size_t	k;
-	int		n;
-	int		j;
-
-	e = 0;
-	i = 0;
-	n = 0;
-	j = 0;
-	while (command[i])
-	{
-		if ((k = ft_strchri(command[i], '=')) && k != 1)
-		{
-			if (!j)
-				j = i;
-			e++;
-		}
-		i++;
-	}
-	return (e);
-}
-
-void	fill_env2(t_env *tmp, char **command, int i)
-{
-	char *first_env;
-	char *first_env2;
-
-	while (tmp)
-	{
-		first_env = extract_first(command[i], '=');
-		first_env2 = extract_first(tmp->env_line, '=');
-		if (!ft_strcmp(first_env, first_env2))
-		{
-			ft_strcpy(tmp->env_line, command[i]);
-			free(first_env);
-			free(first_env2);
-			break ;
-		}
-		free(first_env);
-		free(first_env2);
-		tmp = tmp->next;
-	}
-}
 
 void	fill_env(t_env *env, char **command, int i)
 {
@@ -82,28 +35,6 @@ void	fill_env(t_env *env, char **command, int i)
 			ft_strcpy(env->env_line, command[i]);
 	}
 	free(fie);
-}
-
-char	**compact_argv_env(char **command, int i)
-{
-	int		nbr_elem;
-	char	**argv;
-	int		k;
-
-	nbr_elem = i;
-	k = 0;
-	while (command[i])
-		i++;
-	if (!(argv = (char **)malloc(sizeof(char *) * ((i - nbr_elem) + 1))))
-		return (NULL);
-	while (command[nbr_elem])
-	{
-		argv[k] = ft_strdup(command[nbr_elem]);
-		nbr_elem++;
-		k++;
-	}
-	argv[k] = NULL;
-	return (argv);
 }
 
 int		exec_file_env(t_env *env, char **command,

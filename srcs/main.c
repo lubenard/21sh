@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/12 17:15:34 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/14 16:52:30 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*g_username;
 char	*g_curr_dir;
 
-void	change_env(t_hustru *big_struc)
+void		change_env(t_hustru *big_struc)
 {
 	char	*buff[3];
 	char	*str;
@@ -41,7 +41,7 @@ void	change_env(t_hustru *big_struc)
 	free(str);
 }
 
-char	*get_path_hist(void)
+char		*get_path_hist(void)
 {
 	char buff[4097];
 	char *path;
@@ -64,7 +64,7 @@ t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)
 	return (big_struc);
 }
 
-void	load_from_history(t_hustru *big_struc)
+void		load_from_history(t_hustru *big_struc)
 {
 	int		fd;
 	char	buff[5000];
@@ -93,7 +93,7 @@ void	load_from_history(t_hustru *big_struc)
 History will not be loaded.");
 }
 
-int		get_option(t_hustru *big_struc, char **argv)
+int			get_option(t_hustru *big_struc, char **argv)
 {
 	if (argv[1])
 	{
@@ -105,7 +105,7 @@ int		get_option(t_hustru *big_struc, char **argv)
 	return (0);
 }
 
-int		main(int argc, char **argv, char **env)
+int			main(int argc, char **argv, char **env)
 {
 	t_env		*lkd_env;
 	t_hist		*lkd_hist;
@@ -121,7 +121,7 @@ int		main(int argc, char **argv, char **env)
 	change_env(big_struc);
 	if (get_option(big_struc, argv) == 1)
 		return (ft_exit(big_struc, 0));
-	parser(big_struc,ft_strdup(argv[1]));
+	parser(big_struc, ft_strdup(argv[1]));
 	/*display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	while (ft_read_1(big_struc, 0, &line) == 0)
 	{
