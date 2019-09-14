@@ -15,6 +15,30 @@ les pipes et d'autres améliorations générales.
 ```
 ####    Builtins
 - echo [POSIX]
+```
+[-n] N'imprime pas le '\n' après le dernier argument.
+
+\a
+Ecrit un <alert>.
+
+\b
+Ecrit un <backspace>.
+
+\f
+Ecrit un <form-feed>.
+
+\n
+Ecrit un <newline>.
+
+\r
+Ecrit un <carriage-return>.
+
+\t
+Ecrit un <tab>.
+
+\v
+Ecrit un <vertical-tab>.
+```
 - env
 ```
 [--help] Affiche l'aide et quitte 
@@ -56,6 +80,30 @@ pipes and other general improvements.
 
 ####    Builtins
 - echo [POSIX COMPLIANT]
+```
+[-n] Does not print '\n' after the last argument.
+
+\a
+Write an <alert>.
+
+\b
+Write a <backspace>.
+
+\f
+Write a <form-feed>.
+
+\n
+Write a <newline>.
+
+\r
+Write a <carriage-return>.
+
+\t
+Write a <tab>.
+
+\v
+Write a <vertical-tab>.
+```
 - env
 ```
 [--help] Print help and exit

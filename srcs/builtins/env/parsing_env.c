@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:37:44 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/12 14:29:13 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/14 12:10:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ t_env	*parse_env(t_env *lkd_env, char **command, int flags, int *is_command)
 	while (command[i] && ft_strchr(command[i], '-'))
 		i++;
 	while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
-	{
-		printf("\033[0;31m[Env Builtin]{parse_env} Je traite %s\033[0m\n", command[i]);
 		fill_env(env, command, i++);
-	}
 	if (!command[i] && flags & PE_I)
 		return (print_env_no_command(env, flags, is_command));
 	else if (!(flags & PE_I) && !command[i])

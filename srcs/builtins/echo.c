@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/13 23:01:54 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/14 14:41:36 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,31 @@ char	*handle_tilde(t_hustru *big_struc, char *command)
 			return (tmp);
 		}
 		ft_stricpy(user_name, command, 1);
-		if ((tmp = verify_folder(buff, user_name, str)) == NULL) 
-		{
-			// TODO modify to make struct returning 1 in echo
-			big_struc->last_ret = 1;
-			return (tmp);
-		}
+		return (verify_folder(buff, user_name, str));
 	}
 	else
-		return(find_in_env(big_struc->lkd_env, ft_strdup("HOME")));
-	return (tmp);
+		return (find_in_env(big_struc->lkd_env, ft_strdup("HOME")));
+}
+
+void	ft_putstr_echo(char *str)
+{
+	int		e;
+
+	e = 0;
+	while (str[e])
+	{
+		if (str[e] == '\\')
+		{
+			if (str[e + 1] == '\\')
+			{
+				handle_echo_options(str[e + 2]);
+				e += 3;
+			}
+			else
+				e++;
+		}
+		ft_putchar(str[e++]);
+	}
 }
 
 int		ft_echo(t_hustru *big_struc, char **command)
@@ -93,12 +108,10 @@ int		ft_echo(t_hustru *big_struc, char **command)
 	e = (!ft_strcmp(command[1], "-n")) ? 1 : 0;
 	while (command[i + e])
 	{
-		if (command[i + e])
-			ft_putstr(command[i + e]);
-		i++;
+		ft_putstr_echo(command[i++ + e]);
 		ft_putchar(' ');
 	}
 	if (e == 0)
 		ft_putchar('\n');
-	return (0);
+	return (big_struc->last_ret);
 }

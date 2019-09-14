@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/13 22:29:00 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/14 13:59:37 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void				free_after_exit(t_env *lkd_env,
 char				*extract_path(char *command);
 char				*extract_first(char *command, char stop);
 int					basic_command(t_hustru *big_struc, char **command);
-
+void				handle_echo_options(char option);
 /*
 ** Redirections utils
 */
