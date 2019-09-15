@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:40:41 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/17 21:13:11 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/15 12:31:07 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*find_cur_dir(t_env *lkd_env)
 	char *dir;
 
 	dir = find_in_env(lkd_env, ft_strdup("PWD"));
-	if (ft_strcmp(dir, ""))
+	if (dir)
 		return (dir);
 	return (ft_strdup("???"));
 }
@@ -56,7 +56,7 @@ char	*find_name(t_env *lkd_env)
 	char *name;
 
 	name = find_in_env(lkd_env, ft_strdup("USER"));
-	if (ft_strcmp(name, ""))
+	if (name)
 		return (name);
 	return (ft_strdup("John Doe"));
 }

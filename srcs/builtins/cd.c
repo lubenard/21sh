@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 15:05:11 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/13 18:58:42 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/15 14:44:32 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,12 @@ int		get_shortcut_path(t_env *lkd_env, char **spec_path, char *path)
 			i++;
 		str = ft_strsub(path, 2, i);
 		free(path);
-		path = find_in_env(lkd_env, ft_strdup("HOME"));
+		if ((path = find_in_env(lkd_env, ft_strdup("HOME"))))
+		{
+			free(str);
+			free(path);
+			return (1);
+		}
 		str2 = ft_strjoin(path, "/");
 		*spec_path = ft_strjoin(str2, str);
 		free(str);
@@ -71,7 +76,7 @@ char	*handle_sortcut(t_env *lkd_env, char *path)
 	return (path);
 }
 
-void	change_dir(t_hustru *big_struc, char *path)
+int		change_dir(t_hustru *big_struc, char *path)
 {
 	char *curr_dir;
 	char buff_dir[4097];
@@ -89,11 +94,12 @@ void	change_dir(t_hustru *big_struc, char *path)
 		else
 			ft_putstr_fd("cd : Not a directory : ", 2);
 		ft_putendl_fd(path, 2);
-		big_struc->last_ret = 1;
+		return (1);
 	}
 	else
 		change_env_cd(big_struc, curr_dir,
 		(new_dir = getcwd(buff_dir2, 4096)));
+	return (0);
 }
 
 int		cd(t_hustru *big_struc, char **command)
@@ -103,6 +109,7 @@ int		cd(t_hustru *big_struc, char **command)
 		ft_putstr_fd("cd : Too many arguments\n", 2);
 		return (1);
 	}
-	change_dir(big_struc, command[1]);
+	if (command[1])
+		return (change_dir(big_struc, command[1]));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/14 16:52:30 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/15 14:12:02 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void		change_env(t_hustru *big_struc)
 	str = find_in_env(big_struc->lkd_env, ft_strdup("SHLVL"));
 	if (str == NULL)
 	{
+		printf("je rentre ici\n");
 		buff[1] = "SHLVL=1";
 		set_env(big_struc, buff);
 	}
@@ -113,6 +114,7 @@ int			main(int argc, char **argv, char **env)
 	//char		*line;
 	char		**path;
 
+	(void)argv;
 	(void)argc;
 	lkd_env = get_env(env);
 	lkd_hist = new_maillon_hist();
@@ -122,8 +124,8 @@ int			main(int argc, char **argv, char **env)
 	if (get_option(big_struc, argv) == 1)
 		return (ft_exit(big_struc, 0));
 	parser(big_struc, ft_strdup(argv[1]));
-	/*display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
-	while (ft_read_1(big_struc, 0, &line) == 0)
+	display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
+	/*while (ft_read_1(big_struc, 0, &line) == 0)
 	{
 		ft_putstr("Derniere ligne de l'historique : ");
 		ft_putendl(big_struc->lkd_hist->history);

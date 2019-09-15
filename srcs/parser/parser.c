@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/13 22:52:36 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/15 14:57:05 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,23 @@ char	**parse_line(t_hustru *big_struc, char **command)
 		if (command[i][0] == '$')
 		{
 			tmp = handle_dollar(big_struc, command[i]);
+			printf("je remplace $\n");
 			free(command[i]);
 			command[i] = tmp;
 		}
 		if (command[i][0] == '~')
 		{
 			tmp = handle_tilde(big_struc, command[i]);
+			printf("je remplace ~\n");
 			free(command[i]);
 			command[i] = tmp;
+		}
+		if (tmp == NULL)
+		{
+			ft_putstr(command[0]);
+			ft_putendl_fd(" : Error due to environ", 2);
+			ft_deltab(command);
+			return (NULL);
 		}
 		i++;
 	}
@@ -116,6 +125,12 @@ int		parser(t_hustru *big_struc, char *command)
 	{
 		big_struc->line = semicolon[i];
 		split_space = parse_line(big_struc, ft_strsplit(semicolon[i++], ' '));
+		if (split_space == NULL)
+		{
+			ft_deltab(semicolon);
+			free(command);
+			return (1);
+		}
 		big_struc->last_ret = decide_commande(big_struc, split_space);
 		ft_deltab(split_space);
 	}
