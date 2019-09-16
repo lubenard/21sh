@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 15:05:11 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/16 13:31:25 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/16 22:18:27 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,51 +28,14 @@ void	change_env_cd(t_hustru *big_struc, char *old_pwd, char *new_pwd)
 	free(new_line[1]);
 }
 
-int		get_shortcut_path(t_env *lkd_env, char **spec_path, char *path)
-{
-	int		i;
-	char	*str;
-	char	*str2;
-
-	i = 0;
-	if (path[0] == '~' && path[1] == '/' && ft_strlen(path) > 2)
-	{
-		while (path[2 + i])
-			i++;
-		str = ft_strsub(path, 2, i);
-		free(path);
-		if ((path = find_in_env(lkd_env, ft_strdup("HOME"))))
-		{
-			free(str);
-			free(path);
-			return (1);
-		}
-		str2 = ft_strjoin(path, "/");
-		*spec_path = ft_strjoin(str2, str);
-		free(str);
-		free(str2);
-		free(path);
-		return (0);
-	}
-	return (1);
-}
-
 char	*handle_sortcut(t_env *lkd_env, char *path)
 {
-	char *spec_path;
-
-	if (!get_shortcut_path(lkd_env, &spec_path, path))
-		return (spec_path);
-	else if (!ft_strcmp(path, "") || !ft_strcmp(path, "--"))
-	{
-		free(path);
+	if (!ft_strcmp(path, "") || !ft_strcmp(path, "--"))
 		path = find_in_env(lkd_env, ft_strdup("HOME"));
-	}
 	else if (!ft_strcmp(path, "-"))
-	{
-		free(path);
 		path = find_in_env(lkd_env, ft_strdup("OLDPWD"));
-	}
+	else
+		return (ft_strdup(path));
 	return (path);
 }
 
@@ -85,6 +48,7 @@ int		change_dir(t_hustru *big_struc, char *path)
 
 	curr_dir = getcwd(buff_dir, 4096);
 	path = handle_sortcut(big_struc->lkd_env, path);
+	printf("Je change le directory pour %s\n", path);
 	if (chdir(path) != 0)
 	{
 		if (access(path, F_OK) == -1)
@@ -94,11 +58,13 @@ int		change_dir(t_hustru *big_struc, char *path)
 		else
 			ft_putstr_fd("cd : Not a directory : ", 2);
 		ft_putendl_fd(path, 2);
+		free(path);
 		return (1);
 	}
-	else
-		change_env_cd(big_struc, curr_dir,
-		(new_dir = getcwd(buff_dir2, 4096)));
+	printf("je rentre ici\n");
+	change_env_cd(big_struc, curr_dir,
+	(new_dir = getcwd(buff_dir2, 4096)));
+	free(path);
 	return (0);
 }
 
@@ -114,5 +80,7 @@ int		cd(t_hustru *big_struc, char **command)
 	}
 	if (command[1])
 		return (change_dir(big_struc, command[1]));
+	else
+		return (change_dir(big_struc, ""));
 	return (0);
 }

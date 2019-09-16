@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/16 16:48:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/16 21:24:53 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,15 @@ int		basic_command(t_hustru *big_struc, char **command)
 	return (ret_code);
 }
 
-void	swap_elem(t_hustru *big_struc, char **command,
-	char *(*funptr)(t_hustru *, char *))
-{
-	char *tmp;
+/*
+** Replace the ~ or the $ with his equivalence
+*/
 
-	tmp = (*funptr)(big_struc, *command);
-	printf("Je remplace %s par %s\n", *command, tmp);
+void	swap_elem(char **command, char *replace)
+{
+	printf("Je remplace %s par %s\n", *command, replace);
 	free(*command);
-	*command = tmp;
+	*command = replace;
 }
 
 /*
@@ -91,9 +91,11 @@ char	**parse_line(t_hustru *big_struc, char **command)
 	while (command[i])
 	{
 		if (command[i][0] == '$')
-			swap_elem(big_struc, &command[i], handle_dollar);
+			swap_elem(&command[i],
+			handle_dollar(big_struc, command[i]));
 		if (command[i] && command[i][0] == '~')
-			swap_elem(big_struc, &command[i], handle_tilde);
+			swap_elem(&command[i],
+			handle_tilde(big_struc, command[i]));
 		if (command[i] == NULL)
 			command[i] = ft_strdup("");
 		i++;
