@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/14 14:41:36 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/16 16:45:40 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ char	*handle_dollar(t_hustru *big_struc, char *command)
 	int		e;
 	int		i;
 
-	i = 0;
-	e = 0;
+	i = 1;
+	e = 1;
 	if (command[1])
 	{
 		if (command[i + 1] == '?')
@@ -108,8 +108,12 @@ int		ft_echo(t_hustru *big_struc, char **command)
 	e = (!ft_strcmp(command[1], "-n")) ? 1 : 0;
 	while (command[i + e])
 	{
-		ft_putstr_echo(command[i++ + e]);
-		ft_putchar(' ');
+		if (ft_strcmp(command[i + e], ""))
+		{
+			ft_putstr_echo(command[i + e]);
+			ft_putchar(' ');
+		}
+		i++;
 	}
 	if (e == 0)
 		ft_putchar('\n');

@@ -6,11 +6,17 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/15 14:57:05 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/16 16:48:58 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+/*
+** If the command is not a builtin,
+** this command prepare for execution.
+** It will find the good path and launch execution.
+*/
 
 int		exec_external_command(t_hustru *big_struc, char **command)
 {
@@ -27,10 +33,15 @@ int		exec_external_command(t_hustru *big_struc, char **command)
 	return (0);
 }
 
+/*
+** Decide if the command is a bultin or not
+*/
+
 int		basic_command(t_hustru *big_struc, char **command)
 {
 	int		ret_code;
 
+	//remplacer par un tableau de pointeur sur fonction (a voir)
 	if (!ft_strcmp(command[0], "env"))
 		ret_code = print_env(big_struc, command);
 	else if (!ft_strcmp(command[0], "setenv"))
@@ -54,41 +65,46 @@ int		basic_command(t_hustru *big_struc, char **command)
 	return (ret_code);
 }
 
+void	swap_elem(t_hustru *big_struc, char **command,
+	char *(*funptr)(t_hustru *, char *))
+{
+	char *tmp;
+
+	tmp = (*funptr)(big_struc, *command);
+	printf("Je remplace %s par %s\n", *command, tmp);
+	free(*command);
+	*command = tmp;
+}
+
+/*
+** This function will replace ~ and $ by their equivalent
+** in the env or by the correct path.
+*/
+
 char	**parse_line(t_hustru *big_struc, char **command)
 {
-	int i;
-	int e;
-	char *tmp;
+	int		i;
+	int		e;
 
 	e = 0;
 	i = 0;
 	while (command[i])
 	{
 		if (command[i][0] == '$')
-		{
-			tmp = handle_dollar(big_struc, command[i]);
-			printf("je remplace $\n");
-			free(command[i]);
-			command[i] = tmp;
-		}
-		if (command[i][0] == '~')
-		{
-			tmp = handle_tilde(big_struc, command[i]);
-			printf("je remplace ~\n");
-			free(command[i]);
-			command[i] = tmp;
-		}
-		if (tmp == NULL)
-		{
-			ft_putstr(command[0]);
-			ft_putendl_fd(" : Error due to environ", 2);
-			ft_deltab(command);
-			return (NULL);
-		}
+			swap_elem(big_struc, &command[i], handle_dollar);
+		if (command[i] && command[i][0] == '~')
+			swap_elem(big_struc, &command[i], handle_tilde);
+		if (command[i] == NULL)
+			command[i] = ft_strdup("");
 		i++;
 	}
 	return (command);
 }
+
+/*
+** Decide if the command contains a redirections, pipe,
+** or if it is juste a normal command.
+*/
 
 int		decide_commande(t_hustru *big_struc, char **command)
 {
@@ -107,30 +123,32 @@ int		decide_commande(t_hustru *big_struc, char **command)
 	return (0);
 }
 
+/*
+** Main parser function
+** Will split by semicolon then by space to launch correct command.
+*/
+
 int		parser(t_hustru *big_struc, char *command)
 {
 	char	**semicolon;
 	int		i;
 	char	**split_space;
-	int		e;
+	int		e = 0;
 
 	(void)big_struc;
 	i = 0;
-	e = 0;
 	semicolon = ft_strsplit(command, ';');
 	while (semicolon[i])
 		printf("Mon maillon vaut |%s|\n", semicolon[i++]);
 	i = 0;
 	while (semicolon[i])
 	{
+		printf("\e[32mJ'execute cette ligne |%s|\e[0m\n", semicolon[i]);
 		big_struc->line = semicolon[i];
 		split_space = parse_line(big_struc, ft_strsplit(semicolon[i++], ' '));
-		if (split_space == NULL)
-		{
-			ft_deltab(semicolon);
-			free(command);
-			return (1);
-		}
+		e = 0; // This variable is only for debug
+		while (split_space[e])
+			printf("\e[33mDecoupe en espace, cela donne |%s|\e[0m\n", split_space[e++]);
 		big_struc->last_ret = decide_commande(big_struc, split_space);
 		ft_deltab(split_space);
 	}

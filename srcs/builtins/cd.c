@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 15:05:11 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/15 14:44:32 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/16 13:31:25 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,10 @@ int		change_dir(t_hustru *big_struc, char *path)
 
 int		cd(t_hustru *big_struc, char **command)
 {
-	if (command[2])
+	int i;
+
+	i = ft_tablen(command) - 1;
+	if (i >= 2)
 	{
 		ft_putstr_fd("cd : Too many arguments\n", 2);
 		return (1);
