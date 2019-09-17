@@ -20,7 +20,6 @@ compare_function()
 
 pwd
 rm -rf file1 compare1
-make -C ../
 cp ../auteur .
 
 # Basic redirections
