@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/14 13:59:37 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/17 15:35:02 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ int					reset_shell_attr(int fd);
 /*
 ** Display / error functions
 */
+int					verify_command(char **command, int i);
 void				display_prompt(char *username, char *curr_dir);
-char				*error_setenv(char *command, int i, int e);
+int					error_setenv(int i);
 char				*error_echo(char user[4096]);
 void				invalid_command(char *command);
 char				*find_name(t_env *lkd_env);

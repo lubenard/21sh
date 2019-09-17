@@ -6,21 +6,19 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 17:03:58 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/12 18:22:01 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/17 15:35:34 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-char	*error_setenv(char *command, int i, int e)
+int		error_setenv(int i)
 {
-	if (ft_strrchr(command, i, ' ') != NULL)
-	{
-		ft_putstr_fd("setenv: invalid syntax\n", 2);
-		ft_putstr_fd("the correct syntax is t=1\n", 2);
-		return (NULL);
-	}
-	return (ft_strsub(command, i, e));
+	if (i == 1)
+		ft_putstr_fd("un", 2);
+	ft_putstr_fd("setenv: invalid syntax\n", 2);
+	ft_putstr_fd("The correct syntax is var=value\n", 2);
+	return (1);
 }
 
 int		print_error_redirect(char **tab, char *code)

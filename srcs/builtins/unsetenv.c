@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 12:05:25 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/15 12:32:20 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/17 15:50:14 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int			unset_env3(t_env *lkd_env, char *to_remove)
 {
 	char *to_extract;
 
-	while (to_remove && lkd_env)
+	while (lkd_env)
 	{
 		to_extract = extract_first(lkd_env->env_line, '=');
 		if (ft_strcmp(to_extract, to_remove) == 0)
@@ -74,18 +74,19 @@ int			unset_env3(t_env *lkd_env, char *to_remove)
 
 int			unset_env(t_hustru *big_struc, char **command)
 {
-	char	*to_remove;
 	t_env	*lkd_env;
+	char	*to_remove;
 	int		i;
 
 	i = 1;
+	lkd_env = big_struc->lkd_env;
+	if (verify_command(command, 1))
+		return (1);
 	while (command[i])
 	{
-		lkd_env = big_struc->lkd_env;
-		to_remove = (ft_tabchr(command, '=')) ? extract_first(command[i], '=')
-			: extract_first(command[i], ' ');
+		to_remove = extract_first(command[i], '=');
 		if (unset_env3(lkd_env, to_remove) == 1)
-			return (1);
+			return (error_setenv(1));
 		free(to_remove);
 		i++;
 	}

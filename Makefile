@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/09/14 14:38:38 by lubenard         ###   ########.fr        #
+#    Updated: 2019/09/17 17:21:46 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,6 +83,7 @@ clean:
 	@rm -rf .history
 	@rm -rf 21sh.dSYM
 	@rm -rf vgcore.*
+	@rm -f file*
 
 fclean: clean
 	@rm -f $(NAME)

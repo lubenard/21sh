@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 15:05:11 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/16 22:18:27 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/17 16:14:27 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	change_env_cd(t_hustru *big_struc, char *old_pwd, char *new_pwd)
 	char *new_line[3];
 
 	new_line[0] = "setenv";
-	new_line[2] = NULL;
 	new_line[1] = ft_strjoin("PWD=", new_pwd);
+	new_line[2] = NULL;
 	set_env(big_struc, new_line);
 	free(new_line[1]);
 	new_line[1] = ft_strjoin("OLDPWD=", old_pwd);

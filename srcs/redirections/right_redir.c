@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/11 16:25:01 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/17 18:02:12 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ char	**get_output_of_command(t_hustru *big_struc, char **argv)
 	printf("[Exec redir] output_err vaut %s\n", output_err);
 	printf("-------------------end-----------------------\n");
 	tab[0] = ft_strndup(output_std, ft_strlen(output_std) - 1);
-	tab[1] = output_err;
+	tab[1] = ft_strndup(output_err, ft_strlen(output_err) - 1);
 	return(tab);
 }
 
@@ -139,11 +139,14 @@ int		fill_file(char **filenames, char **output, char **tab)
 		{
 			printf("J'ouvre %s\n", tab[i]);
 			printf("tab[%d - 1] = %s\n", i, tab[i - 1]);
-			if (!ft_strcmp(tab[i - 1], ">>"))
+			if (!ft_strstr(tab[i - 1], ">>"))
 				out = open(tab[i], O_APPEND | O_WRONLY);
-			else
+			else if (!ft_strchr(tab[i - 1], '>'))
 				out = open(tab[i], O_WRONLY);
-			ft_putendl_fd(output[0], out);
+			if (tab[i - 1][0] == '2')
+				ft_putendl_fd(output[1], out);
+			else
+				ft_putendl_fd(output[0], out);
 			close(out);
 		}
 		//free(filenames[i]);
@@ -197,7 +200,7 @@ int		arrow_right(t_hustru *big_struc, char **command)
 		printf("[Redirections]: Je passe sur %s\n", command[i]);
 		i++;
 	}
-	printf("[Redirections] Je m'arrete sur %s\n", command[i]);
+	printf("[Redirections]: Je m'arrete sur %s\n", command[i]);
 	if (command[i][0] != '>')
 	{
 		extract = extract_first(command[i], '>');
