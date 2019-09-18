@@ -6,30 +6,32 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 20:16:02 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/01 11:43:54 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/17 19:48:22 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
 
-char    *get_cursor_position()
+char	*get_cursor_position(void)
 {
-	char    buf[255];
-	int     ret;
-	char    *tmp;
+	char	buf[255];
+	int		ret;
+	char	*tmp;
 
 	write(1, "\033[6n", 4);
-	if ((ret = read(1, buf, 254)) == -1)
-		return (NULL);
+	tmp = ft_strnew(1);
+	if ((ret = read(0, buf, 254)) == -1)
+		return (tmp);
 	buf[ret] = '\0';
+	free(tmp);
 	tmp = ft_strdup(buf);
 	return (tmp);
 }
 
-int     alloc(t_coord *co)
+int		alloc(t_coord *co)
 {
-	//	use ioctl to get the max size of the term
-	if (!(co->tmpx = malloc(sizeof(char) * 1024)) || !(co->tmpy = malloc(sizeof(char) * 1024)))
+	if (!(co->tmpx = malloc(sizeof(char) * 1024))
+		|| !(co->tmpy = malloc(sizeof(char) * 1024)))
 	{
 		if (co->tmpx)
 			free(co->tmpx);
@@ -41,10 +43,25 @@ int     alloc(t_coord *co)
 		free(co->tmpy);
 		return (-1);
 	}
+	ft_bzero(co->coord, sizeof(int) * 2);
+	ft_bzero(co->tmpx, sizeof(char) * 1024);
+	ft_bzero(co->tmpy, sizeof(char) * 1024);
 	return (0);
 }
 
-int     *get_coord(char *buf)
+char	*fill_screensz(char *buf, int *i, int *j, char *tmp)
+{
+	while (buf[*i] && buf[*i] != ';')
+	{
+		tmp[*j] = buf[*i];
+		*j += 1;
+		*i += 1;
+	}
+	tmp[*j] = '\0';
+	return (tmp);
+}
+
+int		*get_coord(char *buf)
 {
 	t_coord co;
 
@@ -54,11 +71,7 @@ int     *get_coord(char *buf)
 	while (buf[co.i++])
 	{
 		if (buf[co.i] == 91)
-		{
-			while (buf[co.i] && buf[++co.i] != ';')
-				co.tmpx[co.j++] = buf[co.i];
-			co.tmpx[co.j] = '\0';
-		}
+			co.tmpx = fill_screensz(buf, &co.i, &co.j, co.tmpx);
 		if (buf[co.i] == ';')
 		{
 			while (buf[co.i] && buf[++co.i] != 'R')
@@ -69,6 +82,7 @@ int     *get_coord(char *buf)
 		co.coord[1] = ft_atoi(co.tmpy);
 	}
 	free(buf);
+	free(co.tmpx);
+	free(co.tmpy);
 	return (co.coord);
 }
-

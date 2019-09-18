@@ -6,171 +6,70 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:13:06 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/01 11:44:14 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/18 17:24:36 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
 
-int		get_row(int r, int i, int pc)
+int		*reprint_line(int *mainindex, char *str, int **pos, int *prompt)
 {
-	struct winsize 	w;
-	int				tmp;
-	int				*coord;
+	int	i;
+	int	*coord;
 
-	ioctl(0, TIOCGWINSZ, &w);
-	coord = get_coord(get_cursor_position());
-	if (coord[1] == 1)
-		i++;
-	tmp = i - (w.ws_col - pc) - 1;
-	if (i > (w.ws_col - pc))
+	i = 0;
+	free(pos[0]);
+	pos[0] = malloc(sizeof(int) * (ft_strlen(str)));
+	coord = malloc(sizeof(int) * 2);
+	coord[0] = prompt[0];
+	coord[1] = prompt[1] - 1;
+	while (str[i])
 	{
-		r = r + 1;
-		while (tmp >= w.ws_col)
+		coord[1]++;
+		if (i > 0 && str[i - 1] == '\n')
+			coord[1] = 1;
+		ft_putchar_fd(str[i], 0);
+		pos[0][i] = coord[1];
+		if (coord[1] == w.ws_col)
 		{
-			tmp = tmp - w.ws_col;
-			r = r + 1;
+			coord[1] = 0;
+			str[i] != '\n' ? ft_putstr_fd("\e[E", 0) : 0;
 		}
+		*mainindex += 1;
+		i++;
 	}
-	return (r);
+	free(coord);
+	return (pos[0]);
 }
 
-void	clean(int i, int *prompt, int r)
+void	delete_c(int **pos, int *prompt, int *mainindex, int w)
 {
-	struct winsize	w;
-	int 			tmp;
-
-	ioctl(0, TIOCGWINSZ, &w);
-	tmp = 0;
-	go_first_char(prompt, i, r);
-	ft_putstr("\e[0K");
-	if (i > (w.ws_col - prompt[1]))
-	{
-		while (tmp++ < r)
-		{
-			 ft_putstr("\e[B");
-			 ft_putstr("\e[2K");
-   		 }
-   		 go_first_char(prompt, i, r);
-	}
-}
-
-char	*delete_c(int r, int *prompt, char *line, int *sizel)
-{
-	int 			i;
+	int				i;
 	int				j;
-	int				*coord;
-	int				*newcoord;
-	int				*acoord;
 	char			*str;
-	struct winsize 	w;
-	int				tmp;
-	int				tmp2;
 
 	i = 0;
 	j = 0;
-	tmp = 0;
-	tmp2 = 0;
-	(void)sizel;
-	ioctl(0, TIOCGWINSZ, &w);
-	str = malloc(sizeof(char) * ft_strlen(line) + 1);
-	coord = get_coord(get_cursor_position());
-	if ((coord[1] <= prompt[1] && prompt[0] == coord[0])
-		|| (coord[0] == 1 && coord[1] <= prompt[1]))
-			ft_putstr("");
-	else
+	str = NULL;
+	if (*mainindex != 0)
 	{
-		clean(ft_strlenu(line), prompt, r);
-		acoord = get_coord(get_cursor_position());
-		while (line && line[i])
+		str = ft_strnew(ft_strlenu(g_mainline));
+		w = w == -1 && *mainindex - w == ft_strlenu(g_mainline) ? 0 : w;
+		while (g_mainline[i])
 		{
-
-			if ((i + prompt[1]) != coord[1] - 1 && prompt[0] == coord[0])
-				tmp = 1;
-			if ((i + prompt[1]) != (coord[1] - 1) + w.ws_col*(coord[0] - prompt[0]) && coord[0]
-				> prompt[0]  && r > 0 )
-			{
-				tmp2 = 1;
-			}
-			if (tmp == 1 || tmp2 == 1)
-				str[j++] = line[i];
+			if (i != *mainindex - w)
+				str[j++] = g_mainline[i];
 			i++;
-			tmp = 0;
-			tmp2 = 0;
 		}
 		str[j] = '\0';
-		ft_putstr(str);
-		i = j + prompt[1];
-		newcoord = get_coord(get_cursor_position());
-		/*ft_putstr("PROMPT[0] : ");
-		ft_putnbr(prompt[0]);
-		ft_putchar('/');
-ft_putstr("Acoord[0] : ");
-		ft_putnbr(acoord[0]);
-		ft_putchar('/');
-		ft_putstr("Acoord[1] : ");
-		ft_putnbr(acoord[1]);
-		ft_putchar('/');
-		ft_putstr("len str : ");
-		ft_putnbr(ft_strlenu(str));
-		ft_putchar('/');
-		ft_putstr("len line : ");
-		ft_putnbr(ft_strlenu(line));
-		ft_putchar('/');
-		ft_putstr("newcoo[1] : ");
-		ft_putnbr(newcoord[1]);
-		ft_putchar('/');
-		ft_putstr("newcoo[0] : ");
-		ft_putnbr(newcoord[0]);*/
-		if ((coord[1] == 1 || coord[1] == 2)&& newcoord[1] == w.ws_col)
-		{
-			if (coord[1] == 2)
-				ft_putstr("\e[E");
-			i = 0;
-		}
-		if (coord[0] > prompt[0] && i != 0)
-		{
-			i = newcoord[1];
-			if (i >= coord[1])
-			{
-				while (i-- > coord[1] - 1)
-					ft_putchar('\b');
-			}
-			else if (i < coord[1])
-			{
-				while (i++ < coord[1] - 1)
-					ft_putstr("\e[C");
-			}
-			i = newcoord[0];
-			while (i-- > coord[0])
-				ft_putstr("\e[A");
-		}
-		else if (coord[0] == prompt[0])
-		{
-			while (i-- > coord[1] - 1)
-				ft_putchar('\b');
-		}
-		free(newcoord);
-		free(line);
-		return (str);
+		j = *mainindex;
+		clean(prompt, mainindex, pos[0]);
+		pos[0] = reprint_line(mainindex, str, pos, prompt);
+		j = w == 1 ? j + 1 : j + 2;
+		while (i-- >= j)
+			left_arrow(mainindex, prompt, pos[0]);
+		free(g_mainline);
+		g_mainline = ft_strdup(str);
+		free(str);
 	}
-	free(coord);
-	return (line);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

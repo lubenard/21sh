@@ -6,20 +6,18 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/21 16:58:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/18 17:25:01 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INPUT_H
 # define INPUT_H
 
-# include "struc.h"
+# include "sh21.h"
 # include <termios.h>
 # include <term.h>
 # include <curses.h>
-# include <stdlib.h>
 # include <sys/ioctl.h>
-# include <signal.h>
 
 /*
 ** Termcaps structs
@@ -30,8 +28,17 @@ typedef	struct		s_coord
 	int				i;
 	int				j;
 	int				k;
+	int				r;
+	int				t;
+	int				cmax;
+	int				*prompt;
+	int				*pos;
+	int				ret;
+	char			*buf;
 	char			*tmpy;
 	char			*tmpx;
+	char			*line;
+	int				mainindex;
 }					t_coord;
 
 typedef	struct		s_get_prompt_pos
@@ -46,34 +53,50 @@ typedef	struct		s_get_prompt_pos
 	int				cmax;
 }					t_getprompt_pos;
 
+typedef	struct		s_w
+{
+	int				ws_col;
+	int				ws_row;
+}					t_w;
+
+struct	s_w			w;
+char				*g_mainline;
+int					posx;
 /*
 ** Line edition
 */
-void				left_arrow(int *prompt, int i);
-void				move_toword(char *line, char *buf, int *prompt);
+
+void				clean_for_quotes(int *mainindex, int *prompt, int *pos);
+char				*suppr_lastchar(char *line);
+char				*do_i_have_to_do_it_quote(char *line, int *i, t_hustru *big_struc, char **tmp);
+char				*get_inline(char *line, t_hustru *big_struc);
+int					init(int *mainindex, int **prompt, t_coord *c);
+char				*read_quit();
+int					entry(int r, t_hustru *big_struc, int *coord, int *prompt);
+int					heredoc(char **tab_line, t_hustru *big_struc);
+int					*ft_print_line(char *tmp, int **pos, int *mainindex, int **prompt);
+int					*last_line_col(int *coord, int **prompt, char c);
+int					singleton(int comp);
+void				signalhandler(int signal);
+void				ft_copy_paste(char *buf, int **prompt, int *mainindex, int **pos);
+char				*copy_until(char *str, int i);
+int					get_nb_line_quote(char *str);
+void				left_arrow(int *mainindex, int *prompt, int *pos);
+void				move_toword(char *buf, int *prompt, int *mainindex, int *pos);
 int					get_row(int r, int i, int pc);
-void				clean(int i, int *prompt, int r);
-char				*delete_c(int r, int *prompt, char *line, int *sizel);
+void				clean(int *prompt, int *mainindex, int *pos);
+void				delete_c(int **pos, int *prompt, int *mainindex, int w);
 int					go_last_row(int tmp, int maxc, int r);
-void				go_first_char(int *prompt, int i, int r);
-void				right_arrow(int i, int *prompt);
-void				go_last_char(int i, int *prompt);
-void				move_with_arrows(char *buf, int i, int *prompt, int r);
-char				*get_cursor_position();
+void				go_first_char(int *mainindex, int *prompt, int *pos);
+void				right_arrow(int *mainindex, int i, int *prompt);
+void				go_last_char(int *mainindex, int i, int *prompt);
+void				move_with_arrows(char *buf, int *prompt, int *mainindex, int *pos);
+void				print_char(int *mainindex, char *buf, int **prompt, int **pos);
+int					control_c(char *buf, int *prompt, int *coord, int r);
+int					main_core(char *buf, int **prompt, int **pos, int *mainindex);
+int					ft_read_1(t_hustru *big_struc);
 int					*get_coord(char *buf);
+char				*get_cursor_position();
 int					set_none_canon_mode(int fd);
 int					reset_shell_attr(int fd);
-void				manage_tab(char *buf);
-char				*ft_copy_paste(char *line, char *buf, int **prompt, int *i);
-/*
-** History
-*/
-char				*move_hist(char *buf, char *line, int **prompt,
-	t_hustru *big_struc);
-void				save_command(t_hustru *big_struc, char *command, int save);
-char				*get_quotes(char *line, t_hustru *big_struc);
-/*
-** Weird function
-*/
-char				*test1(int index, char *buf, char *line, int **prompt);
 #endif

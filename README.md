@@ -39,7 +39,7 @@ Ecrit un <tab>.
 \v
 Ecrit un <vertical-tab>.
 ```
-- env
+- env [POSIX]
 ```
 [--help] Affiche l'aide et quitte 
 [-i]     Permet de passer l'environnement souhaité a un executable
@@ -104,7 +104,7 @@ Write a <tab>.
 \v
 Write a <vertical-tab>.
 ```
-- env
+- env [POSIX]
 ```
 [--help] Print help and exit
 [-i]     Allow to pass custom environnement variables

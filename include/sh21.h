@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/17 15:35:02 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/18 17:02:17 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 /*
 ** Line Edition
 */
-int					ft_read_1(t_hustru *big_struc, const int fd, char **line);
 int					set_none_canon_mode(int fd);
 int					reset_shell_attr(int fd);
 
@@ -83,6 +82,9 @@ void				handle_signals_proc(int sig);
 ** History
 */
 void				save_command(t_hustru *big_struc, char *command, int save);
+char				*get_quotes(char *line, t_hustru *big_struc);
+int					*move_hist(char *buf, int **prompt,
+t_hustru *big_struc, int *mainindex);
 /*
 ** Execution of command
 */

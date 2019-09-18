@@ -6,122 +6,105 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:50:59 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/08/01 18:42:55 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/18 17:24:37 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
 
-int		get_nb_line_quote(char *str)
+void	go_prev(int *mainindex, int **pos, char *tmp)
 {
 	int	i;
-	int	nb;
+	int	*coord;
 
 	i = 0;
-	nb = 0;
-	while (str[i++])
+	pos[0] = malloc(sizeof(int) * ft_strlenu(tmp));
+	while (tmp[i])
 	{
-		if (str[i] == '\n')
-			nb++;
+		coord = get_coord(get_cursor_position());
+		ft_putchar_fd(tmp[i], 0);
+		if (coord[1] == w.ws_col)
+		{
+			if (coord[0] == w.ws_row)
+				ft_putstr_fd("\e[S", 0);
+			ft_putstr_fd("\e[E", 0);
+		}
+		pos[0][i] = coord[1];
+		if (tmp[i] == '\n')
+			ft_putchar_fd('\r', 0);
+		*mainindex += 1;
+		i++;
+		free(coord);
 	}
-	return (nb);
 }
 
-void	clean_for_quotes(char *line, int *prompt, int r)
+void	history_prev(int **prompt, t_hustru *big_struc,
+	int **pos, int *mainindex)
 {
-	int	i;
-	int gnbl;
-
-	i = 0;
-	go_first_char(prompt, ft_strlenu(line), r);
-	ft_putstr("\e[0K");
-	gnbl = get_nb_line_quote(line);
-	if (get_nb_line_quote(line) == 0)
-		gnbl = r;
-	while (i++ < gnbl)
-	{
-		ft_putstr("\e[B");
-		ft_putstr("\e[2K");
-	}
-	go_first_char(prompt, ft_strlenu(line), r);
-}
-
-char	*history_prev(char *line, int **prompt, t_hustru *big_struc)
-{
-	int	r;
+	int		r;
 	char	*tmp;
-	struct	winsize w;
 
-	ioctl(0, TIOCGWINSZ, &w);
-	tmp = ft_strdup(line);
-	r = get_row(0, ft_strlenu(line), prompt[0][1]);
-	if (big_struc->lkd_hist && big_struc->lkd_hist->history[0])
+	tmp = ft_strdup(g_mainline);
+	r = get_row(0, ft_strlenu(g_mainline), prompt[0][1]);
+	if (big_struc->lkd_hist && big_struc->lkd_hist->prev)
 	{
-		clean_for_quotes(line, *prompt, r);
+		clean_for_quotes(mainindex, *prompt, pos[0]);
+		big_struc->lkd_hist = big_struc->lkd_hist->prev;
 		free(tmp);
 		tmp = ft_strdup(big_struc->lkd_hist->history);
-		ft_putstr(tmp);
+		go_prev(mainindex, pos, tmp);
 	}
-	//printf("\nJe suis sur %s\n", big_struc->lkd_hist->history);
-	if (big_struc->lkd_hist && big_struc->lkd_hist->prev)
-		big_struc->lkd_hist = big_struc->lkd_hist->prev;
 	r = get_row(0, ft_strlenu(tmp), prompt[0][1]);
+	r = r + get_nb_line_quote(tmp);
 	if (w.ws_row - prompt[0][0] < r)
-		prompt[0][0] -= r -(w.ws_row - prompt[0][0]);
-	return (tmp);
+		prompt[0][0] -= r - (w.ws_row - prompt[0][0]);
+	g_mainline ? free(g_mainline) : 0;
+	g_mainline = ft_strdup(tmp);
+	free(tmp);
 }
 
-char	*history_next(char *line, int **prompt, t_hustru *big_struc)
+void	history_next(int **prompt, t_hustru *big_struc,
+	int **pos, int *mainindex)
 {
-	int	r;
-	int nr;
+	int		r;
 	char	*tmp;
-	struct	winsize	w;
 
-	nr = 0;
-	ioctl(0, TIOCGWINSZ, &w);
-	tmp =ft_strdup(line);
-	r = get_row(0, ft_strlenu(line), prompt[0][1]);
-	if (big_struc->lkd_hist && big_struc->lkd_hist->history[0])
-		clean_for_quotes(line, *prompt, r);
+	tmp = ft_strdup(g_mainline);
+	r = get_row(0, ft_strlenu(g_mainline), prompt[0][1]);
 	if (big_struc->lkd_hist && big_struc->lkd_hist->next)
 	{
+		clean_for_quotes(mainindex, *prompt, pos[0]);
 		big_struc->lkd_hist = big_struc->lkd_hist->next;
 		free(tmp);
 		tmp = ft_strdup(big_struc->lkd_hist->history);
-		ft_putstr(tmp);
+		go_prev(mainindex, pos, tmp);
 		r = get_row(0, ft_strlenu(tmp), prompt[0][1]);
+		r = r + get_nb_line_quote(tmp);
 		if (w.ws_row - prompt[0][0] < r)
-			prompt[0][0] -= r -(w.ws_row - prompt[0][0]);
+			prompt[0][0] -= r - (w.ws_row - prompt[0][0]);
 	}
 	else if (big_struc->lkd_hist && big_struc->lkd_hist->history[0])
 	{
 		free(tmp);
 		tmp = ft_strdup("");
 	}
-	return (tmp);
+	free(g_mainline);
+	g_mainline = ft_strdup(tmp);
+	free(tmp);
 }
 
-char	*move_hist(char *buf, char *line, int **prompt, t_hustru *big_struc)
+int		*move_hist(char *buf, int **prompt, t_hustru *big_struc, int *mainindex)
 {
-	char	*tmp;
+	int	*pos;
 
-	tmp = ft_strdup(line);
 	if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65)
-	{
-		free(line);
-		line = ft_strdup(history_prev(tmp, prompt, big_struc));
-	}
+		history_prev(prompt, big_struc, &pos, mainindex);
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66)
-	{
-		free(line);
-		line = ft_strdup(history_next(tmp, prompt, big_struc));
-	}
+		history_next(prompt, big_struc, &pos, mainindex);
 	if (buf[0] == '\n')
 	{
 		while (big_struc->lkd_hist && big_struc->lkd_hist->next != NULL)
 			big_struc->lkd_hist = big_struc->lkd_hist->next;
 	}
-	return (line);
+	return (pos);
 }
-

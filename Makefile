@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/09/17 17:21:46 by lubenard         ###   ########.fr        #
+#    Updated: 2019/09/18 15:20:25 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,14 @@ SRC = srcs/main.c \
 	  srcs/input/insert_del.c \
 	  srcs/input/move_toword.c \
 	  srcs/input/manage_quotes.c \
-	  srcs/input/move_hist.c
+	  srcs/input/move_hist.c \
+	  srcs/input/ft_copy_cut_paste_del.c \
+	  srcs/input/signals.c \
+	  srcs/input/char_handler.c \
+	  srcs/input/tools.c \
+	  srcs/input/heredoc.c \
+	  srcs/input/manage_quotesbis.c \
+	  srcs/input/tools_bis.c
 
 INCLUDE_SRC = ./include/
 
