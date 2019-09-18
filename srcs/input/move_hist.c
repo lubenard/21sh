@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:50:59 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:24:37 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/18 17:43:15 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	go_prev(int *mainindex, int **pos, char *tmp)
 {
-	int	i;
-	int	*coord;
+	int i;
+	int *coord;
 
 	i = 0;
 	pos[0] = malloc(sizeof(int) * ft_strlenu(tmp));
@@ -95,7 +95,7 @@ void	history_next(int **prompt, t_hustru *big_struc,
 
 int		*move_hist(char *buf, int **prompt, t_hustru *big_struc, int *mainindex)
 {
-	int	*pos;
+	int *pos;
 
 	if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65)
 		history_prev(prompt, big_struc, &pos, mainindex);

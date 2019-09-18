@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:08:51 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:24:37 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/18 17:41:49 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*entry_q(int r, int *coord, int *prompt, char *line)
 {
-	int	t;
+	int t;
 
 	t = r;
 	if (coord[0] >= prompt[0] & coord[0] < prompt[0] + r)
@@ -38,8 +38,8 @@ void	initi(int *mainindex, int **prompt, char **buf)
 
 char	*get_inline(char *line, t_hustru *big_struc)
 {
-	struct s_coord	c;
-	int				mainindex;
+	t_coord		c;
+	int			mainindex;
 
 	initi(&mainindex, &c.prompt, &c.buf);
 	while (42)

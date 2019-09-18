@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/18 17:25:01 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/18 17:44:22 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef	struct		s_coord
 	int				mainindex;
 }					t_coord;
 
-typedef	struct		s_get_prompt_pos
+typedef	struct		s_getprompt_pos
 {
 	int				y;
 	int				x;
@@ -59,9 +59,8 @@ typedef	struct		s_w
 	int				ws_row;
 }					t_w;
 
-struct	s_w			w;
+t_w					w;
 char				*g_mainline;
-int					posx;
 /*
 ** Line edition
 */

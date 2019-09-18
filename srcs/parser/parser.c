@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/18 17:30:48 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/18 17:34:16 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,5 @@ int		parser(t_hustru *big_struc, char *command)
 		ft_deltab(split_space);
 	}
 	ft_deltab(semicolon);
-	//free(command);
 	return (0);
 }

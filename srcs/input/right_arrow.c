@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:16:24 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:24:35 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/18 17:58:53 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	right_arrow(int *mainindex, int i, int *prompt)
 {
-	struct s_get_prompt_pos gpp;
+	t_getprompt_pos gpp;
 
 	if (!(gpp.coord = get_coord(get_cursor_position()))
 		|| *mainindex > ft_strlenu(g_mainline))

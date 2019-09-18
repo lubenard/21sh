@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:24:32 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/18 17:41:06 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		init(int *mainindex, int **prompt, t_coord *c)
 
 char	*read_quit(int **prompt, int **pos)
 {
-	struct s_coord	c;
+	t_coord c;
 
 	c.buf = ft_strnew(9);
 	if ((c.ret = read(0, c.buf, 8)) <= 0 || (c.buf[0] == 4 && c.buf[1] == 0
@@ -76,7 +76,7 @@ int		control_c(char *buf, int *prompt, int *coord, int r)
 
 int		main_core(char *buf, int **prompt, int **pos, int *mainindex)
 {
-	int	r;
+	int r;
 
 	if (buf[0] != '\n' && buf[0] > 31 && buf[0] < 127)
 		print_char(mainindex, buf, prompt, pos);
@@ -89,9 +89,9 @@ int		main_core(char *buf, int **prompt, int **pos, int *mainindex)
 
 int		entry(int r, t_hustru *big_struc, int *coord, int *prompt)
 {
-	struct s_coord	c;
+	t_coord c;
 
-	r = r + get_nb_line_quote(g_mainline);
+	r += get_nb_line_quote(g_mainline);
 	c.t = r;
 	if (coord[0] >= prompt[0] && coord[0] < prompt[0] + r)
 		c.t = coord[0] - prompt[0];

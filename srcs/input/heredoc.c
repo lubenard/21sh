@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 10:59:34 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:24:39 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/18 17:42:21 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int		heredoc(char **tab_line, t_hustru *big_struc)
 {
-	struct s_coord	c;
-	int				mainindex;
-	char			*tmp;
+	t_coord		c;
+	int			mainindex;
+	char		*tmp;
 
 	tmp = ft_strnew(1);
 	c.line = ft_strnew(1);

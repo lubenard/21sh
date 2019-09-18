@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 19:14:38 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:24:38 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/18 17:38:17 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ char		*forthenorm(int check, char *str)
 
 int			print_newline(int **prompt, char *str, int *mainindex, int **pos)
 {
-	int	*coord;
-	int	i;
+	int *coord;
+	int i;
 
 	i = 0;
 	coord = malloc(sizeof(int) * 2);

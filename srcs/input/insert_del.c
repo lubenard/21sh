@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:13:06 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:24:36 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/18 18:12:57 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int		*reprint_line(int *mainindex, char *str, int **pos, int *prompt)
 {
-	int	i;
-	int	*coord;
+	int i;
+	int *coord;
 
 	i = 0;
-	free(pos[0]);
+	//free(pos[0]);
 	pos[0] = malloc(sizeof(int) * (ft_strlen(str)));
 	coord = malloc(sizeof(int) * 2);
 	coord[0] = prompt[0];
@@ -44,9 +44,9 @@ int		*reprint_line(int *mainindex, char *str, int **pos, int *prompt)
 
 void	delete_c(int **pos, int *prompt, int *mainindex, int w)
 {
-	int				i;
-	int				j;
-	char			*str;
+	int		i;
+	int		j;
+	char	*str;
 
 	i = 0;
 	j = 0;
