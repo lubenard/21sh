@@ -6,13 +6,19 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/19 15:58:29 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/19 19:27:17 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-char	**save_filename(char **tab, int i)
+/*
+** Have to rewrite the redir: here is how it works
+** 1) create files
+** 2) make the good redir
+** 3) execute the command
+*/
+/*char	**save_filename(char **tab, int i)
 {
 	int		nbr_elem;
 	char	**filename;
@@ -177,7 +183,7 @@ char	*exec_command_redir(t_hustru *big_struc, char **path, char av[131072])
 	//ret_command = get_output_of_command(big_struc, argv);
 	return (0);
 }
-
+*/
 void	save_redir(char *command, char *content)
 {
 	char **tab;
@@ -192,10 +198,64 @@ void	save_redir(char *command, char *content)
 	//create_file(filenames, tab);
 	////fill_file(filenames, content, tab);
 }
+/*
+** ----------------------New redirections ------------------
+*/
+
+int		create_file(char **filenames)
+{
+	int i;
+	int file;
+
+	i = 0;
+	while (!ft_strchr(filenames[i], '>'))
+		i++;
+	i++;
+	while (filenames[i])
+	{
+		if (access(filenames[i], F_OK) == -1)
+		{
+			printf("Je cree %s\n", filenames[i]);
+			if ((file = open(filenames[i], O_CREAT, 0666) <= 0))
+			{
+				ft_putstr_fd("ymarsh: error while creating file ",2);
+				ft_putendl_fd(filenames[i] ,2);
+				return (1);
+			}
+			close(file);
+		}
+		else
+			printf("Le fichier %s existe deja\n", filenames[i]);
+		i++;
+	}
+	return (0);
+}
+
+int		check_redir(char **command)
+{
+	int		i;
+	int		last_char;
+
+	i = 0;
+	while (command[i])
+	{
+		last_char = ft_strlen(command[i]) - 1;
+		if (ft_occur(command[i], '>') >= 3)
+			return (print_error_redirect(">"));
+		else if (!command[i + 1] && command[i][last_char] == '>')
+			return (print_error_redirect("\\n"));
+		else if (command[i][last_char] == '>'
+			&& command[i + 1][0] == '>')
+			return (print_error_redirect(command[i + 1]));
+		i++;
+	}
+	return (0);
+}
 
 int		arrow_right(t_hustru *big_struc, char **command)
 {
-	int		i = 0;
+	(void)big_struc;
+/*	int		i = 0;
 	char	*extract;
 	int		k = 0;
 	char	*tab[50];
@@ -225,5 +285,12 @@ int		arrow_right(t_hustru *big_struc, char **command)
 	create_file(filenames);
 	output = get_output_of_command(big_struc, tab);
 	fill_file(filenames, output, command);
+	return (0);*/
+	if (check_redir(command))
+	{
+		printf("Je detecte une erreur et retourne 1\n");
+		return (1);
+	}
+	create_file(command);
 	return (0);
 }

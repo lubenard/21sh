@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/19 14:07:12 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/19 18:52:15 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	double_redir(t_hustru *big_struc, char *command)
 	save_redir(big_struc->line, ft_strndup(output, ft_strlen(output) - 1));
 }
 
-void	redirections(t_hustru *big_struc, char *command, char **parsed_command)
+int		redirections(t_hustru *big_struc, char *command, char **parsed_command)
 {
 	(void)big_struc;
 	(void)command;
@@ -92,5 +92,6 @@ void	redirections(t_hustru *big_struc, char *command, char **parsed_command)
 	//else if (ft_strchr(command, '<<'))
 	//	double_arrow_left(big_struc, command);
 	else if (ft_strchr(command, '>') || ft_strstr(command, ">>"))
-		arrow_right(big_struc, parsed_command);
+		return(arrow_right(big_struc, parsed_command));
+	return (0);
 }

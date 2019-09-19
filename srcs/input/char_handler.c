@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 19:14:38 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:38:17 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/19 18:07:46 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int			*insert_char(int *mainindex, char *buf, int **prompt, int **pos)
 
 	i = 0;
 	j = 0;
-	if ((str = forthenorm(0, NULL)))
+	if ((str = forthenorm(0, NULL)) == NULL)
 		return (NULL);
 	while (g_mainline[i])
 	{
@@ -104,7 +104,7 @@ int			*insert_char(int *mainindex, char *buf, int **prompt, int **pos)
 	}
 	str[j] = '\0';
 	free(pos[0]);
-	pos = j != 0 ? malloc(sizeof(int) * j) : NULL;
+	pos[0] = j != 0 ? malloc(sizeof(int) * j) : NULL;
 	j = *mainindex;
 	clean(prompt[0], mainindex, pos[0]);
 	i = print_newline(prompt, str, mainindex, pos);
