@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:02:17 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/19 14:55:22 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 */
 int					set_none_canon_mode(int fd);
 int					reset_shell_attr(int fd);
-
 /*
 ** Display / error functions
 */

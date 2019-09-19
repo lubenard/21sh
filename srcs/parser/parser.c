@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/18 17:34:16 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/19 14:09:30 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int		exec_external_command(t_hustru *big_struc, char **command)
 		return (1);
 	}
 	printf("path = %s\n", path);
-	exec_command_gen(path, command, compact_env(big_struc->lkd_env));
-	return (0);
+	return(exec_command_gen(path, command, compact_env(big_struc->lkd_env)));
 }
 
 /*

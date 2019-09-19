@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/17 18:02:12 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/19 15:58:29 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int		create_file(char **filenames)
 				return (1);
 			close(file);
 		}
+		else
+			printf("Le fichier %s existe deja\n", filenames[i]);
 		i++;
 	}
 	return (0);
@@ -139,10 +141,16 @@ int		fill_file(char **filenames, char **output, char **tab)
 		{
 			printf("J'ouvre %s\n", tab[i]);
 			printf("tab[%d - 1] = %s\n", i, tab[i - 1]);
-			if (!ft_strstr(tab[i - 1], ">>"))
+			if (ft_strstr(tab[i - 1], ">>"))
+			{
+				printf("I append to the file\n");
 				out = open(tab[i], O_APPEND | O_WRONLY);
-			else if (!ft_strchr(tab[i - 1], '>'))
-				out = open(tab[i], O_WRONLY);
+			}
+			else if (ft_strchr(tab[i - 1], '>'))
+			{
+				printf("I write to the file\n");
+				out = open(tab[i], O_WRONLY | O_TRUNC);
+			}
 			if (tab[i - 1][0] == '2')
 				ft_putendl_fd(output[1], out);
 			else

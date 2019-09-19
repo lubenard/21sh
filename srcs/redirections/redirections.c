@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/17 16:34:05 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/19 14:07:12 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	redirections(t_hustru *big_struc, char *command, char **parsed_command)
 	(void)command;
 	(void)parsed_command;
 
+	printf("J'arrive au niveau des redir\n");
 	if (ft_strchr(command, '<') && ft_strchr(command, '>'))
 		double_redir(big_struc, command);
 	else if (ft_strchr(command, '<'))

@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:50:59 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:43:15 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/19 16:52:47 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ int		*move_hist(char *buf, int **prompt, t_hustru *big_struc, int *mainindex)
 		history_prev(prompt, big_struc, &pos, mainindex);
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66)
 		history_next(prompt, big_struc, &pos, mainindex);
-	if (buf[0] == '\n')
+	else
+		pos = malloc(sizeof(int) * 1);
 	{
 		while (big_struc->lkd_hist && big_struc->lkd_hist->next != NULL)
 			big_struc->lkd_hist = big_struc->lkd_hist->next;

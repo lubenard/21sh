@@ -8,6 +8,26 @@ les pipes et d'autres améliorations générales.
 ### -Fonctionnalitées
 
 
+###    Raccourci clavier
+```
+- SIGNAUX :
+Ctrl-D : Supprime en arrière lorsque le curseur se situe sur un caractère de l'entrée utilisateur
+		 Quitte le shell lorsque l'entrée utilisateur est vide
+Ctrl-C : vide l'entrée utilisateur et retourne le prompt
+
+- AFFICHAGE:
+Ctrl-A : Déplace le curseur en début de ligne
+Ctrl-E : Déplace le curseur en fin de ligne
+Ctrl-K : Coupe la ligne
+Ctrl-L : Copie la ligne
+Ctrl-P : Colle la ligne
+Ctrl-B : Déplace le curseur d'un mot vers la gauche
+Ctrl-C : Déplace le curseur d'un mot vers la droite
+Ctrl-U : Déplace le curseur d'une ligne vers le haut
+Ctrl-F : Déplace le curseur d'une ligne vers le bas
+Les flèches s'utilisent logiquement.
+```
+
 ###    Options du shell
 ```
 [--help] Affiche l'aide du shell et quitte
@@ -17,25 +37,18 @@ les pipes et d'autres améliorations générales.
 - echo [POSIX]
 ```
 [-n] N'imprime pas le '\n' après le dernier argument.
-
 \a
 Ecrit un <alert>.
-
 \b
 Ecrit un <backspace>.
-
 \f
 Ecrit un <form-feed>.
-
 \n
 Ecrit un <newline>.
-
 \r
 Ecrit un <carriage-return>.
-
 \t
 Ecrit un <tab>.
-
 \v
 Ecrit un <vertical-tab>.
 ```
@@ -72,6 +85,26 @@ pipes and other general improvements.
 
 ### -Features
 
+### Keyboard shortcut
+```
+- SIGNALS:
+Ctrl-D: Deletes backwards when the cursor is on a character in my user entry
+		Exits the shell when the user entry is empty
+Ctrl-C : empties the current buffer of the user entry and returns the prompt
+
+- DISPLAY:
+Ctrl-A : Moves the cursor to the beginning of the line
+Ctrl-E : Moves the cursor to the end of the line
+Ctrl-K : Cuts the line
+Ctrl-L : Copies the line
+Ctrl-P : Pastes the line
+Ctrl-B : Moves the cursor one word to the left
+Ctrl-C : Moves the cursor one word to the right
+Ctrl-U : Moves the cursor one line up
+Ctrl-F : Moves the cursor one line down
+The arrows are used logically.
+```
+
 ###    Shell options
 ```
 [--help] Print shell help and exit
@@ -85,22 +118,16 @@ pipes and other general improvements.
 
 \a
 Write an <alert>.
-
 \b
 Write a <backspace>.
-
 \f
 Write a <form-feed>.
-
 \n
 Write a <newline>.
-
 \r
 Write a <carriage-return>.
-
 \t
 Write a <tab>.
-
 \v
 Write a <vertical-tab>.
 ```

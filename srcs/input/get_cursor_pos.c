@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 20:16:02 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/17 19:48:22 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/09/19 10:46:58 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		alloc(t_coord *co)
 
 char	*fill_screensz(char *buf, int *i, int *j, char *tmp)
 {
+	(*i)++;
 	while (buf[*i] && buf[*i] != ';')
 	{
 		tmp[*j] = buf[*i];

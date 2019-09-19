@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:48:08 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 11:36:22 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/19 12:52:26 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,6 @@ int		reset_shell_attr(int fd)
 	old.c_lflag |= ECHO;
 	if (tcsetattr(fd, TCSADRAIN, &old) == -1)
 		return (-1);
-	ft_putchar_fd('\n', 0);
+	//ft_putchar_fd('\n', 0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:41:06 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/19 16:56:43 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,13 @@ int		ft_read_1(t_hustru *big_struc)
 			return (0);
 		c.prompt[0] = c.coord[0] == 1 ? 1 : c.prompt[0];
 		c.r = main_core(c.buf, &c.prompt, &c.pos, &c.mainindex);
-		//free(c.pos);
+		c.pos ? free(c.pos) : 0;
 		c.pos = move_hist(c.buf, &c.prompt, big_struc, &c.mainindex);
 		if (c.buf[0] == '\n' && entry(c.r, big_struc, c.coord, c.prompt))
 		{
 			free(c.buf);
 			printf("g_mainline = %s\n", g_mainline);
-			//free(c.pos);
+	//		free(c.pos);
 			return (0);
 		}
 		free(c.coord);

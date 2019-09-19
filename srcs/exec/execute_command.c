@@ -6,13 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/11 18:45:46 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/19 14:11:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
-
-pid_t	g_pid;
 
 char	**compact_env(t_env *lkd_env)
 {
@@ -55,14 +53,19 @@ int		check_exec_rights(char *path)
 
 int		exec_command_gen(char *path, char **argv, char **env)
 {
+	pid_t	g_pid;
+
 	if (!check_exec_rights(path))
 		return (1);
 	g_pid = fork();
 	reset_shell_attr(0);
 	signal(SIGINT, handle_signals_proc);
 	if (g_pid < 0)
-		return (0);
-	if (g_pid == 0)
+	{
+		ft_putendl_fd("ymarsh: Error during execution: fork failed", 2);
+		return (1);
+	}
+	if (!g_pid)
 		execve(path, argv, env);
 	wait(&g_pid);
 	set_none_canon_mode(0);
