@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/19 14:55:08 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/20 08:50:27 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,6 @@ int		wait_pipe(int i, int *pipes, char ***tab)
 	return (free_pipe(tab));
 }
 
-int		print_error_pipe(void)
-{
-	ft_putendl_fd("Pipe: Invalid pipe", 2);
-	return (1);
-}
-
 void	exec_pipe(int j, int k, int *pipes, char ***tab)
 {
 	if (j != 0)
@@ -138,7 +132,7 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 	int		k;
 
 	if ((tab = compact_command(command)) == NULL)
-		return (print_error_pipe());
+		return (display_error("Pipe: Invalid pipe\n", NULL));
 	j = 0;
 	k = 0;
 	i = count_args_triple_tab(tab) - 1;

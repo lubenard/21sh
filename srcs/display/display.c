@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:40:41 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/15 12:31:07 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/20 08:44:10 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,21 @@ void	display_prompt(char *username, char *curr_dir)
 	free(curr_dir);
 }
 
-void	invalid_command(char *command)
+int		display_error(char *error, char *command)
+{
+	if (error)
+		ft_putstr_fd(error, 2);
+	if (command)
+		ft_putendl_fd(command, 2);
+	return (1);
+}
+
+int		invalid_command(char *command)
 {
 	ft_putstr_fd("Error: ", 2);
 	ft_putstr_fd(command, 2);
 	ft_putstr_fd(" : command not found ¯\\_(ツ)_/¯\n", 2);
+	return (1);
 }
 
 int		get_error_exec(char path[6000])

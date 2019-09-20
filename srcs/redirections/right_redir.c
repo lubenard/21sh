@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/19 19:27:17 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/20 12:52:39 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,19 +209,19 @@ int		create_file(char **filenames)
 
 	i = 0;
 	while (!ft_strchr(filenames[i], '>'))
+	{
+		printf("Je passe %s\n", filenames[i]);
 		i++;
+	}
 	i++;
 	while (filenames[i])
 	{
-		if (access(filenames[i], F_OK) == -1)
+		if (access(filenames[i], F_OK) == -1 && !ft_strchr(filenames[i], '>'))
 		{
 			printf("Je cree %s\n", filenames[i]);
-			if ((file = open(filenames[i], O_CREAT, 0666) <= 0))
-			{
-				ft_putstr_fd("ymarsh: error while creating file ",2);
-				ft_putendl_fd(filenames[i] ,2);
-				return (1);
-			}
+			if ((file = open(filenames[i], O_CREAT, 0666) < 0))
+				return (display_error("ymarsh: error while creating file ",
+					filenames[i]));
 			close(file);
 		}
 		else
@@ -249,6 +249,68 @@ int		check_redir(char **command)
 			return (print_error_redirect(command[i + 1]));
 		i++;
 	}
+	return (0);
+}
+
+int		link_files(char **command)
+{
+	int i;
+	int file;
+
+	i = 0;
+	while (!ft_strchr(command[i], '>'))
+	{
+		printf("[link_file] Je passe %s\n", command[i]);
+		i++;
+	}
+	printf("Avant de boucler je suis sur %s\n", command[i]);
+	while (command[i])
+	{
+		printf("[link_file] Je boucle\n");
+		if (!ft_strcmp(command[i], ">"))
+		{
+			printf("Je vais faire une redir sur >\n");
+			i++;
+			while (command[i] && !ft_strchr(command[i], '>'))
+			{
+				printf("J'ouvre %s\n", command[i]);
+				file = open(command[i], O_TRUNC);
+				printf("Je dup2(%d, 1)\n", file);
+				dup2(file, 1);
+				i++;
+			}
+		}
+		if (command[i])
+			i++;
+	}
+	return (0);
+}
+
+int		exec_command_redir(t_hustru *big_struc, char **command)
+{
+	char	**compact;
+	int		i;
+	int		e;
+	pid_t	pid;
+
+	i = 0;
+	e = 0;
+	dprintf(2, "je rentre dans exec_command_redir\n");
+	while (command[i] && !ft_strchr(command[i], '>'))
+		i++;
+	if (!(compact = malloc(sizeof(char *) * (i + 1))))
+		return (1);
+	while (e != i)
+	{
+		compact[e] = command[e];
+		e++;
+	}
+	compact[e] = NULL;
+	int j = 0;
+	while (compact[j])
+		dprintf(2, "Compact = %s\n", compact[j++]);
+	basic_command(big_struc, compact);
+	//close(3);
 	return (0);
 }
 
@@ -292,5 +354,7 @@ int		arrow_right(t_hustru *big_struc, char **command)
 		return (1);
 	}
 	create_file(command);
+	link_files(command);
+	exec_command_redir(big_struc, command);
 	return (0);
 }

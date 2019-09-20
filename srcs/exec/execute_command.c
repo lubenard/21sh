@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/19 14:11:59 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/20 08:51:39 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,8 @@ int		exec_command_gen(char *path, char **argv, char **env)
 	reset_shell_attr(0);
 	signal(SIGINT, handle_signals_proc);
 	if (g_pid < 0)
-	{
-		ft_putendl_fd("ymarsh: Error during execution: fork failed", 2);
-		return (1);
-	}
+		return (display_error("ymarsh: Error during execution: fork failed",
+		NULL));
 	if (!g_pid)
 		execve(path, argv, env);
 	wait(&g_pid);

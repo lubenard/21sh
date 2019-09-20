@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:59:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/21 11:21:27 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/20 09:13:26 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ void	double_arrow_left(t_env *lkd_env, char *command)
 
 int		arrow_left(t_hustru *big_struc, char *command)
 {
-	char	**tab;
+	(void)big_struc;
+	(void)command;
+/*	char	**tab;
 	int		i;
 	int		fd;
 	char	*first_command;
@@ -67,6 +69,6 @@ int		arrow_left(t_hustru *big_struc, char *command)
 	}
 	ft_deltab(tab2);
 	ft_deltab(tab);
-	free(first_command);
+	free(first_command);*/
 	return (0);
 }

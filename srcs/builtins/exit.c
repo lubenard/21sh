@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 14:01:27 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/19 18:52:45 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/20 08:47:01 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,7 @@ int		ft_atoi_exit(char *str)
 		i++;
 	}
 	if (output > INT_MAX || (int)output < INT_MIN)
-	{
-		ft_putstr_fd("ymarsh: exit: integer is expected\n", 2);
-		return (2);
-	}
+		return (display_error("ymarsh: exit: integer is expected\n", NULL));
 	free(str);
 	return (output * mult);
 }
