@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/20 12:52:39 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/20 18:47:42 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,7 +274,7 @@ int		link_files(char **command)
 			while (command[i] && !ft_strchr(command[i], '>'))
 			{
 				printf("J'ouvre %s\n", command[i]);
-				file = open(command[i], O_TRUNC);
+				file = open(command[i], O_WRONLY | O_TRUNC);
 				printf("Je dup2(%d, 1)\n", file);
 				dup2(file, 1);
 				i++;
@@ -291,7 +291,7 @@ int		exec_command_redir(t_hustru *big_struc, char **command)
 	char	**compact;
 	int		i;
 	int		e;
-	pid_t	pid;
+	//pid_t	pid;
 
 	i = 0;
 	e = 0;
@@ -309,14 +309,16 @@ int		exec_command_redir(t_hustru *big_struc, char **command)
 	int j = 0;
 	while (compact[j])
 		dprintf(2, "Compact = %s\n", compact[j++]);
+	
 	basic_command(big_struc, compact);
-	//close(3);
+	close(3);
 	return (0);
 }
 
 int		arrow_right(t_hustru *big_struc, char **command)
 {
 	(void)big_struc;
+	//int *open_fd;
 /*	int		i = 0;
 	char	*extract;
 	int		k = 0;
