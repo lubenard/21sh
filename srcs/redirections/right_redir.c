@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/20 18:47:42 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/21 12:31:28 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 ** 2) make the good redir
 ** 3) execute the command
 */
+
 /*char	**save_filename(char **tab, int i)
 {
 	int		nbr_elem;
@@ -280,8 +281,19 @@ int		link_files(char **command)
 				i++;
 			}
 		}
-		if (command[i])
+		if (!ft_strcmp(command[i], "2>"))
+		{
+			printf("Je vais faire une redir sur 2>\n");
 			i++;
+			while (command[i] && !ft_strchr(command[i], '>'))
+			{
+				printf("J'ouvre %s\n", command[i]);
+				file = open(command[i], O_WRONLY | O_TRUNC);
+				printf("Je dup2(%d, 1)\n", file);
+				dup2(file, 2);
+				i++;
+			}
+		}
 	}
 	return (0);
 }
@@ -295,7 +307,7 @@ int		exec_command_redir(t_hustru *big_struc, char **command)
 
 	i = 0;
 	e = 0;
-	dprintf(2, "je rentre dans exec_command_redir\n");
+	printf("je rentre dans exec_command_redir\n");
 	while (command[i] && !ft_strchr(command[i], '>'))
 		i++;
 	if (!(compact = malloc(sizeof(char *) * (i + 1))))
@@ -308,7 +320,7 @@ int		exec_command_redir(t_hustru *big_struc, char **command)
 	compact[e] = NULL;
 	int j = 0;
 	while (compact[j])
-		dprintf(2, "Compact = %s\n", compact[j++]);
+		printf("Compact = %s\n", compact[j++]);
 	
 	basic_command(big_struc, compact);
 	close(3);
