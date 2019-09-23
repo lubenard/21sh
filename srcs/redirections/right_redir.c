@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/21 12:31:28 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/23 18:52:47 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,12 +253,16 @@ int		check_redir(char **command)
 	return (0);
 }
 
-int		link_files(char **command)
+int		*link_files(char **command)
 {
 	int i;
-	int file;
+	int *tab_fd;
+	int e;
 
+	if (!(tab_fd = (int *)malloc(sizeof(int) * (count_elem_redir(command, 0) + 1))))
+		return (0);
 	i = 0;
+	e = 0;
 	while (!ft_strchr(command[i], '>'))
 	{
 		printf("[link_file] Je passe %s\n", command[i]);
@@ -275,27 +279,28 @@ int		link_files(char **command)
 			while (command[i] && !ft_strchr(command[i], '>'))
 			{
 				printf("J'ouvre %s\n", command[i]);
-				file = open(command[i], O_WRONLY | O_TRUNC);
-				printf("Je dup2(%d, 1)\n", file);
-				dup2(file, 1);
+				tab_fd[e] = open(command[i], O_WRONLY | O_TRUNC);
+				printf("Je dup2(%d, 1)\n", tab_fd[e]);
+				dup2(tab_fd[e++], 1);
 				i++;
 			}
 		}
-		if (!ft_strcmp(command[i], "2>"))
+		else if (!ft_strcmp(command[i], "2>"))
 		{
 			printf("Je vais faire une redir sur 2>\n");
 			i++;
 			while (command[i] && !ft_strchr(command[i], '>'))
 			{
 				printf("J'ouvre %s\n", command[i]);
-				file = open(command[i], O_WRONLY | O_TRUNC);
-				printf("Je dup2(%d, 1)\n", file);
-				dup2(file, 2);
+				tab_fd[e] = open(command[i], O_WRONLY | O_TRUNC);
+				printf("Je dup2(%d, 1)\n", tab_fd[e]);
+				dup2(tab_fd[e++], 2);
 				i++;
 			}
 		}
 	}
-	return (0);
+	tab_fd[e] = -1;
+	return (tab_fd);
 }
 
 int		exec_command_redir(t_hustru *big_struc, char **command)
@@ -321,54 +326,29 @@ int		exec_command_redir(t_hustru *big_struc, char **command)
 	int j = 0;
 	while (compact[j])
 		printf("Compact = %s\n", compact[j++]);
-	
 	basic_command(big_struc, compact);
-	close(3);
 	return (0);
 }
 
 int		arrow_right(t_hustru *big_struc, char **command)
 {
-	(void)big_struc;
-	//int *open_fd;
-/*	int		i = 0;
-	char	*extract;
-	int		k = 0;
-	char	*tab[50];
-	char	**filenames;
-	char	**output;
+	int *tmp;
+	int i = 0;
 
 	(void)big_struc;
-	while (!ft_strchr(command[i], '>'))
-	{
-		printf("[Redirections]: Je passe sur %s\n", command[i]);
-		i++;
-	}
-	printf("[Redirections]: Je m'arrete sur %s\n", command[i]);
-	if (command[i][0] != '>')
-	{
-		extract = extract_first(command[i], '>');
-		printf("[Redirections] extract vaut %s\n", extract);
-	}
-	while (k != i)
-	{
-		printf("Je copie %s\n", command[k]);
-		tab[k] = command[k];
-		k++;
-	}
-	tab[k] = NULL;
-	filenames = save_filename(command, i); //merge save_filename and create_file
-	create_file(filenames);
-	output = get_output_of_command(big_struc, tab);
-	fill_file(filenames, output, command);
-	return (0);*/
 	if (check_redir(command))
 	{
 		printf("Je detecte une erreur et retourne 1\n");
 		return (1);
 	}
 	create_file(command);
-	link_files(command);
+	tmp = link_files(command);
+	while (tmp[i] > 0)
+		printf("redir tab_fd[e] = %d\n", tmp[i++]);
+	printf("je lance la commande");
 	exec_command_redir(big_struc, command);
+	i = 0;
+	while (tmp[i] > 0)
+		close(tmp[i++]);
 	return (0);
 }

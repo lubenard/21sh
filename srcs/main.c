@@ -6,14 +6,14 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/19 18:49:25 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/23 17:35:52 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
 
-char	*g_username;
-char	*g_curr_dir;
+char		*g_username;
+char		*g_curr_dir;
 
 void		change_env(t_hustru *big_struc)
 {
@@ -106,9 +106,9 @@ int			get_option(t_hustru *big_struc, char **argv)
 	return (0);
 }
 
-void	size_handler(int i)
+void		size_handler(int i)
 {
-	struct winsize 	win;
+	struct winsize win;
 
 	signal(SIGWINCH, size_handler);
 	i = ioctl(0, TIOCGWINSZ, &win);
@@ -117,7 +117,7 @@ void	size_handler(int i)
 //	clean_nprint(w.ws_col, i);
 }
 
-void	catch_signal()
+void		catch_signal(void)
 {
 	struct winsize ws;
 
@@ -144,7 +144,7 @@ int			main(int argc, char **argv, char **env)
 	change_env(big_struc);
 	if (get_option(big_struc, argv) == 1)
 		return (ft_exit(big_struc, 0));
-	parser(big_struc,argv[1]);
+	parser(big_struc, argv[1]);
 	/*display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	while (ft_read_1(big_struc) == 0)
 	{

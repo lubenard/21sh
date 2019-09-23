@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:40:41 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/20 08:44:10 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/23 16:24:10 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,6 @@ void	display_prompt(char *username, char *curr_dir)
 	ft_putstr("\033[0m > ");
 	free(username);
 	free(curr_dir);
-}
-
-int		display_error(char *error, char *command)
-{
-	if (error)
-		ft_putstr_fd(error, 2);
-	if (command)
-		ft_putendl_fd(command, 2);
-	return (1);
 }
 
 int		invalid_command(char *command)

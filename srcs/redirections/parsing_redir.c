@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 14:50:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/10 18:20:48 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/23 18:23:17 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ int		count_elem_redir(char **tab, int i)
 	int		elem;
 
 	elem = 0;
+	while (tab[i] && ft_strchr(tab[i], '>'))
+		i++;
+	i++;
 	while (tab[i])
 	{
 		//printf("Je regarde %s\n", tab[i]);
@@ -49,20 +52,7 @@ int		count_elem_redir(char **tab, int i)
 		//	printf("Je rajoute %s\n", tab[i]);
 			elem++;
 		}
-		else
-		{
-			if (ft_str_is_alpha(tab[i], 0))
-			{
-			//	printf("Je rajoute avant %s\n", tab[i]);
-				elem++;
-			}
-			if (ft_str_is_alpha(tab[i], ft_strchri(tab[i], '>')))
-			{
-			//	printf("Je rajoute apres %s\n", tab[i]);
-				elem++;
-			}
-		}
-				i++;
+		i++;
 	}
 	printf("Elem vaut %d\n", elem);
 	return (elem);

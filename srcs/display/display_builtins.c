@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 17:03:58 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/19 19:26:05 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/23 16:24:06 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,15 @@ int		print_error_redirect(char *code)
 	i = 0;
 	ft_putstr_fd("ymarsh: parse error near ", 2);
 	ft_putendl_fd(code, 2);
+	return (1);
+}
+
+int		display_error(char *error, char *command)
+{
+	if (error)
+		ft_putstr_fd(error, 2);
+	if (command)
+		ft_putendl_fd(command, 2);
 	return (1);
 }
 
