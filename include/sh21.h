@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/24 15:28:54 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/24 22:26:02 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void				double_arrow_left(t_env *lkd_env, char *command);
 int					arrow_left(t_hustru *big_struc, char *command);
 int					print_error_redirect(char *code);
 char				**get_output_of_command(t_hustru *big_struc, char **argv);
-int					create_file(char **filenames, int i);
+int					create_file(char **filenames);
 int					fill_file(char **command, char **output, int i);
 /*
 ** Pipe utils
