@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:13:06 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/24 21:10:59 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/09/24 21:28:35 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		if_last_co(char c)
 
 char	*del_char(int *w, int mainindex, int *i, int *j)
 {
-	char    *str;
+	char	*str;
 
 	str = ft_strnew(ft_strlenu(g_mainline));
 	if (*w == -1 && mainindex - *w == ft_strlenu(g_mainline))
@@ -38,7 +38,6 @@ char	*del_char(int *w, int mainindex, int *i, int *j)
 	str[*i] = '\0';
 	return (str);
 }
-
 
 int		*reprint_line(int *mainindex, char *str, int **pos, int *prompt)
 {
@@ -76,17 +75,9 @@ void	delete_c(int **pos, int *prompt, int *mainindex, int w)
 	i = 0;
 	j = 0;
 	str = NULL;
-	if (*mainindex != 0 || (*mainindex == 0 && w== -1))
+	if (*mainindex != 0 || (*mainindex == 0 && w == -1))
 	{
-		str = ft_strnew(ft_strlenu(g_mainline));
-		w = w == -1 && *mainindex - w == ft_strlenu(g_mainline) ? 0 : w;
-		while (g_mainline[i])
-		{
-			if (i != *mainindex - w)
-				str[j++] = g_mainline[i];
-			i++;
-		}
-		str[j] = '\0';
+		str = del_char(&w, *mainindex, &i, &j);
 		j = *mainindex;
 		clean(prompt, mainindex, pos[0]);
 		pos[0] = reprint_line(mainindex, str, pos, prompt);

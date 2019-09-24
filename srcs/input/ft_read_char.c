@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/24 20:22:12 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/24 20:28:20 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/09/24 21:28:54 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int		ft_read_1(t_hustru *big_struc)
 		{
 			free(c.buf);
 			free(c.pos);
-			//printf("g_mainline = %s\n", g_mainline);
 			return (0);
 		}
 		free(c.coord);
