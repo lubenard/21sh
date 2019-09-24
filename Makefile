@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/09/23 17:35:22 by lubenard         ###   ########.fr        #
+#    Updated: 2019/09/24 15:32:33 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,6 @@ SRC = srcs/main.c \
 	  srcs/redirections/left_redir.c \
 	  srcs/redirections/right_redir.c \
 	  srcs/redirections/parsing_redir.c \
-	  srcs/redirections/ft_strsplit_redir.c \
 	  srcs/redirections/parse_redir.c \
 	  srcs/pipe/pipe.c \
 	  srcs/display/display_builtins.c \

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/23 18:00:33 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/24 15:32:45 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	redir_and_pipe(t_hustru *big_struc, char **command)
 
 	(void)command;
 	(void)big_struc;
-	arg = ft_strsplit_redir(command[0], '>');
+	arg = NULL;
+//	arg = ft_strsplit_redir(command[0], '>');
 	while (arg[i])
 		printf("Element vaut %s\n", arg[i++]);
 	if (pipe(link) == -1 || (pid = fork()) == -1)
@@ -86,9 +87,7 @@ int		redirections(t_hustru *big_struc, char *command, char **parsed_command)
 	(void)command;
 	(void)parsed_command;
 
-
 	//parse_redir(command, parsed_command);
-	printf("J'arrive au niveau des redir\n");
 	if (ft_strchr(command, '<') && ft_strchr(command, '>'))
 		double_redir(big_struc, command);
 	else if (ft_strchr(command, '<'))

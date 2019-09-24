@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/20 08:42:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/24 15:28:54 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,12 @@ int					exec_command_gen(char *path, char **argv, char **env);
 /*
 ** Other
 */
-char				*extract_params(char *command);
 char				*extract_first_env(char *command);
 char				*extract_last(char *command, char start);
 char				*find_in_env(t_env *lkd_env, char *to_find);
 int					free_after_exec(char *get_right_path, char **env);
 int					get_error_exec(char path[6000]);
 char				**compact_env(t_env *lkd_env);
-char				**ft_strsplit_redir(char const *s, char c);
 char				*find_path(char **path, char *first_command);
 char				**get_path(char *path_line);
 void				free_after_exit(t_env *lkd_env,
@@ -120,9 +118,8 @@ void				double_arrow_left(t_env *lkd_env, char *command);
 int					arrow_left(t_hustru *big_struc, char *command);
 int					print_error_redirect(char *code);
 char				**get_output_of_command(t_hustru *big_struc, char **argv);
-char				**save_filename(char **command, int i);
-int					create_file(char **filenames);
-int					fill_file(char **filenames, char **output, char **command);
+int					create_file(char **filenames, int i);
+int					fill_file(char **command, char **output, int i);
 /*
 ** Pipe utils
 */
