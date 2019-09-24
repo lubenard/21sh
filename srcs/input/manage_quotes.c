@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:08:51 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:41:49 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/24 20:29:16 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,43 +75,7 @@ char	*get_quotes(char *line, t_hustru *big_struc)
 	while (line[i])
 	{
 		if (line[i] == '\'' || line[i] == '\"')
-		{
-			/*c = line[i];
-			quotes = 1;
-			while (line[i++])
-			{
-				if (line[i] == c)
-				{
-					quotes = 0;
-					break ;
-				}
-			}
-			if (quotes % 2 != 0)
-			{
-				ft_putstr_fd("\r> ", 0);
-				line = ft_strjoinnf(line, "\n");
-				while ((line = get_inline(line, big_struc)))
-				{
-					while (line[i])
-					{
-						if (line[i] == c)
-						{
-							tmp = "yes";
-							quotes++;
-							break;
-						}
-						i++;
-					}
-					if (quotes % 2 == 0 || line[ft_strlenu(line) - 1] == 7)
-					{
-						ft_putchar_fd('\n', 0);
-						break;
-					}
-					ft_putstr_fd("\n\r> ", 0);
-				}
-			}*/
 			line = do_i_have_to_do_it_quote(line, &i, big_struc, &tmp);
-		}
 		if (line[ft_strlenu(line) - 1] == 7)
 		{
 			line[ft_strlenu(line) - 1] = '\0';

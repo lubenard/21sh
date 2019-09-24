@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:15:57 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:43:21 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/24 21:23:38 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,26 @@
 void	ft_prev_word(int *prompt, int *mainindex, int *pos)
 {
 	int		i;
-	char	j;
 	int		*coord;
 	int		r;
 
-	j = 0;
 	i = 0;
 	r = get_row(0, ft_strlenu(g_mainline), prompt[1]);
 	coord = get_coord(get_cursor_position());
-	while (g_mainline[i++])
-		j = g_mainline[i] == ' ' ? 'y' : 0;
-	if ((prompt[1] == coord[1] && coord[0] == prompt[0]) || j == 'y')
+	if ((prompt[1] == coord[1] && coord[0] == prompt[0]))
 	{
 		free(coord);
 		return ;
 	}
-	if (prompt[0] != coord[0])
-		i = coord[1] + (w.ws_col * (coord[0] - prompt[0]) - prompt[1]);
-	else
-		i = (coord[1]) - prompt[1];
+	i = i_is(prompt, coord);
 	while ((i < ft_strlenu(g_mainline) && i >= 0 && g_mainline[i] == ' '))
 	{
-		left_arrow(mainindex, prompt, pos);
+		left_arrow(mainindex, pos);
 		i--;
 	}
 	while (i > 0 && g_mainline[i] != ' ')
 	{
-		left_arrow(mainindex, prompt, pos);
+		left_arrow(mainindex, pos);
 		i--;
 	}
 	free(coord);
@@ -53,10 +46,8 @@ void	ft_next_word(int *prompt, int *mainindex)
 	char	j;
 	int		*coord;
 	int		r;
-	int		x;
 
 	j = 0;
-	x = prompt[0];
 	i = 0;
 	r = get_row(0, ft_strlenu(g_mainline), prompt[1]);
 	coord = get_coord(get_cursor_position());
@@ -75,7 +66,6 @@ void	ft_next_word(int *prompt, int *mainindex)
 		i++;
 	}
 	free(coord);
-	prompt[0] = x;
 }
 
 void	ft_prev_line(int *prompt, int *pos, int *mainindex)

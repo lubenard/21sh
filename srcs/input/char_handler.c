@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 19:14:38 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/19 18:07:46 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/24 21:06:15 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int			*insert_char(int *mainindex, char *buf, int **prompt, int **pos)
 	clean(prompt[0], mainindex, pos[0]);
 	i = print_newline(prompt, str, mainindex, pos);
 	while (i-- > j + 1)
-		left_arrow(mainindex, prompt[0], pos[0]);
+		left_arrow(mainindex, pos[0]);
 	return (pos[0]);
 }
 

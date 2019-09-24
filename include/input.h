@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/19 11:00:55 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/24 21:22:38 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char				*g_mainline;
 ** Line edition
 */
 
+int					i_is(int *prompt, int *coord);
 void				clean_for_quotes(int *mainindex, int *prompt, int *pos);
 char				*suppr_lastchar(char *line);
 char				*do_i_have_to_do_it_quote(char *line, int *i,
@@ -83,7 +84,7 @@ void				ft_copy_paste(char *buf, int **prompt,
 	int *mainindex, int **pos);
 char				*copy_until(char *str, int i);
 int					get_nb_line_quote(char *str);
-void				left_arrow(int *mainindex, int *prompt, int *pos);
+void				left_arrow(int *mainindex, int *pos);
 void				move_toword(char *buf, int *prompt, int *mainindex,
 	int *pos);
 int					get_row(int r, int i, int pc);

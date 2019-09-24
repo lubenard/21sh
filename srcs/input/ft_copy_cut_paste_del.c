@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 19:24:31 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:38:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/24 21:06:00 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	paste_insert(int *mainindex, char *str, int **pos, int **prompt)
 	pos[0] = ft_print_line(tmp, pos, mainindex, prompt);
 	g_mainline = ft_strdup(tmp);
 	while (j-- > k + ft_strlenu(str))
-		left_arrow(mainindex, prompt[0], NULL);
+		left_arrow(mainindex, NULL);
 }
 
 void	paste(char *str, int **prompt, int *mainindex, int **pos)

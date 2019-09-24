@@ -6,11 +6,22 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 21:17:15 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 18:02:38 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/24 21:25:05 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
+
+int		i_is(int *prompt, int *coord)
+{
+	int i;
+
+	if (prompt[0] != coord[0])
+		i = coord[1] + (w.ws_col * (coord[0] - prompt[0]) - prompt[1]);
+	else
+		i = (coord[1]) - prompt[1];
+	return (i);
+}
 
 int		get_nb_line_quote(char *str)
 {

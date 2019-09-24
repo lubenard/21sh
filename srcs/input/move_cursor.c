@@ -6,7 +6,7 @@
 /*   By: ymarcill <ymarcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/01 18:08:37 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:42:50 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/24 21:08:44 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,33 @@ void	go_first_char(int *mainindex, int *prompt, int *pos)
 	int		mark;
 	int		rep;
 
+	(void)prompt;
 	rep = 1;
 	mark = *mainindex;
 	if (mark <= 0 || mark > ft_strlenu(g_mainline))
 		return ;
 	while (mark > 0)
 	{
-		left_arrow(mainindex, prompt, pos);
+		left_arrow(mainindex, pos);
 		mark--;
 	}
 }
 
-void	left_arrow(int *mainindex, int *prompt, int *pos)
+void	go_upleft(int rep)
+{
+	ft_putstr_fd("\e[F", 0);
+	while (rep++ < w.ws_col)
+		ft_putstr_fd("\e[C", 0);
+}
+
+void	left_arrow(int *mainindex, int *pos)
 {
 	int		rep;
 	int		*coord;
 
 	rep = 1;
-	(void)prompt;
-	if (*mainindex <= ft_strlenu(g_mainline) && *mainindex > 0 && g_mainline[*mainindex - 1])
+	if (*mainindex <= ft_strlenu(g_mainline) && *mainindex > 0
+	&& g_mainline[*mainindex - 1])
 	{
 		coord = get_coord(get_cursor_position());
 		if (g_mainline[*mainindex - 1] == '\n' && pos)
@@ -47,11 +55,7 @@ void	left_arrow(int *mainindex, int *prompt, int *pos)
 				ft_putchar_fd('\b', 0);
 		}
 		else if (coord[1] == 1)
-		{
-			ft_putstr_fd("\e[F", 0);
-			while (rep++ < w.ws_col)
-				ft_putstr_fd("\e[C", 0);
-		}
+			go_upleft(rep);
 		else
 			ft_putchar_fd('\b', 0);
 		*mainindex -= 1;
@@ -67,7 +71,7 @@ void	move_with_arrows(char *buf, int *prompt, int *mainindex, int *pos)
 	if (buf[0] == 27 && buf[1] == 91)
 	{
 		if (buf[2] == 68)
-			left_arrow(mainindex, prompt, pos);
+			left_arrow(mainindex, pos);
 		else if (buf[2] == 67)
 			right_arrow(mainindex, ft_strlenu(g_mainline), prompt);
 	}
