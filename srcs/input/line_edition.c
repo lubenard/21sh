@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/24 20:24:38 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/09/25 14:07:00 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*read_quit(int **prompt, int **pos)
 		reset_shell_attr(0);
 		free(prompt[0]);
 		free(c.buf);
-		free(pos[0]);
+		free(*pos);
 		free(g_mainline);
 		return (NULL);
 	}
@@ -68,6 +68,8 @@ int		control_c(char *buf, int *prompt, int *coord, int r)
 			ft_putstr_fd("\e[B", 0);
 		ft_putstr_fd("\n\r", 0);
 		free(g_mainline);
+		free(prompt);
+		free(coord);
 		g_mainline = NULL;
 		return (0);
 	}

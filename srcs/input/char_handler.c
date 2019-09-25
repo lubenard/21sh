@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 19:14:38 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/24 21:06:15 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/09/25 14:01:50 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ int			*insert_char(int *mainindex, char *buf, int **prompt, int **pos)
 
 void		print_char(int *mainindex, char *buf, int **prompt, int **pos)
 {
-	pos[0] = NULL;
+	if (!g_mainline[0])
+		pos[0] = malloc(sizeof(int) * 1);
 	if (*mainindex == ft_strlenu(g_mainline))
 		add_char(mainindex, buf, prompt);
 	else

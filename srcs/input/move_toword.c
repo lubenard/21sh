@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:15:57 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/24 21:23:38 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/09/25 14:23:08 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,27 +94,24 @@ void	ft_prev_line(int *prompt, int *pos, int *mainindex)
 void	ft_next_line(int *prompt, int r, int *mainindex)
 {
 	int *coord;
-	int x;
 	int i;
 
 	i = ft_strlenu(g_mainline);
-	x = prompt[0];
 	coord = get_coord(get_cursor_position());
 	if (coord[0] == w.ws_row || ft_occur(g_mainline, '\n'))
 	{
 		free(coord);
 		return ;
 	}
-	if (coord[0] < prompt[0] + r)
+	if (coord[0] + 1 == prompt[0] + r && coord[1] >
+		(i + prompt[1] - (w.ws_col * r)))
+			go_last_char(mainindex, ft_strlenu(g_mainline), prompt);
+	else if (coord[0] < prompt[0] + r)
 	{
 		*mainindex += w.ws_col;
 		ft_putstr_fd("\e[B", 0);
 	}
-	if (coord[0] + 1 == prompt[0] + r && coord[1] >
-		(i + prompt[1] - (w.ws_col * r)))
-		go_last_char(mainindex, ft_strlenu(g_mainline), prompt);
 	free(coord);
-	prompt[0] = x;
 }
 
 void	move_toword(char *buf, int *prompt, int *mainindex, int *pos)
