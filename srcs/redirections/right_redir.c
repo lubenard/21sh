@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/25 17:10:07 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/25 19:09:26 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 {
 	int file;
 	pid_t pid;
+	int fd;
+	char *tmp;
+	int fd2;
 
-	(void)big_struc;
-	(void)command;
-	(void)tab;
 	if ((pid = fork()) < 0)
 		return (display_error("ymarsh: error: fork failed", NULL));
 	if (!pid)
@@ -49,6 +49,7 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 		printf("je suis sur %s\n", command[i]);
 		while (command[i])
 		{
+			printf("Je regarde %s\n", command[i]);
 			if (!ft_strcmp(command[i], ">"))
 			{
 				i++;
@@ -69,6 +70,27 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 					file = open(command[i++], O_WRONLY | O_APPEND);
 					dup2(file, 1);
 				}
+			}
+			else if (ft_strchr(command[i], '>'))
+			{
+				tmp = extract_first(command[i], '>');
+				fd = ft_atoi(tmp);
+				free(tmp);
+				printf("%d\n", fd);
+				if (command[i][ft_strlen(command[i]) - 1] == '-')
+				{
+					printf("je ferme mon fd %d\n", fd);
+					close(fd);
+				}
+				else if (ft_isdigit(command[i][ft_strlen(command[i]) - 1]))
+				{
+					tmp = extract_last(command[i], '&');
+					fd2 = ft_atoi(tmp);
+					printf("The last fd is %d\n", fd2);
+					printf("je dup2(%d, %d)\n", fd2, fd);
+					dup2(fd2, fd);
+				}
+				i++;
 			}
 		}
 	printf("J'exec une fois\n");
@@ -130,6 +152,9 @@ int		check_redir(char **command)
 		else if (command[i][last_char] == '>'
 			&& command[i + 1][0] == '>')
 			return (print_error_redirect(command[i + 1]));
+		else if (ft_isdigit(command[i][0]) && (ft_occur(command[i], '>') > 1
+			|| ft_occur(command[i], '>') == 0))
+			return (print_error_redirect("&"));
 		i++;
 	}
 	return (0);
