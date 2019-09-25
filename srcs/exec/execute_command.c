@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/25 03:18:15 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/25 14:58:01 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@ int		check_exec_rights(char *path)
 	return (1);
 }
 
-int		exec_without_fork(t_hustru *big_struc, char **argv, char **env)
+int		exec_without_fork(t_hustru *big_struc, char **argv)
 {
 	char *path;
+	char **env;
 
 	if (!(path = find_path(big_struc->path, argv[0])))
 	{
@@ -63,8 +64,8 @@ int		exec_without_fork(t_hustru *big_struc, char **argv, char **env)
 	if (!check_exec_rights(path))
 		return (1);
 	reset_shell_attr(0);
-	signal(SIGINT, handle_signals_proc);
-	execve(path, argv, env);
+	//signal(SIGINT, handle_signals_proc);
+	execve(path, argv, env = compact_env(big_struc->lkd_env));
 	set_none_canon_mode(0);
 	return (free_after_exec(path, env));
 }
@@ -86,8 +87,9 @@ int		exec_command_gen(t_hustru *big_struc, char **argv)
 		return (display_error("ymarsh: error: fork failed", NULL));
 	reset_shell_attr(0);
 	signal(SIGINT, handle_signals_proc);
+	env = compact_env(big_struc->lkd_env);
 	if (!pid)
-		execve(path, argv, env = compact_env(big_struc->lkd_env));
+		execve(path, argv, env);
 	wait(&pid);
 	set_none_canon_mode(0);
 	return (free_after_exec(path, env));

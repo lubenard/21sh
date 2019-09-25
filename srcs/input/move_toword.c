@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:15:57 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/25 14:23:08 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/25 16:35:39 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	ft_next_line(int *prompt, int r, int *mainindex)
 	}
 	if (coord[0] + 1 == prompt[0] + r && coord[1] >
 		(i + prompt[1] - (w.ws_col * r)))
-			go_last_char(mainindex, ft_strlenu(g_mainline), prompt);
+		go_last_char(mainindex, ft_strlenu(g_mainline), prompt);
 	else if (coord[0] < prompt[0] + r)
 	{
 		*mainindex += w.ws_col;

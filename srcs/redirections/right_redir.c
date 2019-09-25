@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/25 03:21:36 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/25 17:10:07 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,13 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 		return (display_error("ymarsh: error: fork failed", NULL));
 	if (!pid)
 	{
+		printf("je suis sur %s\n", command[i]);
 		while (command[i])
 		{
 			if (!ft_strcmp(command[i], ">"))
 			{
+				i++;
+				printf("je rentre ici >\n");
 				while (command[i] && !ft_strchr(command[i], '>'))
 				{
 					printf("J'ouvre %s\n", command[i]);
@@ -59,6 +62,7 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 			}
 			else if (!ft_strcmp(command[i], ">>"))
 			{
+				i++;
 				while (command[i] && !ft_strchr(command[i], '>'))
 				{
 					printf("J'ouvre %s\n", command[i]);
@@ -66,25 +70,20 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 					dup2(file, 1);
 				}
 			}
-			i++;
 		}
 	printf("J'exec une fois\n");
-	//exec_without_fork(tab, compact_env(big_struc->lkd_env));
+	exec_without_fork(big_struc, tab);
 	exit(0);
 	}
 	return (0);
 }
 
-int		link_files_and_exec(t_hustru *big_struc, char **command)
+int		link_files_and_exec(t_hustru *big_struc, char **command, int i)
 {
 	char	**tab;
 	int		e;
-	int		i;
 
-	i = 0;
 	e = 0;
-	while (command[i] && !ft_strchr(command[i], '>'))
-		i++;
 	if (!(tab = (char **)malloc(sizeof(char *) * (i + 1))))
 		return (0);
 	while (command[e] && !ft_strchr(command[e], '>'))
@@ -96,12 +95,10 @@ int		link_files_and_exec(t_hustru *big_struc, char **command)
 	return (prep_redir(big_struc, command, tab, i));
 }
 
-int		create_file(char **filenames)
+int		create_file(char **filenames, int i)
 {
 	int file;
-	int i;
 
-	i = 0;
 	while (filenames[i])
 	{
 		if (access(filenames[i], F_OK) == -1 && !ft_strchr(filenames[i], '>'))
@@ -140,9 +137,14 @@ int		check_redir(char **command)
 
 int		arrow_right(t_hustru *big_struc, char **command)
 {
+	int		i;
+
+	i = 0;
 	if (check_redir(command))
 		return (1);
-	if (create_file(command) > 0)
+	while (command[i] && !ft_strchr(command[i], '>'))
+		i++;
+	if (create_file(command, i) > 0)
 		return (1);
-	return (link_files_and_exec(big_struc, command));
+	return (link_files_and_exec(big_struc, command, i));
 }
