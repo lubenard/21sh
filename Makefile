@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/09/24 15:32:33 by lubenard         ###   ########.fr        #
+#    Updated: 2019/09/25 01:34:51 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,8 @@ SRC = srcs/main.c \
 	  srcs/input/tools.c \
 	  srcs/input/heredoc.c \
 	  srcs/input/manage_quotesbis.c \
-	  srcs/input/tools_bis.c
+	  srcs/input/tools_bis.c \
+	  srcs/input/ft_read_char.c
 
 INCLUDE_SRC = ./include/
 

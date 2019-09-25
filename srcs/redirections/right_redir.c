@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/24 23:24:16 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/25 03:21:36 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,41 @@ void	save_redir(char *command, char *content)
 int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 {
 	int file;
-//	int *file_tab;
 	pid_t pid;
 
+	(void)big_struc;
+	(void)command;
+	(void)tab;
 	if ((pid = fork()) < 0)
 		return (display_error("ymarsh: error: fork failed", NULL));
-	while (command[i])
+	if (!pid)
 	{
-		if (!ft_strcmp(command[i], ">"))
+		while (command[i])
 		{
-			while (command[i] && !ft_strchr(command[i], '>'))
-				file = open(command[i++], O_WRONLY | O_TRUNC);
+			if (!ft_strcmp(command[i], ">"))
+			{
+				while (command[i] && !ft_strchr(command[i], '>'))
+				{
+					printf("J'ouvre %s\n", command[i]);
+					file = open(command[i++], O_WRONLY | O_TRUNC);
+					dup2(file, 1);
+				}
+			}
+			else if (!ft_strcmp(command[i], ">>"))
+			{
+				while (command[i] && !ft_strchr(command[i], '>'))
+				{
+					printf("J'ouvre %s\n", command[i]);
+					file = open(command[i++], O_WRONLY | O_APPEND);
+					dup2(file, 1);
+				}
+			}
+			i++;
 		}
-		else if (!ft_strcmp(command[i], ">>"))
-		{
-			while (command[i] && !ft_strchr(command[i], '>'))
-				file = open(command[i++], O_WRONLY | O_APPEND);
-		}
-		i++;
+	printf("J'exec une fois\n");
+	//exec_without_fork(tab, compact_env(big_struc->lkd_env));
+	exit(0);
 	}
-	execve("/bin/ls", tab, compact_env(big_struc->lkd_env));
 	return (0);
 }
 

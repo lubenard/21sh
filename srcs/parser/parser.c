@@ -6,30 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/23 17:16:41 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/25 03:18:41 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
-
-/*
-** If the command is not a builtin,
-** this command prepare for execution.
-** It will find the good path and launch execution.
-*/
-
-int		exec_external_command(t_hustru *big_struc, char **command)
-{
-	char	*path;
-
-	if (!(path = find_path(big_struc->path, command[0])))
-	{
-		free(path);
-		return (invalid_command(command[0]));
-	}
-	printf("path = %s\n", path);
-	return (exec_command_gen(path, command, compact_env(big_struc->lkd_env)));
-}
 
 /*
 ** Decide if the command is a bultin or not
@@ -57,7 +38,7 @@ int		basic_command(t_hustru *big_struc, char **command)
 	else
 	{
 		printf("Ma commande est une commande generale\n");
-		ret_code = exec_external_command(big_struc, command);
+		ret_code = exec_command_gen(big_struc, command);
 	}
 	printf("Mon code de retour est %d\n", ret_code);
 	return (ret_code);

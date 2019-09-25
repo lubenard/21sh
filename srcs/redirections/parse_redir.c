@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/23 17:28:53 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/23 19:30:50 by lubenard         ###   ########.fr       */
+/*   Created: 2019/09/25 01:21:20 by lubenard          #+#    #+#             */
+/*   Updated: 2019/09/25 01:46:09 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,56 +54,41 @@ int		parse_redir(char *str)
 	x = 0;
 	y = 0;
 	nb = ft_occur(str, '<') + ft_occur(str, '>') + ft_occur(str, ' ');
-	tmp = malloc(sizeof(char*) * (nb + 1));
+	if (!(tmp = malloc(sizeof(char*) * (nb + 1))))
+		return (1);
 	while (str[i] != '\0')
 	{
-		//ft_putchar(str[i]);
 		if (str[i] != ' ')
 		{
 			if (ft_isdigit(str[i]))
 			{
 				mark = char_number((str + i), ' ', '<', '>');
-				tmp[x] = malloc(sizeof(char) * mark + 1);
+				if (!(tmp[x] = malloc(sizeof(char) * mark + 1)))
+					return (1);
 				mark += i;
-				while (str[i] && i < mark)
-					tmp[x][y++] = str[i++];
-				tmp[x][y] = '\0';
+				ft_strnncpy(tmp[x], str, i, mark);
+				i += ft_strlen(tmp[x]);
 				x++;
-				y = 0;
 			}
 			else if (str[i] == '<' || str[i] == '>')
 			{
 				mark = char_number((str + i), ' ', '<', '>');
-				//ft_putnbr(mark);
-				//ft_putchar('-');
-				//ft_putnbr(i);
-				//ft_putchar('-');
-				tmp[x] = malloc(sizeof(char) * mark + 1);
+				if (!(tmp[x] = malloc(sizeof(char) * mark + 1)))
+					return (1);
 				mark += i;
-				//ft_putnbr(mark);
-				//ft_putchar(' ');
-				while (str[i] && i < mark)
-					tmp[x][y++] = str[i++];
-				tmp[x][y] = '\0';
+				ft_strnncpy(tmp[x], str, i, mark);
+				i += ft_strlen(tmp[x]);
 				x++;
-				y = 0;
 			}
 			else
 			{
 				mark = char_number((str + i), ' ', '<', '>');
-				//ft_putnbr(mark);
-				//ft_putchar('-');
-				//ft_putnbr(i);
-				//ft_putchar('-');
-				tmp[x] = malloc(sizeof(char) * mark + 1);
+				if (!(tmp[x] = malloc(sizeof(char) * mark + 1)))
+					return (1);
 				mark += i;
-				//ft_putnbr(mark);
-				//ft_putchar(' ');
-				while (str[i] && i < mark)
-					tmp[x][y++] = str[i++];
-				tmp[x][y] = '\0';
+				ft_strnncpy(tmp[x], str, i, mark);
+				i += ft_strlen(tmp[x]);
 				x++;
-				y = 0;
 			}
 			i--;
 		}
@@ -111,7 +96,6 @@ int		parse_redir(char *str)
 	}
 	tmp[x] = NULL;
 	x = 0;
-	//ft_putchar('\n');
 	while (tmp[x] != NULL)
 		ft_putendl(tmp[x++]);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/24 23:10:00 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/25 03:18:15 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,35 @@ int		check_exec_rights(char *path)
 	return (1);
 }
 
-int		exec_command_gen(char *path, char **argv, char **env)
+int		exec_without_fork(t_hustru *big_struc, char **argv, char **env)
+{
+	char *path;
+
+	if (!(path = find_path(big_struc->path, argv[0])))
+	{
+		free(path);
+		return (invalid_command(argv[0]));
+	}
+	if (!check_exec_rights(path))
+		return (1);
+	reset_shell_attr(0);
+	signal(SIGINT, handle_signals_proc);
+	execve(path, argv, env);
+	set_none_canon_mode(0);
+	return (free_after_exec(path, env));
+}
+
+int		exec_command_gen(t_hustru *big_struc, char **argv)
 {
 	pid_t	pid;
+	char	*path;
+	char	**env;
 
+	if (!(path = find_path(big_struc->path, argv[0])))
+	{
+		free(path);
+		return (invalid_command(argv[0]));
+	}
 	if (!check_exec_rights(path))
 		return (1);
 	if ((pid = fork()) < 0)
@@ -62,7 +87,7 @@ int		exec_command_gen(char *path, char **argv, char **env)
 	reset_shell_attr(0);
 	signal(SIGINT, handle_signals_proc);
 	if (!pid)
-		execve(path, argv, env);
+		execve(path, argv, env = compact_env(big_struc->lkd_env));
 	wait(&pid);
 	set_none_canon_mode(0);
 	return (free_after_exec(path, env));

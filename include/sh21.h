@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/24 22:26:02 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/25 03:16:20 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,8 @@ t_hustru *big_struc, int *mainindex);
 /*
 ** Execution of command
 */
-int					execute_command(char *get_right_path,
-	char *command, char **argv, char **env);
-int					exec_command_gen(char *path, char **argv, char **env);
+int					exec_command_gen(t_hustru *big_struc, char **argv);
+int					exec_without_fork(t_hustru *big_struc, char **argv);
 /*
 ** Other
 */

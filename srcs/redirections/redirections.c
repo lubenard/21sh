@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/24 15:32:45 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/25 01:49:29 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int		redirections(t_hustru *big_struc, char *command, char **parsed_command)
 	(void)command;
 	(void)parsed_command;
 
-	//parse_redir(command, parsed_command);
+	//parse_redir(command);
 	if (ft_strchr(command, '<') && ft_strchr(command, '>'))
 		double_redir(big_struc, command);
 	else if (ft_strchr(command, '<'))
