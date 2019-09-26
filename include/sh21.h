@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/25 15:37:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/26 15:53:15 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ int					cd(t_hustru *big_struc, char **commmand);
 /*
 ** Redirections
 */
-int					redirections(t_hustru *big_struc, char *command,
-	char **parsed_command);
+int					redirections(t_hustru *big_struc, char *command);
 void				redir_and_pipe(t_hustru *big_struc, char **command);
 void				save_redir(char *command, char *content);
 /*

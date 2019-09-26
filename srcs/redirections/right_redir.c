@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/25 19:09:26 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/26 17:26:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,17 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 		return (display_error("ymarsh: error: fork failed", NULL));
 	if (!pid)
 	{
-		printf("je suis sur %s\n", command[i]);
+		//printf("je suis sur %s\n", command[i]);
 		while (command[i])
 		{
-			printf("Je regarde %s\n", command[i]);
+		//	printf("Je regarde %s\n", command[i]);
 			if (!ft_strcmp(command[i], ">"))
 			{
 				i++;
-				printf("je rentre ici >\n");
+		//		printf("je rentre ici >\n");
 				while (command[i] && !ft_strchr(command[i], '>'))
 				{
-					printf("J'ouvre %s\n", command[i]);
+		//			printf("J'ouvre %s\n", command[i]);
 					file = open(command[i++], O_WRONLY | O_TRUNC);
 					dup2(file, 1);
 				}
@@ -66,7 +66,7 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 				i++;
 				while (command[i] && !ft_strchr(command[i], '>'))
 				{
-					printf("J'ouvre %s\n", command[i]);
+		//			printf("J'ouvre %s\n", command[i]);
 					file = open(command[i++], O_WRONLY | O_APPEND);
 					dup2(file, 1);
 				}
@@ -76,26 +76,52 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 				tmp = extract_first(command[i], '>');
 				fd = ft_atoi(tmp);
 				free(tmp);
-				printf("%d\n", fd);
+		//		printf("%d\n", fd);
 				if (command[i][ft_strlen(command[i]) - 1] == '-')
 				{
-					printf("je ferme mon fd %d\n", fd);
+		//			printf("je ferme mon fd %d\n", fd);
 					close(fd);
 				}
-				else if (ft_isdigit(command[i][ft_strlen(command[i]) - 1]))
+				else if (ft_isdigit(command[i][ft_strlen(command[i]) - 1]) && command[i][ft_strlen(command[i]) - 2] == '&')
 				{
 					tmp = extract_last(command[i], '&');
 					fd2 = ft_atoi(tmp);
-					printf("The last fd is %d\n", fd2);
-					printf("je dup2(%d, %d)\n", fd2, fd);
+		//			printf("The last fd is %d\n", fd2);
+		//			printf("je dup2(%d, %d)\n", fd2, fd);
 					dup2(fd2, fd);
+				}
+				else
+				{
+					printf("Je rentre ici\n");
+					if (ft_occur(command[i], '>') == 1)
+					{
+						i++;
+						printf("Je duplique %d\n", fd);
+						while (command[i] && !ft_strchr(command[i], '>'))
+						{
+							printf("J'ouvre %s\n", command[i]);
+							file = open(command[i++], O_WRONLY | O_TRUNC);
+							dup2(file, fd);
+						}
+					}
+					else if (ft_occur(command[i], '>') == 2)
+					{
+						i++;
+						printf("Je duplique %d\n", fd);
+						while (command[i] && !ft_strchr(command[i], '>'))
+						{
+		//					printf("J'ouvre %s\n", command[i]);
+							file = open(command[i++], O_WRONLY | O_APPEND);
+							dup2(file, fd);
+						}
+					}
 				}
 				i++;
 			}
 		}
-	printf("J'exec une fois\n");
-	exec_without_fork(big_struc, tab);
-	exit(0);
+		//printf("J'exec une fois\n");
+		exec_without_fork(big_struc, tab);
+		exit(0);
 	}
 	return (0);
 }

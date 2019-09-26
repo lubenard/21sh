@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/25 03:18:41 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/26 15:52:47 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int		decide_commande(t_hustru *big_struc, char **command)
 		return (handle_pipe(big_struc, big_struc->line));
 	else if ((ft_tabchr(command, '>') || ft_tabchr(command, '<')) &&
 			!ft_tabchr(command, '|'))
-		return (redirections(big_struc, big_struc->line, command));
+		return (redirections(big_struc, big_struc->line));
 	else if ((ft_tabchr(command, '>') || ft_tabchr(command, '<')) &&
 			ft_tabchr(command, '|'))
 		redir_and_pipe(big_struc, command);
