@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 15:10:40 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/25 16:06:09 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/26 19:26:55 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ char	**parse_redir(char *str)
 	i = 0;
 	mark = 0;
 	x = 0;
-	if (!(tmp = malloc(sizeof(char*) * (ft_occur(str, '<') +
-		ft_occur(str, '>') + ft_occur(str, ' ') + 1))))
+	if (!(tmp = malloc(sizeof(char*) * (1000 + 1))))
 		return (NULL);
 	while (str[i])
 	{

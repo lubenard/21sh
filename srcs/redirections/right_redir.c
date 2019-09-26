@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/26 17:26:18 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/26 20:52:01 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 			if (!ft_strcmp(command[i], ">"))
 			{
 				i++;
-		//		printf("je rentre ici >\n");
+				printf("je rentre dans >\n");
 				while (command[i] && !ft_strchr(command[i], '>'))
 				{
 		//			printf("J'ouvre %s\n", command[i]);
@@ -64,6 +64,7 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 			else if (!ft_strcmp(command[i], ">>"))
 			{
 				i++;
+				printf("je rentre dans >>\n");
 				while (command[i] && !ft_strchr(command[i], '>'))
 				{
 		//			printf("J'ouvre %s\n", command[i]);
@@ -71,11 +72,28 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 					dup2(file, 1);
 				}
 			}
+			else if (!ft_strcmp(command[i], "&>"))
+			{
+				i++;
+				printf("je rentre dans &>\n");
+				while (command[i] && !ft_strchr(command[i], '>'))
+				{
+					printf("J'ouvre %s\n", command[i]);
+					fd2 = open(command[i], O_WRONLY | O_TRUNC);
+					file = open(command[i], O_WRONLY | O_TRUNC);
+					dup2(fd2, 2);
+					dup2(file, 1);
+					i++;
+				}
+			}
 			else if (ft_strchr(command[i], '>'))
 			{
-				tmp = extract_first(command[i], '>');
-				fd = ft_atoi(tmp);
-				free(tmp);
+				if (ft_isdigit(command[i][0]))
+				{
+					tmp = extract_first(command[i], '>');
+					fd = ft_atoi(tmp);
+					free(tmp);
+				}
 		//		printf("%d\n", fd);
 				if (command[i][ft_strlen(command[i]) - 1] == '-')
 				{

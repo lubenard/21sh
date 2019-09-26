@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/26 16:41:18 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/26 19:48:58 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int		redirections(t_hustru *big_struc, char *command)
 	char **parsed_command;
 	int i = 0; //used for debug online
 
-	parsed_command = parse_redir(command);
+	//parsed_command = parse_redir(command);
+	parsed_command = ft_strsplit(command, ' ');
 	while (parsed_command[i])
 		printf("[Parsed redir] %s\n", parsed_command[i++]);
 	if (ft_strchr(command, '<') && ft_strchr(command, '>'))

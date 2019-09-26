@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/25 14:58:01 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/26 18:50:10 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		exec_without_fork(t_hustru *big_struc, char **argv)
 	char *path;
 	char **env;
 
+	printf("je cherche %s dans le path\n", argv[0]);
 	if (!(path = find_path(big_struc->path, argv[0])))
 	{
 		free(path);

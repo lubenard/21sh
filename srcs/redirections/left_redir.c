@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:59:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/20 09:13:26 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/26 17:49:50 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		arrow_left(t_hustru *big_struc, char *command)
 {
 	(void)big_struc;
 	(void)command;
-/*	char	**tab;
+	char	**tab;
 	int		i;
 	int		fd;
 	char	*first_command;
@@ -46,7 +46,7 @@ int		arrow_left(t_hustru *big_struc, char *command)
 		trimmed_str = ft_strtrim(tab[i]);
 		printf("Tab[i] vaut %s\n", trimmed_str);
 		if (access(trimmed_str, F_OK) == -1)
-			return (print_error_redirect(tab, trimmed_str));
+			return (print_error_redirect(trimmed_str));
 		else
 		{
 			free(tab[i]);
@@ -69,6 +69,6 @@ int		arrow_left(t_hustru *big_struc, char *command)
 	}
 	ft_deltab(tab2);
 	ft_deltab(tab);
-	free(first_command);*/
+	free(first_command);
 	return (0);
 }
