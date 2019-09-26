@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/26 20:52:01 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/26 21:39:52 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 				printf("je rentre dans >>\n");
 				while (command[i] && !ft_strchr(command[i], '>'))
 				{
-		//			printf("J'ouvre %s\n", command[i]);
+					printf("J'ouvre %s\n", command[i]);
 					file = open(command[i++], O_WRONLY | O_APPEND);
 					dup2(file, 1);
 				}
@@ -114,11 +114,11 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 					if (ft_occur(command[i], '>') == 1)
 					{
 						i++;
-						printf("Je duplique %d\n", fd);
 						while (command[i] && !ft_strchr(command[i], '>'))
 						{
 							printf("J'ouvre %s\n", command[i]);
 							file = open(command[i++], O_WRONLY | O_TRUNC);
+							printf("Je duplique %d vers %d\n", fd, file);
 							dup2(file, fd);
 						}
 					}
@@ -137,8 +137,12 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 				i++;
 			}
 		}
-		//printf("J'exec une fois\n");
+		int k = 0;
+		while (tab[k])
+			printf("Tab = %s\n", tab[k++]);
+		printf("J'exec une fois\n");
 		exec_without_fork(big_struc, tab);
+		close(file);
 		exit(0);
 	}
 	return (0);
@@ -197,7 +201,8 @@ int		check_redir(char **command)
 			&& command[i + 1][0] == '>')
 			return (print_error_redirect(command[i + 1]));
 		else if (ft_isdigit(command[i][0]) && (ft_occur(command[i], '>') > 1
-			|| ft_occur(command[i], '>') == 0))
+			|| ft_occur(command[i], '>') == 0)
+			&& ft_isdigit(command[i][ft_strlen(command[i]) - 1]))
 			return (print_error_redirect("&"));
 		i++;
 	}
