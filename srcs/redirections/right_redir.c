@@ -6,12 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/29 15:38:53 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/29 16:47:10 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
-#include <errno.h>
 
 /*
 ** Have to rewrite the redir: here is how it works
@@ -69,12 +68,44 @@ int		extract_first_fd(char **command, int i, char *to_convert)
 	return (fd);
 }
 
-int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
+int		prep_redir2(char **command, int *i)
 {
-	pid_t pid;
 	int fd;
 	int fd2;
 
+	fd = extract_first_fd(command, *i, extract_first(command[*i], '>'));
+	if (command[*i][ft_strlen(command[*i]) - 1] == '-')
+	{
+		printf("je ferme mon fd %d\n", fd);
+		if (close(fd) == -1)
+			return (display_error("ymarsh: Error while closing file\n", NULL));
+		(*i)++;
+	}
+	else if (ft_isdigit(command[*i][ft_strlen(command[*i]) - 1]) && command[*i][ft_strlen(command[*i]) - 2] == '&')
+	{
+		fd2 = extract_first_fd(command, *i, extract_last(command[*i], '&'));
+		printf("je dup2(%d, %d)\n", fd2, fd);
+		dup2(fd2, fd);
+		(*i)++;
+	}
+	else
+	{
+		printf("Je rentre ici\n");
+		if (ft_occur(command[*i], '>') == 1)
+			make_good_redir(command, i, 0);
+		else if (ft_occur(command[*i], '>') == 2)
+			make_good_redir(command, i, 0);
+	}
+	return (0);
+}
+
+int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
+{
+	pid_t	pid;
+	int		fd2;
+	int		fd;
+
+	fd2 = -1;
 	if ((pid = fork()) < 0)
 		return (display_error("ymarsh: error: fork failed", NULL));
 	if (!pid)
@@ -83,52 +114,29 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 		{
 			printf("Je regarde %s\n", command[i]);
 			if (!ft_strcmp(command[i], ">"))
-				make_good_redir(command, &i, 0);
+				fd = make_good_redir(command, &i, 0);
 			else if (!ft_strcmp(command[i], ">>"))
-				make_good_redir(command, &i, 1);
+				fd = make_good_redir(command, &i, 1);
 			else if (!ft_strcmp(command[i], "&>"))
 			{
 				printf("je rentre dans &>\n");
 				printf("J'ouvre %s\n", command[i + 1]);
 				fd2 = open(command[i + 1], O_WRONLY | O_TRUNC);
 				dup2(fd2, 2);
-				make_good_redir(command, &i, 0);
+				fd = make_good_redir(command, &i, 0);
 			}
 			else if (ft_strchr(command[i], '>'))
-			{
-				fd = extract_first_fd(command, i, extract_first(command[i], '>'));
-				if (command[i][ft_strlen(command[i]) - 1] == '-')
-				{
-					printf("je ferme mon fd %d\n", fd);
-					printf("fcntl renvoie %d\n", fcntl(fd, F_GETFD));
-					if (close(fd) == -1)
-					{
-						dprintf(2, "ERROR NUMBER %d %s\n", errno, strerror(errno));
-						return (1);
-					}
-					i++;
-				}
-				else if (ft_isdigit(command[i][ft_strlen(command[i]) - 1]) && command[i][ft_strlen(command[i]) - 2] == '&')
-				{
-					fd2 = extract_first_fd(command, i, extract_last(command[i], '&'));
-					printf("je dup2(%d, %d)\n", fd2, fd);
-					dup2(fd2, fd);
-					i++;
-				}
-				else
-				{
-					printf("Je rentre ici\n");
-					if (ft_occur(command[i], '>') == 1)
-						make_good_redir(command, &i, 0);
-					else if (ft_occur(command[i], '>') == 2)
-						make_good_redir(command, &i, 0);
-				}
-			}
+				prep_redir2(command, &i);
 		}
 		exec_without_fork(big_struc, tab);
+		close(fd);
+		if (fd2 != -1)
+			close(fd2);
 		exit(0);
 	}
 	wait(&pid);
+	free(tab);
+	ft_deltab(command);
 	return (0);
 }
 
