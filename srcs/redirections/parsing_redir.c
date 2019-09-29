@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 14:50:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/23 18:23:17 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/29 12:53:03 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,21 @@ int		ft_str_is_alpha(char *str, int i)
 int		count_elem_redir(char **tab, int i)
 {
 	int		elem;
+	int		j;
 
+	j = 0;
 	elem = 0;
-	while (tab[i] && ft_strchr(tab[i], '>'))
-		i++;
-	i++;
-	while (tab[i])
+	printf("[Count elem redir] I vaut %d\n", i);
+	while (tab[i + j])
 	{
-		//printf("Je regarde %s\n", tab[i]);
-		if (!ft_strchr(tab[i], '>'))
+		printf("[Count elem redir] Je regarde %s\n", tab[i + j]);
+		if (!ft_strchr(tab[i + j], '>') && !ft_strchr(tab[i + j - 1], '>'))
 		{
-		//	printf("Je rajoute %s\n", tab[i]);
+			printf("[Count elem redir] Je rajoute %s\n", tab[i + j]);
 			elem++;
 		}
-		i++;
+		j++;
 	}
-	printf("Elem vaut %d\n", elem);
-	return (elem);
+	printf("[Count elem redir] Elem vaut %d\n", elem + i);
+	return (elem + i);
 }

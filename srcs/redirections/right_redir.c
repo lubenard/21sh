@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/28 18:47:45 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/29 15:38:53 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 /*
 ** Have to rewrite the redir: here is how it works
 ** 1) create files
-** 2) execute the command and save output
-** 3) fill the files
+** 2) Make the god redirections
+** 3) Execute the command
 */
 
 void	save_redir(char *command, char *content)
@@ -35,12 +35,44 @@ void	save_redir(char *command, char *content)
 	////fill_file(filenames, content, tab);
 }
 
-int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
+int		make_good_redir(char **command, int *i, int flag)
 {
 	int file;
+
+	(*i)++;
+	printf("J'ouvre %s\n", command[*i]);
+	if (!flag)
+		file = open(command[*i], O_WRONLY | O_TRUNC);
+	else
+		file = open(command[*i], O_WRONLY | O_APPEND);
+	dup2(file, 1);
+	while (command[*i] && !ft_strchr(command[*i], '>'))
+	{
+		printf("je passe %s\n", command[*i]);
+		(*i)++;
+	}
+	return (0);
+}
+
+int		extract_first_fd(char **command, int i, char *to_convert)
+{
+	int		fd;
+
+	if (ft_isdigit(command[i][0]))
+	{
+		fd = ft_atoi(to_convert);
+		free(to_convert);
+		printf("J'extrais %d\n", fd);
+	}
+	else
+		fd = 1;
+	return (fd);
+}
+
+int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
+{
 	pid_t pid;
 	int fd;
-	char *tmp;
 	int fd2;
 
 	if ((pid = fork()) < 0)
@@ -51,51 +83,20 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 		{
 			printf("Je regarde %s\n", command[i]);
 			if (!ft_strcmp(command[i], ">"))
-			{
-				i++;
-				printf("je rentre dans >\n");
-				while (command[i] && !ft_strchr(command[i], '>'))
-				{
-					printf("J'ouvre %s\n", command[i]);
-					file = open(command[i++], O_WRONLY | O_TRUNC);
-					dup2(file, 1);
-				}
-				i++;
-			}
+				make_good_redir(command, &i, 0);
 			else if (!ft_strcmp(command[i], ">>"))
-			{
-				i++;
-				printf("je rentre dans >>\n");
-				while (command[i] && !ft_strchr(command[i], '>'))
-				{
-					printf("J'ouvre %s\n", command[i]);
-					file = open(command[i++], O_WRONLY | O_APPEND);
-					dup2(file, 1);
-				}
-			}
+				make_good_redir(command, &i, 1);
 			else if (!ft_strcmp(command[i], "&>"))
 			{
-				i++;
 				printf("je rentre dans &>\n");
-				while (command[i] && !ft_strchr(command[i], '>'))
-				{
-					printf("J'ouvre %s\n", command[i]);
-					fd2 = open(command[i], O_WRONLY | O_TRUNC);
-					file = open(command[i], O_WRONLY | O_TRUNC);
-					dup2(fd2, 2);
-					dup2(file, 1);
-					i++;
-				}
+				printf("J'ouvre %s\n", command[i + 1]);
+				fd2 = open(command[i + 1], O_WRONLY | O_TRUNC);
+				dup2(fd2, 2);
+				make_good_redir(command, &i, 0);
 			}
 			else if (ft_strchr(command[i], '>'))
 			{
-				if (ft_isdigit(command[i][0]))
-				{
-					tmp = extract_first(command[i], '>');
-					fd = ft_atoi(tmp);
-					free(tmp);
-				}
-				printf("J'extrais %d\n", fd);
+				fd = extract_first_fd(command, i, extract_first(command[i], '>'));
 				if (command[i][ft_strlen(command[i]) - 1] == '-')
 				{
 					printf("je ferme mon fd %d\n", fd);
@@ -105,49 +106,26 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 						dprintf(2, "ERROR NUMBER %d %s\n", errno, strerror(errno));
 						return (1);
 					}
+					i++;
 				}
 				else if (ft_isdigit(command[i][ft_strlen(command[i]) - 1]) && command[i][ft_strlen(command[i]) - 2] == '&')
 				{
-					tmp = extract_last(command[i], '&');
-					fd2 = ft_atoi(tmp);
-					printf("The last fd is %d\n", fd2);
+					fd2 = extract_first_fd(command, i, extract_last(command[i], '&'));
 					printf("je dup2(%d, %d)\n", fd2, fd);
 					dup2(fd2, fd);
+					i++;
 				}
 				else
 				{
 					printf("Je rentre ici\n");
 					if (ft_occur(command[i], '>') == 1)
-					{
-						i++;
-						while (command[i] && !ft_strchr(command[i], '>'))
-						{
-							printf("J'ouvre %s\n", command[i]);
-							file = open(command[i++], O_WRONLY | O_TRUNC);
-							printf("Je duplique %d vers %d\n", fd, file);
-							dup2(file, fd);
-						}
-					}
+						make_good_redir(command, &i, 0);
 					else if (ft_occur(command[i], '>') == 2)
-					{
-						i++;
-						printf("Je duplique %d\n", fd);
-						while (command[i] && !ft_strchr(command[i], '>'))
-						{
-							printf("J'ouvre %s\n", command[i]);
-							file = open(command[i++], O_WRONLY | O_APPEND);
-							dup2(file, fd);
-						}
-					}
+						make_good_redir(command, &i, 0);
 				}
 			}
 		}
-		int k = 0;
-		while (tab[k])
-			printf("Tab = %s\n", tab[k++]);
-		printf("J'exec une fois\n");
 		exec_without_fork(big_struc, tab);
-		close(file);
 		exit(0);
 	}
 	wait(&pid);
@@ -158,14 +136,27 @@ int		link_files_and_exec(t_hustru *big_struc, char **command, int i)
 {
 	char	**tab;
 	int		e;
+	int		j;
 
 	e = 0;
-	if (!(tab = (char **)malloc(sizeof(char *) * (i + 1))))
+	j = 0;
+	(void)big_struc;
+	if (!(tab = (char **)malloc(sizeof(char *) * (count_elem_redir(command, i) + 1))))
 		return (0);
-	while (command[e] && !ft_strchr(command[e], '>'))
+	while (e != i)
 	{
-		tab[e] = command[e];
-		e++;
+		printf("[Premiere boucle] Je rajoute %s\n", command[e]);
+		tab[e++] = command[j++];
+	}
+	j += 2;
+	while (command[j])
+	{
+		if (!ft_strchr(command[j], '>') && !ft_strchr(command[j - 1], '>'))
+		{
+			printf("[Seconde boucle] Je rajoute %s\n", command[j]);
+			tab[e++] = command[j];
+		}
+		j++;
 	}
 	tab[e] = NULL;
 	return (prep_redir(big_struc, command, tab, i));
@@ -177,7 +168,7 @@ int		create_file(char **filenames, int i)
 
 	while (filenames[i])
 	{
-		if (access(filenames[i], F_OK) == -1 && !ft_strchr(filenames[i], '>'))
+		if (access(filenames[i], F_OK) == -1 && !ft_strchr(filenames[i], '>') && ft_strchr(filenames[i - 1], '>'))
 		{
 			printf("Je cree %s\n", filenames[i]);
 			if ((file = open(filenames[i], O_CREAT, 0666) < 0))
