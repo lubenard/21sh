@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/26 19:48:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/29 18:01:31 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	double_redir(t_hustru *big_struc, char *command)
 	char	output[50000];
 	int		wait_pid;
 
+	(void)big_struc;
+	(void)command;
 	if (pipe(link) == -1 || (pid = fork()) == -1)
 		return ;
 	if (pid == 0)
@@ -66,7 +68,7 @@ void	double_redir(t_hustru *big_struc, char *command)
 		dup2(link[1], 1);
 		close(link[0]);
 		close(link[1]);
-		arrow_left(big_struc, extract_first(command, '>'));
+		//arrow_left(big_struc, extract_first(command, '>'));
 		exit(0);
 	}
 	else
@@ -93,9 +95,9 @@ int		redirections(t_hustru *big_struc, char *command)
 	if (ft_strchr(command, '<') && ft_strchr(command, '>'))
 		double_redir(big_struc, command);
 	else if (ft_strchr(command, '<'))
-		arrow_left(big_struc, command);
+		return (arrow_left(big_struc, parsed_command));
 	//else if (ft_strchr(command, '<<'))
-	//	double_arrow_left(big_struc, command);
+	//	heredoc(big_struc, command);
 	else if (ft_strchr(command, '>') || ft_strstr(command, ">>"))
 		return (arrow_right(big_struc, parsed_command));
 	return (0);

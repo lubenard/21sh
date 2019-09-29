@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/29 16:47:10 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/29 18:04:20 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int		prep_redir2(char **command, int *i)
 			return (display_error("ymarsh: Error while closing file\n", NULL));
 		(*i)++;
 	}
-	else if (ft_isdigit(command[*i][ft_strlen(command[*i]) - 1]) && command[*i][ft_strlen(command[*i]) - 2] == '&')
+	else if (ft_isdigit(command[*i][ft_strlen(command[*i]) - 1])
+	&& command[*i][ft_strlen(command[*i]) - 2] == '&')
 	{
 		fd2 = extract_first_fd(command, *i, extract_last(command[*i], '&'));
 		printf("je dup2(%d, %d)\n", fd2, fd);
@@ -140,7 +141,7 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 	return (0);
 }
 
-int		link_files_and_exec(t_hustru *big_struc, char **command, int i)
+char	**create_command(char **command, int i, char to_split)
 {
 	char	**tab;
 	int		e;
@@ -148,8 +149,8 @@ int		link_files_and_exec(t_hustru *big_struc, char **command, int i)
 
 	e = 0;
 	j = 0;
-	(void)big_struc;
-	if (!(tab = (char **)malloc(sizeof(char *) * (count_elem_redir(command, i) + 1))))
+	if (!(tab = (char **)malloc(sizeof(char *) *
+		(count_elem_redir(command, i, to_split) + 1))))
 		return (0);
 	while (e != i)
 	{
@@ -159,7 +160,8 @@ int		link_files_and_exec(t_hustru *big_struc, char **command, int i)
 	j += 2;
 	while (command[j])
 	{
-		if (!ft_strchr(command[j], '>') && !ft_strchr(command[j - 1], '>'))
+		if (!ft_strchr(command[j], to_split)
+		&& !ft_strchr(command[j - 1], to_split))
 		{
 			printf("[Seconde boucle] Je rajoute %s\n", command[j]);
 			tab[e++] = command[j];
@@ -167,7 +169,7 @@ int		link_files_and_exec(t_hustru *big_struc, char **command, int i)
 		j++;
 	}
 	tab[e] = NULL;
-	return (prep_redir(big_struc, command, tab, i));
+	return (tab);
 }
 
 int		create_file(char **filenames, int i)
@@ -176,13 +178,14 @@ int		create_file(char **filenames, int i)
 
 	while (filenames[i])
 	{
-		if (access(filenames[i], F_OK) == -1 && !ft_strchr(filenames[i], '>') && ft_strchr(filenames[i - 1], '>'))
+		if (access(filenames[i], F_OK) == -1 && !ft_strchr(filenames[i], '>')
+			&& ft_strchr(filenames[i - 1], '>'))
 		{
 			printf("Je cree %s\n", filenames[i]);
 			if ((file = open(filenames[i], O_CREAT, 0666) < 0))
 				return (display_error("ymarsh: error while creating file ",
 					filenames[i]));
-			close(file);
+				close(file);
 		}
 		i++;
 	}
@@ -217,13 +220,17 @@ int		check_redir(char **command)
 int		arrow_right(t_hustru *big_struc, char **command)
 {
 	int		i;
+	char	**tab;
 
 	i = 0;
+	(void)big_struc;
 	if (check_redir(command))
 		return (1);
 	while (command[i] && !ft_strchr(command[i], '>'))
 		i++;
 	if (create_file(command, i) > 0)
 		return (1);
-	return (link_files_and_exec(big_struc, command, i));
+	if (!(tab = create_command(command, i, '>')))
+		return (1);
+	return (prep_redir(big_struc, command, tab, i));
 }

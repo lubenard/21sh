@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/26 15:53:15 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/29 17:59:51 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,10 @@ void				handle_echo_options(char option);
 ** Redirections utils
 */
 char				**parse_redir(char *str);
-void				ft_str_start_cat(char *dest, const char *src, int start);
-int					count_elem_redir(char **tab, int i);
+char				**create_command(char **command, int i, char to_split);
+int					count_elem_redir(char **tab, int i, char split);
 int					arrow_right(t_hustru *big_struc, char **command);
-void				double_arrow_left(t_env *lkd_env, char *command);
-int					arrow_left(t_hustru *big_struc, char *command);
+int					arrow_left(t_hustru *big_struc, char **command);
 int					print_error_redirect(char *code);
 char				**get_output_of_command(t_hustru *big_struc, char **argv);
 int					create_file(char **filenames, int i);
