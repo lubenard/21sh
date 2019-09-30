@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/30 16:33:48 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/30 17:51:24 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,12 @@ void				handle_echo_options(char option);
 */
 int					extract_first_fd(char **command, int i, char * to_convert);
 char				**parse_redir(char *str);
-char				**create_command(char **command, int i, char to_split);
-int					count_elem_redir(char **tab, int i, char split);
+char				**create_command(char **command, int i);
+int					count_elem_redir(char **tab, int i);
 int					arrow_right(t_hustru *big_struc, char **command);
 int					arrow_left(t_hustru *big_struc, char **command);
 int					print_error_redirect(char *code);
-char				**get_output_of_command(t_hustru *big_struc, char **argv);
 int					create_file(char **filenames, int i);
-int					fill_file(char **command, char **output, int i);
 /*
 ** Pipe utils
 */

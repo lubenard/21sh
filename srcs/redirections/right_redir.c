@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/30 16:36:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/30 18:19:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,6 @@
 ** 3) Execute the command
 */
 
-void	save_redir(char *command, char *content)
-{
-	char **tab;
-	char **filenames;
-
-	(void)command;
-	(void)tab;
-	(void)filenames;
-	(void)content;
-	//tab = prepare_tab(command, '>');
-	//filenames = save_filename(tab, 1);
-	//create_file(filenames, tab);
-	////fill_file(filenames, content, tab);
-}
-
 int		make_good_redir(char **command, int *i, int flag, int fd)
 {
 	int file;
@@ -42,16 +27,19 @@ int		make_good_redir(char **command, int *i, int flag, int fd)
 	printf("J'ouvre %s\n", command[*i]);
 	if (!flag)
 		file = open(command[*i], O_WRONLY | O_TRUNC);
-	else
+	else if (flag == 1)
 		file = open(command[*i], O_WRONLY | O_APPEND);
+	else
+		file = open(command[*i], O_RDONLY);
 	printf("dup2(%d, %d)\n", file, fd);
 	dup2(file, fd);
-	while (command[*i] && !ft_strchr(command[*i], '>'))
+	while (command[*i] && !ft_strchr(command[*i], '>')
+	&& !ft_strchr(command[*i], '<'))
 	{
 		printf("je passe %s\n", command[*i]);
 		(*i)++;
 	}
-	return (0);
+	return (file);
 }
 
 int		extract_first_fd(char **command, int i, char *to_convert)
@@ -106,6 +94,7 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 	pid_t	pid;
 	int		fd2;
 	int		fd;
+	int		fd_in;
 
 	fd2 = -1;
 	if ((pid = fork()) < 0)
@@ -114,11 +103,13 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 	{
 		while (command[i])
 		{
-			printf("Je regarde %s\n", command[i]);
+			printf("\e[31mJe regarde %s\n\e[0m", command[i]);
 			if (!ft_strcmp(command[i], ">"))
 				fd = make_good_redir(command, &i, 0, 1);
 			else if (!ft_strcmp(command[i], ">>"))
 				fd = make_good_redir(command, &i, 1, 1);
+			if (!ft_strcmp(command[i], "<"))
+				fd_in = make_good_redir(command, &i, 2, 0);
 			else if (!ft_strcmp(command[i], "&>"))
 			{
 				printf("je rentre dans &>\n");
@@ -130,7 +121,9 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 			else if (ft_strchr(command[i], '>'))
 				prep_redir2(command, &i);
 		}
+		dprintf(2, "j'execute %s\n", tab[0]);
 		basic_command(big_struc, tab, exec_without_fork);
+		printf("Je ferme %d\n", fd);
 		close(fd);
 		if (fd2 != -1)
 			close(fd2);
@@ -142,7 +135,7 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 	return (0);
 }
 
-char	**create_command(char **command, int i, char to_split)
+char	**create_command(char **command, int i)
 {
 	char	**tab;
 	int		e;
@@ -151,7 +144,7 @@ char	**create_command(char **command, int i, char to_split)
 	e = 0;
 	j = 0;
 	if (!(tab = (char **)malloc(sizeof(char *) *
-		(count_elem_redir(command, i, to_split) + 1))))
+		(count_elem_redir(command, i) + 1))))
 		return (0);
 	while (e != i)
 	{
@@ -161,8 +154,10 @@ char	**create_command(char **command, int i, char to_split)
 	j += 2;
 	while (command[j])
 	{
-		if (!ft_strchr(command[j], to_split)
-		&& !ft_strchr(command[j - 1], to_split))
+		if (!ft_strchr(command[j], '>')
+		&& !ft_strchr(command[j - 1], '>')
+		&& !ft_strchr(command[j], '<')
+		&& !ft_strchr(command[j - 1], '<'))
 		{
 			printf("[Seconde boucle] Je rajoute %s\n", command[j]);
 			tab[e++] = command[j];
@@ -227,11 +222,12 @@ int		arrow_right(t_hustru *big_struc, char **command)
 	(void)big_struc;
 	if (check_redir(command))
 		return (1);
-	while (command[i] && !ft_strchr(command[i], '>'))
+	while (command[i] && !ft_strchr(command[i], '>')
+		&& !ft_strchr(command[i], '<'))
 		i++;
 	if (create_file(command, i) > 0)
 		return (1);
-	if (!(tab = create_command(command, i, '>')))
+	if (!(tab = create_command(command, i)))
 		return (1);
 	return (prep_redir(big_struc, command, tab, i));
 }

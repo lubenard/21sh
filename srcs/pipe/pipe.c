@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/20 08:50:27 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/30 16:58:56 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 		{
 			exec_pipe(j, k, pipes, tab);
 			close_pipe(pipes, i * 2);
-			execve(find_path(big_struc->path, tab[j][0]), tab[j], compact_env(big_struc->lkd_env)); //replace with decide_command
+			basic_command(big_struc, tab[j], exec_without_fork);
 		}
 		if (j != 0)
 			k += 2;

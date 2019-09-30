@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/30 15:46:59 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/30 17:02:05 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		exec_without_fork(t_hustru *big_struc, char **argv)
 	char *path;
 	char **env;
 
+	printf("Je ne fork pas\n");
 	printf("je cherche %s dans le path\n", argv[0]);
 	if (!(path = find_path(big_struc->path, argv[0])))
 	{
@@ -77,6 +78,7 @@ int		exec_command_gen(t_hustru *big_struc, char **argv)
 	char	*path;
 	char	**env;
 
+	printf("Je fork\n");
 	if (!(path = find_path(big_struc->path, argv[0])))
 	{
 		free(path);
