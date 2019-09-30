@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/29 18:04:20 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/30 14:31:00 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int		prep_redir2(char **command, int *i)
 		if (ft_occur(command[*i], '>') == 1)
 			make_good_redir(command, i, 0);
 		else if (ft_occur(command[*i], '>') == 2)
-			make_good_redir(command, i, 0);
+			make_good_redir(command, i, 1);
 	}
 	return (0);
 }
@@ -108,7 +108,7 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 
 	fd2 = -1;
 	if ((pid = fork()) < 0)
-		return (display_error("ymarsh: error: fork failed", NULL));
+		return (display_error("ymarsh: error: fork failed\n", NULL));
 	if (!pid)
 	{
 		while (command[i])
