@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/26 18:54:47 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/30 16:35:17 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 ** Decide if the command is a bultin or not
 */
 
-int		basic_command(t_hustru *big_struc, char **command)
+int		basic_command(t_hustru *big_struc, char **command,
+	int (*fun)(t_hustru *, char **))
 {
 	int		ret_code;
 
@@ -38,7 +39,8 @@ int		basic_command(t_hustru *big_struc, char **command)
 	else
 	{
 		printf("Ma commande est une commande generale\n");
-		ret_code = exec_command_gen(big_struc, command);
+		ret_code = fun(big_struc, command);
+		//ret_code = exec_command_gen(big_struc, command);
 	}
 	printf("Mon code de retour est %d\n", ret_code);
 	return (ret_code);
@@ -91,7 +93,7 @@ int		decide_commande(t_hustru *big_struc, char **command)
 {
 	if (!ft_tabchr(command, '>') &&
 			!ft_tabchr(command, '<') && !ft_tabchr(command, '|'))
-		return (basic_command(big_struc, command));
+		return (basic_command(big_struc, command, exec_command_gen));
 	else if (!ft_tabchr(command, '>') && !ft_tabchr(command, '<') &&
 			ft_tabchr(command, '|'))
 		return (handle_pipe(big_struc, big_struc->line));

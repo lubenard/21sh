@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/30 14:31:00 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/09/30 16:36:58 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	save_redir(char *command, char *content)
 	////fill_file(filenames, content, tab);
 }
 
-int		make_good_redir(char **command, int *i, int flag)
+int		make_good_redir(char **command, int *i, int flag, int fd)
 {
 	int file;
 
@@ -44,7 +44,8 @@ int		make_good_redir(char **command, int *i, int flag)
 		file = open(command[*i], O_WRONLY | O_TRUNC);
 	else
 		file = open(command[*i], O_WRONLY | O_APPEND);
-	dup2(file, 1);
+	printf("dup2(%d, %d)\n", file, fd);
+	dup2(file, fd);
 	while (command[*i] && !ft_strchr(command[*i], '>'))
 	{
 		printf("je passe %s\n", command[*i]);
@@ -93,9 +94,9 @@ int		prep_redir2(char **command, int *i)
 	{
 		printf("Je rentre ici\n");
 		if (ft_occur(command[*i], '>') == 1)
-			make_good_redir(command, i, 0);
+			make_good_redir(command, i, 0, fd);
 		else if (ft_occur(command[*i], '>') == 2)
-			make_good_redir(command, i, 1);
+			make_good_redir(command, i, 1, fd);
 	}
 	return (0);
 }
@@ -115,21 +116,21 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 		{
 			printf("Je regarde %s\n", command[i]);
 			if (!ft_strcmp(command[i], ">"))
-				fd = make_good_redir(command, &i, 0);
+				fd = make_good_redir(command, &i, 0, 1);
 			else if (!ft_strcmp(command[i], ">>"))
-				fd = make_good_redir(command, &i, 1);
+				fd = make_good_redir(command, &i, 1, 1);
 			else if (!ft_strcmp(command[i], "&>"))
 			{
 				printf("je rentre dans &>\n");
 				printf("J'ouvre %s\n", command[i + 1]);
 				fd2 = open(command[i + 1], O_WRONLY | O_TRUNC);
 				dup2(fd2, 2);
-				fd = make_good_redir(command, &i, 0);
+				fd = make_good_redir(command, &i, 0, 1);
 			}
 			else if (ft_strchr(command[i], '>'))
 				prep_redir2(command, &i);
 		}
-		exec_without_fork(big_struc, tab);
+		basic_command(big_struc, tab, exec_without_fork);
 		close(fd);
 		if (fd2 != -1)
 			close(fd2);
