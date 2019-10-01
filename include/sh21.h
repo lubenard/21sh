@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/30 17:51:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/01 14:20:46 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ char				**parse_redir(char *str);
 char				**create_command(char **command, int i);
 int					count_elem_redir(char **tab, int i);
 int					arrow_right(t_hustru *big_struc, char **command);
-int					arrow_left(t_hustru *big_struc, char **command);
 int					print_error_redirect(char *code);
 int					create_file(char **filenames, int i);
 /*

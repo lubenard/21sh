@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/30 18:19:13 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/01 12:59:27 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ int		prep_redir2(char **command, int *i)
 	int fd;
 	int fd2;
 
-	fd = extract_first_fd(command, *i, extract_first(command[*i], '>'));
+	if (ft_strchr(command[*i], '>'))
+		fd = extract_first_fd(command, *i, extract_first(command[*i], '>'));
+	else if (ft_strchr(command[*i], '<'))
+		fd = extract_first_fd(command, *i, extract_first(command[*i], '<'));
 	if (command[*i][ft_strlen(command[*i]) - 1] == '-')
 	{
 		printf("je ferme mon fd %d\n", fd);
@@ -97,6 +100,7 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 	int		fd_in;
 
 	fd2 = -1;
+	fd_in = -1;
 	if ((pid = fork()) < 0)
 		return (display_error("ymarsh: error: fork failed\n", NULL));
 	if (!pid)
@@ -107,9 +111,9 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 			if (!ft_strcmp(command[i], ">"))
 				fd = make_good_redir(command, &i, 0, 1);
 			else if (!ft_strcmp(command[i], ">>"))
-				fd = make_good_redir(command, &i, 1, 1);
-			if (!ft_strcmp(command[i], "<"))
-				fd_in = make_good_redir(command, &i, 2, 0);
+				fd_in = make_good_redir(command, &i, 1, 1);
+			else if (!ft_strcmp(command[i], "<"))
+				fd = make_good_redir(command, &i, 2, 0);
 			else if (!ft_strcmp(command[i], "&>"))
 			{
 				printf("je rentre dans &>\n");
@@ -118,13 +122,15 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 				dup2(fd2, 2);
 				fd = make_good_redir(command, &i, 0, 1);
 			}
-			else if (ft_strchr(command[i], '>'))
+			else if (ft_strchr(command[i], '>') || ft_strchr(command[i], '<'))
 				prep_redir2(command, &i);
 		}
 		dprintf(2, "j'execute %s\n", tab[0]);
 		basic_command(big_struc, tab, exec_without_fork);
 		printf("Je ferme %d\n", fd);
 		close(fd);
+		if (fd_in != -1)
+			close(fd_in);
 		if (fd2 != -1)
 			close(fd2);
 		exit(0);
