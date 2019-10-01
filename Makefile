@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/10/01 14:20:16 by lubenard         ###   ########.fr        #
+#    Updated: 2019/10/01 17:20:06 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRC = srcs/main.c \
 	  srcs/builtins/env/display_env2.c \
 	  srcs/builtins/env/parsing_env.c \
 	  srcs/redirections/redirections.c \
-	  srcs/redirections/right_redir.c \
+	  srcs/redirections/launch_redir.c \
 	  srcs/redirections/parsing_redir.c \
 	  srcs/redirections/parse_redir.c \
 	  srcs/pipe/pipe.c \

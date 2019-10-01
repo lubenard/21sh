@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/30 16:58:56 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/01 16:25:16 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 	int		j;
 	int		k;
 
+	printf("Je passe dans les pipes\n");
 	if ((tab = compact_command(command)) == NULL)
 		return (display_error("Pipe: Invalid pipe\n", NULL));
 	j = 0;

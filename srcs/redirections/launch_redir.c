@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/01 17:32:34 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/01 17:18:17 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char	*recompact_command(char **tab)
 	while (tab[e + 1])
 		i += ft_strlen(tab[e++]) + 1;
 	i+= ft_strlen(tab[e]);
+	dprintf(2, "J'alloue de %d\n", i);
 	if (!(ret = ft_strnew(i)))
 		return (NULL);
 	e = 0;
@@ -150,7 +151,7 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 				prep_redir2(command, &i);
 		}
 		dprintf(2, "j'execute %s\n", tab[0]);
-		int m = 0; //used for debug
+		int m = 0;
 		while (tab[m])
 			dprintf(2, "Tab = %s\n", tab[m++]);
 		big_struc->line = recompact_command(tab);
