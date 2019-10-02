@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/12 16:55:00 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/02 18:28:47 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ char	*search_absolute_path2(char *command, char *str, char *str2)
 	printf("Cependant l'absolute path est |%s|\n", command);
 	return (ft_strdup(command));
 }
+
+/*
+** Used to find absolute path
+*/
 
 char	*search_absolute_path(char *command)
 {
@@ -46,6 +50,10 @@ char	*search_absolute_path(char *command)
 	free(str2);
 	return (NULL);
 }
+
+/*
+** Used to find path in $PATH or absolute path
+*/
 
 char	*find_path(char **path, char *first_command)
 {

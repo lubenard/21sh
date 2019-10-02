@@ -6,11 +6,15 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 17:01:28 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/02 11:36:33 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/02 18:30:58 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh21.h"
+
+/*
+** Free after each exec
+*/
 
 int		free_after_exec(char *get_right_path, char **env)
 {
@@ -18,6 +22,10 @@ int		free_after_exec(char *get_right_path, char **env)
 	free(env);
 	return (0);
 }
+
+/*
+** Free env linked list
+*/
 
 void	free_env(t_env *env)
 {
@@ -30,6 +38,10 @@ void	free_env(t_env *env)
 		free(tmp);
 	}
 }
+
+/*
+** free after exiting the shell
+*/
 
 void	free_after_exit(t_env *lkd_env, t_hist *lkd_hist, char **path)
 {

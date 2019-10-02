@@ -6,11 +6,15 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/02 11:29:04 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/02 18:25:16 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+/*
+** Compact linked list into double array
+*/
 
 char	**compact_env(t_env *lkd_env)
 {
@@ -38,10 +42,13 @@ char	**compact_env(t_env *lkd_env)
 	return (env);
 }
 
+/*
+** Check if you have the rights to execute the command
+*/
+
 int		check_exec_rights(char *path)
 {
-	if (access(path, X_OK)
-	|| get_error_exec(path))
+	if (access(path, X_OK) || get_error_exec(path))
 	{
 		invalid_command(path);
 		ft_putstr_fd("You cannot execute the file (´ ͡༎ຶ ͜ʖ ͡༎ຶ )\n", 2);
@@ -51,13 +58,16 @@ int		check_exec_rights(char *path)
 	return (1);
 }
 
+/*
+** exec but do not fork
+*/
+
 int		exec_without_fork(t_hustru *big_struc, char **argv)
 {
 	char *path;
 	char **env;
 
 	printf("Je ne fork pas\n");
-	printf("je cherche %s dans le path\n", argv[0]);
 	if (!(path = find_path(big_struc->path, argv[0])))
 	{
 		free(path);
@@ -71,6 +81,10 @@ int		exec_without_fork(t_hustru *big_struc, char **argv)
 	set_none_canon_mode(0);
 	return (free_after_exec(path, env));
 }
+
+/*
+** Exec but fork
+*/
 
 int		exec_command_gen(t_hustru *big_struc, char **argv)
 {

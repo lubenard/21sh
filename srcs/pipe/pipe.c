@@ -6,11 +6,15 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/02 13:49:13 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/02 18:20:24 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+/*
+** Like ft_strlen but for triple array
+*/
 
 int		count_args_triple_tab(char ***tab)
 {
@@ -21,6 +25,10 @@ int		count_args_triple_tab(char ***tab)
 		i++;
 	return (i);
 }
+
+/*
+** Malloc pipes and create connections between them
+*/
 
 int		*prepare_pipe(int i)
 {
@@ -38,6 +46,10 @@ int		*prepare_pipe(int i)
 	return (pipes);
 }
 
+/*
+** Wait until all exceution are finished
+*/
+
 int		wait_pipe(int i, int *pipes, char ***tab)
 {
 	int e;
@@ -54,6 +66,10 @@ int		wait_pipe(int i, int *pipes, char ***tab)
 	return (free_pipe(tab));
 }
 
+/*
+** Make the good rediections
+*/
+
 void	exec_pipe(int j, int k, int *pipes, char ***tab)
 {
 	if (j != 0)
@@ -63,6 +79,10 @@ void	exec_pipe(int j, int k, int *pipes, char ***tab)
 	if (j == 0)
 		dup2(pipes[1], 1);
 }
+
+/*
+** Launch pipes
+*/
 
 int		handle_pipe(t_hustru *big_struc, char *command)
 {

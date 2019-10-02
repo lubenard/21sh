@@ -6,11 +6,15 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 22:01:21 by lubenard          #+#    #+#             */
-/*   Updated: 2019/06/13 16:55:16 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/02 18:33:23 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+/*
+** This file transform $PATH var into double array
+*/
 
 int		ft_len(char *path_line)
 {

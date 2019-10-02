@@ -6,11 +6,15 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/02 13:46:33 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/02 13:49:05 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/02 18:18:11 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+/*
+** Tranform char * into char *** by splitting it by pipes then by spaces
+*/
 
 char	***compact_command(char *command)
 {
@@ -38,6 +42,10 @@ char	***compact_command(char *command)
 	return (ret);
 }
 
+/*
+** Free the array created above
+*/
+
 int		free_pipe(char ***command)
 {
 	int		i;
@@ -61,6 +69,10 @@ int		free_pipe(char ***command)
 	free(command);
 	return (0);
 }
+
+/*
+** Created to close multiple pipes
+*/
 
 void	close_pipe(int *pipes, int i)
 {

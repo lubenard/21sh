@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/02 17:39:16 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/02 18:22:30 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,6 @@ void		change_env(t_hustru *big_struc)
 	free(str);
 }
 
-char		*get_path_hist(void)
-{
-	char buff[4097];
-	char *path;
-
-	path = getcwd(buff, 4096);
-	return (path);
-}
-
 t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)
 {
 	t_hustru *big_struc;
@@ -65,23 +56,22 @@ t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)
 void		load_from_history(t_hustru *big_struc)
 {
 	int		fd;
-	char	*buff;
+	char	*str;
 
-	(void)big_struc;
 	if (access(".history", F_OK) != -1)
 	{
 		fd = open(".history", O_RDONLY);
-		while (get_next_line(fd, &buff) > 0)
+		while (get_next_line(fd, &str) > 0)
 		{
-			printf("Buffer vaut \n%s\n", buff);
-			save_command(big_struc, buff, 0);
-			free(buff);
+			printf("This line will be added to history:\n%s\n", str);
+			save_command(big_struc, str, 0);
+			free(str);
 		}
 		close(fd);
 	}
 	else
-		ft_putendl("-l option : history file has not been found. \
-History will not be loaded.");
+		ft_putendl_fd("-l option : history file has not been found. \
+History will not be loaded.", 2);
 }
 
 int			get_option(t_hustru *big_struc, char **argv)
@@ -92,6 +82,9 @@ int			get_option(t_hustru *big_struc, char **argv)
 			load_from_history(big_struc);
 		else if (!ft_strcmp(argv[1], "-h") || !ft_strcmp(argv[1], "--help"))
 			return (print_shell_help());
+		else
+			return (display_error("option not recognized, please type --help \
+to get help\n", NULL));
 	}
 	return (0);
 }
@@ -124,7 +117,6 @@ int			main(int argc, char **argv, char **env)
 	t_hustru	*big_struc;
 	char		**path;
 
-	(void)argv;
 	(void)argc;
 	catch_signal();
 	lkd_env = get_env(env);
@@ -132,10 +124,9 @@ int			main(int argc, char **argv, char **env)
 	path = get_path(find_in_env(lkd_env, ft_strdup("PATH")));
 	big_struc = fill_huge_struc(lkd_env, lkd_hist, path);
 	change_env(big_struc);
-	if (get_option(big_struc, argv) == 1)
-		return (ft_exit(big_struc, 0));
+	//if (get_option(big_struc, argv) == 1)
+	//	return (ft_exit(big_struc, 0));
 	parser(big_struc, argv[1]);
-	save_command(big_struc, argv[1], 1);
 	/*display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	while (ft_read_1(big_struc) == 0)
 	{

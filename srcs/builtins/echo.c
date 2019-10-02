@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/16 16:45:40 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/02 17:54:53 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ int		ft_echo(t_hustru *big_struc, char **command)
 	int		e;
 	int		i;
 
-	(void)big_struc;
 	i = 1;
 	e = (!ft_strcmp(command[1], "-n")) ? 1 : 0;
 	while (command[i + e])
