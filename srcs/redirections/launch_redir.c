@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/01 17:18:17 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/02 15:53:26 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,13 @@ int		make_good_redir(char **command, int *i, int flag, int fd)
 	else
 		file = open(command[*i], O_RDONLY);
 	printf("dup2(%d, %d)\n", file, fd);
-	dup2(file, fd);
+	if (file < 0 || fd < 0)
+	{
+		display_error("ymarsh: file not found: ", command[*i]);
+		return (-1);
+	}
+	else
+		dup2(file, fd);
 	while (command[*i] && !ft_strchr(command[*i], '>')
 	&& !ft_strchr(command[*i], '<'))
 	{
@@ -94,15 +100,15 @@ int		prep_redir2(char **command, int *i)
 
 char	*recompact_command(char **tab)
 {
-	int i;
-	int e;
-	char *ret;
+	int		i;
+	int		e;
+	char	*ret;
 
 	i = 0;
 	e = 0;
 	while (tab[e + 1])
 		i += ft_strlen(tab[e++]) + 1;
-	i+= ft_strlen(tab[e]);
+	i += ft_strlen(tab[e]);
 	dprintf(2, "J'alloue de %d\n", i);
 	if (!(ret = ft_strnew(i)))
 		return (NULL);
@@ -149,9 +155,11 @@ int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 			}
 			else if (ft_strchr(command[i], '>') || ft_strchr(command[i], '<'))
 				prep_redir2(command, &i);
+			if (fd == -1)
+				return (1);
 		}
 		dprintf(2, "j'execute %s\n", tab[0]);
-		int m = 0;
+		int m = 0; //Used for debug only
 		while (tab[m])
 			dprintf(2, "Tab = %s\n", tab[m++]);
 		big_struc->line = recompact_command(tab);

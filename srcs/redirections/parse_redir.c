@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 15:10:40 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/26 19:26:55 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/02 13:33:56 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		char_number(char *str, char c, char d, char e)
 	int		i;
 
 	i = 0;
-	if  (str[i] && (str[i] == d || str[i] == e))
+	if (str[i] && (str[i] == d || str[i] == e))
 	{
 		if (str[i + 1] == '&')
 		{
@@ -31,7 +31,7 @@ int		char_number(char *str, char c, char d, char e)
 		}
 		return (i);
 	}
-	else if  (str[i] && str[i] != c && str[i] != d && str[i] != e)
+	else if (str[i] && str[i] != c && str[i] != d && str[i] != e)
 	{
 		if (ft_isdigit(str[i]) && str[i + 1] && str[i + 1] == '>')
 		{
@@ -73,9 +73,8 @@ char	**parse_redir(char *str)
 				return (NULL);
 			mark += i;
 			ft_strnncpy(tmp[x], str, i, mark);
-			i += ft_strlen(tmp[x]);
+			i += ft_strlen(tmp[x]) - 1;
 			x++;
-			i--;
 		}
 		i++;
 	}

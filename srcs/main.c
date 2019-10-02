@@ -6,14 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/30 17:46:22 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/02 11:41:46 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
-
-char		*g_username;
-char		*g_curr_dir;
 
 void		change_env(t_hustru *big_struc)
 {
