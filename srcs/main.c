@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/02 11:41:46 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/02 17:39:16 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,26 +65,19 @@ t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)
 void		load_from_history(t_hustru *big_struc)
 {
 	int		fd;
-	char	buff[5000];
-	char	**arr;
-	int		i;
-	int		k;
+	char	*buff;
 
-	i = 0;
-	k = 0;
+	(void)big_struc;
 	if (access(".history", F_OK) != -1)
 	{
 		fd = open(".history", O_RDONLY);
-		read(fd, buff, 5000);
-		printf("Buffer vaut \n%s\n", buff);
+		while (get_next_line(fd, &buff) > 0)
+		{
+			printf("Buffer vaut \n%s\n", buff);
+			save_command(big_struc, buff, 0);
+			free(buff);
+		}
 		close(fd);
-		arr = ft_strsplit(buff, '\n');
-		printf("Apres strsplit\n");
-		while (arr[i])
-			i++;
-		while (k != i)
-			save_command(big_struc, arr[k++], 0);
-		ft_deltab(arr);
 	}
 	else
 		ft_putendl("-l option : history file has not been found. \
@@ -142,6 +135,7 @@ int			main(int argc, char **argv, char **env)
 	if (get_option(big_struc, argv) == 1)
 		return (ft_exit(big_struc, 0));
 	parser(big_struc, argv[1]);
+	save_command(big_struc, argv[1], 1);
 	/*display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	while (ft_read_1(big_struc) == 0)
 	{
