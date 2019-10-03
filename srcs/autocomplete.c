@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 11:20:35 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/03 17:28:17 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/03 22:04:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,39 @@
 
 char	**autocomp_builtins(char **ret, char *to_find, int k)
 {
-	if (!ft_strncmp("env", to_find, ft_strlen(to_find)))
-		ret[k++] = ft_strdup("env");
-	if (!ft_strncmp("cd", to_find, ft_strlen(to_find)))
-		ret[k++] = ft_strdup("cd");
-	if (!ft_strncmp("echo", to_find, ft_strlen(to_find)))
-		ret[k++] = ft_strdup("echo");
-	if (!ft_strncmp("exit", to_find, ft_strlen(to_find)))
-		ret[k++] = ft_strdup("exit");
-	if (!ft_strncmp("setenv", to_find, ft_strlen(to_find)))
-		ret[k++] = ft_strdup("setenv");
-	if (!ft_strncmp("unsetenv", to_find, ft_strlen(to_find)))
-		ret[k++] = ft_strdup("unsetenv");
+	int e;
+	static char	*tab[] = {"env", "cd", "echo", "exit", "setenv", "unsetenv",
+	NULL};
+
+	e = 0;
+	while (tab[e])
+	{
+		if (!ft_strncmp(tab[e], to_find, ft_strlen(to_find)))
+			ret[k++] = ft_strdup(tab[e]);
+		e++;
+	}
 	ret[k] = NULL;
 	return (ret);
 }
 
 int		is_builtin(char *to_find)
 {
-	if (!ft_strcmp("env", to_find) || !ft_strcmp("cd", to_find)
-	|| !ft_strcmp("echo", to_find) || !ft_strcmp("exit", to_find)
-	|| !ft_strcmp("setenv", to_find) ||!ft_strcmp("unsetenv", to_find))
+	int			i;
+	int			e;
+	static char	*tab[] = {"env", "cd", "echo", "exit", "setenv", "unsetenv",
+	NULL};
+
+	i = 0;
+	e = 0;
+	while (tab[e])
 	{
-		printf("\e[31mJe devais rajouter %s mais c'est un builtin\e[0m\n", to_find);
-		return (1);
+		if (!ft_strncmp(tab[e], to_find, ft_strlen(to_find)))
+			i++;
+		e++;
 	}
-	return (0);
+	return (i);
 }
+
 char	**prep_autocomplete2(t_hustru *big_struc, char **ret, char *to_find)
 {
 	int				i;
@@ -60,14 +66,26 @@ char	**prep_autocomplete2(t_hustru *big_struc, char **ret, char *to_find)
 			if (!ft_strncmp(p_dirent->d_name, to_find, ft_strlen(to_find))
 			&& !is_builtin(p_dirent->d_name))
 			{
-				printf("\e[32mJ'ajoute %s\n\e[0m", p_dirent->d_name);
+				printf("K = %d\n", k);
+				printf("\e[32mJ'ajoute |%s|\n\e[0m", p_dirent->d_name);
 				ret[k++] = ft_strdup(p_dirent->d_name);
 			}
 		}
 		closedir(p_dir);
 		i++;
 	}
-	return(autocomp_builtins(ret, to_find, k));
+	ret[k] = NULL;
+	i = 0;
+	while (ret[i])
+		printf("\e[033mMon tableau vaut %s\n\e[0m", ret[i++]);
+	return (autocomp_builtins(ret, to_find, k));
+}
+
+char	**print_only_one(t_hustru *big_struc, char *to_find)
+{
+	(void)big_struc;
+	ft_putstr_fd(to_find, 0);
+	return (NULL);
 }
 
 char	**prep_autocomplete(t_hustru *big_struc, char *to_find)
@@ -91,32 +109,41 @@ char	**prep_autocomplete(t_hustru *big_struc, char *to_find)
 		closedir(p_dir);
 		i++;
 	}
-	//k = autocomp_builtins(&ret, to_find, k, 0);
-	if (!(ret = malloc(sizeof(char *) * k + 1)))
-		return (NULL);
-	printf("J'ai malloc de %d\n", k + 1);
-	//return (0);
-	return (prep_autocomplete2(big_struc, ret, to_find));
+	if (k + is_builtin(to_find) == 1)
+		return (print_only_one(big_struc, to_find));
+	else
+	{
+		if (!(ret = malloc(sizeof(char *) * (k + is_builtin(to_find) + 1))))
+			return (NULL);
+		printf("J'ai malloc de %d + 1\n", k);
+		return (prep_autocomplete2(big_struc, ret, to_find));
+	}
+}
+
+char	*autocomplete_file(void)
+{
+	return (0);
 }
 
 char	*autocomplete(t_hustru *big_struc, char *command)
 {
-	int				i;
-	char			*first_command;
+	int		i;
+	char	*first_command;
+	char **str;
 
 	i = 0;
 	if (!command)
 		return (0);
+	if (ft_strchr(command, ' '))
+		return (autocomplete_file());
 	first_command = extract_first(command, ' ');
-	char **str = prep_autocomplete(big_struc, first_command);
-	//(void)str;
+	str = prep_autocomplete(big_struc, first_command);
 	i = 0;
-	while (str[i])
+	if (str)
 	{
-		ft_putstr("Tab= ");
-		ft_putendl(str[i++]);
+		while (str[i])
+		printf("Tab[i]= %s\n", str[i++]);
+	ft_deltab(str);
 	}
-		//printf("tab = %s\n", str[i++]);
-	//ft_deltab(str);
 	return (0);
 }
