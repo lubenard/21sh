@@ -31,7 +31,7 @@ Les flèches s'utilisent logiquement.
 ###    Options du shell
 ```
 [--help] Affiche l'aide du shell et quitte
-[- l]    Permet de charger le fichier historique dans le shell
+[- l]    Permet de charger le fichier .historique dans le shell s'il existe
 ```
 ####    Builtins
 - echo [POSIX]
@@ -77,6 +77,26 @@ usage: unsetenv VAR1 VAR2 ...
 ```
 usage: cd chemin...
 ```
+- redirections
+```
+>	redirige la sortie standard vers un fichier vide
+<	redirige le fichier vers l'entrée standard
+>>	redirige la sortie standard vers un fichier, en ajoutqnt le contenu a la fin
+&>	redirige la sortie standard et la sortie d'erreur vers un fichier vide
+j>	redirige le file descriptor j vers un fichier vide
+j>>	redirige la sortie standard vers un fichier, en ajoutqnt le contenu a la fin
+j>&	redirige le file descriptor j vers la sortie standard
+>&k	redirige le ls sortie standard vers le file descriptor k
+j>&k	redirige le file descriptor j vers le file descriptor k
+j>&-	ferme le file descriptor j
+j<&-	ferme le file descriptor j
+
+exemple: cat existing_file non_existing_file > file1 2>&1
+```
+- pipe
+```
+exemple: ls | grep Makefile
+```
 
 ## English Version
 
@@ -108,7 +128,7 @@ The arrows are used logically.
 ###    Shell options
 ```
 [--help] Print shell help and exit
-[- l]    Load history file into the shell
+[- l]    Load .history file into the shell if it exist
 ```
 
 ####    Builtins
@@ -155,4 +175,24 @@ usage: unsetenv VAR1 VAR2 ...
 - cd [POSIX COMPLIANT]
 ```
 usage: cd path...
+```
+- redirections
+```
+>	redirects the standard output to an empty file
+< 	redirects the file to the standard input
+>> 	redirects the standard output to a file, adding the content at the end
+&>	redirects the standard output and error output to an empty file
+j> 	redirects the file descriptor j to an empty file
+j>> 	redirects the standard output to a file, adding the content at the end
+j>& 	redirects the file descriptor j to the standard output
+>&k 	redirects the ls standard output to the file descriptor k
+j>&k 	redirects the file descriptor j to the file descriptor k
+j>&- 	closes the file descriptor j
+j<&- 	closes the file descriptor j
+
+example: cat existing_file non_existing_file > file1 2>&1
+```
+- pipe
+```
+example: ls | grep Makefile
 ```
