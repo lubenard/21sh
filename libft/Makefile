@@ -105,9 +105,9 @@ $(NAME):$(OBJ)
 	@printf "\033[32m[✓]\033[0m\n"
 
 %.o : %.c
-	@printf "\033[36mCompilation de $<...\033[0m"
+	@printf "\033[36mCompilation de $<...\033[0m\033[32m[✓]\033[0m\n"
 	@$(CC) -c $(CFLAGS) $< -o $@
-	@printf "\033[32m[✓]\033[0m\n"
+#	@printf "\033[32m[✓]\033[0m\n"
 
 clean:
 	@printf "\033[31mclean de $(NAME)..\033[0m"

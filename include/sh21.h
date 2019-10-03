@@ -87,6 +87,10 @@ int		*move_hist(char *buf, int **prompt, t_hustru *big_struc,
 int		exec_command_gen(t_hustru *big_struc, char **argv);
 int		exec_without_fork(t_hustru *big_struc, char **argv);
 /*
+**
+*/
+char	*autocomplete(t_hustru *big_struc, char *command);
+/*
 ** Other
 */
 char	*extract_first_env(char *command);

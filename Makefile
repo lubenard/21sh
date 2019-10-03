@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/10/02 13:46:05 by lubenard         ###   ########.fr        #
+#    Updated: 2019/10/03 17:02:50 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRC = srcs/main.c \
 	  srcs/handle_signals.c \
 	  srcs/save_command.c \
 	  srcs/free.c \
+	  srcs/autocomplete.c \
 	  srcs/get_path.c \
 	  srcs/builtins/setenv.c \
 	  srcs/builtins/exit.c \
@@ -70,13 +71,13 @@ CFLAGS = -Wall -Wextra -Werror -g3
 all:  $(NAME)
 
 $(NAME): $(OBJ)
-	@make -C libft
+	@make -j4 -C libft
 	@$(CC) -o $(NAME) $(CFLAGS) $(OBJ) -ltermcap libft/libft.a
 	@printf "\033[33mCompilation de $(NAME)...\033[0m"
 	@printf "\033[32m[✓]\033[0m\n"
 
 libft:
-	@cd libft && make
+	@make -j4 -C libft
 
 %.o : %.c
 	@printf "\033[36mCompilation de $<...\033[0m"

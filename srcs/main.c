@@ -126,7 +126,8 @@ int			main(int argc, char **argv, char **env)
 	change_env(big_struc);
 	//if (get_option(big_struc, argv) == 1)
 	//	return (ft_exit(big_struc, 0));
-	parser(big_struc, argv[1]);
+	//parser(big_struc, argv[1]);
+	autocomplete(big_struc, argv[1]);
 	/*display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	while (ft_read_1(big_struc) == 0)
 	{
