@@ -6,13 +6,13 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 10:59:34 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:42:21 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/01 16:58:14 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
 
-int		heredoc(char **tab_line, t_hustru *big_struc)
+char	*heredoc(char **tab_line, t_hustru *big_struc)
 {
 	t_coord		c;
 	int			mainindex;
@@ -26,14 +26,13 @@ int		heredoc(char **tab_line, t_hustru *big_struc)
 	while (42)
 	{
 		if ((c.buf = read_quit()) == NULL)
-			return (-1);
+			return (tmp);
 		c.coord = get_coord(get_cursor_position());
 		if (control_c(c.buf, c.prompt, c.coord, c.r) == 0)
-			return (0);
+			return (tmp);
 		c.prompt[0] = c.coord[0] == 1 ? 1 : c.prompt[0];
 		c.r = main_core(c.buf, &c.prompt, &c.pos, &mainindex);
-		free(c.pos);
-		c.pos = move_hist(c.buf, &c.prompt, big_struc, &mainindex);
+		move_hist(&c, big_struc);
 		if (c.buf[0] == '\n' && ft_strcmp(g_mainline, tab_line[c.i + 1]))
 		{
 			c.r = c.r + get_nb_line_quote(g_mainline);
@@ -43,7 +42,7 @@ int		heredoc(char **tab_line, t_hustru *big_struc)
 			while (c.t++ < c.r)
 				ft_putstr_fd("\e[B", 0);
 			ft_putstr_fd("\n\r", 0);
-			return (0);
+			//return (0);
 		}
 		else if (c.buf[0] == '\n')
 		{

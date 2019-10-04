@@ -6,15 +6,36 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:08:51 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/24 20:29:16 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/04 16:27:11 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
 
+char	*read_quit_q(int **prompt, int **pos)
+{
+	t_coord c;
+
+	c.buf = ft_strnew(9);
+	if ((c.ret = read(0, c.buf, 8)) <= 0)
+	{
+		ft_putstr_fd("exit", 0);
+		reset_shell_attr(0);
+		free(prompt[0]);
+		free(*pos);
+		free(c.buf);
+		free(g_mainline);
+		return (NULL);
+	}
+	c.buf[c.ret] = '\0';
+	return (c.buf);
+}
+
+
 char	*entry_q(int r, int *coord, int *prompt, char *line)
 {
-	int t;
+	int 	t;
+	char	*tmp;
 
 	t = r;
 	if (coord[0] >= prompt[0] & coord[0] < prompt[0] + r)
@@ -22,46 +43,60 @@ char	*entry_q(int r, int *coord, int *prompt, char *line)
 	while (t++ < r)
 		ft_putstr_fd("\e[B", 0);
 	ft_putstr_fd("\r", 0);
-	g_mainline = ft_strjoinnf(g_mainline, "\n");
-	line = ft_strjoinnf(line, g_mainline);
+	if (g_mainline[ft_strlen(g_mainline) - 1] != '\''
+			&& g_mainline[ft_strlenu(g_mainline) - 1] != '\"')
+	{
+		tmp = ft_strdup(g_mainline);
+		free(g_mainline);
+		g_mainline = ft_strjoin(tmp, "\n");
+		free(tmp);
+	}
+	tmp = ft_strdup(line);
+	free(line);
+	line = ft_strjoin(tmp, g_mainline);
+	free(tmp);
+	free(prompt);
+	free(g_mainline);
+	g_mainline = NULL;
 	return (line);
 }
 
 void	initi(int *mainindex, int **prompt, char **buf)
 {
+	(void)buf;
 	*mainindex = 0;
 	free(g_mainline);
 	g_mainline = ft_strnew(1);
 	prompt[0] = get_coord(get_cursor_position());
-	*buf = malloc(sizeof(char) * 9);
+	signal(SIGINT, signalhandler);
 }
 
 char	*get_inline(char *line, t_hustru *big_struc)
 {
 	t_coord		c;
-	int			mainindex;
 
-	initi(&mainindex, &c.prompt, &c.buf);
+	initi(&c.mainindex, &c.prompt, &c.buf);
+	c.pos = NULL;
 	while (42)
 	{
-		bzero(c.buf, sizeof(9));
-		if ((c.ret = read(0, c.buf, 8)) == -1)
+		if ((c.buf = read_quit_q(&c.prompt, &c.pos)) == NULL)
 			return (line);
-		c.buf[c.ret] = '\0';
 		c.coord = get_coord(get_cursor_position());
-		if (c.buf[0] == 7 && !c.buf[1])
+		c.prompt[0] = c.coord[0] == 1 ? 1 : c.prompt[0];
+		c.r = main_core(c.buf, &c.prompt, &c.pos, &c.mainindex);
+		move_hist(&c, big_struc);
+		if ((c.buf[0] == '\n' &&
+					(line = entry_q(c.r, c.coord, c.prompt, line)))
+				|| control_c(c.buf, c.prompt, c.coord, c.r) == 0)
 		{
-			line = ft_strjoinnf(line, c.buf);
+			c.buf[0] == '\n' ? free(c.coord) : 0;
+			line = c.buf[0] == '\n' ? line : ft_strjoinnf(line, c.buf);
+			free(c.buf);
+			free(c.pos);
 			return (line);
 		}
-		if (c.coord[0] == 1)
-			c.prompt[0] = 1;
-		c.r = main_core(c.buf, &c.prompt, &c.pos, &mainindex);
-		free(c.pos);
-		c.pos = move_hist(c.buf, &c.prompt, big_struc, &mainindex);
-		if (c.buf[0] == '\n' && (line = entry_q(c.r, c.coord, c.prompt, line)))
-			return (line);
 		free(c.coord);
+		free(c.buf);
 	}
 }
 
@@ -83,7 +118,8 @@ char	*get_quotes(char *line, t_hustru *big_struc)
 		}
 		i++;
 	}
-	if (tmp && tmp[0] == 'y')
+	if (tmp && tmp[0] == 'y' && line[ft_strlenu(line) - 1] != '\''
+			&& line[ft_strlenu(line) - 1] != '\"')
 		line = suppr_lastchar(line);
 	return (line);
 }

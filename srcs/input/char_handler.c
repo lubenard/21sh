@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 19:14:38 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/25 14:01:50 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/04 15:11:36 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,17 @@ void		add_char(int *mainindex, char *buf, int **prompt)
 	free(coord);
 }
 
-char		*forthenorm(int check, char *str)
+char		*forthenorm(int check, char *str, int *coord)
 {
 	char	*tmp;
 
 	tmp = NULL;
 	if (check == 1)
 	{
+		free(coord);
 		free(g_mainline);
 		g_mainline = ft_strdup(str);
+		free(str);
 	}
 	else
 	{
@@ -61,7 +63,8 @@ int			print_newline(int **prompt, char *str, int *mainindex, int **pos)
 	int i;
 
 	i = 0;
-	coord = malloc(sizeof(int) * 2);
+	if (!(coord = malloc(sizeof(int) * 2)))
+		return (0);
 	coord[0] = prompt[0][0];
 	coord[1] = prompt[0][1] - 1;
 	while (str[i])
@@ -78,9 +81,7 @@ int			print_newline(int **prompt, char *str, int *mainindex, int **pos)
 		coord = last_line_col(coord, prompt, str[i]);
 		i++;
 	}
-	free(coord);
-	forthenorm(1, str);
-	free(str);
+	forthenorm(1, str, coord);
 	return (i);
 }
 
@@ -92,7 +93,7 @@ int			*insert_char(int *mainindex, char *buf, int **prompt, int **pos)
 
 	i = 0;
 	j = 0;
-	if ((str = forthenorm(0, NULL)) == NULL)
+	if ((str = forthenorm(0, NULL, NULL)) == NULL)
 		return (NULL);
 	while (g_mainline[i])
 	{
@@ -103,10 +104,11 @@ int			*insert_char(int *mainindex, char *buf, int **prompt, int **pos)
 		str[j++] = g_mainline[i++];
 	}
 	str[j] = '\0';
-	free(pos[0]);
-	pos[0] = j != 0 ? malloc(sizeof(int) * j) : NULL;
 	j = *mainindex;
 	clean(prompt[0], mainindex, pos[0]);
+	pos[0] = tab_malloc(pos[0], ft_strlenu(str));
+/*	free(pos[0]);
+	pos[0] = ft_strlenu(str) ? malloc(sizeof(int) * ft_strlenu(str)) : NULL;*/
 	i = print_newline(prompt, str, mainindex, pos);
 	while (i-- > j + 1)
 		left_arrow(mainindex, pos[0]);
@@ -115,8 +117,6 @@ int			*insert_char(int *mainindex, char *buf, int **prompt, int **pos)
 
 void		print_char(int *mainindex, char *buf, int **prompt, int **pos)
 {
-	if (!g_mainline[0])
-		pos[0] = malloc(sizeof(int) * 1);
 	if (*mainindex == ft_strlenu(g_mainline))
 		add_char(mainindex, buf, prompt);
 	else

@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 19:14:13 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:25:56 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/04 15:43:21 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ int		*ft_print_line(char *tmp, int **pos, int *mainindex, int **prompt)
 
 	i = 0;
 	free(pos[0]);
-	pos[0] = malloc(sizeof(int) * ft_strlenu(tmp));
+	if (!(pos[0] = malloc(sizeof(int) * ft_strlenu(tmp))))
+		return (NULL);
 	while (tmp[i])
 	{
 		coord = get_coord(get_cursor_position());
@@ -90,4 +91,17 @@ int		*ft_print_line(char *tmp, int **pos, int *mainindex, int **prompt)
 	}
 	free(g_mainline);
 	return (pos[0]);
+}
+
+int		*tab_malloc(int *pos, int i)
+{
+	free(pos);
+	if (i)
+	{
+		if ((pos = malloc(sizeof(int) * i)) == NULL)
+			return (NULL);
+		return (pos);
+	}
+	else
+		return (NULL);
 }

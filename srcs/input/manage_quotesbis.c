@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 21:06:58 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 17:42:37 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/02 20:48:52 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ char	*suppr_lastchar(char *line)
 	tmp[j] = '\0';
 	free(line);
 	line = ft_strdup(tmp);
-	free(g_mainline);
-	g_mainline = NULL;
+//	free(g_mainline);
+//	g_mainline = NULL;
+	free(tmp);
 	return (line);
 }

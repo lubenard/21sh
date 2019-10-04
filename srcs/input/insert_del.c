@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:13:06 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/24 21:28:35 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/04 15:43:51 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ int		*reprint_line(int *mainindex, char *str, int **pos, int *prompt)
 
 	i = 0;
 	free(pos[0]);
-	pos[0] = malloc(sizeof(int) * (ft_strlen(str)));
-	coord = malloc(sizeof(int) * 2);
+	if (!(pos[0] = malloc(sizeof(int) * (ft_strlen(str))
+		|| (coord = malloc(sizeof(int) * 2)))))
+		return (NULL);
 	coord[0] = prompt[0];
 	coord[1] = prompt[1] - 1;
 	while (str[i])
@@ -82,10 +83,10 @@ void	delete_c(int **pos, int *prompt, int *mainindex, int w)
 		clean(prompt, mainindex, pos[0]);
 		pos[0] = reprint_line(mainindex, str, pos, prompt);
 		j = w == 1 ? j + 1 : j + 2;
-		while (i-- >= j)
-			left_arrow(mainindex, pos[0]);
 		free(g_mainline);
 		g_mainline = ft_strdup(str);
+		while (i-- >= j)
+			left_arrow(mainindex, pos[0]);
 		free(str);
 	}
 }

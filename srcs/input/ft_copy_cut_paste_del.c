@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 19:24:31 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/24 21:06:00 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/04 15:27:01 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	paste_no_insert(char *str, int *mainindex, int **prompt)
 {
 	int		i;
 	int		*coord;
+	char	*tmp;
 
 	i = 0;
 	while (str[i])
@@ -27,36 +28,39 @@ void	paste_no_insert(char *str, int *mainindex, int **prompt)
 		free(coord);
 		i++;
 	}
-	g_mainline = ft_strjoinnf(g_mainline, str);
+	tmp = ft_strdup(g_mainline);
+	free(g_mainline);
+	g_mainline = ft_strjoinnf(tmp, str);
+	free(tmp);
 }
 
 void	paste_insert(int *mainindex, char *str, int **pos, int **prompt)
 {
-	char	*tmp;
-	int		i;
-	int		j;
-	int		k;
+	t_coord	c;
 
-	i = 0;
-	j = 0;
-	k = 0;
-	tmp = malloc(sizeof(char) * (ft_strlenu(g_mainline) + ft_strlenu(str) + 2));
-	while (g_mainline[i])
+	c.i = 0;
+	c.j = 0;
+	c.k = 0;
+	if (!(c.tmp = malloc(sizeof(char) * (ft_strlenu(g_mainline)
+		+ ft_strlenu(str) + 2))))
+		return ;
+	while (g_mainline[c.i])
 	{
-		if (i == *mainindex)
+		if (c.i == *mainindex)
 		{
-			while (str[k])
-				tmp[j++] = str[k++];
+			while (str[c.k])
+				c.tmp[c.j++] = str[c.k++];
 		}
-		tmp[j++] = g_mainline[i++];
+		c.tmp[c.j++] = g_mainline[c.i++];
 	}
-	tmp[j] = '\0';
-	k = *mainindex;
+	c.tmp[c.j] = '\0';
+	c.k = *mainindex;
 	clean(prompt[0], mainindex, pos[0]);
-	pos[0] = ft_print_line(tmp, pos, mainindex, prompt);
-	g_mainline = ft_strdup(tmp);
-	while (j-- > k + ft_strlenu(str))
+	pos[0] = ft_print_line(c.tmp, pos, mainindex, prompt);
+	g_mainline = ft_strdup(c.tmp);
+	while (c.j-- > c.k + ft_strlenu(str))
 		left_arrow(mainindex, NULL);
+	free(c.tmp);
 }
 
 void	paste(char *str, int **prompt, int *mainindex, int **pos)

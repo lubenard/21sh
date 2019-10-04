@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/25 14:07:00 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/02 20:23:43 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ char	*read_quit(int **prompt, int **pos)
 		ft_putstr_fd("exit", 0);
 		reset_shell_attr(0);
 		free(prompt[0]);
-		free(c.buf);
 		free(*pos);
+		free(c.buf);
 		free(g_mainline);
 		return (NULL);
 	}
@@ -101,7 +101,7 @@ int		entry(int r, t_hustru *big_struc, int *coord, int *prompt)
 		ft_putstr_fd("\e[B", 0);
 	ft_putstr_fd("\n\r", 0);
 	g_mainline = get_quotes(g_mainline, big_struc);
-	if (g_mainline[0])
+	if (g_mainline && g_mainline[0])
 		save_command(big_struc, g_mainline, 1);
 	free(coord);
 	free(prompt);

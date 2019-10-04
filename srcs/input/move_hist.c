@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:50:59 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/19 16:52:47 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/04 15:36:18 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,15 @@ void	go_prev(int *mainindex, int **pos, char *tmp)
 	int *coord;
 
 	i = 0;
-	pos[0] = malloc(sizeof(int) * ft_strlenu(tmp));
+	if (!(pos[0] = malloc(sizeof(int) * ft_strlenu(tmp))))
+		return ;
 	while (tmp[i])
 	{
 		coord = get_coord(get_cursor_position());
 		ft_putchar_fd(tmp[i], 0);
 		if (coord[1] == w.ws_col)
 		{
-			if (coord[0] == w.ws_row)
+			if (coord[0] == w.ws_row && tmp[i] != '\n')
 				ft_putstr_fd("\e[S", 0);
 			ft_putstr_fd("\e[E", 0);
 		}
@@ -93,19 +94,15 @@ void	history_next(int **prompt, t_hustru *big_struc,
 	free(tmp);
 }
 
-int		*move_hist(char *buf, int **prompt, t_hustru *big_struc, int *mainindex)
+void	move_hist(t_coord *c, t_hustru *big_struc)
 {
-	int *pos;
-
-	if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65)
-		history_prev(prompt, big_struc, &pos, mainindex);
-	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66)
-		history_next(prompt, big_struc, &pos, mainindex);
-	else
-		pos = malloc(sizeof(int) * 1);
+	if (c->buf[0] == 27 && c->buf[1] == 91 && c->buf[2] == 65)
+		history_prev(&c->prompt, big_struc, &c->pos, &c->mainindex);
+	else if (c->buf[0] == 27 && c->buf[1] == 91 && c->buf[2] == 66)
+		history_next(&c->prompt, big_struc, &c->pos, &c->mainindex);
+	if (c->buf[0] == '\n')
 	{
 		while (big_struc->lkd_hist && big_struc->lkd_hist->next != NULL)
 			big_struc->lkd_hist = big_struc->lkd_hist->next;
 	}
-	return (pos);
 }
