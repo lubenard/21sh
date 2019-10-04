@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   right_redir.c                                      :+:      :+:    :+:   */
+/*   launch_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/02 15:53:26 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/04 17:52:52 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,15 @@ int		extract_first_fd(char **command, int i, char *to_convert)
 	return (fd);
 }
 
+int		prep_redir3(char **command, int *i, int fd)
+{
+	if (ft_occur(command[*i], '>') == 1)
+		make_good_redir(command, i, 0, fd);
+	else if (ft_occur(command[*i], '>') == 2)
+		make_good_redir(command, i, 1, fd);
+	return (0);
+}
+
 int		prep_redir2(char **command, int *i)
 {
 	int fd;
@@ -72,6 +81,7 @@ int		prep_redir2(char **command, int *i)
 		fd = extract_first_fd(command, *i, extract_first(command[*i], '>'));
 	else if (ft_strchr(command[*i], '<'))
 		fd = extract_first_fd(command, *i, extract_first(command[*i], '<'));
+	printf("Mon dernier charactere est %c\n", command[*i][ft_strlen(command[*i]) -1]);
 	if (command[*i][ft_strlen(command[*i]) - 1] == '-')
 	{
 		printf("je ferme mon fd %d\n", fd);
@@ -88,13 +98,7 @@ int		prep_redir2(char **command, int *i)
 		(*i)++;
 	}
 	else
-	{
-		printf("Je rentre ici\n");
-		if (ft_occur(command[*i], '>') == 1)
-			make_good_redir(command, i, 0, fd);
-		else if (ft_occur(command[*i], '>') == 2)
-			make_good_redir(command, i, 1, fd);
-	}
+		prep_redir3(command, i, fd);
 	return (0);
 }
 
@@ -123,54 +127,63 @@ char	*recompact_command(char **tab)
 	return (ret);
 }
 
+void	close_redir(int *fds)
+{
+	close(fds[1]);
+	if (fds[0] != -1)
+		close(fds[0]);
+	if (fds[2] != -1)
+		close(fds[2]);
+}
+
+/*
+** order of fd inside array
+** fds[0] = fd_in;
+** fds[1] = fd;
+** fds[2] = fd2;
+*/
+
+int		loop_redir(char **command, int i, int *fds)
+{
+	while (command[i])
+	{
+		printf("\e[31mJe regarde %s\n\e[0m", command[i]);
+		if (!ft_strcmp(command[i], ">"))
+			fds[1] = make_good_redir(command, &i, 0, 1);
+		else if (!ft_strcmp(command[i], ">>"))
+			fds[0] = make_good_redir(command, &i, 1, 1);
+		else if (!ft_strcmp(command[i], "<"))
+			fds[1] = make_good_redir(command, &i, 2, 0);
+		else if (!ft_strcmp(command[i], "&>"))
+		{
+			fds[2] = open(command[i + 1], O_WRONLY | O_TRUNC);
+			dup2(fds[2], 2);
+			fds[1] = make_good_redir(command, &i, 0, 1);
+		}
+		else if (ft_strchr(command[i], '>') || ft_strchr(command[i], '<'))
+			prep_redir2(command, &i);
+		if (fds[1] == -1)
+			return (1);
+	}
+	return (0);
+}
+
 int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
 {
 	pid_t	pid;
-	int		fd2;
-	int		fd;
-	int		fd_in;
+	int		fds[3];
 
-	fd2 = -1;
-	fd_in = -1;
+	fds[2] = -1;
+	fds[0] = -1;
 	if ((pid = fork()) < 0)
 		return (display_error("ymarsh: error: fork failed\n", NULL));
 	if (!pid)
 	{
-		while (command[i])
-		{
-			printf("\e[31mJe regarde %s\n\e[0m", command[i]);
-			if (!ft_strcmp(command[i], ">"))
-				fd = make_good_redir(command, &i, 0, 1);
-			else if (!ft_strcmp(command[i], ">>"))
-				fd_in = make_good_redir(command, &i, 1, 1);
-			else if (!ft_strcmp(command[i], "<"))
-				fd = make_good_redir(command, &i, 2, 0);
-			else if (!ft_strcmp(command[i], "&>"))
-			{
-				printf("je rentre dans &>\n");
-				printf("J'ouvre %s\n", command[i + 1]);
-				fd2 = open(command[i + 1], O_WRONLY | O_TRUNC);
-				dup2(fd2, 2);
-				fd = make_good_redir(command, &i, 0, 1);
-			}
-			else if (ft_strchr(command[i], '>') || ft_strchr(command[i], '<'))
-				prep_redir2(command, &i);
-			if (fd == -1)
-				return (1);
-		}
-		dprintf(2, "j'execute %s\n", tab[0]);
-		int m = 0; //Used for debug only
-		while (tab[m])
-			dprintf(2, "Tab = %s\n", tab[m++]);
+		if (loop_redir(command, i, fds) == 1)
+			return (1);
 		big_struc->line = recompact_command(tab);
 		decide_commande(big_struc, tab, exec_without_fork);
-		printf("Je ferme %d\n", fd);
-		close(fd);
-		if (fd_in != -1)
-			close(fd_in);
-		if (fd2 != -1)
-			close(fd2);
-		exit(0);
+		close_redir(fds);
 	}
 	wait(&pid);
 	free(tab);
@@ -190,10 +203,7 @@ char	**create_command(char **command, int i)
 		(count_elem_redir(command, i) + 1))))
 		return (0);
 	while (e != i)
-	{
-		printf("[Premiere boucle] Je rajoute %s\n", command[e]);
 		tab[e++] = command[j++];
-	}
 	j += 2;
 	while (command[j])
 	{
@@ -201,10 +211,7 @@ char	**create_command(char **command, int i)
 		&& !ft_strchr(command[j - 1], '>')
 		&& !ft_strchr(command[j], '<')
 		&& !ft_strchr(command[j - 1], '<'))
-		{
-			printf("[Seconde boucle] Je rajoute %s\n", command[j]);
 			tab[e++] = command[j];
-		}
 		j++;
 	}
 	tab[e] = NULL;
