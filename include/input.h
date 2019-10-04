@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/24 21:22:38 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/04 15:08:05 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef	struct		s_coord
 	char			*tmpy;
 	char			*tmpx;
 	char			*line;
+	char			*tmp;
 	int				mainindex;
 }					t_coord;
 
@@ -65,16 +66,18 @@ char				*g_mainline;
 ** Line edition
 */
 
+int					*tab_malloc(int *pos, int i);
+void				move_hist(t_coord *c, t_hustru *big_struc);
 int					i_is(int *prompt, int *coord);
 void				clean_for_quotes(int *mainindex, int *prompt, int *pos);
 char				*suppr_lastchar(char *line);
 char				*do_i_have_to_do_it_quote(char *line, int *i,
-	t_hustru *big_struc, char **tmp);
+					t_hustru *big_struc, char **tmp);
 char				*get_inline(char *line, t_hustru *big_struc);
 int					init(int *mainindex, int **prompt, t_coord *c);
 char				*read_quit();
 int					entry(int r, t_hustru *big_struc, int *coord, int *prompt);
-int					heredoc(char **tab_line, t_hustru *big_struc);
+char				*heredoc(char **tab_line, t_hustru *big_struc);
 int					*ft_print_line(char *tmp, int **pos, int *mainindex,
 	int **prompt);
 int					*last_line_col(int *coord, int **prompt, char c);
