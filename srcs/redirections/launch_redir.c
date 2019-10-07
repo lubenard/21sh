@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/17 16:00:39 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/04 17:52:52 by lubenard         ###   ########.fr       */
+/*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
+/*   Updated: 2019/10/07 03:51:51 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,86 +19,141 @@
 ** 3) Execute the command
 */
 
-int		make_good_redir(char **command, int *i, int flag, int fd)
+int		count_args_redir(char **tab, int i);
+
+int		is_command_redir(int **fds, char **command, int  j, int *k)
 {
-	int file;
+	int fd;
 
-	(*i)++;
-	printf("J'ouvre %s\n", command[*i]);
-	if (!flag)
-		file = open(command[*i], O_WRONLY | O_TRUNC);
-	else if (flag == 1)
-		file = open(command[*i], O_WRONLY | O_APPEND);
-	else
-		file = open(command[*i], O_RDONLY);
-	printf("dup2(%d, %d)\n", file, fd);
-	if (file < 0 || fd < 0)
+	if (access(command[j], F_OK) == -1)
 	{
-		display_error("ymarsh: file not found: ", command[*i]);
-		return (-1);
+		if ((fd = open(command[j], O_CREAT, 0644) < 0))
+			return (display_error("ymarsh: error while creating file ",
+					command[j]));
 	}
-	else
-		dup2(file, fd);
-	while (command[*i] && !ft_strchr(command[*i], '>')
-	&& !ft_strchr(command[*i], '<'))
+	if ((ft_strchr(command[j - 1], '>') || ft_strchr(command[j - 1], '<'))
+	&& !ft_strchr(command[j - 1], '&'))
 	{
-		printf("je passe %s\n", command[*i]);
-		(*i)++;
+		printf("[Fill fds tab] Je rajoute %s\n", command[j]);
+		if (ft_occur(command[j - 1], '>') == 1)
+			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_TRUNC);
+		else if (ft_occur(command[j - 1], '>') == 2)
+			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_APPEND);
 	}
-	return (file);
-}
-
-int		extract_first_fd(char **command, int i, char *to_convert)
-{
-	int		fd;
-
-	if (ft_isdigit(command[i][0]))
+	else if (ft_strchr(command[j - 1], '>') && ft_strchr(command[j - 1], '<'))
 	{
-		fd = ft_atoi(to_convert);
-		free(to_convert);
-		printf("J'extrais %d\n", fd);
+		if (ft_occur(command[j - 1], '>') == 1)
+			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_TRUNC);
+		else if (ft_occur(command[j - 1], '>') == 2)
+			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_APPEND);
 	}
-	else
-		fd = 1;
-	return (fd);
-}
-
-int		prep_redir3(char **command, int *i, int fd)
-{
-	if (ft_occur(command[*i], '>') == 1)
-		make_good_redir(command, i, 0, fd);
-	else if (ft_occur(command[*i], '>') == 2)
-		make_good_redir(command, i, 1, fd);
 	return (0);
 }
 
-int		prep_redir2(char **command, int *i)
+int		is_command(char ***exec_command, char **command, int  j, int *i)
 {
-	int fd;
-	int fd2;
-
-	if (ft_strchr(command[*i], '>'))
-		fd = extract_first_fd(command, *i, extract_first(command[*i], '>'));
-	else if (ft_strchr(command[*i], '<'))
-		fd = extract_first_fd(command, *i, extract_first(command[*i], '<'));
-	printf("Mon dernier charactere est %c\n", command[*i][ft_strlen(command[*i]) -1]);
-	if (command[*i][ft_strlen(command[*i]) - 1] == '-')
+	if (j > 0)
 	{
-		printf("je ferme mon fd %d\n", fd);
-		if (close(fd) == -1)
-			return (display_error("ymarsh: Error while closing file\n", NULL));
-		(*i)++;
-	}
-	else if (ft_isdigit(command[*i][ft_strlen(command[*i]) - 1])
-	&& command[*i][ft_strlen(command[*i]) - 2] == '&')
-	{
-		fd2 = extract_first_fd(command, *i, extract_last(command[*i], '&'));
-		printf("je dup2(%d, %d)\n", fd2, fd);
-		dup2(fd2, fd);
-		(*i)++;
+		if ((ft_strchr(command[j - 1], '>') || ft_strchr(command[j - 1], '<'))
+		&& ft_strchr(command[j - 1], '&'))
+		{
+			printf("[Adding to command] Je rajoute %s\n", command[j]);
+			(*exec_command)[(*i)++] = command[j];
+			return (1);
+		}
+		else if (!ft_strchr(command[j - 1], '>')
+		&& !ft_strchr(command[j - 1], '<'))
+		{
+			printf("[Count args redir] Je rajoute %s\n", command[j]);
+			(*exec_command)[(*i)++] = command[j];
+			return (1);
+		}
 	}
 	else
-		prep_redir3(command, i, fd);
+	{
+		printf("[Adding to command] Je rajoute %s\n", command[j]);
+		(*exec_command)[(*i)++] = command[j];
+		return (1);
+	}
+	return (0);
+}
+
+int		fill_arrays(char **command, int **fds, char ***exec_command)
+{
+	int i;
+	int j;
+	int k;
+
+	j = 0;
+	i = 0;
+	k = 0;
+	while (command[j])
+	{
+		printf("[filling] Je regarde %s\n", command[j]);
+		if (!ft_strchr(command[j], '>') && !ft_strchr(command[j], '<'))
+		{
+			if (!is_command(exec_command, command, j, &i))
+				is_command_redir(fds, command, j, &k);
+		}
+		j++;
+	}
+	*exec_command[j] = NULL;
+	return (0);
+}
+
+int		init_arrays(char **command, int **fds, char ***exec_command, int *fds_size)
+{
+	int i;
+	int fd;
+
+	i = 0;
+	fd = 0;
+	while (command[i] && !ft_strchr(command[i], '>')
+		&& !ft_strchr(command[i], '<'))
+		i++;
+	if (!(*exec_command = (char **)malloc(sizeof(char *) *
+		(count_args_redir(command, i) + 1))))
+		return (0);
+	if (!(*fds = (int *)malloc(sizeof(int) *
+		(*fds_size = count_elem_redir(command, i)))))
+		return (0);
+	fill_arrays(command, fds, exec_command);
+	return (0);
+}
+
+void	fd_redir(char **command, int *i)
+{
+	(void)command;
+	(void)i;
+}
+
+
+void	file_redir(char **command,int *i, int *fds)
+{
+	(void)command;
+	(void)i;
+	(void)fds;
+}
+
+int		redirect_fds(char **command, int *fds)
+{
+	int i;
+	int fds_index;
+
+	i = 0;
+	while (command[i] && !ft_strchr(command[i], '>')
+		&& !ft_strchr(command[i], '<'))
+		i++;
+	while (command[i])
+	{
+		printf("\e[31mJe regarde %s\n\e[0m", command[i]);
+		if ((ft_strchr(command[i], '>') || ft_strchr(command[i], '<'))
+		&& ft_strchr(command[i], '&'))
+			fd_redir(command, &i);
+		else if (ft_strchr(command[i], '>') || ft_strchr(command[i], '<'))
+			file_redir(command, &i, fds);
+		i++;
+	}
 	return (0);
 }
 
@@ -127,156 +182,37 @@ char	*recompact_command(char **tab)
 	return (ret);
 }
 
-void	close_redir(int *fds)
+int		launch_arrow(t_hustru *big_struc, char **command)
 {
-	close(fds[1]);
-	if (fds[0] != -1)
-		close(fds[0]);
-	if (fds[2] != -1)
-		close(fds[2]);
-}
-
-/*
-** order of fd inside array
-** fds[0] = fd_in;
-** fds[1] = fd;
-** fds[2] = fd2;
-*/
-
-int		loop_redir(char **command, int i, int *fds)
-{
-	while (command[i])
-	{
-		printf("\e[31mJe regarde %s\n\e[0m", command[i]);
-		if (!ft_strcmp(command[i], ">"))
-			fds[1] = make_good_redir(command, &i, 0, 1);
-		else if (!ft_strcmp(command[i], ">>"))
-			fds[0] = make_good_redir(command, &i, 1, 1);
-		else if (!ft_strcmp(command[i], "<"))
-			fds[1] = make_good_redir(command, &i, 2, 0);
-		else if (!ft_strcmp(command[i], "&>"))
-		{
-			fds[2] = open(command[i + 1], O_WRONLY | O_TRUNC);
-			dup2(fds[2], 2);
-			fds[1] = make_good_redir(command, &i, 0, 1);
-		}
-		else if (ft_strchr(command[i], '>') || ft_strchr(command[i], '<'))
-			prep_redir2(command, &i);
-		if (fds[1] == -1)
-			return (1);
-	}
-	return (0);
-}
-
-int		prep_redir(t_hustru *big_struc, char **command, char **tab, int i)
-{
+	int		*fds;
+	char	**exec_command;
+	int		fds_size;
 	pid_t	pid;
-	int		fds[3];
 
-	fds[2] = -1;
-	fds[0] = -1;
+
+	(void)big_struc;
+	if (init_arrays(command, &fds, &exec_command, &fds_size) == -1)
+		return (display_error("ymarsh: error in init in redirections\n", NULL));
+
+	int m = 0;
+	while (exec_command[m])
+		printf("Command = %s\n", exec_command[m++]);
+	m = 0;
+	while (m != fds_size)
+		printf("fds = %d\n", fds[m++]);
+	
 	if ((pid = fork()) < 0)
 		return (display_error("ymarsh: error: fork failed\n", NULL));
 	if (!pid)
 	{
-		if (loop_redir(command, i, fds) == 1)
+		if (redirect_fds(command, fds) == 1)
 			return (1);
-		big_struc->line = recompact_command(tab);
-		decide_commande(big_struc, tab, exec_without_fork);
-		close_redir(fds);
+		big_struc->line = recompact_command(exec_command);
+		decide_commande(big_struc, exec_command, exec_without_fork);
+		close_pipe(fds, fds_size);
 	}
 	wait(&pid);
-	free(tab);
+	free(exec_command);
 	ft_deltab(command);
 	return (0);
-}
-
-char	**create_command(char **command, int i)
-{
-	char	**tab;
-	int		e;
-	int		j;
-
-	e = 0;
-	j = 0;
-	if (!(tab = (char **)malloc(sizeof(char *) *
-		(count_elem_redir(command, i) + 1))))
-		return (0);
-	while (e != i)
-		tab[e++] = command[j++];
-	j += 2;
-	while (command[j])
-	{
-		if (!ft_strchr(command[j], '>')
-		&& !ft_strchr(command[j - 1], '>')
-		&& !ft_strchr(command[j], '<')
-		&& !ft_strchr(command[j - 1], '<'))
-			tab[e++] = command[j];
-		j++;
-	}
-	tab[e] = NULL;
-	return (tab);
-}
-
-int		create_file(char **filenames, int i)
-{
-	int file;
-
-	while (filenames[i])
-	{
-		if (access(filenames[i], F_OK) == -1 && !ft_strchr(filenames[i], '>')
-			&& ft_strchr(filenames[i - 1], '>'))
-		{
-			printf("Je cree %s\n", filenames[i]);
-			if ((file = open(filenames[i], O_CREAT, 0666) < 0))
-				return (display_error("ymarsh: error while creating file ",
-					filenames[i]));
-				close(file);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int		check_redir(char **command)
-{
-	int		i;
-	int		last_char;
-
-	i = 0;
-	while (command[i])
-	{
-		last_char = ft_strlen(command[i]) - 1;
-		if (ft_occur(command[i], '>') >= 3)
-			return (print_error_redirect(">"));
-		else if (!command[i + 1] && command[i][last_char] == '>')
-			return (print_error_redirect("\\n"));
-		else if (command[i][last_char] == '>'
-			&& command[i + 1][0] == '>')
-			return (print_error_redirect(command[i + 1]));
-		else if (ft_isdigit(command[i][0]) && (ft_occur(command[i], '>') > 1
-			|| ft_occur(command[i], '>') == 0)
-			&& ft_isdigit(command[i][ft_strlen(command[i]) - 1]))
-			return (print_error_redirect("&"));
-		i++;
-	}
-	return (0);
-}
-
-int		launch_arrow(t_hustru *big_struc, char **command)
-{
-	int		i;
-	char	**tab;
-
-	i = 0;
-	if (check_redir(command))
-		return (1);
-	while (command[i] && !ft_strchr(command[i], '>')
-		&& !ft_strchr(command[i], '<'))
-		i++;
-	if (create_file(command, i) > 0)
-		return (1);
-	if (!(tab = create_command(command, i)))
-		return (1);
-	return (prep_redir(big_struc, command, tab, i));
 }
