@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/07 22:41:21 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/08 00:57:31 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,6 @@ int		file_redir(char **command, int *i, int *fds, int *fds_index)
 		fd2 = dup(fds[(*fds_index)]);
 		printf("Je redirige %d vers %d\n", 2, fd2);
 		dup2(fd2, 2);
-		return (fd2);
 	}
 	if (ft_strchr(command[*i], '>'))
 		fd = extract_first_fd(command, *i, extract_first(command[*i], '>'));
