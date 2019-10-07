@@ -6,13 +6,13 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 15:10:40 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/07 15:03:07 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/08 01:35:43 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-int		char_numberbis(char *str, char c, char d, char e)
+int		char_numberbis(char *str, char c)
 {
 	int i;
 
@@ -20,16 +20,17 @@ int		char_numberbis(char *str, char c, char d, char e)
 	if (ft_isdigit(str[i]) && str[i + 1] && (str[i + 1] == '>' || str[i + 1] == '<'))
 	{
 		c = str[i + 1];
-		if (str[i + 2] && str[i + 2] == '&')
+		if (str[i + 2] && (str[i + 2] == '<' || str[i + 2] == '>'))
+		{
+			while (str[++i] == '>' || str[i] == '<')
+				i++;
+			return (i);
+		}
+		else if (str[i + 2] && str[i + 2] == '&')
 			c = ' ';
 		while (str[i] && str[i] != c)
 			i++;
 		i++;
-	}
-	else
-	{
-		while (str[i] && str[i] != c && str[i] != d && str[i] != e)
-			i++;
 	}
 	return (i);
 }
@@ -54,7 +55,7 @@ int		char_number(char *str, char c, char d, char e)
 		return (i);
 	}
 	else if (str[i] && str[i] != c && str[i] != d && str[i] != e)
-		return (char_numberbis(str, c, d, e));
+		return (char_numberbis(str, c));
 	return (i);
 }
 

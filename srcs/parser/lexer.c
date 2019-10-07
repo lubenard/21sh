@@ -1,11 +1,22 @@
-#include "../yaellem/libft/libft.h"
-#include "../yaellem/include/input.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/08 01:36:05 by lubenard          #+#    #+#             */
+/*   Updated: 2019/10/08 01:37:04 by lubenard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <input.h>
 
 char	**malloc_if(t_coord *c, char **q_tab, char *line, char a)
 {
 	if (c->i > 0 && line[c->i - 1] != a)
 	{
-		q_tab[c->x][c->y] =  '\0';
+		q_tab[c->x][c->y] = '\0';
 		c->x += 1;
 		q_tab[c->x] = malloc(sizeof(char) * (ft_strlen(line) + 2));
 		return (q_tab);

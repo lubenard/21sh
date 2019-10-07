@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/07 14:10:19 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/08 01:22:29 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void	handle_echo_options(char option);
 /*
 ** Redirections utils
 */
+char	*heredoc(t_hustru *big_struc, char **tab_line);
 int		extract_first_fd(char **command, int i, char *to_convert);
 char	**parse_redir(char *str);
 char	**create_command(char **command, int i);

@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 10:59:34 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/04 20:33:43 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/08 01:22:58 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int		init_h(t_coord *c, char ***arg_tab, char **tab_line)
 	return (0);
 }
 
-char	*heredoc(char **tab_line, t_hustru *big_struc)
+char	*heredoc(t_hustru *big_struc, char **tab_line)
 {
 	t_coord	c;
 	char	**arg_tab;
@@ -101,7 +101,7 @@ char	*heredoc(char **tab_line, t_hustru *big_struc)
 	tab_line[7] = NULL;
 	if (init_h(&c, &arg_tab, tab_line) == -1 || tab_line == NULL)
 		return (c.tmp);
-	c.pos = NULL;	
+	c.pos = NULL;
 	while (42)
 	{
 		if ((c.buf = read_quit(&c.prompt, &c.pos)) == NULL)

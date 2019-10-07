@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/04 15:08:05 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/08 01:22:01 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char				*get_inline(char *line, t_hustru *big_struc);
 int					init(int *mainindex, int **prompt, t_coord *c);
 char				*read_quit();
 int					entry(int r, t_hustru *big_struc, int *coord, int *prompt);
-char				*heredoc(char **tab_line, t_hustru *big_struc);
+char				*heredoc(t_hustru *big_struc, char **tab_line);
 int					*ft_print_line(char *tmp, int **pos, int *mainindex,
 	int **prompt);
 int					*last_line_col(int *coord, int **prompt, char c);
