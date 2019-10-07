@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/02 13:48:54 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/06 23:10:07 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ void	handle_signals_proc(int sig);
 */
 void	save_command(t_hustru *big_struc, char *command, int save);
 char	*get_quotes(char *line, t_hustru *big_struc);
-int		*move_hist(char *buf, int **prompt, t_hustru *big_struc,
-		int *mainindex);
 /*
 ** Execution of command
 */
