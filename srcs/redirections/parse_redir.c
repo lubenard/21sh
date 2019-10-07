@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 15:10:40 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/07 01:50:49 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/07 15:03:07 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ char	**parse_redir(char *str)
 				return (NULL);
 			printf("j'ai aloué de %d\n", mark);
 			mark += i;
-			printf("|%c|\n", str[mark]);
 			if (str[mark - 1] == ' ')
 				ft_strnncpy(tmp[x], str, i, mark - 1);
 			else
