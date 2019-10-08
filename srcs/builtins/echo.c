@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/02 17:54:53 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/08 18:38:07 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,15 @@ char	*handle_dollar(t_hustru *big_struc, char *command)
 	int		e;
 	int		i;
 
-	i = 1;
-	e = 1;
+	i = ft_strchri(command, '$');
+	e = 0;
 	if (command[1])
 	{
 		if (command[i + 1] == '?')
 			return (ft_itoa(big_struc->last_ret));
-		while (command[e] && ft_isalnum(command[e]))
+		while (command[i + e] && ft_isalnum(command[i + e]))
 			e++;
+		printf("[handle dollar]J'ai extrais %s\n",ft_strsub(command, i, e));
 		return (find_in_env(big_struc->lkd_env, ft_strsub(command, i, e)));
 	}
 	return (NULL);

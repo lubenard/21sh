@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/08 15:39:08 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/08 17:24:12 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,18 @@ char	**parse_line(t_hustru *big_struc, char **command)
 	i = 0;
 	while (command[i])
 	{
-		if (command[i][0] == '$')
-			swap_elem(&command[i],
-			handle_dollar(big_struc, command[i]));
-		if (command[i] && command[i][0] == '~')
-			swap_elem(&command[i],
-			handle_tilde(big_struc, command[i]));
-		if (command[i] == NULL)
-			command[i] = ft_strdup("");
+		if (command[i][0] != '\''
+		&& command[i][ft_strlen(command[i]) - 1] != '\'')
+		{
+			if (ft_strchr(command[i],'$'))
+				swap_elem(&command[i],
+				handle_dollar(big_struc, command[i]));
+			if (command[i] && ft_strchr(command[i], '~'))
+				swap_elem(&command[i],
+				handle_tilde(big_struc, command[i]));
+			if (command[i] == NULL)
+				command[i] = ft_strdup("");
+		}
 		i++;
 	}
 	return (command);
@@ -109,15 +113,19 @@ int		decide_commande(t_hustru *big_struc, char **command, int (*fun)(t_hustru *,
 int		parser(t_hustru *big_struc, char *command)
 {
 //	char	**semicolon;
-//	char	**split_space;
+	char	**split_space;
 	char	**quoted_command;
-//	int		e;
+	int		e;
 //	int		i;
 
 //	i = 0;
 	if (!command)
 		return ((big_struc->last_ret = 1));
 	quoted_command = parse_quote(command);
+	split_space = parse_line(big_struc, quoted_command);
+	e = 0; // This variable is only for debug
+		while (split_space[e])
+			printf("\e[33mDecoupe en espace, cela donne |%s|\e[0m\n", split_space[e++]);
 	/*semicolon = ft_strsplit(command, ';');
 	while (semicolon[i])
 	{

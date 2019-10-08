@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:13:06 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/04 15:43:51 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/08 17:20:37 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int		*reprint_line(int *mainindex, char *str, int **pos, int *prompt)
 
 	i = 0;
 	free(pos[0]);
-	if (!(pos[0] = malloc(sizeof(int) * (ft_strlen(str))
-		|| (coord = malloc(sizeof(int) * 2)))))
+	if (!(pos[0] = malloc(sizeof(int) * (ft_strlen(str))))
+		|| !(coord = malloc(sizeof(int) * 2)))
 		return (NULL);
 	coord[0] = prompt[0];
 	coord[1] = prompt[1] - 1;
