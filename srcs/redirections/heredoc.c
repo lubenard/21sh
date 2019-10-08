@@ -6,11 +6,29 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 10:59:34 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/08 15:51:05 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/08 18:11:52 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
+
+void	free_fornorme(int i, char **tmp, int *coord, char *buf)
+{
+	char	*tmp2;
+
+	if (i == 0)
+	{
+		free(buf);
+		free(coord);
+	}
+	else if (i == 1)
+	{
+		tmp2 = ft_strjoin(*tmp, g_mainline);
+		free(*tmp);
+		*tmp = ft_strjoin(tmp2, "\n");
+		free(tmp2);
+	}
+}
 
 char	**fill_arg_tab(char **tab_line, char **arg_tab, int *j)
 {
@@ -39,14 +57,10 @@ char	**fill_arg_tab(char **tab_line, char **arg_tab, int *j)
 	return (arg_tab);
 }
 
+
 int			entry_h(t_coord *c, char **arg_tab)
 {
-	char	*tmp2;
-	
-	tmp2 = ft_strjoin(c->tmp, g_mainline);
-	free(c->tmp);
-	c->tmp = ft_strjoin(tmp2, "\n");
-	free(tmp2);
+	free_fornorme(1, &c->tmp, NULL, NULL);
 	c->mainindex = 0;
 	ft_putstr_fd("\n", 0);
 	if (ft_strcmp(g_mainline, arg_tab[c->i]) == 0)
@@ -62,7 +76,10 @@ int			entry_h(t_coord *c, char **arg_tab)
 	free(g_mainline);
 	if (c->i == c->j)
 	{
+		free(c->coord);
+		free(c->prompt);
 		free(c->pos);
+		free(c->buf);
 		return (0);
 	}
 	else
@@ -83,6 +100,23 @@ int		init_h(t_coord *c, char ***arg_tab, char **tab_line)
 	ft_putstr_fd("heredoc> ", 2);
 	return (0);
 }
+
+int	hist_entry(t_coord *c, t_hustru *big_struc, char **arg_tab)
+{
+	move_hist(c, big_struc);
+	if (c->buf[0] == '\n')
+	{
+		if (entry_h(c, arg_tab) == 0)
+		{
+			ft_deltab(arg_tab);
+			return (0);
+		}
+		g_mainline = ft_strnew(1);
+	}
+	return (1);
+}
+
+
 
 char	*heredoc(t_hustru *big_struc, char **tab_line)
 {
@@ -105,20 +139,20 @@ char	*heredoc(t_hustru *big_struc, char **tab_line)
 	while (42)
 	{
 		if ((c.buf = read_quit(&c.prompt, &c.pos)) == NULL)
+		{
+			ft_deltab(arg_tab);
 			return (c.tmp);
+		}
 		c.coord = get_coord(get_cursor_position());
 		if (control_c(c.buf, c.prompt, c.coord, c.r) == 0)
+		{
+			ft_deltab(arg_tab);
 			return (c.tmp);
+		}
 		c.prompt[0] = c.coord[0] == 1 ? 1 : c.prompt[0];
 		c.r = main_core(c.buf, &c.prompt, &c.pos, &c.mainindex);
-		move_hist(&c, big_struc);
-		if (c.buf[0] == '\n') //&& ft_strcmp(g_mainline, arg_tab[c.i]) == 0)
-		{
-			if (entry_h(&c, arg_tab) == 0)
-				return (c.tmp);
-			g_mainline = ft_strnew(1);
-		}
-		free(c.buf);
-		free(c.coord);
+		if (hist_entry(&c, big_struc, arg_tab) == 0)
+			return (c.tmp);
+		free_fornorme(0, NULL, c.coord, c.buf);
 	}
 }
