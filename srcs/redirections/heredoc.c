@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 10:59:34 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/08 01:22:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/08 15:51:05 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,12 @@ char	*heredoc(t_hustru *big_struc, char **tab_line)
 	tab_line = malloc(sizeof(char*) * 9);
 	tab_line[0] = ft_strdup("coucou");
 	tab_line[1] = ft_strdup("<<");
-	tab_line[2] = ft_strdup("aloeveraaa");
+	tab_line[2] = ft_strdup("1");
 	tab_line[3] = ft_strdup("<<");
 
-	tab_line[4] = ft_strdup("okibaby");
+	tab_line[4] = ft_strdup("2");
 	tab_line[5] = ft_strdup("<<");
-	tab_line[6] = ft_strdup("suce");
+	tab_line[6] = ft_strdup("3");
 	tab_line[7] = NULL;
 	if (init_h(&c, &arg_tab, tab_line) == -1 || tab_line == NULL)
 		return (c.tmp);

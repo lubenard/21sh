@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/10/08 01:37:52 by lubenard         ###   ########.fr        #
+#    Updated: 2019/10/08 15:13:01 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRC = srcs/main.c \
 	  srcs/display/display.c \
 	  srcs/utils/find_lkd_lst.c \
 	  srcs/parser/parser.c \
+	  srcs/parser/lexer.c \
 	  srcs/exec/execute_command.c \
 	  srcs/exec/find_path.c \
 	  srcs/input/line_edition.c \
@@ -60,7 +61,7 @@ SRC = srcs/main.c \
 	  srcs/input/tools_bis.c \
 	  srcs/input/ft_read_char.c
 
-#	  srcs/parser/lexer.c \ << error while compiling, ask yaelle
+
 
 
 INCLUDE_SRC = ./include/

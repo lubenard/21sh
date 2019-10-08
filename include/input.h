@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/08 01:22:01 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/08 14:22:38 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ typedef	struct		s_coord
 	int				k;
 	int				r;
 	int				t;
+	int				x;
+	int				y;
+	int				c;
 	int				cmax;
 	int				*prompt;
 	int				*pos;

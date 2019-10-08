@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/01 16:32:49 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/08 15:39:08 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,15 +108,17 @@ int		decide_commande(t_hustru *big_struc, char **command, int (*fun)(t_hustru *,
 
 int		parser(t_hustru *big_struc, char *command)
 {
-	char	**semicolon;
-	int		i;
-	char	**split_space;
-	int		e;
+//	char	**semicolon;
+//	char	**split_space;
+	char	**quoted_command;
+//	int		e;
+//	int		i;
 
-	i = 0;
+//	i = 0;
 	if (!command)
 		return ((big_struc->last_ret = 1));
-	semicolon = ft_strsplit(command, ';');
+	quoted_command = parse_quote(command);
+	/*semicolon = ft_strsplit(command, ';');
 	while (semicolon[i])
 	{
 		printf("\e[32mJ'execute cette ligne |%s|\e[0m\n", semicolon[i]);
@@ -129,5 +131,7 @@ int		parser(t_hustru *big_struc, char *command)
 		ft_deltab(split_space);
 	}
 	ft_deltab(semicolon);
+	*/
+	ft_deltab(quoted_command);
 	return (0);
 }

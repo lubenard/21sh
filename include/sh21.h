@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/08 01:22:29 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/08 15:11:51 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int		handle_pipe(t_hustru *big_struc, char *command);
 ** Parser
 */
 int		parser(t_hustru *big_struc, char *command);
+char	**parse_quote(char *line);
 /*
 ** Handle Signal
 */
