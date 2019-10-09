@@ -6,7 +6,11 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:13:06 by ymarcill          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2019/10/09 18:03:19 by ymarcill         ###   ########.fr       */
+=======
 /*   Updated: 2019/10/08 17:20:37 by lubenard         ###   ########.fr       */
+>>>>>>> 265c4ee8b44cb3de51abd4869becfed1a66597e2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +19,11 @@
 int		if_last_co(char c)
 {
 	if (c != '\n')
-		ft_putstr_fd("\e[E", 0);
+	{
+		ft_putstr_fd("a\b", 0);
+		ft_putchar_fd(127, 0);
+		ft_putchar_fd('\b', 0);
+	}
 	return (0);
 }
 
@@ -24,8 +32,6 @@ char	*del_char(int *w, int mainindex, int *i, int *j)
 	char	*str;
 
 	str = ft_strnew(ft_strlenu(g_mainline));
-	if (*w == -1 && mainindex - *w == ft_strlenu(g_mainline))
-		*w = 0;
 	while (g_mainline[*i] != '\0')
 	{
 		if (*i != mainindex - *w)
@@ -76,7 +82,7 @@ void	delete_c(int **pos, int *prompt, int *mainindex, int w)
 	i = 0;
 	j = 0;
 	str = NULL;
-	if (*mainindex != 0 || (*mainindex == 0 && w == -1))
+	if (*mainindex != 0 || (*mainindex == 0 && w == 0))
 	{
 		str = del_char(&w, *mainindex, &i, &j);
 		j = *mainindex;

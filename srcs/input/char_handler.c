@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 19:14:38 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/04 15:11:36 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/09 17:51:51 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,10 @@ void		add_char(int *mainindex, char *buf, int **prompt)
 	if (coord[1] == w.ws_col)
 	{
 		if (coord[0] == w.ws_row)
-		{
-			ft_putstr_fd("\e[S", 0);
 			prompt[0][0] -= 1;
-		}
-		ft_putstr_fd("\e[E", 0);
+		ft_putstr_fd("a\b", 0);
+		ft_putchar_fd(127, 0);
+		ft_putchar_fd('\b', 0);
 	}
 	free(coord);
 }
@@ -107,8 +106,6 @@ int			*insert_char(int *mainindex, char *buf, int **prompt, int **pos)
 	j = *mainindex;
 	clean(prompt[0], mainindex, pos[0]);
 	pos[0] = tab_malloc(pos[0], ft_strlenu(str));
-/*	free(pos[0]);
-	pos[0] = ft_strlenu(str) ? malloc(sizeof(int) * ft_strlenu(str)) : NULL;*/
 	i = print_newline(prompt, str, mainindex, pos);
 	while (i-- > j + 1)
 		left_arrow(mainindex, pos[0]);

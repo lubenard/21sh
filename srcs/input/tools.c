@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 19:14:13 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/04 15:43:21 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/09 17:51:47 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,15 @@ int		*last_line_col(int *coord, int **prompt, char c)
 		coord[1] = 0;
 		if (coord[0] == w.ws_row)
 		{
-			ft_putstr_fd("\e[S", 0);
 			prompt[0][0] -= 1;
 			coord[0]++;
 		}
-		c != '\n' ? ft_putstr_fd("\e[E", 0) : 0;
+		if (c != '\n')
+		{
+			ft_putstr_fd("a\b", 0);
+			ft_putchar_fd(127, 0);
+			ft_putchar_fd('\b', 0);
+		}
 	}
 	return (coord);
 }

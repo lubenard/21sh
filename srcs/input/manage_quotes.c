@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:08:51 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/04 16:27:11 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/09 16:53:31 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ char	*read_quit_q(int **prompt, int **pos)
 	return (c.buf);
 }
 
-
 char	*entry_q(int r, int *coord, int *prompt, char *line)
 {
-	int 	t;
+	int		t;
 	char	*tmp;
 
 	t = r;

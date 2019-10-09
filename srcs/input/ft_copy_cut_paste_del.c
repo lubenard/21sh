@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 19:24:31 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/04 15:27:01 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/09 18:02:46 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,5 @@ void	ft_copy_paste(char *buf, int **prompt, int *mainindex, int **pos)
 		delete_c(pos, prompt[0], mainindex, 1);
 	else if (buf[0] == 4 || (buf[0] == 27 && buf[1] == 91 && buf[2] == '3'
 		&& buf[3] == '~'))
-		delete_c(pos, prompt[0], mainindex, -1);
+		delete_c(pos, prompt[0], mainindex, 0);
 }
