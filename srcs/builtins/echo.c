@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/08 18:38:07 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/09 16:45:35 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@ char	*handle_dollar(t_hustru *big_struc, char *command)
 
 	i = ft_strchri(command, '$');
 	e = 0;
-	if (command[1])
+	if (command[i])
 	{
 		if (command[i + 1] == '?')
 			return (ft_itoa(big_struc->last_ret));
 		while (command[i + e] && ft_isalnum(command[i + e]))
 			e++;
-		printf("[handle dollar]J'ai extrais %s\n",ft_strsub(command, i, e));
 		return (find_in_env(big_struc->lkd_env, ft_strsub(command, i, e)));
 	}
 	return (NULL);
@@ -58,20 +57,25 @@ char	*handle_tilde(t_hustru *big_struc, char *command)
 	char	*tmp;
 	char	buff[4096];
 	char	user_name[4096];
+	int		i;
 
 	ft_bzero(buff, 4096);
 	ft_bzero(user_name, 4096);
-	if (command[1] && (ft_isalpha(command[1]) || command[1] == '/'))
+	i = ft_strchri(command, '~');
+	if (command[i + 1] && (ft_isalpha(command[i + 1]) || command[i + 1] == '/'))
 	{
 		str = find_in_env(big_struc->lkd_env, ft_strdup("HOME"));
-		if (command[1] == '/')
+		if (command[i + 1] == '/')
 		{
-			ft_stricpy(buff, command, 1);
+			ft_stricpy(buff, command, i + 1);
 			tmp = ft_strjoin(str, buff);
 			free(str);
 			return (tmp);
 		}
-		ft_stricpy(user_name, command, 1);
+		if (i != 1)
+			ft_strnncpy(user_name, command, i, ft_strlen(command) - 1);
+		else
+			ft_stricpy(user_name, command, i);
 		return (verify_folder(buff, user_name, str));
 	}
 	else

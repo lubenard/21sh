@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/08 15:11:51 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/09 20:12:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,6 @@ char	*get_quotes(char *line, t_hustru *big_struc);
 int		exec_command_gen(t_hustru *big_struc, char **argv);
 int		exec_without_fork(t_hustru *big_struc, char **argv);
 /*
-**
-*/
-char	*autocomplete(t_hustru *big_struc, char *command);
-/*
 ** Other
 */
 char	*extract_first_env(char *command);
@@ -108,17 +104,18 @@ int		basic_command(t_hustru *big_struc, char **command,
 int		decide_commande(t_hustru *big_struc, char **command,
 		int (*fun)(t_hustru *, char **));
 void	handle_echo_options(char option);
+char	**create_command(char **command, int *i);
 /*
 ** Redirections utils
 */
 char	*heredoc(t_hustru *big_struc, char **tab_line);
 int		extract_first_fd(char **command, int i, char *to_convert);
 char	**parse_redir(char *str);
-char	**create_command(char **command, int i);
 int		count_elem_redir(char **tab, int i);
 int		launch_arrow(t_hustru *big_struc, char **command);
 int		print_error_redirect(char *code);
 int		create_file(char **filenames, int i);
+char	*recompact_command(char **command);
 /*
 ** Pipe utils
 */

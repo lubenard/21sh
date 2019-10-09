@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/08 17:24:12 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/09 20:04:11 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,16 @@ void	swap_elem(char **command, char *replace)
 ** in the env or by the correct path.
 */
 
+char	*remove_simple_quote(char *command)
+{
+	char *copy;
+
+	if (!(copy = ft_strnew(ft_strlen(command) - 2)))
+		return (0);
+	ft_strnncpy(copy, command, 1, ft_strlen(command) - 1);
+	return (copy);
+}
+
 char	**parse_line(t_hustru *big_struc, char **command)
 {
 	int		i;
@@ -82,6 +92,8 @@ char	**parse_line(t_hustru *big_struc, char **command)
 			if (command[i] == NULL)
 				command[i] = ft_strdup("");
 		}
+		else
+			swap_elem(&command[i], remove_simple_quote(command[i]));
 		i++;
 	}
 	return (command);
@@ -105,41 +117,83 @@ int		decide_commande(t_hustru *big_struc, char **command, int (*fun)(t_hustru *,
 	return (0);
 }
 
+int		check_command(char **command)
+{
+	int i;
+
+	i = 0;
+	while (command[i])
+	{
+		if (((command[i][0] != '\''
+		&& command[i][ft_strlen(command[i]) - 1] != '\'')
+		|| (command[i][0] != '\"'
+		&& command[i][ft_strlen(command[i]) - 1] != '\"'))
+		&& ft_occur(command[i], ';') >= 2)
+		{
+			ft_putendl_fd("ymarsh: syntax error near unexpected token `;;'", 2);
+			ft_deltab(command);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
+char	**create_command(char **command, int *i)
+{
+	char	**ret;
+	int		e;
+
+	e = 0;
+	while (command[*i] && ft_strcmp(command[*i], ";"))
+		(*i)++;
+	if (!(ret = malloc(sizeof(char *) * (*i + 1))))
+		return (NULL);
+	while (e != *i)
+	{
+		ret[e] = command[e];
+		e++;
+	}
+	ret[e] = NULL;
+	if (command[*i])
+		(*i)++;
+	return (ret);
+}
+
 /*
 ** Main parser function
-** Will split by semicolon then by space to launch correct command.
+** Will parse by quote then by space to launch correct command.
 */
 
 int		parser(t_hustru *big_struc, char *command)
 {
-//	char	**semicolon;
-	char	**split_space;
+	char	**semicolon;
 	char	**quoted_command;
 	int		e;
-//	int		i;
 
-//	i = 0;
 	if (!command)
 		return ((big_struc->last_ret = 1));
 	quoted_command = parse_quote(command);
-	split_space = parse_line(big_struc, quoted_command);
-	e = 0; // This variable is only for debug
-		while (split_space[e])
-			printf("\e[33mDecoupe en espace, cela donne |%s|\e[0m\n", split_space[e++]);
-	/*semicolon = ft_strsplit(command, ';');
-	while (semicolon[i])
+	if (!check_command(quoted_command))
+		return (big_struc->last_ret = 258);
+	parse_line(big_struc, quoted_command);
+	e = 0;
+	while (quoted_command[e])
+		printf("\e[33mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[e++]);
+	printf("\e[33mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[e]);
+
+	e = 0;
+	while (quoted_command[e])
 	{
-		printf("\e[32mJ'execute cette ligne |%s|\e[0m\n", semicolon[i]);
-		big_struc->line = semicolon[i];
-		split_space = parse_line(big_struc, ft_strsplit(semicolon[i++], ' '));
-		e = 0; // This variable is only for debug
-		while (split_space[e])
-			printf("\e[33mDecoupe en espace, cela donne |%s|\e[0m\n", split_space[e++]);
-		big_struc->last_ret = decide_commande(big_struc, split_space, exec_command_gen);
-		ft_deltab(split_space);
+		if (!(semicolon = create_command(quoted_command, &e)))
+			break ;
+		//big_struc->line = recompact_command(semicolon);
+		int k = 0; // This variable is only for debug
+		while (semicolon[k])
+			printf("\e[32mJ'execute |%s|\e[0m\n", semicolon[k++]);
+		big_struc->last_ret = decide_commande(big_struc, semicolon, exec_command_gen);
+		//free(semicolon);
 	}
-	ft_deltab(semicolon);
-	*/
-	ft_deltab(quoted_command);
+	//ft_deltab(quoted_command);
 	return (0);
 }

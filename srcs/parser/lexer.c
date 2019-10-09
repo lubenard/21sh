@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 01:36:05 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/08 15:37:55 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/09 19:01:08 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	**malloc_if(t_coord *c, char **q_tab, char *line, char a)
 	{
 		q_tab[c->x][c->y] = '\0';
 		c->x += 1;
-		q_tab[c->x] = malloc(sizeof(char) * (ft_strlen(line) + 2));
+		q_tab[c->x] = malloc(sizeof(char) * (ft_strlen(line) + 3));
 		return (q_tab);
 	}
 	return (q_tab);
@@ -44,7 +44,7 @@ char	**esp_semicolon(t_coord *c, char **q_tab, char *line)
 		c->y = -1;
 		c->x++;
 		c->i--;
-		q_tab[c->x] = malloc(sizeof(char) * (ft_strlenu(line) + 2));
+		q_tab[c->x] = malloc(sizeof(char) * (ft_strlenu(line) + 3));
 	}
 	return (q_tab);
 }
@@ -55,8 +55,8 @@ char	**init_p(t_coord *c, char **line, char **q_tab)
 
 	tmp = ft_strtrim(*line);
 	*line = ft_strdup(tmp);
-	q_tab = malloc(sizeof(char *) * (ft_occur(*line, ' ') + ft_occur(*line, ';') + 2));
-	q_tab[c->x] = malloc(sizeof(char) * (ft_strlen(*line) + 2));
+	q_tab = malloc(sizeof(char *) * (ft_occur(*line, ' ') + ft_occur(*line, ';') + 3));
+	q_tab[c->x] = malloc(sizeof(char) * (ft_strlen(*line) + 3));
 	free(tmp);
 	return (q_tab);
 }
