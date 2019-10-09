@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 10:59:34 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/08 18:11:52 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/09 20:24:25 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ int		init_h(t_coord *c, char ***arg_tab, char **tab_line)
 	g_mainline = ft_strnew(1);
 	c->i = 0;
 	*arg_tab = fill_arg_tab(tab_line, *arg_tab, &c->j);
+	ft_putstr_fd("heredoc> ", 2);
 	if (init(&c->mainindex, &c->prompt, c) == -1)
 		return (-1);
-	ft_putstr_fd("heredoc> ", 2);
 	return (0);
 }
 
@@ -123,16 +123,6 @@ char	*heredoc(t_hustru *big_struc, char **tab_line)
 	t_coord	c;
 	char	**arg_tab;
 
-	tab_line = malloc(sizeof(char*) * 9);
-	tab_line[0] = ft_strdup("coucou");
-	tab_line[1] = ft_strdup("<<");
-	tab_line[2] = ft_strdup("1");
-	tab_line[3] = ft_strdup("<<");
-
-	tab_line[4] = ft_strdup("2");
-	tab_line[5] = ft_strdup("<<");
-	tab_line[6] = ft_strdup("3");
-	tab_line[7] = NULL;
 	if (init_h(&c, &arg_tab, tab_line) == -1 || tab_line == NULL)
 		return (c.tmp);
 	c.pos = NULL;
