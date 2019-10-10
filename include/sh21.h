@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/09 20:12:59 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/10 14:17:48 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int		basic_command(t_hustru *big_struc, char **command,
 int		decide_commande(t_hustru *big_struc, char **command,
 		int (*fun)(t_hustru *, char **));
 void	handle_echo_options(char option);
-char	**create_command(char **command, int *i);
+char	**create_command(char **command, int *i, int *e);
 /*
 ** Redirections utils
 */

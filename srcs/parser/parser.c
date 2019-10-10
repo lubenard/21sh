@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/09 20:04:11 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/10 15:05:38 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ char	**parse_line(t_hustru *big_struc, char **command)
 
 int		decide_commande(t_hustru *big_struc, char **command, int (*fun)(t_hustru *, char **))
 {
+	if (!ft_strcmp(command[0], ""))
+		return (0);
 	if (!ft_tabchr(command, '>') &&
 			!ft_tabchr(command, '<') && !ft_tabchr(command, '|'))
 		return (basic_command(big_struc, command, fun));
@@ -126,7 +128,7 @@ int		check_command(char **command)
 	{
 		if (((command[i][0] != '\''
 		&& command[i][ft_strlen(command[i]) - 1] != '\'')
-		|| (command[i][0] != '\"'
+		&& (command[i][0] != '\"'
 		&& command[i][ft_strlen(command[i]) - 1] != '\"'))
 		&& ft_occur(command[i], ';') >= 2)
 		{
@@ -139,22 +141,27 @@ int		check_command(char **command)
 	return (1);
 }
 
-char	**create_command(char **command, int *i)
+char	**create_command(char **command, int *i, int *e)
 {
 	char	**ret;
-	int		e;
+	int		j;
 
-	e = 0;
+	j = 0;
 	while (command[*i] && ft_strcmp(command[*i], ";"))
 		(*i)++;
+	if (*i == 0)
+	{
+		(*i)++;
+		if (!(ret = malloc(sizeof(char *) * 2)))
+			return (NULL);
+		ret[0] = "";
+		return (ret);
+	}
 	if (!(ret = malloc(sizeof(char *) * (*i + 1))))
 		return (NULL);
-	while (e != *i)
-	{
-		ret[e] = command[e];
-		e++;
-	}
-	ret[e] = NULL;
+	while (*e != *i)
+		ret[j++] = command[(*e)++];
+	ret[j] = NULL;
 	if (command[*i])
 		(*i)++;
 	return (ret);
@@ -169,6 +176,7 @@ int		parser(t_hustru *big_struc, char *command)
 {
 	char	**semicolon;
 	char	**quoted_command;
+	int		i;
 	int		e;
 
 	if (!command)
@@ -177,23 +185,23 @@ int		parser(t_hustru *big_struc, char *command)
 	if (!check_command(quoted_command))
 		return (big_struc->last_ret = 258);
 	parse_line(big_struc, quoted_command);
+	i = 0;
+	while (quoted_command[i])
+		printf("\e[33mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[i++]);
+	printf("\e[33mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[i]);
 	e = 0;
-	while (quoted_command[e])
-		printf("\e[33mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[e++]);
-	printf("\e[33mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[e]);
-
-	e = 0;
-	while (quoted_command[e])
+	i = 0;
+	while (quoted_command[i])
 	{
-		if (!(semicolon = create_command(quoted_command, &e)))
-			break ;
+		semicolon = create_command(quoted_command, &i, &e);
+		e = i;
 		//big_struc->line = recompact_command(semicolon);
 		int k = 0; // This variable is only for debug
 		while (semicolon[k])
 			printf("\e[32mJ'execute |%s|\e[0m\n", semicolon[k++]);
 		big_struc->last_ret = decide_commande(big_struc, semicolon, exec_command_gen);
-		//free(semicolon);
+		free(semicolon);
 	}
-	//ft_deltab(quoted_command);
+	ft_deltab(quoted_command);
 	return (0);
 }
