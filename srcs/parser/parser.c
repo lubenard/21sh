@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/10 15:05:38 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/10 17:08:56 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,11 +195,12 @@ int		parser(t_hustru *big_struc, char *command)
 	{
 		semicolon = create_command(quoted_command, &i, &e);
 		e = i;
-		//big_struc->line = recompact_command(semicolon);
+		big_struc->line = recompact_command(semicolon);
 		int k = 0; // This variable is only for debug
 		while (semicolon[k])
 			printf("\e[32mJ'execute |%s|\e[0m\n", semicolon[k++]);
 		big_struc->last_ret = decide_commande(big_struc, semicolon, exec_command_gen);
+		free(big_struc->line);
 		free(semicolon);
 	}
 	ft_deltab(quoted_command);

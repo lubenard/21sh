@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/10 14:17:48 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/10 16:40:07 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ int		launch_arrow(t_hustru *big_struc, char **command);
 int		print_error_redirect(char *code);
 int		create_file(char **filenames, int i);
 char	*recompact_command(char **command);
+int		count_args_redir(char **tab, int i);
+int		is_digit(char *str);
 /*
 ** Pipe utils
 */

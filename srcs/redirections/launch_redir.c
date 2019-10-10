@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/09 18:28:19 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/10 16:48:04 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 ** 2) Make the god redirections
 ** 3) Execute the command
 */
-
-int		count_args_redir(char **tab, int i);
-int		is_digit(char *str);
 
 int		is_command_redir(int **fds, char **command, int j, int *k)
 {
@@ -110,7 +107,8 @@ int		fill_arrays(char **command, int **fds, char ***exec_command)
 	return (0);
 }
 
-int		init_arrays(char **command, int **fds, char ***exec_command, int *fds_size)
+int		init_arrays(char **command, int **fds,
+	char ***exec_command, int *fds_size)
 {
 	int i;
 	int fd;
@@ -260,17 +258,9 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 	pid_t	pid;
 	int		tmp_fd;
 
-	(void)big_struc;
 	tmp_fd = 0;
 	if (init_arrays(command, &fds, &exec_command, &fds_size) == -1)
 		return (display_error("ymarsh: error in init in redirections\n", NULL));
-	int m = 0;
-	while (exec_command[m])
-		printf("Command = %s\n", exec_command[m++]);
-	m = 0;
-	while (m != fds_size)
-		printf("fds = %d\n", fds[m++]);
-	printf("---------------PARSING OVER-----------\n");
 	if ((pid = fork()) < 0)
 		return (display_error("ymarsh: error: fork failed\n", NULL));
 	if (!pid)

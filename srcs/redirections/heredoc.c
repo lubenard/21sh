@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 10:59:34 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/09 20:24:25 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/10 16:36:38 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ char	**fill_arg_tab(char **tab_line, char **arg_tab, int *j)
 	return (arg_tab);
 }
 
-
-int			entry_h(t_coord *c, char **arg_tab)
+int		entry_h(t_coord *c, char **arg_tab)
 {
 	free_fornorme(1, &c->tmp, NULL, NULL);
 	c->mainindex = 0;
@@ -101,7 +100,7 @@ int		init_h(t_coord *c, char ***arg_tab, char **tab_line)
 	return (0);
 }
 
-int	hist_entry(t_coord *c, t_hustru *big_struc, char **arg_tab)
+int		hist_entry(t_coord *c, t_hustru *big_struc, char **arg_tab)
 {
 	move_hist(c, big_struc);
 	if (c->buf[0] == '\n')
@@ -115,8 +114,6 @@ int	hist_entry(t_coord *c, t_hustru *big_struc, char **arg_tab)
 	}
 	return (1);
 }
-
-
 
 char	*heredoc(t_hustru *big_struc, char **tab_line)
 {

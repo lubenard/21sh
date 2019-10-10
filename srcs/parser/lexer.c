@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 01:36:05 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/09 19:01:08 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/10 17:00:22 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,11 @@ char	**init_p(t_coord *c, char **line, char **q_tab)
 
 	tmp = ft_strtrim(*line);
 	*line = ft_strdup(tmp);
-	q_tab = malloc(sizeof(char *) * (ft_occur(*line, ' ') + ft_occur(*line, ';') + 3));
-	q_tab[c->x] = malloc(sizeof(char) * (ft_strlen(*line) + 3));
+	if (!(q_tab = malloc(sizeof(char *) *
+	(ft_occur(*line, ' ') + ft_occur(*line, ';') + 3))))
+		return (NULL);
+	if (!(q_tab[c->x] = malloc(sizeof(char) * (ft_strlen(*line) + 3))))
+		return (NULL);
 	free(tmp);
 	return (q_tab);
 }
@@ -68,7 +71,8 @@ char	**parse_quote(char *line)
 
 	q_tab = NULL;
 	ft_bzero(&c, sizeof(c));
-	q_tab = init_p(&c, &line, q_tab);
+	if (!(q_tab = init_p(&c, &line, q_tab)))
+		return (NULL);
 	while (line[c.i])
 	{
 		if (line[c.i] == ' ' || line[c.i]  == ';')

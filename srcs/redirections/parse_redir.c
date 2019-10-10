@@ -6,13 +6,13 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 15:10:40 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/08 01:35:43 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/10 17:11:37 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-int		char_numberbis(char *str, char c)
+int		char_numberbis(char *str, char c, char d, char e)
 {
 	int i;
 
@@ -31,6 +31,11 @@ int		char_numberbis(char *str, char c)
 		while (str[i] && str[i] != c)
 			i++;
 		i++;
+	}
+	else
+	{
+		while (str[i] != '\0' && str[i] != c && str[i] != d && str[i] != e)
+			i++;
 	}
 	return (i);
 }
@@ -55,7 +60,7 @@ int		char_number(char *str, char c, char d, char e)
 		return (i);
 	}
 	else if (str[i] && str[i] != c && str[i] != d && str[i] != e)
-		return (char_numberbis(str, c));
+		return (char_numberbis(str, c, d, e));
 	return (i);
 }
 
@@ -78,6 +83,7 @@ char	**parse_redir(char *str)
 			mark = char_number((str + i), ' ', '<', '>');
 			if (!(tmp[x] = ft_strnew(mark)))
 				return (NULL);
+			printf("I vaut %d\n", i);
 			printf("j'ai aloué de %d\n", mark);
 			mark += i;
 			if (str[mark - 1] == ' ')
