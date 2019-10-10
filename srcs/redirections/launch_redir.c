@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/10 16:48:04 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/10 23:44:25 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void	fd_redir(char **command, int *i)
 	}
 }
 
-int		file_redir(char **command, int *i, int *fds, int *fds_index)
+int		file_redir(t_hustru *big_struc, char **command, int *i, int *fds, int *fds_index)
 {
 	int		fd;
 	int		fd2;
@@ -191,7 +191,9 @@ int		file_redir(char **command, int *i, int *fds, int *fds_index)
 		printf("Je redirige %d vers %d\n", 2, fd2);
 		dup2(fd2, 2);
 	}
-	if (ft_strchr(command[*i], '>'))
+	if (ft_strstr(command[*i], "<<"))
+		ft_putstr_fd(heredoc(big_struc, command), 0);
+	else if (ft_strchr(command[*i], '>'))
 		fd = extract_first_fd(command, *i, extract_first(command[*i], '>'));
 	else if (ft_strchr(command[*i], '<'))
 		fd = extract_first_fd(command, *i, extract_first(command[*i], '<'));
@@ -201,7 +203,7 @@ int		file_redir(char **command, int *i, int *fds, int *fds_index)
 	return (0);
 }
 
-int		redirect_fds(char **command, int *fds)
+int		redirect_fds(t_hustru *big_struc, char **command, int *fds)
 {
 	int i;
 	int fds_index;
@@ -219,7 +221,7 @@ int		redirect_fds(char **command, int *fds)
 			fd_redir(command, &i);
 		else if (ft_strchr(command[i], '>') || ft_strchr(command[i], '<')
 		|| !ft_strcmp(command[i], "&>"))
-			file_redir(command, &i, fds, &fds_index);
+			file_redir(big_struc, command, &i, fds, &fds_index);
 		i++;
 	}
 	return (0);
@@ -265,7 +267,7 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 		return (display_error("ymarsh: error: fork failed\n", NULL));
 	if (!pid)
 	{
-		tmp_fd = redirect_fds(command, fds);
+		tmp_fd = redirect_fds(big_struc, command, fds);
 		big_struc->line = recompact_command(exec_command);
 		decide_commande(big_struc, exec_command, exec_without_fork);
 		exit(0);
