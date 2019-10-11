@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/10 17:08:56 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/11 16:23:53 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,20 @@ void	swap_elem(char **command, char *replace)
 ** in the env or by the correct path.
 */
 
-char	*remove_simple_quote(char *command)
+char	*remove_quote(char *command)
 {
 	char *copy;
 
-	if (!(copy = ft_strnew(ft_strlen(command) - 2)))
-		return (0);
-	ft_strnncpy(copy, command, 1, ft_strlen(command) - 1);
+	copy = NULL;
+	if ((command[0] == '\"' && command[ft_strlen(command) - 1] == '\"')
+	|| (command[0] == '\'' && command[ft_strlen(command) - 1] == '\''))
+	{
+		if (!(copy = ft_strnew(ft_strlen(command) - 2)))
+			return (0);
+		ft_strnncpy(copy, command, 1, ft_strlen(command) - 1);
+	}
+	else
+		return (ft_strdup(command));
 	return (copy);
 }
 
@@ -93,7 +100,7 @@ char	**parse_line(t_hustru *big_struc, char **command)
 				command[i] = ft_strdup("");
 		}
 		else
-			swap_elem(&command[i], remove_simple_quote(command[i]));
+			swap_elem(&command[i], remove_quote(command[i]));
 		i++;
 	}
 	return (command);
@@ -160,7 +167,7 @@ char	**create_command(char **command, int *i, int *e)
 	if (!(ret = malloc(sizeof(char *) * (*i + 1))))
 		return (NULL);
 	while (*e != *i)
-		ret[j++] = command[(*e)++];
+		ret[j++] = remove_quote(command[(*e)++]);
 	ret[j] = NULL;
 	if (command[*i])
 		(*i)++;
@@ -179,9 +186,12 @@ int		parser(t_hustru *big_struc, char *command)
 	int		i;
 	int		e;
 
-	if (!command)
-		return ((big_struc->last_ret = 1));
 	quoted_command = parse_quote(command);
+	if (!ft_strcmp(quoted_command[0], ""))
+	{
+		ft_deltab(quoted_command);
+		return ((big_struc->last_ret = 0));
+	}
 	if (!check_command(quoted_command))
 		return (big_struc->last_ret = 258);
 	parse_line(big_struc, quoted_command);
@@ -201,7 +211,7 @@ int		parser(t_hustru *big_struc, char *command)
 			printf("\e[32mJ'execute |%s|\e[0m\n", semicolon[k++]);
 		big_struc->last_ret = decide_commande(big_struc, semicolon, exec_command_gen);
 		free(big_struc->line);
-		free(semicolon);
+		ft_deltab(semicolon);
 	}
 	ft_deltab(quoted_command);
 	return (0);

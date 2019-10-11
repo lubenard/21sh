@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 11:58:43 by lubenard          #+#    #+#             */
-/*   Updated: 2018/11/23 10:28:34 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/11 16:57:04 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t		ft_strlen(char const *s)
 	size_t i;
 
 	i = 0;
+	if (!s)
+		return (0);
 	while (*s)
 	{
 		s++;

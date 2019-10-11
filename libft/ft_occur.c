@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 10:15:41 by lubenard          #+#    #+#             */
-/*   Updated: 2018/11/23 10:50:55 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/11 16:58:28 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		ft_occur(char const *s, char c)
 
 	i = 0;
 	occur = 0;
-	while (s[i])
+	while (s && s[i])
 	{
 		if (s[i] == c)
 			occur++;

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/02 13:46:33 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/02 18:18:11 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/11 17:40:36 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ int		free_pipe(char ***command)
 			free(command[i][e]);
 			e++;
 		}
-		free(command[i]);
-		i++;
+		free(command[i++]);
 		e = 0;
 	}
 	free(command);

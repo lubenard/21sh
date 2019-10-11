@@ -1,0 +1,1 @@
+mkdir tmp2 ; cd tmp2 ; ls -a ; ls | cat | wc -c > file1 ; cat file1 

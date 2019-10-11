@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 01:36:05 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/10 17:00:22 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/11 16:59:14 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	**parse_quote(char *line)
 	ft_bzero(&c, sizeof(c));
 	if (!(q_tab = init_p(&c, &line, q_tab)))
 		return (NULL);
-	while (line[c.i])
+	while (line && line[c.i])
 	{
 		if (line[c.i] == ' ' || line[c.i]  == ';')
 			q_tab = esp_semicolon(&c, q_tab, line);
