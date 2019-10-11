@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/10 23:44:25 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/11 03:16:56 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		is_command_redir(int **fds, char **command, int j, int *k)
 	{
 		if ((fd = open(command[j], O_CREAT, 0644) < 0))
 			return (display_error("ymarsh: error while creating file ",
-					command[j]));
+			command[j]));
 	}
 	if ((ft_strstr(command[j - 1], "&>")
 	|| ft_strchr(command[j - 1], '>')
@@ -84,6 +84,22 @@ int		is_command(char ***exec_command, char **command, int j, int *i)
 	return (0);
 }
 
+int		is_heredoc(char **command, int j, int mode)
+{
+	(void)mode;
+	printf("command[j - 1] = %s\n", command[j]);
+	if (command[j])
+	{
+		if (!ft_strcmp(command[j], "<<"))
+		{
+			printf("Je retourne 0\n");
+			return (0);
+		}
+	}
+	printf("Je retourne 1\n");
+	return (1);
+}
+
 int		fill_arrays(char **command, int **fds, char ***exec_command)
 {
 	int i;
@@ -95,11 +111,16 @@ int		fill_arrays(char **command, int **fds, char ***exec_command)
 	k = 0;
 	while (command[j])
 	{
+		while (!ft_strchr(command[i], '>') && !ft_strchr(command[i], '<'))
+			(*exec_command)[i++] = command[j++];
 		printf("[filling] Je regarde %s\n", command[j]);
 		if (!ft_strchr(command[j], '>') && !ft_strchr(command[j], '<'))
 		{
-			if (!is_command(exec_command, command, j, &i))
-				is_command_redir(fds, command, j, &k);
+			if (!is_heredoc(command, j, 1))
+			{
+				if (!is_command(exec_command, command, j, &i))
+					is_command_redir(fds, command, j, &k);
+			}
 		}
 		j++;
 	}
@@ -191,15 +212,19 @@ int		file_redir(t_hustru *big_struc, char **command, int *i, int *fds, int *fds_
 		printf("Je redirige %d vers %d\n", 2, fd2);
 		dup2(fd2, 2);
 	}
+	(void)big_struc;
 	if (ft_strstr(command[*i], "<<"))
 		ft_putstr_fd(heredoc(big_struc, command), 0);
 	else if (ft_strchr(command[*i], '>'))
 		fd = extract_first_fd(command, *i, extract_first(command[*i], '>'));
 	else if (ft_strchr(command[*i], '<'))
 		fd = extract_first_fd(command, *i, extract_first(command[*i], '<'));
-	printf("Extracted fd = %d\n", fd);
-	printf("je redirige %d -> %d\n", fd, fds[*fds_index]);
-	dup2(fds[(*fds_index)++], fd);
+	if (is_heredoc(command, *i, 1))
+	{
+		printf("Extracted fd = %d\n", fd);
+		printf("je redirige %d -> %d\n", fd, fds[*fds_index]);
+		dup2(fds[(*fds_index)++], fd);
+	}
 	return (0);
 }
 
@@ -235,6 +260,9 @@ char	*recompact_command(char **tab)
 
 	i = 0;
 	e = 0;
+	int debug = 0;
+	while (tab[debug])
+		printf("tab recompact command = %s\n", tab[debug++]);
 	while (tab[e + 1])
 		i += ft_strlen(tab[e++]) + 1;
 	i += ft_strlen(tab[e]);
@@ -268,7 +296,10 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 	if (!pid)
 	{
 		tmp_fd = redirect_fds(big_struc, command, fds);
-		big_struc->line = recompact_command(exec_command);
+		int jj = 0;
+		while (exec_command[jj])
+			printf("Tab d'exec = %s\n", exec_command[jj++]);
+		//big_struc->line = recompact_command(exec_command);
 		decide_commande(big_struc, exec_command, exec_without_fork);
 		exit(0);
 	}

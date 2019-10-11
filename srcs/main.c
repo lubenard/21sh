@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/09 20:05:36 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/11 02:57:57 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,10 @@ int			main(int argc, char **argv, char **env)
 	path = get_path(find_in_env(lkd_env, ft_strdup("PATH")));
 	big_struc = fill_huge_struc(lkd_env, lkd_hist, path);
 	change_env(big_struc);
-	if (get_option(big_struc, argv) == 1)
-		return (ft_exit(big_struc, 0));
-	//parser(big_struc, argv[1]);
-	display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
+	//if (get_option(big_struc, argv) == 1)
+	//	return (ft_exit(big_struc, 0));
+	parser(big_struc, argv[1]);
+	/*display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	while (ft_read_1(big_struc) == 0)
 	{
 		ft_putstr("Derniere ligne de l'historique : ");
@@ -144,8 +144,7 @@ int			main(int argc, char **argv, char **env)
 		ft_putendl("-------------------");
 		parser(big_struc, g_mainline);
 		display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
-	}
-	//heredoc(big_struc, NULL);
+	}*/
 	printf("retour derniere commande vaut %d\n", big_struc->last_ret);
 	return (ft_exit(big_struc, big_struc->last_ret)); // NOTE: Control D exit wiht 0
 }

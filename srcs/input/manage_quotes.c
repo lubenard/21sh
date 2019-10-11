@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:08:51 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/09 16:53:31 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/11 01:09:42 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*read_quit_q(int **prompt, int **pos)
 	c.buf = ft_strnew(9);
 	if ((c.ret = read(0, c.buf, 8)) <= 0)
 	{
-		ft_putstr_fd("exit", 0);
+		ft_putstr_fd("exit\n", 2);
 		reset_shell_attr(0);
 		free(prompt[0]);
 		free(*pos);
