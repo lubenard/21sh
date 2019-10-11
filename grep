@@ -1,0 +1,30 @@
+[31mJe regarde grep
+[0m[31mJe regarde 42
+[0m[31mJe regarde |
+[0m[31mJe regarde wc
+[0m[31mJe regarde -l
+[0m[31mJe regarde |
+[0m[31mJe regarde sed
+[0m[31mJe regarde -e
+[0m[31mJe regarde s/1/Yes/g
+[0m[31mJe regarde -e
+[0m[31mJe regarde s/0/No/g
+[0mTab d'exec = base64
+Tab d'exec = /dev/urandom
+Tab d'exec = |
+Tab d'exec = head
+Tab d'exec = -c
+Tab d'exec = 1000
+Tab d'exec = |
+
+Tab d'exec = 42
+Tab d'exec = |
+Tab d'exec = wc
+Tab d'exec = -l
+Tab d'exec = |
+Tab d'exec = sed
+Tab d'exec = -e
+Tab d'exec = s/1/Yes/g
+Tab d'exec = -e
+Tab d'exec = s/0/No/g
+       2

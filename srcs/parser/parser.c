@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/11 16:23:53 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/11 19:00:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ int		basic_command(t_hustru *big_struc, char **command,
 		ret_code = find_exit(big_struc, command);
 	else
 	{
-		printf("Ma commande est une commande generale\n");
+		//printf("Ma commande est une commande generale\n");
 		ret_code = fun(big_struc, command);
 	}
-	printf("Mon code de retour est %d\n", ret_code);
+	//printf("Mon code de retour est %d\n", ret_code);
 	return (ret_code);
 }
 
