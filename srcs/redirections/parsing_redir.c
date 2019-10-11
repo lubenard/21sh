@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 14:50:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/10 16:35:51 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/11 05:20:41 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int		count_elem_redir(char **tab, int i)
 			|| ft_strchr(tab[i + j - 1], '>')
 			|| ft_strchr(tab[i + j - 1], '<'))
 			&& !ft_strstr(tab[i + j - 1], ">&")
-			&& !ft_strstr(tab[i + j - 1], "<&"))
+			&& !ft_strstr(tab[i + j - 1], "<&")
+			&& ft_strcmp(tab[i + j - 1], "<<"))
 				elem++;
 			else if (ft_strchr(tab[i + j - 1], '>')
 			&& ft_strchr(tab[i + j - 1], '<'))

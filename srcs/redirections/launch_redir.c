@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/11 03:16:56 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/11 05:49:25 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		is_command_redir(int **fds, char **command, int j, int *k)
 {
 	int fd;
 
-	if (access(command[j], F_OK) == -1)
+	if (access(command[j], F_OK) == -1 && ft_strcmp(command[j - 1], "<<"))
 	{
 		if ((fd = open(command[j], O_CREAT, 0644) < 0))
 			return (display_error("ymarsh: error while creating file ",
@@ -33,7 +33,8 @@ int		is_command_redir(int **fds, char **command, int j, int *k)
 	|| ft_strchr(command[j - 1], '>')
 	|| ft_strchr(command[j - 1], '<'))
 	&& !ft_strstr(command[j - 1], ">&")
-	&& !ft_strstr(command[j - 1], "<&"))
+	&& !ft_strstr(command[j - 1], "<&")
+	&& ft_strcmp(command[j - 1], "<<"))
 	{
 		printf("[Fill fds tab] Je rajoute %s\n", command[j]);
 		if (ft_occur(command[j - 1], '>') == 1)
@@ -111,16 +112,11 @@ int		fill_arrays(char **command, int **fds, char ***exec_command)
 	k = 0;
 	while (command[j])
 	{
-		while (!ft_strchr(command[i], '>') && !ft_strchr(command[i], '<'))
-			(*exec_command)[i++] = command[j++];
 		printf("[filling] Je regarde %s\n", command[j]);
 		if (!ft_strchr(command[j], '>') && !ft_strchr(command[j], '<'))
 		{
-			if (!is_heredoc(command, j, 1))
-			{
 				if (!is_command(exec_command, command, j, &i))
 					is_command_redir(fds, command, j, &k);
-			}
 		}
 		j++;
 	}
@@ -198,6 +194,20 @@ void	fd_redir(char **command, int *i)
 	}
 }
 
+int		do_heredoc(t_hustru *big_struc, char **command)
+{
+	//faire un pipe
+	int link[2];
+
+	if (pipe(link) == -1)
+		return (0);
+	ft_putstr_fd(heredoc(big_struc, command), link[1]);
+	close(link[1]);
+	dup2(link[0], 0);
+	close(link[0]);
+	return (0);
+}
+
 int		file_redir(t_hustru *big_struc, char **command, int *i, int *fds, int *fds_index)
 {
 	int		fd;
@@ -214,17 +224,14 @@ int		file_redir(t_hustru *big_struc, char **command, int *i, int *fds, int *fds_
 	}
 	(void)big_struc;
 	if (ft_strstr(command[*i], "<<"))
-		ft_putstr_fd(heredoc(big_struc, command), 0);
+		do_heredoc(big_struc, command);
 	else if (ft_strchr(command[*i], '>'))
 		fd = extract_first_fd(command, *i, extract_first(command[*i], '>'));
 	else if (ft_strchr(command[*i], '<'))
 		fd = extract_first_fd(command, *i, extract_first(command[*i], '<'));
-	if (is_heredoc(command, *i, 1))
-	{
-		printf("Extracted fd = %d\n", fd);
-		printf("je redirige %d -> %d\n", fd, fds[*fds_index]);
-		dup2(fds[(*fds_index)++], fd);
-	}
+	printf("Extracted fd = %d\n", fd);
+	printf("je redirige %d -> %d\n", fd, fds[*fds_index]);
+	dup2(fds[(*fds_index)++], fd);
 	return (0);
 }
 
