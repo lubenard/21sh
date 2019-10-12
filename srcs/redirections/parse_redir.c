@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 15:10:40 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/10 17:11:37 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/12 18:51:38 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ char	**parse_redir(char *str)
 			mark = char_number((str + i), ' ', '<', '>');
 			if (!(tmp[x] = ft_strnew(mark)))
 				return (NULL);
-			printf("I vaut %d\n", i);
-			printf("j'ai aloué de %d\n", mark);
+			//printf("I vaut %d\n", i);
+			//printf("j'ai aloué de %d\n", mark);
 			mark += i;
 			if (str[mark - 1] == ' ')
 				ft_strnncpy(tmp[x], str, i, mark - 1);

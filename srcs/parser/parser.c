@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/11 19:00:18 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/12 19:40:51 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,14 +115,14 @@ int		decide_commande(t_hustru *big_struc, char **command, int (*fun)(t_hustru *,
 {
 	if (!ft_strcmp(command[0], ""))
 		return (0);
-	if (!ft_tabchr(command, '>') &&
-			!ft_tabchr(command, '<') && !ft_tabchr(command, '|'))
-		return (basic_command(big_struc, command, fun));
 	else if ((ft_tabchr(command, '>') || ft_tabchr(command, '<')))
 		return (redirections(big_struc, big_struc->line));
 	else if (!ft_tabchr(command, '>') && !ft_tabchr(command, '<') &&
 			ft_tabchr(command, '|'))
 		return (handle_pipe(big_struc, big_struc->line));
+	else if (!ft_tabchr(command, '>') &&
+			!ft_tabchr(command, '<') && !ft_tabchr(command, '|'))
+		return (basic_command(big_struc, command, fun));
 	return (0);
 }
 
@@ -195,10 +195,10 @@ int		parser(t_hustru *big_struc, char *command)
 	if (!check_command(quoted_command))
 		return (big_struc->last_ret = 258);
 	parse_line(big_struc, quoted_command);
-	i = 0;
+	/*i = 0;
 	while (quoted_command[i])
 		printf("\e[33mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[i++]);
-	printf("\e[33mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[i]);
+	printf("\e[33mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[i]);*/
 	e = 0;
 	i = 0;
 	while (quoted_command[i])
@@ -206,9 +206,9 @@ int		parser(t_hustru *big_struc, char *command)
 		semicolon = create_command(quoted_command, &i, &e);
 		e = i;
 		big_struc->line = recompact_command(semicolon);
-		int k = 0; // This variable is only for debug
+		/*int k = 0; // This variable is only for debug
 		while (semicolon[k])
-			printf("\e[32mJ'execute |%s|\e[0m\n", semicolon[k++]);
+			printf("\e[32mJ'execute |%s|\e[0m\n", semicolon[k++]);*/
 		big_struc->last_ret = decide_commande(big_struc, semicolon, exec_command_gen);
 		free(big_struc->line);
 		ft_deltab(semicolon);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_old.c                                         :+:      :+:    :+:   */
+/*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/11 18:59:26 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/12 18:49:24 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 		{
 			exec_pipe(j, k, pipes, tab);
 			close_pipe(pipes, i * 2);
-			basic_command(big_struc, tab[j], exec_without_fork);
+			decide_commande(big_struc, tab[j], exec_without_fork);
 		}
 		if (j != 0)
 			k += 2;

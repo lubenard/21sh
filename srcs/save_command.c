@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 00:23:47 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/02 16:58:48 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/12 19:51:55 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ t_hist		*new_maillon_hist(void)
 
 void		write_history(char *command, char *path)
 {
-	int		file;
-	char	*history_path;
+	int			file;
+	static char	*history_path;
 
 	history_path = ft_strjoin(path, "/.history");
 	if (access(history_path, F_OK) == -1)
