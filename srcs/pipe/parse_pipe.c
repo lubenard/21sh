@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/02 13:46:33 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/14 18:40:55 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/14 21:54:39 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	***compact_command(char *command)
 	{
 		tmp = ft_strtrim(argv[i]);
 		ret[i] = ft_strsplit(tmp, ' ');
-		printf("ret[%d] = %s\n", i, ret[i][0]);
+		//printf("ret[%d] = %s\n", i, ret[i][0]);
 		free(argv[i]);
 		i++;
 		free(tmp);

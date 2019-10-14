@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 15:05:11 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/20 08:44:42 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/14 22:31:05 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		change_dir(t_hustru *big_struc, char *path)
 
 	curr_dir = getcwd(buff_dir, 4096);
 	path = handle_sortcut(big_struc->lkd_env, path);
-	printf("Je change le directory pour %s\n", path);
+	//printf("Je change le directory pour %s\n", path);
 	if (chdir(path) != 0)
 	{
 		if (access(path, F_OK) == -1)
@@ -61,7 +61,7 @@ int		change_dir(t_hustru *big_struc, char *path)
 		free(path);
 		return (1);
 	}
-	printf("je rentre ici\n");
+	//printf("je rentre ici\n");
 	change_env_cd(big_struc, curr_dir,
 	(new_dir = getcwd(buff_dir2, 4096)));
 	free(path);
