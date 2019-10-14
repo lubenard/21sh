@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/13 16:49:01 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/14 20:27:41 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,6 +298,10 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 	int		tmp_fd;
 
 	tmp_fd = 0;
+	int m;
+	m = 0;
+	while (command[m])
+		printf("Je recois %s\n", command[m++]);
 	if (init_arrays(command, &fds, &exec_command, &fds_size) == -1)
 		return (display_error("ymarsh: init failed in redirections\n", NULL));
 	if ((pid = fork()) < 0)
@@ -308,7 +312,6 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 		//int jj = 0;
 		//while (exec_command[jj])
 		//	printf("Tab d'exec = %s\n", exec_command[jj++]);
-		big_struc->line = recompact_command(exec_command);
 		decide_commande(big_struc, exec_command, exec_without_fork);
 		exit(0);
 	}

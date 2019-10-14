@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/09 16:45:35 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/14 19:10:58 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,10 @@ int		ft_echo(t_hustru *big_struc, char **command)
 		if (ft_strcmp(command[i + e], ""))
 		{
 			ft_putstr_echo(command[i + e]);
-			ft_putchar(' ');
+			if (command[i + e + 1] && !ft_strchr(command[i + e + 1], '>')
+			&& !ft_strchr(command[i + e + 1], '<')
+			&& !ft_strchr(command[i + e + 1], '|'))
+				ft_putchar(' ');
 		}
 		i++;
 	}
