@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/14 21:45:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/15 15:08:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ int		exec_without_fork(t_hustru *big_struc, char **argv)
 	}
 	if (!check_exec_rights(path))
 		return (1);
-	//reset_shell_attr(0);
+	reset_shell_attr(0);
 	execve(path, argv, env = compact_env(big_struc->lkd_env));
-	//set_none_canon_mode(0);
+	set_none_canon_mode(0);
 	return (free_after_exec(path, env));
 }
 

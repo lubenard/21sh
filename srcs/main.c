@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/14 21:41:51 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/15 15:10:34 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,5 +146,5 @@ int			main(int argc, char **argv, char **env)
 		display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	}
 	printf("retour derniere commande vaut %d\n", big_struc->last_ret);
-	return (ft_exit(big_struc, big_struc->last_ret)); // NOTE: Control D exit wiht 0
+	return (ft_exit(big_struc, big_struc->last_ret));
 }

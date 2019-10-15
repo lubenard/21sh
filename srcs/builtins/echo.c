@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/14 19:10:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/15 14:50:26 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,24 +62,22 @@ char	*handle_tilde(t_hustru *big_struc, char *command)
 	ft_bzero(buff, 4096);
 	ft_bzero(user_name, 4096);
 	i = ft_strchri(command, '~');
-	if (command[i + 1] && (ft_isalpha(command[i + 1]) || command[i + 1] == '/'))
+	str = find_in_env(big_struc->lkd_env, ft_strdup("HOME"));
+	if (command[i + 1] && ft_strlen(command) > 1)
 	{
-		str = find_in_env(big_struc->lkd_env, ft_strdup("HOME"));
-		if (command[i + 1] == '/')
+		if (command[i] == '/')
 		{
-			ft_stricpy(buff, command, i + 1);
+			ft_strcpy(buff, "/");
+			ft_stricat(buff, command, i + 1);
 			tmp = ft_strjoin(str, buff);
 			free(str);
 			return (tmp);
 		}
-		if (i != 1)
-			ft_strnncpy(user_name, command, i, ft_strlen(command) - 1);
-		else
-			ft_stricpy(user_name, command, i);
+		handle_tilde2(user_name, command, i);
 		return (verify_folder(buff, user_name, str));
 	}
 	else
-		return (find_in_env(big_struc->lkd_env, ft_strdup("HOME")));
+		return (str);
 }
 
 void	ft_putstr_echo(char *str)

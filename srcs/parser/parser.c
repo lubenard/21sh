@@ -6,11 +6,30 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/14 21:43:02 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/15 15:47:20 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+int		is_between_quotes(char *command, int quote_mode)
+{
+	if (command[0] != '\''
+	&& command[ft_strlen(command) - 1] != '\''
+	&& quote_mode == 1)
+		return (0);
+	else if (command[0] != '\"'
+	&& command[ft_strlen(command) - 1] != '\"'
+	&& quote_mode == 2)
+		return (0);
+	else if (command[0] != '\''
+	&& command[ft_strlen(command) - 1] != '\''
+	&& command[0] != '\"'
+	&& command[ft_strlen(command) - 1] != '\"'
+	&& quote_mode == 3)
+		return (0);
+	return (1);
+}
 
 /*
 ** Decide if the command is a bultin or not
@@ -86,20 +105,20 @@ char	**parse_line(t_hustru *big_struc, char **command)
 	i = 0;
 	while (command[i])
 	{
-		if (command[i][0] != '\''
-		&& command[i][ft_strlen(command[i]) - 1] != '\'')
+		if (!is_between_quotes(command[i], 1))
 		{
-			if (ft_strchr(command[i],'$'))
+			if (ft_strchr(command[i], '$'))
 				swap_elem(&command[i],
 				handle_dollar(big_struc, command[i]));
-			if (command[i] && ft_strchr(command[i], '~'))
-				swap_elem(&command[i],
-				handle_tilde(big_struc, command[i]));
-			if (command[i] == NULL)
-				command[i] = ft_strdup("");
 		}
-		else
-			swap_elem(&command[i], remove_quote(command[i]));
+		if (!is_between_quotes(command[i], 3))
+		{
+			if (command[i] && ft_strchr(command[i], '~'))
+			swap_elem(&command[i],
+			handle_tilde(big_struc, command[i]));
+		}
+		if (command[i] == NULL)
+			command[i] = ft_strdup("");
 		i++;
 	}
 	return (command);
@@ -110,7 +129,8 @@ char	**parse_line(t_hustru *big_struc, char **command)
 ** or if it is juste a normal command.
 */
 
-int		decide_commande(t_hustru *big_struc, char **command, int (*fun)(t_hustru *, char **))
+int		decide_commande(t_hustru *big_struc, char **command,
+	int (*fun)(t_hustru *, char **))
 {
 	//int k = 0; // This variable is only for debug
 	big_struc->line = recompact_command(command);
@@ -141,11 +161,7 @@ int		check_command(char **command)
 	i = 0;
 	while (command[i])
 	{
-		if (((command[i][0] != '\''
-		&& command[i][ft_strlen(command[i]) - 1] != '\'')
-		&& (command[i][0] != '\"'
-		&& command[i][ft_strlen(command[i]) - 1] != '\"'))
-		&& ft_occur(command[i], ';') >= 2)
+		if (!is_between_quotes(command[i], 3) && ft_occur(command[i], ';') >= 2)
 		{
 			ft_putendl_fd("ymarsh: syntax error near unexpected token `;;'", 2);
 			ft_deltab(command);

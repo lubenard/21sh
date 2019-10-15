@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/10/09 14:41:24 by lubenard         ###   ########.fr        #
+#    Updated: 2019/10/15 15:06:47 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,7 +89,8 @@ SRC = ft_memset.c \
 	ft_tablen.c \
 	ft_tabchr.c \
 	ft_tabstr.c \
-	ft_stricpy.c
+	ft_stricpy.c \
+	ft_stricat.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -107,15 +108,14 @@ $(NAME):$(OBJ)
 %.o : %.c
 	@printf "\033[36mCompilation de $<...\033[0m\033[32m[✓]\033[0m\n"
 	@$(CC) -c $(CFLAGS) $< -o $@
-#	@printf "\033[32m[✓]\033[0m\n"
 
 clean:
-	@printf "\033[31mclean de $(NAME)..\033[0m"
+	@printf "\033[31mSuppression des objets de $(NAME)..\033[0m"
 	@rm -f $(OBJ)
 	@printf "\033[32m[✓]\033[0m\n"
 
 fclean: clean
-	@printf "\033[31mFclean de $(NAME)...\033[0m"
+	@printf "\033[31mSuppression de $(NAME)...\033[0m"
 	@rm -f $(NAME)
 	@printf "\033[32m[✓]\033[0m\n"
 
