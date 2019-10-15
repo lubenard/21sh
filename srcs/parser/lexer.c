@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 01:36:05 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/11 16:59:14 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/15 19:55:34 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	**init_p(t_coord *c, char **line, char **q_tab)
 	return (q_tab);
 }
 
-char	**parse_quote(char *line)
+char	**main_lexer(char *line)
 {
 	char	**q_tab;
 	t_coord	c;

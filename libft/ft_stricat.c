@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   ft_stricat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/16 17:57:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/15 20:01:32 by lubenard         ###   ########.fr       */
+/*   Created: 2019/10/15 14:44:20 by lubenard          #+#    #+#             */
+/*   Updated: 2019/10/15 14:51:01 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sh21.h>
+#include "libft.h"
 
-int		redirections(t_hustru *big_struc, char **lexed_command)
+char	*ft_stricat(char *dest, char *src, int start)
 {
-	//int		i = 0; //used for debug online
+	int		i;
+	int		e;
 
-	/*while (lexed_command[i])
-		printf("[Parsed redir] |%s|\n", lexed_command[i++]);*/
-	return (launch_arrow(big_struc, lexed_command));
+	i = 0;
+	e = 0;
+	while (dest[i])
+		i++;
+	while (src[start])
+		dest[e + i++] = src[start++];
+	dest[e + i] = '\0';
+	return (dest);
 }

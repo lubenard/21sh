@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/10/15 15:06:26 by lubenard         ###   ########.fr        #
+#    Updated: 2019/10/15 20:38:42 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,6 @@ SRC = srcs/main.c \
 	  srcs/redirections/redirections.c \
 	  srcs/redirections/launch_redir.c \
 	  srcs/redirections/parsing_redir.c \
-	  srcs/redirections/parse_redir.c \
 	  srcs/redirections/heredoc.c \
 	  srcs/pipe/pipe.c \
 	  srcs/pipe/parse_pipe.c \
@@ -40,6 +39,8 @@ SRC = srcs/main.c \
 	  srcs/utils/find_lkd_lst.c \
 	  srcs/parser/parser.c \
 	  srcs/parser/lexer.c \
+	  srcs/parser/final_lexer.c \
+	  srcs/parser/lexer_redir.c \
 	  srcs/exec/execute_command.c \
 	  srcs/exec/find_path.c \
 	  srcs/input/line_edition.c \

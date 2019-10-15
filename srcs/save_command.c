@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 00:23:47 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/12 19:51:55 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/15 21:38:24 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,20 @@ t_hist		*new_maillon_hist(void)
 	return (new_element);
 }
 
-void		write_history(char *command, char *path)
+int			write_history(char *command, char *history_path)
 {
-	int			file;
-	static char	*history_path;
+	int				file;
 
-	history_path = ft_strjoin(path, "/.history");
+	//printf("J'ecris dans l'historique %s\n", history_path);
 	if (access(history_path, F_OK) == -1)
-	{
-		file = open(history_path, O_CREAT | O_RDWR, S_IWUSR | S_IRUSR);
-		ft_putendl_fd(command, file);
-		close(file);
-	}
+		file = open(history_path, O_CREAT | O_WRONLY);
 	else
-	{
 		file = open(history_path, O_RDWR | O_APPEND);
-		ft_putendl_fd(command, file);
-		close(file);
-	}
-	free(history_path);
+	if (file == -1)
+		return (display_error("Impossible to write at: ", history_path));
+	ft_putendl_fd(command, file);
+	close(file);
+	return (0);
 }
 
 void		save_command(t_hustru *big_struc, char *command, int save)
@@ -92,5 +87,5 @@ void		save_command(t_hustru *big_struc, char *command, int save)
 		lkd_hist->prev = new_element;
 	}
 	if (save == 1)
-		write_history(command, ".");
+		write_history(command, big_struc->history_path);
 }

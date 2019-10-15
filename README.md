@@ -22,7 +22,7 @@ Ctrl-K : Coupe la ligne
 Ctrl-L : Copie la ligne
 Ctrl-P : Colle la ligne
 Ctrl-B : Déplace le curseur d'un mot vers la gauche
-Ctrl-C : Déplace le curseur d'un mot vers la droite
+Ctrl-N : Déplace le curseur d'un mot vers la droite
 Ctrl-U : Déplace le curseur d'une ligne vers le haut
 Ctrl-F : Déplace le curseur d'une ligne vers le bas
 Les flèches s'utilisent logiquement.
@@ -119,7 +119,7 @@ Ctrl-K : Cuts the line
 Ctrl-L : Copies the line
 Ctrl-P : Pastes the line
 Ctrl-B : Moves the cursor one word to the left
-Ctrl-C : Moves the cursor one word to the right
+Ctrl-N : Moves the cursor one word to the right
 Ctrl-U : Moves the cursor one line up
 Ctrl-F : Moves the cursor one line down
 The arrows are used logically.

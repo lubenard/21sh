@@ -6,11 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 17:01:28 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/02 18:30:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/15 21:27:49 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh21.h"
+#include <sh21.h>
 
 /*
 ** Free after each exec

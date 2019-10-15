@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/15 14:50:26 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/15 23:23:42 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,34 @@ char	*handle_dollar(t_hustru *big_struc, char *command)
 {
 	int		e;
 	int		i;
+	int		a;
+	int		occur;
 
-	i = ft_strchri(command, '$');
-	e = 0;
-	if (command[i])
+	(void)big_struc;
+	a = 0;
+	occur = ft_occur(command, '$');
+	printf("%d\n", occur);
+	while (a < occur)
 	{
-		if (command[i + 1] == '?')
-			return (ft_itoa(big_struc->last_ret));
-		while (command[i + e] && ft_isalnum(command[i + e]))
-			e++;
-		return (find_in_env(big_struc->lkd_env, ft_strsub(command, i, e)));
+		printf("Je boucle, a vaut %d\n", a);
+		i = ft_strchri(command, '$');
+		e = 0;
+		if (command[i])
+		{
+			if (command[i + 1] == '?')
+				return (ft_itoa(big_struc->last_ret));
+			while (command[i + e] && ft_isalnum(command[i + e]))
+				e++;
+			return (find_in_env(big_struc->lkd_env, ft_strsub(command, i, e)));
+		}
+		printf("|%c|\n", command[e]);
+		while (command[i] && command[i] != '$')
+			i++;
+		i++;
+		a++;
+		printf("A = %d\n", a);
 	}
-	return (NULL);
+	return ("");
 }
 
 char	*verify_folder(char buffer[4096], char user_name[4096], char *str)

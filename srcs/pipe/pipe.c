@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/14 21:54:47 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/15 19:28:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,14 @@ int		count_args_triple_tab(char ***tab)
 }
 
 /*
-** Malloc pipes and create connections between them
+** Launch command pipes
 */
 
-int		*prepare_pipe(int i)
+void	launch_command_pipe(t_hustru *big_struc, char ***tab, int j)
 {
-	int		*pipes;
-	int		e;
-
-	e = 0;
-	if (!(pipes = (int *)malloc(sizeof(int) * (i * 2))))
-		return (0);
-	while (e != i * 2)
-	{
-		pipe(pipes + e);
-		e += 2;
-	}
-	return (pipes);
+	if (decide_commande(big_struc, tab[j], exec_without_fork) == 1)
+			free_pipe(tab);
+	exit(0);
 }
 
 /*
@@ -80,6 +71,19 @@ void	exec_pipe(int j, int k, int *pipes, char ***tab)
 		dup2(pipes[1], 1);
 }
 
+int		is_valid_command(t_hustru *big_struc, char **argv)
+{
+	char	*path;
+
+	if (!(path = find_path(big_struc->path, argv[0])))
+	{
+		free(path);
+		return (invalid_command(argv[0]));
+	}
+	free(path);
+	return (0);
+}
+
 /*
 ** Launch pipes
 */
@@ -92,7 +96,6 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 	int		j;
 	int		k;
 
-	//printf("[Pipes] Je recois %s comme command\n", command);
 	if ((tab = compact_command(command)) == NULL)
 		return (display_error("Pipe: Invalid pipe\n", NULL));
 	j = 0;
@@ -101,13 +104,11 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 	pipes = prepare_pipe(i);
 	while (tab[j])
 	{
-		if (fork() == 0)
+		if (!is_valid_command(big_struc, tab[j]) && fork() == 0)
 		{
 			exec_pipe(j, k, pipes, tab);
 			close_pipe(pipes, i * 2);
-			//printf("[Pipe] Je lance %s\n", tab[j][0]);
-			decide_commande(big_struc, tab[j], exec_without_fork);
-			exit(0);
+			launch_command_pipe(big_struc, tab, j);
 		}
 		if (j != 0)
 			k += 2;

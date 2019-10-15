@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/15 15:10:34 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/15 21:39:40 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void		change_env(t_hustru *big_struc)
 
 t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)
 {
-	t_hustru *big_struc;
+	t_hustru	*big_struc;
+	char		buff[4097];
 
 	if (!(big_struc = (t_hustru *)malloc(sizeof(t_hustru))))
 		return (NULL);
@@ -50,6 +51,8 @@ t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)
 	big_struc->path = path;
 	big_struc->last_ret = 0;
 	big_struc->line = NULL;
+	big_struc->fds_index = 0;
+	big_struc->history_path = ft_strjoin(getcwd(buff, 4096), "/.history");
 	return (big_struc);
 }
 

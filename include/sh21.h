@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/15 14:43:42 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/15 20:02:23 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		cd(t_hustru *big_struc, char **commmand);
 /*
 ** Redirections
 */
-int		redirections(t_hustru *big_struc, char *command);
+int		redirections(t_hustru *big_struc, char **lexed_command);
 /*
 ** Pipe
 */
@@ -70,7 +70,9 @@ int		handle_pipe(t_hustru *big_struc, char *command);
 ** Parser
 */
 int		parser(t_hustru *big_struc, char *command);
-char	**parse_quote(char *line);
+char	**main_lexer(char *line);
+char	**lexer_redir(char *str);
+char	**final_lexer(char *line);
 /*
 ** Handle Signal
 */
@@ -105,12 +107,13 @@ int		decide_commande(t_hustru *big_struc, char **command,
 		int (*fun)(t_hustru *, char **));
 void	handle_echo_options(char option);
 char	**create_command(char **command, int *i, int *e);
+int		is_valid_command(t_hustru *big_struc, char **argv);
+
 /*
 ** Redirections utils
 */
 char	*heredoc(t_hustru *big_struc, char **tab_line);
 int		extract_first_fd(char **command, int i, char *to_convert);
-char	**parse_redir(char *str);
 int		count_elem_redir(char **tab, int i);
 int		launch_arrow(t_hustru *big_struc, char **command);
 int		print_error_redirect(char *code);
@@ -124,6 +127,7 @@ int		is_digit(char *str);
 void	close_pipe(int *pipes, int i);
 char	***compact_command(char *command);
 int		free_pipe(char ***command);
+int		*prepare_pipe(int i);
 
 /*
 ** Buitltins Utils

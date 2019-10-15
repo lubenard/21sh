@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 15:05:11 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/14 22:31:05 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/15 21:37:11 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int		change_dir(t_hustru *big_struc, char *path)
 		free(path);
 		return (1);
 	}
-	//printf("je rentre ici\n");
 	change_env_cd(big_struc, curr_dir,
 	(new_dir = getcwd(buff_dir2, 4096)));
 	free(path);

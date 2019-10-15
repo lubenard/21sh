@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/02 13:46:33 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/14 21:54:39 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/15 19:24:46 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,26 @@ int		free_pipe(char ***command)
 	}
 	free(command);
 	return (0);
+}
+
+/*
+** Malloc pipes and create connections between them
+*/
+
+int		*prepare_pipe(int i)
+{
+	int		*pipes;
+	int		e;
+
+	e = 0;
+	if (!(pipes = (int *)malloc(sizeof(int) * (i * 2))))
+		return (0);
+	while (e != i * 2)
+	{
+		pipe(pipes + e);
+		e += 2;
+	}
+	return (pipes);
 }
 
 /*

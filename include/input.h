@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/08 14:22:38 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/15 19:56:56 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef	struct		s_w
 
 struct s_w			w;
 char				*g_mainline;
+
 /*
 ** Line edition
 */
