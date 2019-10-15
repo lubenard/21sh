@@ -75,8 +75,8 @@ void	move_with_arrows(char *buf, int *prompt, int *mainindex, int *pos)
 		else if (buf[2] == 67)
 			right_arrow(mainindex, ft_strlenu(g_mainline), prompt);
 	}
-	if (buf[0] == 1)
+	if (buf[0] == 1 ||(buf[0] == 27 && buf[1] == 91 && buf[2] == 'H'))
 		go_first_char(mainindex, prompt, pos);
-	if (buf[0] == 5)
+	if (buf[0] == 5 ||(buf[0] == 27 && buf[1] == 91 && buf[2] == 'F'))
 		go_last_char(mainindex, ft_strlenu(g_mainline), prompt);
 }
