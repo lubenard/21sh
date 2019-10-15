@@ -14,13 +14,13 @@
 
 int		init(int *mainindex, int **prompt, t_coord *c)
 {
-	ft_bzero(&c, sizeof(c));
 	*mainindex = 0;
 	if (set_none_canon_mode(0) == -1)
 	{
 		free(g_mainline);
 		return (-1);
 	}
+	ft_bzero(&c, sizeof(c));
 	if (g_mainline)
 	{
 		free(g_mainline);
@@ -46,7 +46,7 @@ char	*read_quit(int **prompt, int **pos)
 		free(prompt[0]);
 		free(*pos);
 		free(c.buf);
-		free(g_mainline);
+		ft_strdel(&g_mainline);
 		return (NULL);
 	}
 	c.buf[c.ret] = '\0';

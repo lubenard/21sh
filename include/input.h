@@ -25,6 +25,7 @@
 typedef	struct		s_coord
 {
 	int				*coord;
+	int				q_state;
 	int				i;
 	int				j;
 	int				k;
@@ -42,6 +43,8 @@ typedef	struct		s_coord
 	char			*tmpx;
 	char			*line;
 	char			*tmp;
+	char			**tmp1;
+	char			**tmp2;
 	int				mainindex;
 }					t_coord;
 
