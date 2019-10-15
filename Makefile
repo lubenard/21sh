@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/10/11 17:00:50 by lubenard         ###   ########.fr        #
+#    Updated: 2019/10/15 15:06:26 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,7 +87,7 @@ libft:
 clean:
 	@cd libft && make clean
 	@rm -f $(OBJ)
-	@printf "\033[31mclean de $(NAME)...\033[0m"
+	@printf "\033[31mSuppression des objets de $(NAME)...\033[0m"
 	@printf "\033[32m[✓]\033[0m\n"
 	@rm -rf .history
 	@rm -rf 21sh.dSYM
@@ -95,10 +95,11 @@ clean:
 	@rm -f file*
 
 fclean: clean
+	@printf "\033[31mSuppression de srcs/libft.a...\033[0m"
+	@rm -rf srcs/libft.a
+	@printf "\033[32m[✓]\033[0m\n"
+	@printf "\033[31mSuppression de $(NAME)...\033[0m"
 	@rm -f $(NAME)
-	@rm -f libft/libft.a
-	@printf "\033[31mFclean de srcs/libft.a...\033[0m\033[32m[✓]\033[0m\n"
-	@printf "\033[31mFclean de $(NAME)...\033[0m"
 	@printf "\033[32m[✓]\033[0m\n"
 
 re: fclean all

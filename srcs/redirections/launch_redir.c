@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/12 19:43:47 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/14 21:58:15 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void	fd_redir(char **command, int *i)
 	char	last_char;
 
 	fd = 0;
-	printf("FD_REDIR\n");
+	//printf("FD_REDIR\n");
 	if (ft_strchr(command[*i], '>'))
 		fd = extract_first_fd(command, *i, extract_first(command[*i], '>'));
 	else if (ft_strchr(command[*i], '<'))
@@ -189,7 +189,7 @@ void	fd_redir(char **command, int *i)
 	else if (ft_isdigit(last_char))
 	{
 		fd2 = extract_first_fd(command, *i, extract_last(command[*i], '&'));
-		printf("je redirige %d -> %d\n", fd, fd2);
+		//printf("je redirige %d -> %d\n", fd, fd2);
 		dup2(fd2, fd);
 	}
 }
@@ -298,8 +298,12 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 	int		tmp_fd;
 
 	tmp_fd = 0;
+	/*int m;
+	m = 0;
+	while (command[m])
+		printf("Je recois %s\n", command[m++]);*/
 	if (init_arrays(command, &fds, &exec_command, &fds_size) == -1)
-		return (display_error("ymarsh: error in init in redirections\n", NULL));
+		return (display_error("ymarsh: init failed in redirections\n", NULL));
 	if ((pid = fork()) < 0)
 		return (display_error("ymarsh: error: fork failed\n", NULL));
 	if (!pid)
@@ -308,7 +312,6 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 		//int jj = 0;
 		//while (exec_command[jj])
 		//	printf("Tab d'exec = %s\n", exec_command[jj++]);
-		big_struc->line = recompact_command(exec_command);
 		decide_commande(big_struc, exec_command, exec_without_fork);
 		exit(0);
 	}

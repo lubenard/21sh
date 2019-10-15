@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/10 16:40:07 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/15 14:43:42 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,6 @@ int		free_pipe(char ***command);
 */
 char	*handle_dollar(t_hustru *big_struc, char *command);
 char	*handle_tilde(t_hustru *big_struc, char *command);
+void	handle_tilde2(char user_name[4096], char *command, int i);
 
 #endif

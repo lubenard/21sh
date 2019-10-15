@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 14:50:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/11 05:20:41 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/14 21:58:32 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		count_args_redir(char **tab, int i)
 		}
 		j++;
 	}
-	printf("\e[35m[Count args redir] Elem vaut %d\e[0m\n", elem + i);
+	//printf("\e[35m[Count args redir] Elem vaut %d\e[0m\n", elem + i);
 	return (elem + i);
 }
 
@@ -73,6 +73,6 @@ int		count_elem_redir(char **tab, int i)
 		}
 		j++;
 	}
-	printf("\e[35m[Count elem redir] Elem vaut %d\e[0m\n", elem);
+	//printf("\e[35m[Count elem redir] Elem vaut %d\e[0m\n", elem);
 	return (elem);
 }
