@@ -26,11 +26,25 @@ void		which_redir(t_coord *c)
 	}
 }
 
+int			is_fd_redir(t_coord *c, char **tmp)
+{
+	int	i;
+
+	i = 0;
+	while (tmp[c->x][i])
+	{
+		if (ft_isdigit(tmp[c->x][i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 char		**if_redir(t_coord *c, char **tmp, char *str)
 {
-	if (c->i > 0)
+	tmp[c->x][c->y] = '\0';
+	if (c->i > 0 && is_fd_redir(c, tmp) == 0)
 	{
-		tmp[c->x][c->y] = '\0';
 		c->x++;
 		c->y = 0;
 		tmp[c->x] = ft_strnew(ft_strlen(str));

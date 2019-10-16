@@ -18,6 +18,7 @@ void	go_prev(int *mainindex, int **pos, char *tmp)
 	int *coord;
 
 	i = 0;
+	free(pos[0]);
 	if (!(pos[0] = malloc(sizeof(int) * ft_strlenu(tmp))))
 		return ;
 	while (tmp[i])
