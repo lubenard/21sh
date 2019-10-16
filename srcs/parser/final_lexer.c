@@ -18,9 +18,9 @@ char	**ft_tabncat(char **tab1, char **tab2, int n)
 
 	i = 0;
 	j = 0;
+	newtab = malloc(sizeof(char*) * (ft_tablen(tab1) + ft_tablen(tab2) + 1));
 	if (!tab1)
 		return (NULL);
-	newtab = malloc(sizeof(char*) * (ft_tablen(tab1) + ft_tablen(tab2) + 1));
 	while (tab1[i] && i < n)
 		newtab[j++] = ft_strdup(tab1[i++]);
 	i = 0;
@@ -60,6 +60,7 @@ char	**final_lexer(char *line)
 			{
 				c.tmp2 = lexer_redir(tab_q[c.i]);
 				c.tmp1 = ft_tabncat(tab_q, c.tmp2, c.i);
+				ft_putendl(c.tmp1[0]);
 				tab_q = fill_maintab(c.tmp1, c.tmp2, &c.i, tab_q);
 				break ;
 			}

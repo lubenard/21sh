@@ -41,6 +41,7 @@ SRC = srcs/main.c \
 	  srcs/parser/lexer.c \
 	  srcs/parser/final_lexer.c \
 	  srcs/parser/lexer_redir.c \
+	  srcs/parser/check_error_lexer.c \
 	  srcs/exec/execute_command.c \
 	  srcs/exec/find_path.c \
 	  srcs/input/line_edition.c \
@@ -67,7 +68,7 @@ OBJ = $(SRC:.c=.o)
 
 CC = clang
 
-CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 
 all:  $(NAME)
 

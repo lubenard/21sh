@@ -17,7 +17,7 @@ int		init(int *mainindex, int **prompt, t_coord *c)
 	*mainindex = 0;
 	if (set_none_canon_mode(0) == -1)
 	{
-		free(g_mainline);
+		ft_strdel(&g_mainline);
 		return (-1);
 	}
 	ft_bzero(&c, sizeof(c));
