@@ -49,14 +49,13 @@ char	*handle_dollar(t_hustru *big_struc, char *command)
 	int		e;
 	int		i;
 	int		a;
-	int		occur;
 	char	*ret;
+	char	*tmp;
 
 	a = 0;
 	ret = NULL;
-	occur = ft_occur(command, '$');
 	i = ft_strchri(command, '$');
-	while (a < occur)
+	while (a < ft_occur(command, '$'))
 	{
 		e = 0;
 		if (ret == NULL)
@@ -69,7 +68,9 @@ char	*handle_dollar(t_hustru *big_struc, char *command)
 			printf("Je realloc de + %d\n", handle_dollar3(big_struc, command, i, e));
 			ft_realloc(&ret, handle_dollar3(big_struc, command, i, e));
 		}
-		ft_strcat(ret, handle_dollar2(big_struc, command, &i, &e));
+		tmp = handle_dollar2(big_struc, command, &i, &e);
+		ft_strcat(ret, tmp);
+		free(tmp);
 		while (command[i] && command[i] != '$')
 			i++;
 		i++;

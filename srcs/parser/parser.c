@@ -159,7 +159,11 @@ int		decide_commande(t_hustru *big_struc, char **command,
 	}
 	else if (!ft_tabchr(command, '>') &&
 			!ft_tabchr(command, '<') && !ft_tabchr(command, '|'))
+	{
+		free(big_struc->line);
 		ret = basic_command(big_struc, command, fun);
+		return (ret);
+	}
 	free(big_struc->line);
 	return (ret);
 }

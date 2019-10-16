@@ -16,7 +16,7 @@ int		ft_exit(t_hustru *big_struc, int nbr)
 {
 	free_after_exit(big_struc->lkd_env, big_struc->lkd_hist, big_struc->path);
 	free(big_struc->history_path);
-	free(big_struc->line);
+//	free(big_struc->line);
 	free(big_struc);
 	reset_shell_attr(0);
 	exit(nbr);
