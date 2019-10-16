@@ -108,7 +108,7 @@ int		init_h(t_coord *c, char ***arg_tab, char **tab_line)
 	return (0);
 }
 
-int		hist_entry(t_coord *c, t_hustru *big_struc, char **arg_tab, char **tmp)
+int		hist_entry(t_coord *c, t_hustru *big_struc, char **arg_tab)
 {
 	move_hist(c, big_struc);
 	if (c->buf[0] == '\n')
@@ -116,8 +116,6 @@ int		hist_entry(t_coord *c, t_hustru *big_struc, char **arg_tab, char **tmp)
 		if (entry_h(c, arg_tab) == 0)
 		{
 			ft_strdel(&g_mainline);
-			if (arg_tab[1])
-				ft_strdel(tmp);
 			ft_deltab(arg_tab);
 			return (0);
 		}
@@ -150,7 +148,7 @@ char	*heredoc(t_hustru *big_struc, char **tab_line)
 		}
 		c.prompt[0] = c.coord[0] == 1 ? 1 : c.prompt[0];
 		c.r = main_core(c.buf, &c.prompt, &c.pos, &c.mainindex);
-		if (hist_entry(&c, big_struc, arg_tab, &c.tmp) == 0)
+		if (hist_entry(&c, big_struc, arg_tab) == 0)
 			return (c.tmp);
 		free_fornorme(0, NULL, c.coord, c.buf);
 	}
