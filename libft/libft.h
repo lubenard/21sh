@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 17:36:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/15 14:51:27 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/16 14:30:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char			*ft_strsub(char const *s, unsigned int start, size_t len);
 char			**ft_strsplit(char const *s, char c);
 char			*ft_strtrim(char const *s);
 char			*ft_fill(char *s, char c);
-char			*ft_realloc(char *str, int size);
+char			*ft_realloc(char **str, int size);
 char			*ft_strndup(const char *s, size_t n);
 size_t			ft_strlcat(char *dest, char const *src, size_t n);
 size_t			ft_strlen(char const *s);

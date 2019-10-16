@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 15:58:14 by lubenard          #+#    #+#             */
-/*   Updated: 2018/11/13 15:09:56 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/16 14:35:37 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_strcat(char *dest, char const *src)
 
 	i = 0;
 	e = 0;
+	if (!dest || !src)
+		return (dest);
 	while (dest[i])
 		i++;
 	while (src[e])

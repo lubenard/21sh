@@ -6,11 +6,43 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/15 23:23:42 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/16 14:36:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+int		handle_dollar3(t_hustru *big_struc, char *command, int i, int e)
+{
+	char	*tmp;
+	int		len;
+
+	if (command[i])
+	{
+		if (command[i + 1] == '?')
+			return (1);
+		while (command[i + e] && ft_isalnum(command[i + e]))
+			e++;
+		tmp = find_in_env(big_struc->lkd_env, ft_strsub(command, i, e));
+		len = ft_strlen(tmp);
+		free(tmp);
+		return (len);
+	}
+	return (0);
+}
+
+char	*handle_dollar2(t_hustru *big_struc, char *command, int *i, int *e)
+{
+	if (command[*i])
+	{
+		if (command[*i + 1] == '?')
+			return (ft_itoa(big_struc->last_ret));
+		while (command[*i + *e] && ft_isalnum(command[*i + *e]))
+			(*e)++;
+		return (find_in_env(big_struc->lkd_env, ft_strsub(command, *i, *e)));
+	}
+	return (NULL);
+}
 
 char	*handle_dollar(t_hustru *big_struc, char *command)
 {
@@ -18,33 +50,37 @@ char	*handle_dollar(t_hustru *big_struc, char *command)
 	int		i;
 	int		a;
 	int		occur;
+	char	*ret;
 
-	(void)big_struc;
 	a = 0;
+	ret = NULL;
 	occur = ft_occur(command, '$');
-	printf("%d\n", occur);
+	i = ft_strchri(command, '$');
 	while (a < occur)
 	{
-		printf("Je boucle, a vaut %d\n", a);
-		i = ft_strchri(command, '$');
 		e = 0;
-		if (command[i])
+		if (ret == NULL)
 		{
-			if (command[i + 1] == '?')
-				return (ft_itoa(big_struc->last_ret));
-			while (command[i + e] && ft_isalnum(command[i + e]))
-				e++;
-			return (find_in_env(big_struc->lkd_env, ft_strsub(command, i, e)));
+			printf("Je malloc de %d\n", handle_dollar3(big_struc, command, i, e));
+			ret = ft_strnew(handle_dollar3(big_struc, command, i, e));
 		}
-		printf("|%c|\n", command[e]);
+		else
+		{
+			printf("Je realloc de + %d\n", handle_dollar3(big_struc, command, i, e));
+			ft_realloc(&ret, handle_dollar3(big_struc, command, i, e));
+		}
+		ft_strcat(ret, handle_dollar2(big_struc, command, &i, &e));
 		while (command[i] && command[i] != '$')
 			i++;
 		i++;
 		a++;
-		printf("A = %d\n", a);
 	}
-	return ("");
+	return (ret);
 }
+
+/*
+** Check if folder exist for ~/
+*/
 
 char	*verify_folder(char buffer[4096], char user_name[4096], char *str)
 {
@@ -66,6 +102,10 @@ char	*verify_folder(char buffer[4096], char user_name[4096], char *str)
 		return (ft_strjoin("~", user_name));
 	return (ft_strdup(buffer));
 }
+
+/*
+** Handle ~ and replace it if needded
+*/
 
 char	*handle_tilde(t_hustru *big_struc, char *command)
 {
