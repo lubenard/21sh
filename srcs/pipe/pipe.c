@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/15 19:28:13 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/16 19:40:07 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@ int		count_args_triple_tab(char ***tab)
 ** Launch command pipes
 */
 
-void	launch_command_pipe(t_hustru *big_struc, char ***tab, int j)
+void	launch_command_pipe(t_hustru *big_struc, char ***tab, int j, int a)
 {
-	if (decide_commande(big_struc, tab[j], exec_without_fork) == 1)
-			free_pipe(tab);
-	exit(0);
+	if (decide_commande(big_struc, tab[j], exec_without_fork, 0) == 1)
+		free_pipe(tab);
+	if (a == 0)
+		exit(0);
 }
 
 /*
@@ -85,6 +86,38 @@ int		is_valid_command(t_hustru *big_struc, char **argv)
 }
 
 /*
+** Launch Pipes without forking
+*/
+
+int		handle_pipe_w_fork(t_hustru *big_struc, char *command)
+{
+	int		i;
+	char	***tab;
+	int		*pipes;
+	int		j;
+	int		k;
+
+	if ((tab = compact_command(command)) == NULL)
+		return (display_error("Pipe: Invalid pipe\n", NULL));
+	j = 0;
+	k = 0;
+	i = count_args_triple_tab(tab) - 1;
+	pipes = prepare_pipe(i);
+	while (tab[j])
+	{
+		exec_pipe(j, k, pipes, tab);
+		close_pipe(pipes, i * 2);
+		launch_command_pipe(big_struc, tab, j, 1);
+		if (j != 0)
+			k += 2;
+		j++;
+	}
+	close_pipe(pipes, i * 2);
+	free(pipes);
+	return (free_pipe(tab));
+}
+
+/*
 ** Launch pipes
 */
 
@@ -108,7 +141,7 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 		{
 			exec_pipe(j, k, pipes, tab);
 			close_pipe(pipes, i * 2);
-			launch_command_pipe(big_struc, tab, j);
+			launch_command_pipe(big_struc, tab, j, 0);
 		}
 		if (j != 0)
 			k += 2;

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 14:01:27 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/16 15:35:10 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/16 16:28:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int		ft_exit(t_hustru *big_struc, int nbr)
 {
 	free_after_exit(big_struc->lkd_env, big_struc->lkd_hist, big_struc->path);
 	free(big_struc->history_path);
-//	free(big_struc->line);
 	free(big_struc);
 	reset_shell_attr(0);
 	exit(nbr);
@@ -37,10 +36,7 @@ int		ft_atoi_exit(char *str)
 		i++;
 	}
 	while (str[i] >= '0' && str[i] <= '9')
-	{
-		output = output * 10 + str[i] - 48;
-		i++;
-	}
+		output = output * 10 + str[i++] - 48;
 	if (output > INT_MAX || (int)output < INT_MIN)
 		return (display_error("ymarsh: exit: integer is expected\n", NULL));
 	free(str);

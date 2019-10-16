@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/15 18:55:41 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/16 21:42:31 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		is_command_redir(int **fds, char **command, int j, int *k)
 			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_APPEND);
 		else if (ft_strchr(command[j - 1], '<'))
 			(*fds)[(*k)++] = open(command[j], O_RDONLY);
-		//printf("J'ai ouvert %s et sont fd associe est %d\n", command[j], (*fds)[(*k) - 1]);
+		printf("J'ai ouvert %s et sont fd associe est %d\n", command[j], (*fds)[(*k) - 1]);
 	}
 	else if (ft_strchr(command[j - 1], '>') && ft_strchr(command[j - 1], '<'))
 	{
@@ -112,11 +112,15 @@ int		fill_arrays(char **command, int **fds, char ***exec_command)
 	k = 0;
 	while (command[j])
 	{
-		//printf("[filling] Je regarde %s\n", command[j]);
-		if (!ft_strchr(command[j], '>') && !ft_strchr(command[j], '<'))
+		printf("[filling] Je regarde %s\n", command[j]);
+		if ((!ft_strchr(command[j], '>') && !ft_strchr(command[j], '<'))
+		|| is_between_quotes(command[j], 3))
 		{
 			if (!is_command(exec_command, command, j, &i))
+			{
+				printf("Je rentre dans commad_redir\n");
 				is_command_redir(fds, command, j, &k);
+			}
 		}
 		j++;
 	}
@@ -189,22 +193,27 @@ void	fd_redir(char **command, int *i)
 	else if (ft_isdigit(last_char))
 	{
 		fd2 = extract_first_fd(command, *i, extract_last(command[*i], '&'));
-		//printf("je redirige %d -> %d\n", fd, fd2);
+		printf("je redirige %d -> %d\n", fd, fd2);
 		dup2(fd2, fd);
 	}
 }
 
-int		do_heredoc(t_hustru *big_struc, char **command)
+int		do_heredoc(t_hustru *big_struc, char **command, int *i)
 {
 	//faire un pipe
 	int link[2];
 
 	if (pipe(link) == -1)
 		return (0);
+	printf("OULALA %s\n", heredoc(big_struc, command));
 	ft_putstr_fd(heredoc(big_struc, command), link[1]);
 	close(link[1]);
 	dup2(link[0], 0);
 	close(link[0]);
+	while (command[*i] && !ft_strchr(command[*i], '>') &&  !ft_strchr(command[*i], '<'))
+	{
+		(*i)++;
+	}
 	return (0);
 }
 
@@ -223,7 +232,7 @@ int		file_redir(t_hustru *big_struc, char **command, int *i, int *fds)
 		dup2(fd2, 2);
 	}
 	if (ft_strstr(command[*i], "<<"))
-		do_heredoc(big_struc, command);
+		do_heredoc(big_struc, command, i);
 	else
 	{
 		if (ft_strchr(command[*i], '>'))
@@ -288,6 +297,34 @@ char	*recompact_command(char **tab)
 	return (ret);
 }
 
+int		launch_arrow_w_fork(t_hustru *big_struc, char **command)
+{
+	int		*fds;
+	char	**exec_command;
+	int		fds_size;
+	pid_t	pid;
+	int		tmp_fd;
+
+	tmp_fd = 0;
+	pid = 0;
+	/*int m;
+	m = 0;
+	while (command[m])
+		printf("Je recois %s\n", command[m++]);*/
+	if (init_arrays(command, &fds, &exec_command, &fds_size) == -1)
+		return (display_error("ymarsh: init failed in redirections\n", NULL));
+	tmp_fd = redirect_fds(big_struc, command, fds);
+	//int jj = 0;
+	//while (exec_command[jj])
+	//	printf("Tab d'exec = %s\n", exec_command[jj++]);
+	decide_commande(big_struc, exec_command, exec_without_fork, 0);
+	free(fds);
+	free(exec_command);
+	if (tmp_fd > 0)
+		close(tmp_fd);
+	return (0);
+}
+
 int		launch_arrow(t_hustru *big_struc, char **command)
 {
 	int		*fds;
@@ -312,7 +349,7 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 			//int jj = 0;
 			//while (exec_command[jj])
 			//	printf("Tab d'exec = %s\n", exec_command[jj++]);
-			decide_commande(big_struc, exec_command, exec_without_fork);
+			decide_commande(big_struc, exec_command, exec_without_fork, 0);
 			exit(0);
 		}
 		wait(&pid);
@@ -321,6 +358,5 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 	free(exec_command);
 	if (tmp_fd > 0)
 		close(tmp_fd);
-	ft_deltab(command);
 	return (0);
 }

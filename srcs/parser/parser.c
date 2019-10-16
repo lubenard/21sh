@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/16 15:45:51 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/16 21:40:10 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ char	**parse_line(t_hustru *big_struc, char **command)
 */
 
 int		decide_commande(t_hustru *big_struc, char **command,
-	int (*fun)(t_hustru *, char **))
+	int (*fun)(t_hustru *, char **), int should_fork)
 {
 	int ret;
 
@@ -149,13 +149,19 @@ int		decide_commande(t_hustru *big_struc, char **command,
 	big_struc->line = recompact_command(command);
 	if (ft_tabchr(command, '|') && !ft_tabchr(command, '<'))
 	{
-	//	printf("Je rentre dans les pipe !\n");
-		ret = handle_pipe(big_struc, big_struc->line);
+		//	printf("Je rentre dans les pipe !\n");
+		if (should_fork)
+			ret = handle_pipe(big_struc, big_struc->line);
+		else
+			ret = handle_pipe_w_fork(big_struc, big_struc->line);
 	}
 	else if ((ft_tabchr(command, '>') || ft_tabchr(command, '<')))
 	{
-	//	printf("Je rentre dans les redirections\n");
-		ret = redirections(big_struc, command);
+		printf("Je rentre dans les redirections\n");
+		if (should_fork)
+			ret = redirections(big_struc, command);
+		else
+			ret = redirections_w_fork(big_struc, command);
 	}
 	else if (!ft_tabchr(command, '>') &&
 			!ft_tabchr(command, '<') && !ft_tabchr(command, '|'))
@@ -175,15 +181,17 @@ int		check_command(char **command)
 	i = 0;
 	while (command[i])
 	{
-		if (!is_between_quotes(command[i], 3) && ft_occur(command[i], ';') >= 2)
+		if (!is_between_quotes(command[i], 3)
+		&& (ft_occur(command[i], ';') >= 2
+		|| (command[i + 1] && command[i + 1][0] == ';')))
 		{
-			ft_putendl_fd("ymarsh: syntax error near unexpected token `;;'", 2);
 			ft_deltab(command);
-			return (0);
+			return (display_error("ymarsh: syntax error \
+near unexpected token `;;'\n", NULL));
 		}
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 char	**create_command(char **command, int *i, int *e)
@@ -234,7 +242,7 @@ int		parser(t_hustru *big_struc, char *command)
 		ft_deltab(quoted_command);
 		return ((big_struc->last_ret = 0));
 	}
-	if (!check_command(quoted_command))
+	if (check_command(quoted_command))
 		return (big_struc->last_ret = 258);
 	parse_line(big_struc, quoted_command);
 	/*i = 0;
@@ -247,12 +255,12 @@ int		parser(t_hustru *big_struc, char *command)
 	{
 		i++;
 		semicolon = create_command(quoted_command, &i, &e);
-		/*int m = 0;
+		int m = 0;
 		while (quoted_command[m])
 			printf("\e[31mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[m++]);
-		printf("\e[31mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[m]);*/
+		printf("\e[31mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[m]);
 		e = i;
-		big_struc->last_ret = decide_commande(big_struc, semicolon, exec_command_gen);
+		big_struc->last_ret = decide_commande(big_struc, semicolon, exec_command_gen, 1);
 		//if (big_struc->last_ret > 0)
 			ft_deltab(semicolon);
 	}

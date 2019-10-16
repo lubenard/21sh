@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 10:59:34 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/10 16:36:38 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/16 17:28:48 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int		init_h(t_coord *c, char ***arg_tab, char **tab_line)
 	a = 9;
 	ft_bzero(c, sizeof(c));
 	c->tmp = ft_strnew(1);
-	free(g_mainline);
+	//free(g_mainline);
 	g_mainline = ft_strnew(1);
 	c->i = 0;
 	*arg_tab = fill_arg_tab(tab_line, *arg_tab, &c->j);

@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/15 20:02:23 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/16 21:40:08 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,12 @@ int		cd(t_hustru *big_struc, char **commmand);
 ** Redirections
 */
 int		redirections(t_hustru *big_struc, char **lexed_command);
+int		redirections_w_fork(t_hustru *big_struc, char **lexed_command);
 /*
 ** Pipe
 */
 int		handle_pipe(t_hustru *big_struc, char *command);
+int		handle_pipe_w_fork(t_hustru *big_struc, char *command);
 /*
 ** Parser
 */
@@ -104,10 +106,11 @@ char	*extract_first(char *command, char stop);
 int		basic_command(t_hustru *big_struc, char **command,
 		int (*fun)(t_hustru *, char **));
 int		decide_commande(t_hustru *big_struc, char **command,
-		int (*fun)(t_hustru *, char **));
+		int (*fun)(t_hustru *, char **), int should_fork);
 void	handle_echo_options(char option);
 char	**create_command(char **command, int *i, int *e);
 int		is_valid_command(t_hustru *big_struc, char **argv);
+int		is_between_quotes(char *command, int mode_quote);
 
 /*
 ** Redirections utils
@@ -116,6 +119,7 @@ char	*heredoc(t_hustru *big_struc, char **tab_line);
 int		extract_first_fd(char **command, int i, char *to_convert);
 int		count_elem_redir(char **tab, int i);
 int		launch_arrow(t_hustru *big_struc, char **command);
+int		launch_arrow_w_fork(t_hustru *big_struc, char **command);
 int		print_error_redirect(char *code);
 int		create_file(char **filenames, int i);
 char	*recompact_command(char **command);
