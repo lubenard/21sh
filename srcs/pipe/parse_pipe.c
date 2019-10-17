@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/02 13:46:33 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/15 19:24:46 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/17 23:08:45 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int		*prepare_pipe(int i)
 	e = 0;
 	if (!(pipes = (int *)malloc(sizeof(int) * (i * 2))))
 		return (0);
+	printf("Je cree %d pipes\n", i *2);
 	while (e != i * 2)
 	{
 		pipe(pipes + e);

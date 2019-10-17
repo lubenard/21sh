@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/17 22:11:10 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/17 22:48:46 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,11 +205,6 @@ int		do_heredoc(t_hustru *big_struc, char **command, int *i)
 
 	if (pipe(link) == -1)
 		return (0);
-<<<<<<< HEAD
-
-	//printf("OULALA %s\n", heredoc(big_struc, command));
-=======
->>>>>>> c0873b75d5baf987814fa8c089589ed0ad36952f
 	ft_putstr_fd(heredoc(big_struc, command), link[1]);
 	close(link[1]);
 	dup2(link[0], 0);
