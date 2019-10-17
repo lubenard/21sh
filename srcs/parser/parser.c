@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/17 14:07:50 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/17 22:14:33 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,16 +140,20 @@ int		decide_commande(t_hustru *big_struc, char **command,
 {
 	int ret;
 
-	//int k = 0; // This variable is only for debug
-	//while (command[k])
-	//	printf("\e[32mJ'execute |%s|\e[0m\n", command[k++]);
+	if (should_fork)
+		printf("Je dois fork");
+	else
+		printf("Je ne fork pas\n");
+	int k = 0; // This variable is only for debug
+	while (command[k])
+		printf("\e[32mJ'execute |%s|\e[0m\n", command[k++]);
 	ret = 0;
 	if (!ft_strcmp(command[0], ""))
 		return (0);
 	big_struc->line = recompact_command(command);
-	if (ft_tabchr(command, '|') && !ft_tabchr(command, '<'))
+	if (ft_tabchr(command, '|'))
 	{
-		//	printf("Je rentre dans les pipe !\n");
+		printf("Je rentre dans les pipe !\n");
 		if (should_fork)
 			ret = handle_pipe(big_struc, big_struc->line);
 		else
@@ -257,10 +261,10 @@ int		parser(t_hustru *big_struc, char *command)
 	{
 		i++;
 		semicolon = create_command(quoted_command, &i, &e);
-		int m = 0;
-		while (quoted_command[m])
-			printf("\e[31mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[m++]);
-		printf("\e[31mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[m]);
+		/*int m = 0;
+		while (semicolon[m])
+			printf("\e[31mDecoupe en quote, cela donne |%s|\e[0m\n", semicolon[m++]);
+		printf("\e[31mDecoupe en quote, cela donne |%s|\e[0m\n", semicolon[m]);*/
 		e = i;
 		big_struc->last_ret = decide_commande(big_struc, semicolon, exec_command_gen, 1);
 		//if (big_struc->last_ret > 0)

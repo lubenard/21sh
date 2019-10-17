@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/16 21:42:31 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/17 22:11:10 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		is_command_redir(int **fds, char **command, int j, int *k)
 			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_APPEND);
 		else if (ft_strchr(command[j - 1], '<'))
 			(*fds)[(*k)++] = open(command[j], O_RDONLY);
-		printf("J'ai ouvert %s et sont fd associe est %d\n", command[j], (*fds)[(*k) - 1]);
+		//printf("J'ai ouvert %s et sont fd associe est %d\n", command[j], (*fds)[(*k) - 1]);
 	}
 	else if (ft_strchr(command[j - 1], '>') && ft_strchr(command[j - 1], '<'))
 	{
@@ -112,13 +112,13 @@ int		fill_arrays(char **command, int **fds, char ***exec_command)
 	k = 0;
 	while (command[j])
 	{
-		printf("[filling] Je regarde %s\n", command[j]);
+		//printf("[filling] Je regarde %s\n", command[j]);
 		if ((!ft_strchr(command[j], '>') && !ft_strchr(command[j], '<'))
 		|| is_between_quotes(command[j], 3))
 		{
 			if (!is_command(exec_command, command, j, &i))
 			{
-				printf("Je rentre dans commad_redir\n");
+				//printf("Je rentre dans commad_redir\n");
 				is_command_redir(fds, command, j, &k);
 			}
 		}
@@ -193,7 +193,7 @@ void	fd_redir(char **command, int *i)
 	else if (ft_isdigit(last_char))
 	{
 		fd2 = extract_first_fd(command, *i, extract_last(command[*i], '&'));
-		printf("je redirige %d -> %d\n", fd, fd2);
+		//printf("je redirige %d -> %d\n", fd, fd2);
 		dup2(fd2, fd);
 	}
 }
@@ -205,15 +205,19 @@ int		do_heredoc(t_hustru *big_struc, char **command, int *i)
 
 	if (pipe(link) == -1)
 		return (0);
-	printf("OULALA %s\n", heredoc(big_struc, command));
+
+	//printf("OULALA %s\n", heredoc(big_struc, command));
 	ft_putstr_fd(heredoc(big_struc, command), link[1]);
 	close(link[1]);
 	dup2(link[0], 0);
-	close(link[0]);
-	while (command[*i] && !ft_strchr(command[*i], '>') &&  !ft_strchr(command[*i], '<'))
+	//close(link[0]);
+	(void)i;
+	/*(*i)++;
+	while (command[*i] && !ft_strchr(command[*i], '>') || (!))
 	{
 		(*i)++;
 	}
+	(*i)--;*/
 	return (0);
 }
 
@@ -232,7 +236,16 @@ int		file_redir(t_hustru *big_struc, char **command, int *i, int *fds)
 		dup2(fd2, 2);
 	}
 	if (ft_strstr(command[*i], "<<"))
-		do_heredoc(big_struc, command, i);
+	{
+		(*i)++;
+		while (command[*i] && (!ft_strchr(command[*i], '>') || (!ft_strchr(command[*i], '<') && ft_occur(command[*i], '<') >= 2)))
+		{
+			//printf("Je passe %s\n", command[*i]);
+			(*i)++;
+		}
+		(*i)--;
+		//do_heredoc(big_struc, command, i);
+	}
 	else
 	{
 		if (ft_strchr(command[*i], '>'))
@@ -255,6 +268,8 @@ int		redirect_fds(t_hustru *big_struc, char **command, int *fds)
 	while (command[i] && !ft_strchr(command[i], '>')
 		&& !ft_strchr(command[i], '<'))
 		i++;
+	if (ft_tabstr(command, "<<"))
+		do_heredoc(big_struc, command, &i);
 	while (command[i])
 	{
 		//printf("\e[31mJe regarde %s\n\e[0m", command[i]);
@@ -335,8 +350,7 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 
 	tmp_fd = 0;
 	pid = 0;
-	/*int m;
-	m = 0;
+	/*int m = 0;
 	while (command[m])
 		printf("Je recois %s\n", command[m++]);*/
 	if (init_arrays(command, &fds, &exec_command, &fds_size) == -1)
@@ -346,9 +360,11 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 		if (!pid)
 		{
 			tmp_fd = redirect_fds(big_struc, command, fds);
-			//int jj = 0;
-			//while (exec_command[jj])
-			//	printf("Tab d'exec = %s\n", exec_command[jj++]);
+			/*int jj = 0;
+			while (exec_command[jj])
+				printf("Tab d'exec = %s\n", exec_command[jj++]);
+			while (jj < fds_size)
+				printf("Tab d'exec_fds = %d\n", fds[jj++]);*/
 			decide_commande(big_struc, exec_command, exec_without_fork, 0);
 			exit(0);
 		}

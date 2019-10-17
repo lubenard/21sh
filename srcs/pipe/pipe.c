@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/16 19:40:07 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/17 22:13:09 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 		if (!is_valid_command(big_struc, tab[j]) && fork() == 0)
 		{
 			exec_pipe(j, k, pipes, tab);
+			//printf("Launch %s\n", tab[j][0]);
 			close_pipe(pipes, i * 2);
 			launch_command_pipe(big_struc, tab, j, 0);
 		}
