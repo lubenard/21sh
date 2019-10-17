@@ -23,7 +23,8 @@ void	free_fornorme(int i, char **tmp, int *coord, char *buf)
 	}
 	else if (i == 1)
 	{
-		tmp2 = ft_strjoin(*tmp, g_mainline);
+		/*tmp2 = ft_strjoin(*tmp, g_mainline);*/
+		tmp2 = ft_strdup(g_mainline);
 		free(*tmp);
 		*tmp = ft_strjoin(tmp2, "\n");
 		free(tmp2);
