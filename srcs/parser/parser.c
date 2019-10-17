@@ -109,7 +109,7 @@ char	**parse_line(t_hustru *big_struc, char **command)
 
 	e = 0;
 	i = 0;
-	while (command[i])
+	while (command && command[i])
 	{
 		if (!is_between_quotes(command[i], 1))
 		{
@@ -243,7 +243,7 @@ int		parser(t_hustru *big_struc, char *command)
 	while (quoted_command[i])
 		printf("\e[31mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[i++]);
 	printf("\e[31mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[i]);*/
-	if (!ft_strcmp(quoted_command[0], ""))
+	if (quoted_command && !ft_strcmp(quoted_command[0], ""))
 	{
 		ft_deltab(quoted_command);
 		return ((big_struc->last_ret = 0));
@@ -257,7 +257,7 @@ int		parser(t_hustru *big_struc, char *command)
 	printf("\e[33mDecoupe en quote apres traitement, cela donne |%s|\e[0m\n", quoted_command[i]);*/
 	e = 0;
 	i = 0;
-	while (quoted_command[i])
+	while (quoted_command && quoted_command[i])
 	{
 		i++;
 		semicolon = create_command(quoted_command, &i, &e);
@@ -270,6 +270,7 @@ int		parser(t_hustru *big_struc, char *command)
 		//if (big_struc->last_ret > 0)
 			ft_deltab(semicolon);
 	}
-	ft_deltab(quoted_command);
+	if (quoted_command)
+		ft_deltab(quoted_command);
 	return (0);
 }

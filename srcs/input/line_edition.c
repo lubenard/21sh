@@ -15,11 +15,12 @@
 int		init(int *mainindex, int **prompt, t_coord *c)
 {
 	*mainindex = 0;
-	if (set_none_canon_mode(0) == -1)
+	if (c->k != 5 && set_none_canon_mode(0) == -1)
 	{
 		ft_strdel(&g_mainline);
 		return (-1);
 	}
+	singleton(0);
 	ft_bzero(&c, sizeof(c));
 	if (g_mainline)
 	{
@@ -27,21 +28,21 @@ int		init(int *mainindex, int **prompt, t_coord *c)
 		g_mainline = NULL;
 	}
 	g_mainline = ft_strnew(1);
-	singleton(0);
-	signal(SIGINT, signalhandler);
 	prompt[0] = get_coord(get_cursor_position());
 	return (0);
 }
 
-char	*read_quit(int **prompt, int **pos)
+char	*read_quit(int **prompt, int **pos, char d)
 {
 	t_coord c;
 
+	ft_bzero(&c, sizeof(c));
 	c.buf = ft_strnew(9);
 	if ((c.ret = read(0, c.buf, 8)) <= 0 || (c.buf[0] == 4 && c.buf[1] == 0
 		&& g_mainline[0] == 0))
 	{
-		ft_putstr_fd("exit\n", 0);
+		if (d != 'h')
+			ft_putstr_fd("exit\n", 0);
 		reset_shell_attr(0);
 		free(prompt[0]);
 		free(*pos);
@@ -56,15 +57,18 @@ char	*read_quit(int **prompt, int **pos)
 int		control_c(char *buf, int *prompt, int *coord, int r)
 {
 	struct s_coord	c;
+	int				rr;
 
-	if (buf[0] == 7 && !buf[1])
+	rr = get_row(0, ft_strlenu(g_mainline), prompt[1]);
+	if ((buf[0] == 7 && !r) || (buf[0] == 7 && !buf[1] && r))
 	{
-		r = r + get_nb_line_quote(g_mainline);
-		c.t = r;
+		
+		rr = rr + get_nb_line_quote(g_mainline);
+		c.t = rr;
 		if (coord[0] >= prompt[0] &&
-				coord[0] < prompt[0] + r)
+				coord[0] < prompt[0] + rr)
 			c.t = coord[0] - prompt[0];
-		while (c.t++ < r)
+		while (c.t++ < rr)
 			ft_putstr_fd("\e[B", 0);
 		ft_putstr_fd("\n\r", 0);
 		free(g_mainline);

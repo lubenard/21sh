@@ -21,13 +21,16 @@ int		singleton(int comp)
 	return (save);
 }
 
-void	signalhandler(int signal)
+void	signalhandler(int sig)
 {
 	pid_t tmp;
 
-	tmp = singleton(-1);
-	if (tmp)
-		kill(tmp, signal);
-	else
-		ioctl(0, TIOCSTI, "\7");
+	if (sig == SIGINT)
+	{
+		tmp = singleton(-1);
+		if (tmp)
+			kill(tmp, sig);
+		else
+			ioctl(0, TIOCSTI, "\7");
+	}
 }

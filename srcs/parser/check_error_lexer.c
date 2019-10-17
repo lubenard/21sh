@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   check_error_lexer.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/17 13:41:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/17 14:05:16 by lubenard         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <input.h>
 
 int		is_elem_error(t_coord c, char **tab_q)
@@ -22,10 +10,9 @@ int		is_elem_error(t_coord c, char **tab_q)
 		tab_q[c.i][c.j + 1] && ((tab_q[c.i][c.j + 1] == '&' && c.x)
 		|| tab_q[c.i][c.j + 1] == '<' || (tab_q[c.i][c.j + 1] == c.c && c.x))))
 	{
-		ft_putstr("ymarsh: parse error near: \'");
-		tab_q[c.i + 1] ? ft_putstr(tab_q[c.i + 1]) : ft_putstr(tab_q[c.i]);
-		ft_putendl("\'");
-		ft_deltab(tab_q);
+		ft_putstr_fd("ymarsh: parse error near: \'", 2);
+		tab_q[c.i + 1] ? ft_putstr_fd(tab_q[c.i + 1], 2) : ft_putstr_fd(tab_q[c.i], 2);
+		ft_putendl_fd("\'", 2);
 		return (-1);
 	}
 	return (0);
@@ -40,17 +27,16 @@ int		is_next_elem_error(t_coord c, char **tab_q)
 		if ((tab_q[c.i + 1] && (tab_q[c.i + 1][c.j] == '<'
 			|| tab_q[c.i + 1][c.j] == '>')) ||  !tab_q[c.i + 1])
 		{
-			ft_putstr("ymarsh: parse error near: \'");
-			tab_q[c.i + 1] ? ft_putstr(tab_q[c.i + 1]) : ft_putstr(tab_q[c.i]);
-			ft_putendl("\'");
-			ft_deltab(tab_q);
+			ft_putstr_fd("ymarsh: parse error near: \'", 2);
+			tab_q[c.i + 1] ? ft_putstr_fd(tab_q[c.i + 1], 2) : ft_putstr_fd(tab_q[c.i], 2);
+			ft_putendl_fd("\'", 2);
 			return (-1);
 		}
 	}
 	return (0);
 }
 
-int		is_semic_error(t_coord c, char **tab_q)
+int		is_semic_file_error(t_coord c, char **tab_q)
 {
 	if (c.i > 0 && tab_q[c.i - 1])
 		c.k = tab_q[c.i - 1][0];
@@ -59,7 +45,13 @@ int		is_semic_error(t_coord c, char **tab_q)
 			|| !tab_q[c.i + 1] || (c.k && (c.k == '<' || c.k == '>' || c.k == '&'))))
 	{
 		ft_deltab(tab_q);
-		ft_putendl("ymarsh: parse error near \';\'");
+		ft_putendl_fd("ymarsh: parse error near \';\'", 2);
+		return (-1);
+	}
+	else if (ft_strcmp(tab_q[c.i], "<") == 0 && tab_q[c.i + 1] &&  access(tab_q[c.i + 1], F_OK) == -1)
+	{
+		ft_putstr_fd("ymarsh: no such file or directory: ", 2);
+		ft_putendl_fd(tab_q[c.i + 1], 2);
 		return (-1);
 	}
 	return (0);
@@ -72,7 +64,7 @@ int		check_error_lexer(char **tab_q)
 	ft_bzero(&c, sizeof(c));
 	while (tab_q[c.i])
 	{
-		if (is_semic_error(c, tab_q) == -1)
+		if (is_semic_file_error(c, tab_q) == -1)
 			return (-1);
 		while (tab_q[c.i][c.j])
 		{

@@ -21,14 +21,14 @@ int		ft_read_1(t_hustru *big_struc)
 	c.pos = NULL;
 	while (42)
 	{
-		if ((c.buf = read_quit(&c.prompt, &c.pos)) == NULL)
+		if ((c.buf = read_quit(&c.prompt, &c.pos, 'l')) == NULL)
 			return (-1);
 		c.coord = get_coord(get_cursor_position());
 		c.prompt[0] = c.coord[0] == 1 ? 1 : c.prompt[0];
 		c.r = main_core(c.buf, &c.prompt, &c.pos, &c.mainindex);
 		move_hist(&c, big_struc);
 		if (control_c(c.buf, c.prompt, c.coord, c.r) == 0
-		|| (c.buf[0] == '\n' && entry(c.r, big_struc, c.coord, c.prompt)))
+		|| (c.buf[0] == 10 && entry(c.r, big_struc, c.coord, c.prompt)))
 		{
 			free(c.pos);
 			free(c.buf);

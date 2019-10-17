@@ -23,7 +23,8 @@ void	free_fornorme(int i, char **tmp, int *coord, char *buf)
 	}
 	else if (i == 1)
 	{
-		tmp2 = ft_strjoin(*tmp, g_mainline);
+		/*tmp2 = ft_strjoin(*tmp, g_mainline);*/
+		tmp2 = ft_strdup(g_mainline);
 		free(*tmp);
 		*tmp = ft_strjoin(tmp2, "\n");
 		free(tmp2);
@@ -82,22 +83,23 @@ int		entry_h(t_coord *c, char **arg_tab)
 		return (0);
 	}
 	else
-		ft_putstr_fd("heredoc> ", 2);
+		ft_putstr_fd("> ", 2);
 	return (-1);
 }
 
 int		init_h(t_coord *c, char ***arg_tab, char **tab_line)
 {
-	int a;
+	int	a;
 
 	a = 9;
 	ft_bzero(c, sizeof(c));
 	c->tmp = ft_strnew(1);
-	//free(g_mainline);
+	free(g_mainline);
 	g_mainline = ft_strnew(1);
 	c->i = 0;
+	c->k = 5;
 	*arg_tab = fill_arg_tab(tab_line, *arg_tab, &c->j);
-	ft_putstr_fd("heredoc> ", 2);
+	ft_putstr_fd("> ", 2);
 	if (init(&c->mainindex, &c->prompt, c) == -1 || arg_tab[0] == NULL)
 	{
 		while (a--)
@@ -135,13 +137,13 @@ char	*heredoc(t_hustru *big_struc, char **tab_line)
 	c.pos = NULL;
 	while (42)
 	{
-		if ((c.buf = read_quit(&c.prompt, &c.pos)) == NULL)
+		if ((c.buf = read_quit(&c.prompt, &c.pos, 'h')) == NULL)
 		{
 			ft_deltab(arg_tab);
 			return (c.tmp);
 		}
 		c.coord = get_coord(get_cursor_position());
-		if (control_c(c.buf, c.prompt, c.coord, c.r) == 0)
+		if (control_c(c.buf, c.prompt, c.coord, 0) == 0)
 		{
 			ft_deltab(arg_tab);
 			return (c.tmp);

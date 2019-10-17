@@ -111,6 +111,7 @@ void		catch_signal(void)
 	w.ws_col = ws.ws_col;
 	w.ws_row = ws.ws_row;
 	signal(SIGWINCH, size_handler);
+	signal(SIGINT, signalhandler);
 }
 
 int			main(int argc, char **argv, char **env)
@@ -135,7 +136,7 @@ int			main(int argc, char **argv, char **env)
 	display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	while (ft_read_1(big_struc) == 0)
 	{
-		/*ft_putstr("Derniere ligne de l'historique : ");
+	/*	ft_putstr("Derniere ligne de l'historique : ");
 		ft_putendl(big_struc->lkd_hist->history);
 		t_hist *tmp;
 		tmp = big_struc->lkd_hist;
@@ -150,5 +151,6 @@ int			main(int argc, char **argv, char **env)
 		display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	}
 	printf("retour derniere commande vaut %d\n", big_struc->last_ret);
+	//heredoc(big_struc, NULL);
 	return (ft_exit(big_struc, big_struc->last_ret));
 }
