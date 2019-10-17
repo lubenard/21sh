@@ -205,7 +205,6 @@ int		do_heredoc(t_hustru *big_struc, char **command, int *i)
 
 	if (pipe(link) == -1)
 		return (0);
-	printf("OULALA %s\n", heredoc(big_struc, command));
 	ft_putstr_fd(heredoc(big_struc, command), link[1]);
 	close(link[1]);
 	dup2(link[0], 0);

@@ -101,7 +101,7 @@ int		exec_command_gen(t_hustru *big_struc, char **argv)
 	if ((pid = fork()) < 0)
 		return (display_error("ymarsh: error: fork failed", NULL));
 	reset_shell_attr(0);
-	signal(SIGINT, handle_signals_proc);
+//	signal(SIGINT, handle_signals_proc);
 	env = compact_env(big_struc->lkd_env);
 	if (!pid)
 		execve(path, argv, env);

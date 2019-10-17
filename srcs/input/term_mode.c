@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include <input.h>
+#include <term.h>
+
+struct termios	term;
 
 char	*copy_until(char *str, int i)
 {
@@ -36,8 +39,6 @@ char	*copy_until(char *str, int i)
 
 int		set_none_canon_mode(int fd)
 {
-	struct termios term;
-
 	if (tcgetattr(fd, &term) == -1)
 		return (-1);
 	term.c_lflag &= ~(ICANON | ECHO);
@@ -55,13 +56,11 @@ int		set_none_canon_mode(int fd)
 
 int		reset_shell_attr(int fd)
 {
-	struct termios old;
-
-	if (tcgetattr(fd, &old) == -1)
+	if (tcgetattr(fd, &term) == -1)
 		return (-1);
-	old.c_lflag |= ICANON;
-	old.c_lflag |= ECHO;
-	if (tcsetattr(fd, TCSADRAIN, &old) == -1)
+	term.c_lflag |= ICANON;
+	term.c_lflag |= ECHO;
+	if (tcsetattr(fd, TCSADRAIN, &term) == -1)
 		return (-1);
 	return (0);
 }

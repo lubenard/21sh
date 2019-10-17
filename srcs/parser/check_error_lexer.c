@@ -70,7 +70,7 @@ int		check_error_lexer(char **tab_q)
 	t_coord	c;
 
 	ft_bzero(&c, sizeof(c));
-	while (tab_q[c.i])
+	while (tab_q && tab_q[c.i])
 	{
 		if (is_semic_error(c, tab_q) == -1)
 			return (-1);

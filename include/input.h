@@ -82,7 +82,7 @@ char				*do_i_have_to_do_it_quote(char *line, int *i,
 					t_hustru *big_struc, char **tmp);
 char				*get_inline(char *line, t_hustru *big_struc);
 int					init(int *mainindex, int **prompt, t_coord *c);
-char				*read_quit();
+char				*read_quit(int **prompt, int **pos, char d);
 int					entry(int r, t_hustru *big_struc, int *coord, int *prompt);
 char				*heredoc(t_hustru *big_struc, char **tab_line);
 int					*ft_print_line(char *tmp, int **pos, int *mainindex,

@@ -58,7 +58,7 @@ char	**init_p(t_coord *c, char **line, char **q_tab)
 	if (!(q_tab = malloc(sizeof(char *) *
 	(ft_occur(*line, ' ') + ft_occur(*line, ';') + 3))))
 		return (NULL);
-	if (!(q_tab[c->x] = malloc(sizeof(char) * (ft_strlen(*line) + 3))))
+	if (!(q_tab[c->x] = malloc(sizeof(char) * (ft_strlen(*line) + 4))))
 		return (NULL);
 	free(tmp);
 	return (q_tab);
@@ -71,7 +71,7 @@ char	**main_lexer(char *line)
 
 	q_tab = NULL;
 	ft_bzero(&c, sizeof(c));
-	if (!(q_tab = init_p(&c, &line, q_tab)))
+	if (!line || (q_tab = init_p(&c, &line, q_tab)) == NULL)
 		return (NULL);
 	while (line && line[c.i])
 	{
