@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/16 21:40:10 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/17 14:07:50 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ int		decide_commande(t_hustru *big_struc, char **command,
 	return (ret);
 }
 
-int		check_command(char **command)
+/*int		check_command(char **command)
 {
 	int i;
 
@@ -192,7 +192,7 @@ near unexpected token `;;'\n", NULL));
 		i++;
 	}
 	return (0);
-}
+}*/
 
 char	**create_command(char **command, int *i, int *e)
 {
@@ -233,6 +233,8 @@ int		parser(t_hustru *big_struc, char *command)
 	int		e;
 
 	quoted_command = final_lexer(command);
+	if (check_error_lexer(quoted_command) == -1)
+		return (big_struc->last_ret = 258);
 	/*i = 0;
 	while (quoted_command[i])
 		printf("\e[31mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[i++]);
@@ -242,8 +244,8 @@ int		parser(t_hustru *big_struc, char *command)
 		ft_deltab(quoted_command);
 		return ((big_struc->last_ret = 0));
 	}
-	if (check_command(quoted_command))
-		return (big_struc->last_ret = 258);
+	//if (check_command(quoted_command))
+	//	return (big_struc->last_ret = 258);
 	parse_line(big_struc, quoted_command);
 	/*i = 0;
 	while (quoted_command[i])

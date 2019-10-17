@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/16 21:40:08 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/17 14:07:48 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int		parser(t_hustru *big_struc, char *command);
 char	**main_lexer(char *line);
 char	**lexer_redir(char *str);
 char	**final_lexer(char *line);
+int		check_error_lexer(char **tab_q);
 /*
 ** Handle Signal
 */

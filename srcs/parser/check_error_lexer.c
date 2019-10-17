@@ -1,5 +1,17 @@
-//#include <input.h>
-#include "../lubenard/include/input.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_error_lexer.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/17 13:41:01 by lubenard          #+#    #+#             */
+/*   Updated: 2019/10/17 14:05:16 by lubenard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <input.h>
+
 int		is_elem_error(t_coord c, char **tab_q)
 {
 	c.c  = tab_q[c.i][c.j];
@@ -13,6 +25,7 @@ int		is_elem_error(t_coord c, char **tab_q)
 		ft_putstr("ymarsh: parse error near: \'");
 		tab_q[c.i + 1] ? ft_putstr(tab_q[c.i + 1]) : ft_putstr(tab_q[c.i]);
 		ft_putendl("\'");
+		ft_deltab(tab_q);
 		return (-1);
 	}
 	return (0);
@@ -30,6 +43,7 @@ int		is_next_elem_error(t_coord c, char **tab_q)
 			ft_putstr("ymarsh: parse error near: \'");
 			tab_q[c.i + 1] ? ft_putstr(tab_q[c.i + 1]) : ft_putstr(tab_q[c.i]);
 			ft_putendl("\'");
+			ft_deltab(tab_q);
 			return (-1);
 		}
 	}
@@ -44,6 +58,7 @@ int		is_semic_error(t_coord c, char **tab_q)
 		|| (tab_q[c.i + 1] && tab_q[c.i + 1][0] == ';')
 			|| !tab_q[c.i + 1] || (c.k && (c.k == '<' || c.k == '>' || c.k == '&'))))
 	{
+		ft_deltab(tab_q);
 		ft_putendl("ymarsh: parse error near \';\'");
 		return (-1);
 	}
