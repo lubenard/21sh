@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/17 23:02:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/18 16:09:53 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,70 @@ int		is_between_quotes(char *command, int quote_mode)
 	return (1);
 }
 
+int		is_between_quotes2(char **command, char quote_char)
+{
+	int i;
+
+	i = 0;
+	while (command[i])
+	{
+		if (ft_strchr(command[i], quote_char) && !ft_strchr(command[i], '\'')
+		&& !ft_strchr(command[i], '\"'))
+		{
+			return (0);
+		}
+		else if (ft_strchr(command[i], quote_char) && (ft_strchr(command[i], '\'')
+		|| ft_strchr(command[i], '\"')))
+		{
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+
+void	remove_quote(char ***command)
+{
+	int		i;
+	int		e;
+	int		j;
+	char	*tmp;
+
+	j = 0;
+	while ((*command)[j])
+	{
+		i = 0;
+		e = 0;
+		if (ft_strchr((*command)[j], '\'') || ft_strchr((*command)[j], '\"'))
+		{
+			while ((*command)[j][i])
+			{
+				if ((*command)[j][i] != '\'' && (*command)[j][i] != '\"')
+					e++;
+				i++;
+			}
+			if (!(tmp = ft_strnew(e)))
+				return ;
+			printf("Je malloc de %d\n", e);
+			e = 0;
+			i = 0;
+			while ((*command)[j][i])
+			{
+				if ((*command)[j][i] != '\'' && (*command)[j][i] != '\"')
+				{
+					tmp[e++] = (*command)[j][i];
+				}
+				i++;
+			}
+			free((*command)[j]);
+			(*command)[j] = tmp;
+			printf("Tmp = %s\n", tmp);
+		}
+		j++;
+	}
+}
+
 /*
 ** Decide if the command is a bultin or not
 */
@@ -39,6 +103,8 @@ int		basic_command(t_hustru *big_struc, char **command,
 	int (*fun)(t_hustru *, char **))
 {
 	int		ret_code;
+
+	remove_quote(&command);
 
 	if (!ft_strcmp(command[0], "env"))
 		ret_code = print_env(big_struc, command);
@@ -79,28 +145,6 @@ void	swap_elem(char **command, char *replace)
 ** in the env or by the correct path.
 */
 
-char	*remove_quote(char *command)
-{
-	char	*copy;
-	int		i;
-	int		e;
-
-	e = 0;
-	i = 0;
-	copy = NULL;
-	if (is_between_quotes(command, 1) || is_between_quotes(command, 2))
-	{
-		while (command[i] == '\'' || command[i] == '\"')
-			i++;
-		//while (command[i])
-		if (!(copy = ft_strnew(ft_strlen(command) - i)))
-			return (0);
-		ft_strnncpy(copy, command, 1, ft_strlen(command) - 1);
-	}
-	else
-		return (ft_strdup(command));
-	return (copy);
-}
 
 char	**parse_line(t_hustru *big_struc, char **command)
 {
@@ -151,7 +195,7 @@ int		decide_commande(t_hustru *big_struc, char **command,
 	if (!ft_strcmp(command[0], ""))
 		return (0);
 	big_struc->line = recompact_command(command);
-	if (ft_tabchr(command, '|'))
+	if (ft_tabchr(command, '|') && !is_between_quotes2(command, '|'))
 	{
 		printf("Je rentre dans les pipe !\n");
 		if (should_fork)
@@ -159,7 +203,8 @@ int		decide_commande(t_hustru *big_struc, char **command,
 		else
 			ret = handle_pipe_w_fork(big_struc, big_struc->line);
 	}
-	else if ((ft_tabchr(command, '>') || ft_tabchr(command, '<')))
+	else if ((!is_between_quotes2(command, '<') && !is_between_quotes2(command, '>')
+	&& (ft_tabchr(command, '>') || ft_tabchr(command, '<'))))
 	{
 		printf("Je rentre dans les redirections\n");
 		if (should_fork)
@@ -167,8 +212,7 @@ int		decide_commande(t_hustru *big_struc, char **command,
 		else
 			ret = redirections_w_fork(big_struc, command);
 	}
-	else if (!ft_tabchr(command, '>') &&
-			!ft_tabchr(command, '<') && !ft_tabchr(command, '|'))
+	else
 	{
 		free(big_struc->line);
 		ret = basic_command(big_struc, command, fun);
@@ -177,26 +221,6 @@ int		decide_commande(t_hustru *big_struc, char **command,
 	free(big_struc->line);
 	return (ret);
 }
-
-/*int		check_command(char **command)
-{
-	int i;
-
-	i = 0;
-	while (command[i])
-	{
-		if (!is_between_quotes(command[i], 3)
-		&& (ft_occur(command[i], ';') >= 2
-		|| (command[i + 1] && command[i + 1][0] == ';')))
-		{
-			ft_deltab(command);
-			return (display_error("ymarsh: syntax error \
-near unexpected token `;;'\n", NULL));
-		}
-		i++;
-	}
-	return (0);
-}*/
 
 char	**create_command(char **command, int *i, int *e)
 {
@@ -217,7 +241,7 @@ char	**create_command(char **command, int *i, int *e)
 	if (!(ret = malloc(sizeof(char *) * (*i + 1))))
 		return (NULL);
 	while (*e != *i)
-		ret[j++] = ft_strdup(command[(*e)++]);//remove_quote(command[(*e)++]);
+		ret[j++] = ft_strdup(command[(*e)++]);
 	ret[j] = NULL;
 	if (command[*i])
 		(*i)++;

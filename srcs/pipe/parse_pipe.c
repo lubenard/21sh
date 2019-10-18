@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/02 13:46:33 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/18 02:56:48 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/18 13:22:39 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int		*prepare_pipe(t_hustru *big_struc, char ***compacted_command, char *command
 		pipe(pipes + e);
 		e += 2;
 	}
-	printf("J'ecris %s sur pipes[1]\n", str);
+	//printf("J'ecris %s sur pipes[1]\n", str);
 	//ft_putstr_fd(str, pipes[1]);
 	return (pipes);
 }

@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/18 02:46:23 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/18 15:10:03 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ void	handle_echo_options(char option);
 char	**create_command(char **command, int *i, int *e);
 int		is_valid_command(t_hustru *big_struc, char **argv);
 int		is_between_quotes(char *command, int mode_quote);
+void	remove_quote(char ***command);
+
 
 /*
 ** Redirections utils

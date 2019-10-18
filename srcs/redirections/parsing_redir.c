@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 14:50:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/14 21:58:32 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/18 16:27:29 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		count_args_redir(char **tab, int i)
 		}
 		j++;
 	}
-	//printf("\e[35m[Count args redir] Elem vaut %d\e[0m\n", elem + i);
+	printf("\e[35m[Count args redir] Elem vaut %d\e[0m\n", elem + i);
 	return (elem + i);
 }
 
@@ -58,7 +58,9 @@ int		count_elem_redir(char **tab, int i)
 	elem = 0;
 	while (tab[i + j])
 	{
-		if (!ft_strchr(tab[i + j], '>') && !ft_strchr(tab[i + j], '<'))
+		if (ft_strchr(tab[i + j], '\'') || ft_strchr(tab[i + j], '\"'))
+			elem++;
+		else if (!ft_strchr(tab[i + j], '>') && !ft_strchr(tab[i + j], '<'))
 		{
 			if ((ft_strstr(tab[i + j - 1], "&>")
 			|| ft_strchr(tab[i + j - 1], '>')
@@ -73,6 +75,6 @@ int		count_elem_redir(char **tab, int i)
 		}
 		j++;
 	}
-	//printf("\e[35m[Count elem redir] Elem vaut %d\e[0m\n", elem);
+	printf("\e[35m[Count elem redir] Elem vaut %d\e[0m\n", elem);
 	return (elem);
 }
