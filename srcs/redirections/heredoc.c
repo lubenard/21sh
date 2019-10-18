@@ -12,21 +12,23 @@
 
 #include <input.h>
 
-void	free_fornorme(int i, char **tmp, int *coord, char *buf)
+void	free_fornorme(int i, t_coord *c, char **arg_tab)
 {
 	char	*tmp2;
 
 	if (i == 0)
 	{
-		free(buf);
-		free(coord);
+		free(c->buf);
+		free(c->coord);
 	}
 	else if (i == 1)
 	{
-		/*tmp2 = ft_strjoin(*tmp, g_mainline);*/
-		tmp2 = ft_strdup(g_mainline);
-		free(*tmp);
-		*tmp = ft_strjoin(tmp2, "\n");
+		if (arg_tab[1])
+			tmp2 = ft_strdup(g_mainline);
+		else
+			tmp2 = ft_strjoin(c->tmp, g_mainline);
+		free(c->tmp);
+		c->tmp = ft_strjoin(tmp2, "\n");
 		free(tmp2);
 	}
 }
@@ -73,7 +75,7 @@ int		entry_h(t_coord *c, char **arg_tab)
 		c->i++;
 	}
 	else
-		free_fornorme(1, &c->tmp, NULL, NULL);
+		free_fornorme(1, c, arg_tab);
 	if (c->i == c->j)
 	{
 		free(c->coord);
@@ -152,6 +154,6 @@ char	*heredoc(t_hustru *big_struc, char **tab_line)
 		c.r = main_core(c.buf, &c.prompt, &c.pos, &c.mainindex);
 		if (hist_entry(&c, big_struc, arg_tab) == 0)
 			return (c.tmp);
-		free_fornorme(0, NULL, c.coord, c.buf);
+		free_fornorme(0, &c, NULL);
 	}
 }

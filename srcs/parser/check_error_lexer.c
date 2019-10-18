@@ -7,7 +7,7 @@ int		is_elem_error(t_coord c, char **tab_q)
 	c.x = c.k && tab_q[c.i][c.j + 2] ? tab_q[c.i][c.j+ 2] : 0;;
 	if ((c.j > 0 && tab_q[c.i][c.j - 1] == '&') || (c.c == '<' && c.k &&
 		(c.k == '&' || c.k == '>'|| (c.k == c.c && c.x))) || (c.c == '>' &&
-		tab_q[c.i][c.j + 1] && ((tab_q[c.i][c.j + 1] == '&' && c.x)
+		tab_q[c.i][c.j + 1] && ((tab_q[c.i][c.j + 1] == '&' && ft_isdigit(c.x) == 0)
 		|| tab_q[c.i][c.j + 1] == '<' || (tab_q[c.i][c.j + 1] == c.c && c.x))))
 	{
 		ft_putstr_fd("ymarsh: parse error near: \'", 2);
@@ -62,7 +62,7 @@ int		check_error_lexer(char **tab_q)
 	t_coord	c;
 
 	ft_bzero(&c, sizeof(c));
-	while (tab_q[c.i])
+	while (tab_q && tab_q[c.i])
 	{
 		if (is_semic_file_error(c, tab_q) == -1)
 			return (-1);
