@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/17 14:07:48 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/18 02:46:23 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int		is_digit(char *str);
 void	close_pipe(int *pipes, int i);
 char	***compact_command(char *command);
 int		free_pipe(char ***command);
-int		*prepare_pipe(int i);
+int		*prepare_pipe(t_hustru *big_struc, char ***compacted_command, char *command, int i);
 
 /*
 ** Buitltins Utils

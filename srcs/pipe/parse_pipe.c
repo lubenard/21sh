@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/02 13:46:33 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/17 23:08:45 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/18 02:56:48 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,44 @@ int		free_pipe(char ***command)
 }
 
 /*
+** Handle pipe and heredoc
+*/
+
+char	*pipe_heredoc(t_hustru *big_struc, char ***command)
+{
+	int i;
+	char *str;
+
+	i = 0;
+	str = NULL;
+	while (command[i])
+	{
+		if (ft_tabstr(command[i], "<<"))
+		{
+			//if (str)
+			//	ft_strdel(&str);
+			big_struc->pipe_heredoc = heredoc(big_struc, command[i]);
+		}
+		i++;
+	}
+	return (str);
+}
+
+/*
 ** Malloc pipes and create connections between them
 */
 
-int		*prepare_pipe(int i)
+int		*prepare_pipe(t_hustru *big_struc, char ***compacted_command, char *command, int i)
 {
 	int		*pipes;
 	int		e;
+	char	*str;
 
+	if (ft_strstr(command, "<<"))
+	{
+		big_struc->should_heredoc = 0;
+		str = pipe_heredoc(big_struc, compacted_command);
+	}
 	e = 0;
 	if (!(pipes = (int *)malloc(sizeof(int) * (i * 2))))
 		return (0);
@@ -88,6 +118,8 @@ int		*prepare_pipe(int i)
 		pipe(pipes + e);
 		e += 2;
 	}
+	printf("J'ecris %s sur pipes[1]\n", str);
+	//ft_putstr_fd(str, pipes[1]);
 	return (pipes);
 }
 

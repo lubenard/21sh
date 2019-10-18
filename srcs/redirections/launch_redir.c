@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/17 22:48:46 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/18 02:29:32 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,8 +266,11 @@ int		redirect_fds(t_hustru *big_struc, char **command, int *fds)
 	while (command[i] && !ft_strchr(command[i], '>')
 		&& !ft_strchr(command[i], '<'))
 		i++;
-	if (ft_tabstr(command, "<<"))
+	if (ft_tabstr(command, "<<") && big_struc->should_heredoc == 1)
+	{
+		printf("je lance heredoc\n");
 		do_heredoc(big_struc, command, &i);
+	}
 	while (command[i])
 	{
 		//printf("\e[31mJe regarde %s\n\e[0m", command[i]);

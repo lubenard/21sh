@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/17 21:39:45 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/18 02:55:49 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)
 	big_struc->last_ret = 0;
 	big_struc->line = NULL;
 	big_struc->fds_index = 0;
+	big_struc->should_heredoc = 1;
+	big_struc->pipe_heredoc = NULL;
 	big_struc->history_path = ft_strjoin(getcwd(buff, 4096), "/.history");
 	return (big_struc);
 }
