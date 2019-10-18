@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/15 21:39:40 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/18 02:55:49 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)
 	big_struc->last_ret = 0;
 	big_struc->line = NULL;
 	big_struc->fds_index = 0;
+	big_struc->should_heredoc = 1;
+	big_struc->pipe_heredoc = NULL;
 	big_struc->history_path = ft_strjoin(getcwd(buff, 4096), "/.history");
 	return (big_struc);
 }
@@ -131,7 +133,8 @@ int			main(int argc, char **argv, char **env)
 	change_env(big_struc);
 	//if (get_option(big_struc, argv) == 1)
 	//	return (ft_exit(big_struc, 0));
-	//parser(big_struc, argv[1]);
+	if (argv[1])
+		parser(big_struc, argv[1]);
 	display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	while (ft_read_1(big_struc) == 0)
 	{

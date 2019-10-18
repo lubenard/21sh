@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/16 19:40:07 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/18 03:01:25 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,20 @@ int		wait_pipe(int i, int *pipes, char ***tab)
 void	exec_pipe(int j, int k, int *pipes, char ***tab)
 {
 	if (j != 0)
+	{
+		printf("Je redirige pipes[%d], 0\n", k);
 		dup2(pipes[k], 0);
+	}
 	if (tab[j + 1] && j != 0)
+	{
+		printf("Je redirige pipes[%d], 1\n", k + 3);
 		dup2(pipes[k + 3], 1);
+	}
 	if (j == 0)
+	{
+		printf("Je redirige pipes[%d], 1\n", 1);
 		dup2(pipes[1], 1);
+	}
 }
 
 int		is_valid_command(t_hustru *big_struc, char **argv)
@@ -102,7 +111,7 @@ int		handle_pipe_w_fork(t_hustru *big_struc, char *command)
 	j = 0;
 	k = 0;
 	i = count_args_triple_tab(tab) - 1;
-	pipes = prepare_pipe(i);
+	pipes = prepare_pipe(big_struc, tab ,command,i);
 	while (tab[j])
 	{
 		exec_pipe(j, k, pipes, tab);
@@ -134,13 +143,17 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 	j = 0;
 	k = 0;
 	i = count_args_triple_tab(tab) - 1;
-	pipes = prepare_pipe(i);
+	pipes = prepare_pipe(big_struc, tab, command, i);
 	while (tab[j])
 	{
 		if (!is_valid_command(big_struc, tab[j]) && fork() == 0)
 		{
 			exec_pipe(j, k, pipes, tab);
 			close_pipe(pipes, i * 2);
+			if (big_struc->pipe_heredoc)
+				ft_putstr_fd(big_struc->pipe_heredoc, pipes[1]);
+			//exec_pipe(j, k, pipes, tab);
+			//close_pipe(pipes, i * 2);
 			launch_command_pipe(big_struc, tab, j, 0);
 		}
 		if (j != 0)

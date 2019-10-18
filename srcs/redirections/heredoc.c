@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 10:59:34 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/16 17:28:48 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/17 22:02:26 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int		init_h(t_coord *c, char ***arg_tab, char **tab_line)
 	if (init(&c->mainindex, &c->prompt, c) == -1 || arg_tab[0] == NULL)
 	{
 		while (a--)
-			ft_putchar('\b');
+			ft_putchar_fd('\b', 0);
 		ft_putstr_fd("\e[2K", 2);
 		return (-1);
 	}
