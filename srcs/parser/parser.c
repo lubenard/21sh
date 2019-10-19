@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/18 16:09:53 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/19 17:22:33 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	remove_quote(char ***command)
 			}
 			if (!(tmp = ft_strnew(e)))
 				return ;
-			printf("Je malloc de %d\n", e);
+			//printf("Je malloc de %d\n", e);
 			e = 0;
 			i = 0;
 			while ((*command)[j][i])
@@ -89,7 +89,7 @@ void	remove_quote(char ***command)
 			}
 			free((*command)[j]);
 			(*command)[j] = tmp;
-			printf("Tmp = %s\n", tmp);
+			//printf("Tmp = %s\n", tmp);
 		}
 		j++;
 	}
@@ -184,20 +184,20 @@ int		decide_commande(t_hustru *big_struc, char **command,
 {
 	int ret;
 
-	if (should_fork)
+	/*if (should_fork)
 		printf("Je dois fork");
 	else
 		printf("Je ne fork pas\n");
 	int k = 0; // This variable is only for debug
 	while (command[k])
-		printf("\e[32mJ'execute |%s|\e[0m\n", command[k++]);
+		printf("\e[32mJ'execute |%s|\e[0m\n", command[k++]);*/
 	ret = 0;
 	if (!ft_strcmp(command[0], ""))
 		return (0);
 	big_struc->line = recompact_command(command);
 	if (ft_tabchr(command, '|') && !is_between_quotes2(command, '|'))
 	{
-		printf("Je rentre dans les pipe !\n");
+		//printf("Je rentre dans les pipe !\n");
 		if (should_fork)
 			ret = handle_pipe(big_struc, big_struc->line);
 		else
@@ -206,7 +206,7 @@ int		decide_commande(t_hustru *big_struc, char **command,
 	else if ((!is_between_quotes2(command, '<') && !is_between_quotes2(command, '>')
 	&& (ft_tabchr(command, '>') || ft_tabchr(command, '<'))))
 	{
-		printf("Je rentre dans les redirections\n");
+		//printf("Je rentre dans les redirections\n");
 		if (should_fork)
 			ret = redirections(big_struc, command);
 		else

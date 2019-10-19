@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/18 19:23:29 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/19 18:37:32 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,17 @@ void	exec_pipe(int j, int k, int *pipes, char ***tab)
 {
 	if (j != 0)
 	{
-		printf("Je redirige pipes[%d], 0\n", k);
+		//printf("Je redirige pipes[%d], 0\n", k);
 		dup2(pipes[k], 0);
 	}
 	if (tab[j + 1] && j != 0)
 	{
-		printf("Je redirige pipes[%d], 1\n", k + 3);
+		//printf("Je redirige pipes[%d], 1\n", k + 3);
 		dup2(pipes[k + 3], 1);
 	}
 	if (j == 0)
 	{
-		printf("Je redirige pipes[%d], 1\n", 1);
+		//printf("Je redirige pipes[%d], 1\n", 1);
 		dup2(pipes[1], 1);
 	}
 }
@@ -144,23 +144,28 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 	k = 0;
 	i = count_args_triple_tab(tab) - 1;
 	pipes = prepare_pipe(big_struc, tab, command, i);
-	//if (big_struc->pipe_heredoc)
-	//{
-	//	printf("J'envoie %s sur pipe[1]\n", big_struc->pipe_heredoc);
-//		ft_putstr_fd(big_struc->pipe_heredoc, pipes[1]);
-//	}
 	while (tab[j])
 	{
+		printf("J'execute avant verif %s, j == %d\n", tab[j][0], j);
 		if (!is_valid_command(big_struc, tab[j]) && fork() == 0)
 		{
+			printf("J'execute apres verif %s, j == %d\n", tab[j][0], j);
 			exec_pipe(j, k, pipes, tab);
-			//exec_pipe(j, k, pipes, tab);
-			if (big_struc->pipe_heredoc)
+			printf("J'execute apres exec_pipe %s, j == %d\n", tab[j][0], j);
+			if (big_struc->pipe_heredoc && ft_tabstr(tab[j], "<<"))
 			{
-				printf("J'envoie\n%s sur pipe[1] dans %s\n", big_struc->pipe_heredoc, tab[j][0]);
-				ft_putstr_fd(big_struc->pipe_heredoc, pipes[1]);
+				printf("Inside heredoc %s, j == %d\n", tab[j][0], j);
+				//exec_pipe(j, k, pipes, tab);
+				//printf("J'envoie dans l'output de %s\n", tab[j][0]);
+				int link[2];
+				if (pipe(link) == -1)
+					return (0);
+				ft_putstr_fd(big_struc->pipe_heredoc, link[1]);
+				close(link[1]);
+				dup2(link[0], 0);
 			}
 			close_pipe(pipes, i * 2);
+			printf("J'execute apres heredoc %s, j == %d\n", tab[j][0], j);
 			launch_command_pipe(big_struc, tab, j, 0);
 		}
 		if (j != 0)

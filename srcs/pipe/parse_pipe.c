@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/02 13:46:33 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/18 13:22:39 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/19 17:06:52 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int		*prepare_pipe(t_hustru *big_struc, char ***compacted_command, char *command
 	e = 0;
 	if (!(pipes = (int *)malloc(sizeof(int) * (i * 2))))
 		return (0);
-	printf("Je cree %d pipes\n", i *2);
+	//printf("Je cree %d pipes\n", i *2);
 	while (e != i * 2)
 	{
 		pipe(pipes + e);
