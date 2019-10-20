@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/18 18:16:33 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/20 22:20:39 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,120 +18,6 @@
 ** 2) Make the god redirections
 ** 3) Execute the command
 */
-
-int		is_command_redir(int **fds, char **command, int j, int *k)
-{
-	int fd;
-
-	remove_quote(&command);
-	if (access(command[j], F_OK) == -1 && ft_strcmp(command[j - 1], "<<"))
-	{
-		if ((fd = open(command[j], O_CREAT, 0644) < 0))
-			return (display_error("ymarsh: error while creating file ",
-			command[j]));
-	}
-	if ((ft_strstr(command[j - 1], "&>")
-	|| ft_strchr(command[j - 1], '>')
-	|| ft_strchr(command[j - 1], '<'))
-	&& !ft_strstr(command[j - 1], ">&")
-	&& !ft_strstr(command[j - 1], "<&")
-	&& ft_strcmp(command[j - 1], "<<"))
-	{
-		printf("[Fill fds tab] Je rajoute %s\n", command[j]);
-		if (ft_occur(command[j - 1], '>') == 1)
-			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_TRUNC);
-		else if (ft_occur(command[j - 1], '>') == 2)
-			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_APPEND);
-		else if (ft_strchr(command[j - 1], '<'))
-			(*fds)[(*k)++] = open(command[j], O_RDONLY);
-		printf("J'ai ouvert %s et sont fd associe est %d\n", command[j], (*fds)[(*k) - 1]);
-	}
-	else if (ft_strchr(command[j - 1], '>') && ft_strchr(command[j - 1], '<'))
-	{
-		if (ft_occur(command[j - 1], '>') == 1)
-			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_TRUNC);
-		else if (ft_occur(command[j - 1], '>') == 2)
-			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_APPEND);
-		else if (ft_strchr(command[j - 1], '<'))
-			(*fds)[(*k)++] = open(command[j], O_RDONLY);
-	}
-	return (0);
-}
-
-int		is_command(char ***exec_command, char **command, int j, int *i)
-{
-	if (j > 0)
-	{
-		if ((ft_strstr(command[j - 1], "<&")
-		|| ft_strstr(command[j - 1], ">&")) && is_digit(command[j - 1]))
-		{
-			//printf("[Adding to command] Je rajoute %s\n", command[j]);
-			(*exec_command)[(*i)++] = command[j];
-			return (1);
-		}
-		else if (!ft_strchr(command[j - 1], '>')
-		&& !ft_strchr(command[j - 1], '<'))
-		{
-			//printf("[Count args redir] Je rajoute %s\n", command[j]);
-			(*exec_command)[(*i)++] = command[j];
-			return (1);
-		}
-	}
-	else
-	{
-		//printf("[Adding to command] Je rajoute %s\n", command[j]);
-		(*exec_command)[(*i)++] = command[j];
-		return (1);
-	}
-	return (0);
-}
-
-int		fill_arrays(char **command, int **fds, char ***exec_command)
-{
-	int i;
-	int j;
-	int k;
-
-	j = 0;
-	i = 0;
-	k = 0;
-	while (command[j])
-	{
-		//printf("[filling] Je regarde %s\n", command[j]);
-		if ((!ft_strchr(command[j], '>') && !ft_strchr(command[j], '<'))
-		|| is_between_quotes(command[j], 3))
-		{
-			if (!is_command(exec_command, command, j, &i))
-			{
-				//printf("Je rentre dans commad_redir\n");
-				is_command_redir(fds, command, j, &k);
-			}
-		}
-		j++;
-	}
-	(*exec_command)[i] = NULL;
-	return (0);
-}
-
-int		init_arrays(char **command, int **fds,
-	char ***exec_command, int *fds_size)
-{
-	int i;
-	int fd;
-
-	i = 0;
-	fd = 0;
-	while (command[i] && !ft_strchr(command[i], '>')
-		&& !ft_strchr(command[i], '<'))
-		i++;
-	if (!(*exec_command = (char **)malloc(sizeof(char *) *
-		(count_args_redir(command, i) + 1))))
-		return (display_error("ymarsh: error during malloc", NULL));
-	if (!(*fds = (int *)malloc(sizeof(int) *
-		(*fds_size = count_elem_redir(command, i)))))
-		return (display_error("ymarsh: error during malloc", NULL));
-	return (fill_arrays(command, fds, exec_command));
-}
 
 int		extract_first_fd(char **command, int i, char *to_convert)
 {
@@ -154,36 +40,7 @@ int		extract_first_fd(char **command, int i, char *to_convert)
 	return (fd);
 }
 
-void	fd_redir(char **command, int *i)
-{
-	int		fd;
-	int		fd2;
-	char	last_char;
-
-	fd = 0;
-	//printf("FD_REDIR\n");
-	if (ft_strchr(command[*i], '>'))
-		fd = extract_first_fd(command, *i, extract_first(command[*i], '>'));
-	else if (ft_strchr(command[*i], '<'))
-		fd = extract_first_fd(command, *i, extract_first(command[*i], '<'));
-	//printf("First fd is %d\n", fd);
-	last_char = command[*i][ft_strlen(command[*i]) - 1];
-	//printf("Mon last char est |%c|\n", last_char);
-	if (last_char == '-')
-	{
-	//	printf("Je ferme %d\n", fd);
-		if (close(fd) == -1)
-			display_error("ymarsh: Error while closing file\n", NULL);
-	}
-	else if (ft_isdigit(last_char))
-	{
-		fd2 = extract_first_fd(command, *i, extract_last(command[*i], '&'));
-		//printf("je redirige %d -> %d\n", fd, fd2);
-		dup2(fd2, fd);
-	}
-}
-
-int		do_heredoc(t_hustru *big_struc, char **command, int *i)
+int		do_heredoc(t_hustru *big_struc, char **command)
 {
 	//faire un pipe
 	int link[2];
@@ -193,53 +50,6 @@ int		do_heredoc(t_hustru *big_struc, char **command, int *i)
 	ft_putstr_fd(heredoc(big_struc, command), link[1]);
 	close(link[1]);
 	dup2(link[0], 0);
-	//close(link[0]);
-	(void)i;
-	/*(*i)++;
-	while (command[*i] && !ft_strchr(command[*i], '>') || (!))
-	{
-		(*i)++;
-	}
-	(*i)--;*/
-	return (0);
-}
-
-int		file_redir(t_hustru *big_struc, char **command, int *i, int *fds)
-{
-	int		fd;
-	int		fd2;
-
-	fd = 0;
-	//printf("FILE_REDIR\n");
-	if (!ft_strcmp(command[*i], "&>"))
-	{
-	//	printf("doucle redir\n");
-		fd2 = dup(fds[big_struc->fds_index]);
-	//	printf("Je redirige %d vers %d\n", 2, fd2);
-		dup2(fd2, 2);
-	}
-	if (ft_strstr(command[*i], "<<"))
-	{
-		(*i)++;
-		while (command[*i] && (!ft_strchr(command[*i], '>') || (!ft_strchr(command[*i], '<') && ft_occur(command[*i], '<') >= 2)))
-		{
-			//printf("Je passe %s\n", command[*i]);
-			(*i)++;
-		}
-		(*i)--;
-		//do_heredoc(big_struc, command, i);
-	}
-	else
-	{
-		if (ft_strchr(command[*i], '>'))
-			fd = extract_first_fd(command, *i, extract_first(command[*i], '>'));
-		else if (ft_strchr(command[*i], '<'))
-			fd = extract_first_fd(command, *i, extract_first(command[*i], '<'));
-		//printf("Extracted fd = %d\n", fd);
-		printf("big_struc->fds_index = %d\n", big_struc->fds_index);
-		printf("je redirige %d -> %d\n", fd, fds[big_struc->fds_index]);
-		dup2(fds[big_struc->fds_index++], fd);
-	}
 	return (0);
 }
 
@@ -254,12 +64,12 @@ int		redirect_fds(t_hustru *big_struc, char **command, int *fds, int fds_size)
 		i++;
 	if (ft_tabstr(command, "<<") && big_struc->should_heredoc == 1)
 	{
-		printf("je lance heredoc\n");
-		do_heredoc(big_struc, command, &i);
+		//printf("je lance heredoc\n");
+		do_heredoc(big_struc, command);
 	}
 	while (command[i])
 	{
-		printf("\e[31mJe regarde %s\n\e[0m", command[i]);
+		//printf("\e[31mJe regarde %s\n\e[0m", command[i]);
 		if ((ft_strchr(command[i], '>') || ft_strchr(command[i], '<'))
 		&& ft_strchr(command[i], '&') && ft_strcmp(command[i], "&>"))
 			fd_redir(command, &i);

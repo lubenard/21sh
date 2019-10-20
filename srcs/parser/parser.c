@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/19 17:22:33 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/20 22:26:48 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,16 +207,12 @@ int		decide_commande(t_hustru *big_struc, char **command,
 	&& (ft_tabchr(command, '>') || ft_tabchr(command, '<'))))
 	{
 		//printf("Je rentre dans les redirections\n");
-		if (should_fork)
-			ret = redirections(big_struc, command);
-		else
-			ret = redirections_w_fork(big_struc, command);
+		ret = redirections(big_struc, command, should_fork);
 	}
 	else
 	{
 		free(big_struc->line);
-		ret = basic_command(big_struc, command, fun);
-		return (ret);
+		return (ret = basic_command(big_struc, command, fun));
 	}
 	free(big_struc->line);
 	return (ret);
@@ -293,6 +289,8 @@ int		parser(t_hustru *big_struc, char *command)
 		big_struc->last_ret = decide_commande(big_struc, semicolon, exec_command_gen, 1);
 		//if (big_struc->last_ret > 0)
 			ft_deltab(semicolon);
+		ft_strdel(&big_struc->pipe_heredoc);
+		big_struc->should_heredoc = 1;
 	}
 	if (quoted_command)
 		ft_deltab(quoted_command);

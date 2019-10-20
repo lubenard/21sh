@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/18 15:10:03 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/20 22:20:07 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	*find_name(t_env *lkd_env);
 char	*find_cur_dir(t_env *lkd_env);
 int		print_shell_help(void);
 int		display_error(char *error, char *command);
+int		print_error_redirect(char *code);
 /*
 ** Linked list env
 */
@@ -61,8 +62,7 @@ int		cd(t_hustru *big_struc, char **commmand);
 /*
 ** Redirections
 */
-int		redirections(t_hustru *big_struc, char **lexed_command);
-int		redirections_w_fork(t_hustru *big_struc, char **lexed_command);
+int		redirections(t_hustru *big_struc, char **lexed_command, int should_fork);
 /*
 ** Pipe
 */
@@ -108,13 +108,10 @@ int		basic_command(t_hustru *big_struc, char **command,
 		int (*fun)(t_hustru *, char **));
 int		decide_commande(t_hustru *big_struc, char **command,
 		int (*fun)(t_hustru *, char **), int should_fork);
-void	handle_echo_options(char option);
 char	**create_command(char **command, int *i, int *e);
 int		is_valid_command(t_hustru *big_struc, char **argv);
 int		is_between_quotes(char *command, int mode_quote);
 void	remove_quote(char ***command);
-
-
 /*
 ** Redirections utils
 */
@@ -123,11 +120,15 @@ int		extract_first_fd(char **command, int i, char *to_convert);
 int		count_elem_redir(char **tab, int i);
 int		launch_arrow(t_hustru *big_struc, char **command);
 int		launch_arrow_w_fork(t_hustru *big_struc, char **command);
-int		print_error_redirect(char *code);
-int		create_file(char **filenames, int i);
+void	fd_redir(char **command, int *i);
+int		file_redir(t_hustru *big_struc, char **command, int *i, int *fds);
+int		init_arrays(char **command, int **fds,
+	char ***exec_command, int *fds_size);
 char	*recompact_command(char **command);
 int		count_args_redir(char **tab, int i);
 int		is_digit(char *str);
+
+
 /*
 ** Pipe utils
 */

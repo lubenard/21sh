@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/19 18:37:32 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/20 22:27:49 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,10 @@ int		handle_pipe_w_fork(t_hustru *big_struc, char *command)
 int		handle_pipe(t_hustru *big_struc, char *command)
 {
 	int		i;
-	char	***tab;
-	int		*pipes;
 	int		j;
 	int		k;
+	char	***tab;
+	int		*pipes;
 
 	if ((tab = compact_command(command)) == NULL)
 		return (display_error("Pipe: Invalid pipe\n", NULL));
@@ -146,15 +146,15 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 	pipes = prepare_pipe(big_struc, tab, command, i);
 	while (tab[j])
 	{
-		printf("J'execute avant verif %s, j == %d\n", tab[j][0], j);
+		//printf("J'execute avant verif %s, j == %d\n", tab[j][0], j);
 		if (!is_valid_command(big_struc, tab[j]) && fork() == 0)
 		{
-			printf("J'execute apres verif %s, j == %d\n", tab[j][0], j);
+			//printf("J'execute apres verif %s, j == %d\n", tab[j][0], j);
 			exec_pipe(j, k, pipes, tab);
-			printf("J'execute apres exec_pipe %s, j == %d\n", tab[j][0], j);
+			//printf("J'execute apres exec_pipe %s, j == %d\n", tab[j][0], j);
 			if (big_struc->pipe_heredoc && ft_tabstr(tab[j], "<<"))
 			{
-				printf("Inside heredoc %s, j == %d\n", tab[j][0], j);
+				//printf("Inside heredoc %s, j == %d\n", tab[j][0], j);
 				//exec_pipe(j, k, pipes, tab);
 				//printf("J'envoie dans l'output de %s\n", tab[j][0]);
 				int link[2];
@@ -165,7 +165,7 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 				dup2(link[0], 0);
 			}
 			close_pipe(pipes, i * 2);
-			printf("J'execute apres heredoc %s, j == %d\n", tab[j][0], j);
+			//printf("J'execute apres heredoc %s, j == %d\n", tab[j][0], j);
 			launch_command_pipe(big_struc, tab, j, 0);
 		}
 		if (j != 0)
