@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/20 22:20:39 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/20 22:51:08 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,11 +160,11 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 		if (!pid)
 		{
 			tmp_fd = redirect_fds(big_struc, command, fds, fds_size);
-			int jj = 0;
+			/*int jj = 0;
 			while (exec_command[jj])
 				printf("Tab d'exec = %s\n", exec_command[jj++]);
 			while (jj < fds_size)
-				printf("Tab d'exec_fds = %d\n", fds[jj++]);
+				printf("Tab d'exec_fds = %d\n", fds[jj++]);*/
 			decide_commande(big_struc, exec_command, exec_without_fork, 0);
 			exit(0);
 		}

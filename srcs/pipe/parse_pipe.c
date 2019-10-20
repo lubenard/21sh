@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/02 13:46:33 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/19 17:06:52 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/20 23:03:03 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ char	*pipe_heredoc(t_hustru *big_struc, char ***command)
 	{
 		if (ft_tabstr(command[i], "<<"))
 		{
+			remove_quote(&command[i]);
 			//if (str)
 			//	ft_strdel(&str);
 			big_struc->pipe_heredoc = heredoc(big_struc, command[i]);

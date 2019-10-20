@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 22:04:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/20 22:19:31 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/20 22:52:11 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ int		is_command_redir(int **fds, char **command, int j, int *k)
 	&& !ft_strstr(command[j - 1], "<&")
 	&& ft_strcmp(command[j - 1], "<<"))
 	{
-		printf("[Fill fds tab] Je rajoute %s\n", command[j]);
+		//printf("[Fill fds tab] Je rajoute %s\n", command[j]);
 		if (ft_occur(command[j - 1], '>') == 1)
 			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_TRUNC);
 		else if (ft_occur(command[j - 1], '>') == 2)
 			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_APPEND);
 		else if (ft_strchr(command[j - 1], '<'))
 			(*fds)[(*k)++] = open(command[j], O_RDONLY);
-		printf("J'ai ouvert %s et sont fd associe est %d\n", command[j], (*fds)[(*k) - 1]);
+		//printf("J'ai ouvert %s et sont fd associe est %d\n", command[j], (*fds)[(*k) - 1]);
 	}
 	else if (ft_strchr(command[j - 1], '>') && ft_strchr(command[j - 1], '<'))
 	{

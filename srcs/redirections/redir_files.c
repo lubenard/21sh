@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 22:11:28 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/20 22:11:42 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/20 22:55:03 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,9 @@ int		file_redir(t_hustru *big_struc, char **command, int *i, int *fds)
 		else if (ft_strchr(command[*i], '<'))
 			fd = extract_first_fd(command, *i, extract_first(command[*i], '<'));
 		//printf("Extracted fd = %d\n", fd);
-		printf("big_struc->fds_index = %d\n", big_struc->fds_index);
-		printf("je redirige %d -> %d\n", fd, fds[big_struc->fds_index]);
+		//printf("big_struc->fds_index = %d\n", big_struc->fds_index);
+		//printf("je redirige %d -> %d\n", fd, fds[big_struc->fds_index]);
 		dup2(fds[big_struc->fds_index++], fd);
 	}
 	return (0);
 }
-

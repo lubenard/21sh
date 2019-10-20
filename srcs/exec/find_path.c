@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/14 21:45:37 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/20 22:58:04 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,15 @@ char	*search_absolute_path(char *command)
 	if (command[0] != '/' && ft_strncmp(command, "..", 2)
 	&& command[0] && !access(str, F_OK))
 	{
-		free(str2);
+		if (str2)
+			free(str2);
 		if (ft_strchr(command, '/'))
 		{
 			//printf("Cependant l'absolute path est |%s|\n", str);
 			return (str);
 		}
-		free(str2);
+		if (str2)
+			free(str2);
 		return (NULL);
 	}
 	else if (access(command, F_OK) != -1)
