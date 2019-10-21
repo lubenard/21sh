@@ -36,19 +36,9 @@ int		is_next_elem_error(t_coord c, char **tab_q)
 	return (0);
 }
 
-int		is_semic_file_error(t_coord c, char **tab_q)
+int		is_file_error(t_coord c, char **tab_q)
 {
-	if (c.i > 0 && tab_q[c.i - 1])
-		c.k = tab_q[c.i - 1][0];
-	if (tab_q[c.i][0] == ';' && (tab_q[c.i][1] == ';'
-		|| (tab_q[c.i + 1] && tab_q[c.i + 1][0] == ';')
-			|| !tab_q[c.i + 1] || (c.k && (c.k == '<' || c.k == '>' || c.k == '&'))))
-	{
-		ft_deltab(tab_q);
-		ft_putendl_fd("ymarsh: parse error near \';\'", 2);
-		return (-1);
-	}
-	else if (ft_strcmp(tab_q[c.i], "<") == 0 && tab_q[c.i + 1] &&  access(tab_q[c.i + 1], F_OK) == -1)
+	if (ft_strcmp(tab_q[c.i], "<") == 0 && tab_q[c.i + 1] &&  access(tab_q[c.i + 1], F_OK) == -1)
 	{
 		ft_putstr_fd("ymarsh: no such file or directory: ", 2);
 		ft_putendl_fd(tab_q[c.i + 1], 2);
@@ -64,7 +54,7 @@ int		check_error_lexer(char **tab_q)
 	ft_bzero(&c, sizeof(c));
 	while (tab_q && tab_q[c.i])
 	{
-		if (is_semic_file_error(c, tab_q) == -1)
+		if (is_file_error(c, tab_q) == -1)
 			return (-1);
 		while (tab_q[c.i][c.j])
 		{
