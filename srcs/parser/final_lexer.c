@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   final_lexer.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/21 15:00:20 by ymarcill          #+#    #+#             */
+/*   Updated: 2019/10/21 15:21:35 by ymarcill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <input.h>
 
 int		ft_tablen(char **tab1)
@@ -12,9 +24,9 @@ int		ft_tablen(char **tab1)
 
 char	**ft_tabncat(char **tab1, char **tab2, int n)
 {
-	int     i;
-	int     j;
-	char    **newtab;
+	int		i;
+	int		j;
+	char	**newtab;
 
 	i = 0;
 	j = 0;
@@ -46,7 +58,7 @@ char	**fill_maintab(char **tmp1, char **tmp2, int *i, char **tab_q)
 char	**final_lexer(char *line)
 {
 	t_coord c;
-	char    **tab_q;
+	char	**tab_q;
 
 	ft_bzero(&c, sizeof(c));
 	tab_q = main_lexer(line);
@@ -55,8 +67,8 @@ char	**final_lexer(char *line)
 		while (tab_q[c.i][c.j])
 		{
 			if (tab_q[c.i][c.j] == '\"' || tab_q[c.i][c.j] == '\'')
-				c.q_state = c.q_state == 0 ? 1 : 0;
-			if ((tab_q[c.i][c.j] == '>' || tab_q[c.i][c.j] == '<') && c.q_state == 0)
+				c.q_stat = c.q_stat == 0 ? 1 : 0;
+			if ((tab_q[c.i][c.j] == '>' || tab_q[c.i][c.j] == '<') && !c.q_stat)
 			{
 				c.tmp2 = lexer_redir(tab_q[c.i]);
 				c.tmp1 = ft_tabncat(tab_q, c.tmp2, c.i);

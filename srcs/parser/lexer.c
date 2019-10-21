@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 01:36:05 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/15 19:55:34 by lubenard         ###   ########.fr       */
+/*   Created: 2019/10/21 15:00:48 by ymarcill          #+#    #+#             */
+/*   Updated: 2019/10/21 15:40:23 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,16 @@ char	**init_p(t_coord *c, char **line, char **q_tab)
 	return (q_tab);
 }
 
+char	**fill_with_quotes(t_coord *c, char *line, char **q_tab)
+{
+	c->c = line[c->i];
+	q_tab[c->x][c->y++] = line[c->i++];
+	while (line[c->i] && line[c->i] != c->c)
+		q_tab[c->x][c->y++] = line[c->i++];
+	q_tab[c->x][c->y] = line[c->i];
+	return (q_tab);
+}
+
 char	**main_lexer(char *line)
 {
 	char	**q_tab;
@@ -75,16 +85,10 @@ char	**main_lexer(char *line)
 		return (NULL);
 	while (line && line[c.i])
 	{
-		if (line[c.i] == ' ' || line[c.i]  == ';')
+		if (line[c.i] == ' ' || line[c.i] == ';')
 			q_tab = esp_semicolon(&c, q_tab, line);
 		else if (line[c.i] == '\"' || line[c.i] == '\'')
-		{
-			c.c = line[c.i];
-			q_tab[c.x][c.y++] = line[c.i++];
-			while (line[c.i] && line[c.i] != c.c)
-				q_tab[c.x][c.y++] = line[c.i++];
-			q_tab[c.x][c.y] = line[c.i];
-		}
+			q_tab = fill_with_quotes(&c, line, q_tab);
 		else
 			q_tab[c.x][c.y] = line[c.i];
 		c.y++;
