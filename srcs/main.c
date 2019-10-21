@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 16:01:13 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 17:06:56 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void		change_env(t_hustru *big_struc)
 	str = find_in_env(big_struc->lkd_env, ft_strdup("SHLVL"));
 	if (str == NULL)
 	{
-		printf("je rentre ici\n");
 		buff[1] = "SHLVL=1";
 		set_env(big_struc, buff);
 	}
@@ -68,7 +67,6 @@ void		load_from_history(t_hustru *big_struc)
 		fd = open(".history", O_RDONLY);
 		while (get_next_line(fd, &str) > 0)
 		{
-			printf("This line will be added to history:\n%s\n", str);
 			save_command(big_struc, str, 0);
 			free(str);
 		}

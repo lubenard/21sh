@@ -6,13 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 16:37:29 by lubenard          #+#    #+#             */
-/*   Updated: 2019/03/21 17:11:10 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 17:05:47 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-#include <stdio.h>
 
 int		ft_isblank(char *str)
 {

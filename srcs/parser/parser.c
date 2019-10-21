@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 16:47:15 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 17:02:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,39 +50,45 @@ int		is_between_quotes2(char **command, char quote_char)
 	return (0);
 }
 
+void	remove_quote_bis(char **command, int i, int e)
+{
+	char *tmp;
+
+	if (ft_strchr(*command, '\'') || ft_strchr(*command, '\"'))
+	{
+		while ((*command)[i])
+		{
+			if ((*command)[i] != '\'' && (*command)[i] != '\"')
+				e++;
+			i++;
+		}
+		if (!(tmp = ft_strnew(e)))
+			return ;
+		e = 0;
+		i = 0;
+		while ((*command)[i])
+		{
+			if ((*command)[i] != '\'' && (*command)[i] != '\"')
+				tmp[e++] = (*command)[i];
+			i++;
+		}
+		free((*command));
+		(*command) = tmp;
+	}
+}
+
 void	remove_quote(char ***command)
 {
 	int		i;
 	int		e;
 	int		j;
-	char	*tmp;
 
 	j = 0;
 	while ((*command)[j])
 	{
 		i = 0;
 		e = 0;
-		if (ft_strchr((*command)[j], '\'') || ft_strchr((*command)[j], '\"'))
-		{
-			while ((*command)[j][i])
-			{
-				if ((*command)[j][i] != '\'' && (*command)[j][i] != '\"')
-					e++;
-				i++;
-			}
-			if (!(tmp = ft_strnew(e)))
-				return ;
-			e = 0;
-			i = 0;
-			while ((*command)[j][i])
-			{
-				if ((*command)[j][i] != '\'' && (*command)[j][i] != '\"')
-					tmp[e++] = (*command)[j][i];
-				i++;
-			}
-			free((*command)[j]);
-			(*command)[j] = tmp;
-		}
+		remove_quote_bis(&((*command)[j]), i, e);
 		j++;
 	}
 }

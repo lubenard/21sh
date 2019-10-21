@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/14 16:23:30 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 17:02:43 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	fill_env(t_env *env, char **command, int i)
 	{
 		if (ft_strcmp(env->env_line, ""))
 		{
-			printf("Je rentre ici\n");
 			while (env->next)
 				env = env->next;
 			new_element = new_maillon_env();
@@ -107,15 +106,9 @@ int		launch_command_env(t_hustru *big_struc, int flags,
 	is_command = 1;
 	env = parse_env(lkd_env, command, flags, &is_command);
 	if (is_command == 1 && (flags & PE_I || ft_tabchr(command, '=')))
-	{
-		printf("J'exec avec un env custom\n");
 		exec_custom_env(env, command, big_struc, flags);
-	}
 	else if (is_command == 1)
-	{
-		printf("J'exec avec un env par defaut\n");
 		return (exec_file_env(big_struc->lkd_env, command, big_struc, flags));
-	}
 	free_env(env);
 	return (0);
 }
