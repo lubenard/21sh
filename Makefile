@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/10/21 18:31:23 by lubenard         ###   ########.fr        #
+#    Updated: 2019/10/21 18:47:35 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ SRC = srcs/main.c \
 	  srcs/parser/create_command.c \
 	  srcs/parser/final_lexer.c \
 	  srcs/parser/lexer_redir.c \
+	  srcs/parser/lexer_redir_bis.c \
 	  srcs/parser/check_error_lexer.c \
 	  srcs/parser/check_semic_error_lexer.c \
 	  srcs/exec/execute_command.c \
@@ -77,7 +78,7 @@ OBJ = $(SRC:.c=.o)
 
 CC = clang
 
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address
 
 all:  $(NAME)
 
