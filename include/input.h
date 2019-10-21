@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/15 19:56:56 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 15:04:30 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char				*g_mainline;
 ** Line edition
 */
 
+void				freefornorme(int i, t_coord *c, char **arg_tab);
 int					*tab_malloc(int *pos, int i);
 void				move_hist(t_coord *c, t_hustru *big_struc);
 int					i_is(int *prompt, int *coord);
