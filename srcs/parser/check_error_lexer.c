@@ -6,11 +6,11 @@ int		is_elem_error(t_coord c, char **tab_q)
 	c.k = tab_q[c.i][c.j + 1];
 	c.x = c.k && tab_q[c.i][c.j + 2] ? tab_q[c.i][c.j+ 2] : 0;;
 	if ((c.j > 0 && tab_q[c.i][c.j - 1] == '&') || (c.c == '<' && c.k &&
-		(c.k == '&' || c.k == '>'|| (c.k == c.c && c.x))) || (c.c == '>' &&
-		tab_q[c.i][c.j + 1] && ((tab_q[c.i][c.j + 1] == '&' && ft_isdigit(c.x) == 0)
-		|| tab_q[c.i][c.j + 1] == '<' || (tab_q[c.i][c.j + 1] == c.c && c.x))))
+	(c.k == '&' || c.k == '>'|| (c.k == c.c && c.x))) || (c.c == '>' &&
+	tab_q[c.i][c.j + 1] && ((c.k == '&' && (!ft_isdigit(c.x) && c.x != '-'))
+	|| tab_q[c.i][c.j + 1] == '<' || (tab_q[c.i][c.j + 1] == c.c && c.x))))
 	{
-		ft_putstr_fd("ymarsh: parse error near: \'", 2);
+		ft_putstr_fd("Ymarsh: parse error near: \'", 2);
 		tab_q[c.i + 1] ? ft_putstr_fd(tab_q[c.i + 1], 2) : ft_putstr_fd(tab_q[c.i], 2);
 		ft_putendl_fd("\'", 2);
 		return (-1);
