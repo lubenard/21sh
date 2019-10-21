@@ -6,7 +6,7 @@
 /*   By: ymarcill <ymarcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/01 18:08:37 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/24 21:08:44 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/21 14:37:22 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ void	move_with_arrows(char *buf, int *prompt, int *mainindex, int *pos)
 		else if (buf[2] == 67)
 			right_arrow(mainindex, ft_strlenu(g_mainline), prompt);
 	}
-	if (buf[0] == 1 ||(buf[0] == 27 && buf[1] == 91 && buf[2] == 'H'))
+	if (buf[0] == 1 || (buf[0] == 27 && buf[1] == 91 && buf[2] == 'H'))
 		go_first_char(mainindex, prompt, pos);
-	if (buf[0] == 5 ||(buf[0] == 27 && buf[1] == 91 && buf[2] == 'F'))
+	if (buf[0] == 5 || (buf[0] == 27 && buf[1] == 91 && buf[2] == 'F'))
 		go_last_char(mainindex, ft_strlenu(g_mainline), prompt);
 }

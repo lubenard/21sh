@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/21 14:22:23 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/21 14:37:57 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int		control_c(char *buf, int *prompt, int *coord, int r)
 	rr = get_row(0, ft_strlenu(g_mainline), prompt[1]);
 	if ((buf[0] == 7 && !r) || (buf[0] == 7 && !buf[1] && r))
 	{
-		
 		rr = rr + get_nb_line_quote(g_mainline);
 		c.t = rr;
 		if (coord[0] >= prompt[0] &&
