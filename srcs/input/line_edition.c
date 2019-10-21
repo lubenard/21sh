@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/15 21:11:42 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 14:22:23 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		init(int *mainindex, int **prompt, t_coord *c)
 {
 	*mainindex = 0;
-	if (c->k != 5 && set_none_canon_mode(0) == -1)
+	if (set_none_canon_mode(0) == -1)
 	{
 		ft_strdel(&g_mainline);
 		return (-1);
@@ -36,7 +36,6 @@ char	*read_quit(int **prompt, int **pos, char d)
 {
 	t_coord c;
 
-	ft_bzero(&c, sizeof(c));
 	c.buf = ft_strnew(9);
 	if ((c.ret = read(0, c.buf, 8)) <= 0 || (c.buf[0] == 4 && c.buf[1] == 0
 		&& g_mainline[0] == 0))

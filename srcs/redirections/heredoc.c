@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 10:59:34 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/17 22:02:26 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 14:22:20 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int		init_h(t_coord *c, char ***arg_tab, char **tab_line)
 	c->k = 5;
 	*arg_tab = fill_arg_tab(tab_line, *arg_tab, &c->j);
 	ft_putstr_fd("> ", 2);
+	reset_shell_attr(0);
 	if (init(&c->mainindex, &c->prompt, c) == -1 || arg_tab[0] == NULL)
 	{
 		while (a--)
