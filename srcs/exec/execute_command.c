@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 15:43:22 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 19:23:08 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int		exec_command_gen(t_hustru *big_struc, char **argv)
 	if ((pid = fork()) < 0)
 		return (display_error("ymarsh: error: fork failed", NULL));
 	reset_shell_attr(0);
+	signal(SIGINT, handle_signals_proc);
 	env = compact_env(big_struc->lkd_env);
 	if (!pid)
 		execve(path, argv, env);
