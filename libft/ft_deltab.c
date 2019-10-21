@@ -6,22 +6,27 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/29 14:21:14 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/12 17:17:21 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 23:03:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_deltab(char **tab)
+void	ft_deltab(char ***tab)
 {
 	int i;
 	int j;
 
 	i = 0;
 	j = 0;
-	while (tab[i])
+	while ((*tab)[i])
 		i++;
 	while (j != i)
-		free(tab[j++]);
-	free(tab);
+	{
+		free((*tab)[j]);
+		(*tab)[j] = NULL;
+		j++;
+	}
+	free(*tab);
+	*tab = NULL;
 }

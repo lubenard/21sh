@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 19:41:53 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 22:41:23 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int		extract_first_fd(char **command, int i, char *to_convert)
 			fd = 1;
 		else if (ft_strchr(command[i], '<'))
 			fd = 0;
+		free(to_convert);
 	}
 	return (fd);
 }
@@ -94,8 +95,6 @@ int		launch_arrow_w_fork(t_hustru *big_struc, char **command)
 	return (0);
 }
 
-#include <stdio.h>
-
 int		launch_arrow(t_hustru *big_struc, char **command)
 {
 	int		*fds;
@@ -114,13 +113,14 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 		{
 			tmp_fd = redirect_fds(big_struc, command, fds, fds_size);
 			decide_commande(big_struc, exec_command, exec_without_fork, 0);
-			exit(0);
+			free(exec_command);
+			exec_command = NULL;
+			ft_exit(big_struc, 0);
 		}
-		printf("Je wait mon pid\n");
 		wait(&pid);
-		printf("Pid finide wait\n");
 	}
 	close_fds(tmp_fd, fds_size, fds);
 	free(exec_command);
+	exec_command = NULL;
 	return (0);
 }

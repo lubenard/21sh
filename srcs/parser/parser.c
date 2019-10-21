@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 19:36:12 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 23:09:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int		decide_commande(t_hustru *big_struc, char **command,
 		ret = redirections(big_struc, command, should_fork);
 	else
 	{
-		free(big_struc->line);
+		ft_strdel(&big_struc->line);
 		return (ret = basic_command(big_struc, command, fun));
 	}
 	if (should_fork)
@@ -124,14 +124,14 @@ void	parser_loop(t_hustru *big_struc, char **quoted_command)
 		e = i;
 		if (check_error_lexer(semicolon) == -1)
 		{
-			ft_deltab(semicolon);
+			ft_deltab(&semicolon);
 			ft_strdel(&big_struc->pipe_heredoc);
 			big_struc->should_heredoc = 1;
 			continue ;
 		}
 		big_struc->last_ret = decide_commande(big_struc,
 			semicolon, exec_command_gen, 1);
-		ft_deltab(semicolon);
+		ft_deltab(&semicolon);
 		ft_strdel(&big_struc->pipe_heredoc);
 		big_struc->should_heredoc = 1;
 	}
@@ -151,12 +151,12 @@ int		parser(t_hustru *big_struc, char *command)
 		return (big_struc->last_ret = 258);
 	if (quoted_command && !ft_strcmp(quoted_command[0], ""))
 	{
-		ft_deltab(quoted_command);
+		ft_deltab(&quoted_command);
 		return ((big_struc->last_ret = 0));
 	}
 	parse_line(big_struc, quoted_command);
 	parser_loop(big_struc, quoted_command);
 	if (quoted_command)
-		ft_deltab(quoted_command);
+		ft_deltab(&quoted_command);
 	return (0);
 }

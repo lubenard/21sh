@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 10:59:34 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/21 15:03:27 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/21 23:08:38 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int		hist_entry(t_coord *c, t_hustru *big_struc, char **arg_tab)
 		if (entry_h(c, arg_tab) == 0)
 		{
 			ft_strdel(&g_mainline);
-			ft_deltab(arg_tab);
+			ft_deltab(&arg_tab);
 			return (0);
 		}
 		ft_strdel(&g_mainline);
@@ -121,13 +121,13 @@ char	*heredoc(t_hustru *big_struc, char **tab_line)
 	{
 		if ((c.buf = read_quit(&c.prompt, &c.pos, 'h')) == NULL)
 		{
-			ft_deltab(arg_tab);
+			ft_deltab(&arg_tab);
 			return (c.tmp);
 		}
 		c.coord = get_coord(get_cursor_position());
 		if (control_c(c.buf, c.prompt, c.coord, 0) == 0)
 		{
-			ft_deltab(arg_tab);
+			ft_deltab(&arg_tab);
 			return (c.tmp);
 		}
 		c.prompt[0] = c.coord[0] == 1 ? 1 : c.prompt[0];

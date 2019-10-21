@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:57:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/20 09:11:25 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 23:08:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int		set_env(t_hustru *big_struc, char **command)
 		i++;
 	}
 	if (big_struc->path)
-		ft_deltab(big_struc->path);
+		ft_deltab(&big_struc->path);
 	big_struc->path = get_path(find_in_env(big_struc->lkd_env,
 		ft_strdup("PATH")));
 	return (0);

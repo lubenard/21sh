@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 17:02:43 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 23:07:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		exec_file_env(t_env *env, char **command,
 		return (127);
 	}
 	tab_env = compact_env(env);
-	ft_deltab(argv);
+	ft_deltab(&argv);
 	exec_command_gen(right_path, argv, tab_env);
 	return (0);
 }

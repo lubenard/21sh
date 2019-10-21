@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:00:20 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/21 15:21:35 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/21 23:09:42 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ char	**ft_tabncat(char **tab1, char **tab2, int n)
 
 char	**fill_maintab(char **tmp1, char **tmp2, int *i, char **tab_q)
 {
-	ft_deltab(tab_q);
+	ft_deltab(&tab_q);
 	tab_q = ft_tabncat(tmp1, NULL, ft_tablen(tmp1));
 	*i += ft_tablen(tmp2) - 1;
-	ft_deltab(tmp2);
-	ft_deltab(tmp1);
+	ft_deltab(&tmp2);
+	ft_deltab(&tmp1);
 	return (tab_q);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 17:36:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/16 14:30:18 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 23:04:21 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void			ft_lstdel(t_list**alst, void (*del)(void *, size_t));
 void			ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
 void			ft_lstadd(t_list **alst, t_list *n);
 void			ft_lstiter(t_list *lst, void (*f)(t_list *elem));
-void			ft_deltab(char **tab);
+void			ft_deltab(char ***tab);
 int				ft_isdigit(int c);
 int				ft_isprint(int c);
 int				ft_isalpha(int c);
