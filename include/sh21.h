@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/21 18:41:20 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 18:54:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ void			remove_quote(char ***command);
 void			swap_elem(char **command, char *replace);
 void			change_env(t_hustru *big_struc);
 t_hustru		*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path);
-void			load_from_history(t_hustru *big_struc);
 /*
 ** Redirections utils
 */
@@ -137,6 +136,7 @@ int				init_arrays(char **command, int **fds,
 char			*recompact_command(char **command);
 int				count_args_redir(char **tab, int i);
 int				is_digit(char *str);
+int				do_heredoc(t_hustru *big_struc, char **command);
 /*
 ** Pipe utils
 */

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 18:41:43 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/21 18:56:19 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ typedef	struct		s_w
 struct s_w			w;
 char				*g_mainline;
 
+int					get_option(t_hustru *big_struc, char **argv);
 /*
 ** Line edition
 */
-
 void				which_redir(t_coord *c);
 char				**fill_with_quotes(t_coord *c, char *line, char **q_tab);
 void				free_fornorme(int i, t_coord *c, char **arg_tab);

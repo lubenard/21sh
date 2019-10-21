@@ -6,13 +6,13 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 18:40:43 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/21 18:41:13 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/21 18:49:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
 
-void        which_redir(t_coord *c)
+void	which_redir(t_coord *c)
 {
 	if (c->c == '&')
 	{

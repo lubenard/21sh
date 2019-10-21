@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 16:43:56 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 18:51:15 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,6 @@ int		extract_first_fd(char **command, int i, char *to_convert)
 	return (fd);
 }
 
-int		do_heredoc(t_hustru *big_struc, char **command)
-{
-	int link[2];
-
-	if (pipe(link) == -1)
-		return (0);
-	ft_putstr_fd(heredoc(big_struc, command), link[1]);
-	close(link[1]);
-	dup2(link[0], 0);
-	return (0);
-}
-
 int		redirect_fds(t_hustru *big_struc, char **command,
 	int *fds, int fds_size)
 {
@@ -75,29 +63,6 @@ int		redirect_fds(t_hustru *big_struc, char **command,
 		i++;
 	}
 	return (0);
-}
-
-char	*recompact_command(char **tab)
-{
-	int		i;
-	int		e;
-	char	*ret;
-
-	i = 0;
-	e = 0;
-	while (tab[e + 1])
-		i += ft_strlen(tab[e++]) + 1;
-	i += ft_strlen(tab[e]);
-	if (!(ret = ft_strnew(i)))
-		return (NULL);
-	e = 0;
-	while (tab[e + 1])
-	{
-		ft_strcat(ret, tab[e++]);
-		ft_strcat(ret, " ");
-	}
-	ft_strcat(ret, tab[e]);
-	return (ret);
 }
 
 void	close_fds(int tmp_fd, int fds_size, int *fds)

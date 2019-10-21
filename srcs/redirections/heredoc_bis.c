@@ -6,11 +6,23 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:01:58 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/21 16:28:34 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 18:50:27 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
+
+int		do_heredoc(t_hustru *big_struc, char **command)
+{
+	int link[2];
+
+	if (pipe(link) == -1)
+		return (0);
+	ft_putstr_fd(heredoc(big_struc, command), link[1]);
+	close(link[1]);
+	dup2(link[0], 0);
+	return (0);
+}
 
 void	free_fornorme(int i, t_coord *c, char **arg_tab)
 {
