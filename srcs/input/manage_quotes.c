@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:08:51 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/11 01:09:42 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 14:39:18 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ char	*entry_q(int r, int *coord, int *prompt, char *line)
 	while (t++ < r)
 		ft_putstr_fd("\e[B", 0);
 	ft_putstr_fd("\r", 0);
-	if (g_mainline[ft_strlen(g_mainline)] && g_mainline[ft_strlen(g_mainline) - 1] != '\''
-			&& g_mainline[ft_strlenu(g_mainline) - 1] != '\"')
+	if (g_mainline[ft_strlen(g_mainline)] && g_mainline[ft_strlen(g_mainline)
+		- 1] != '\'' && g_mainline[ft_strlenu(g_mainline) - 1] != '\"')
 	{
 		tmp = ft_strdup(g_mainline);
 		free(g_mainline);
