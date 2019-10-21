@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 18:06:18 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 19:16:18 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,16 @@ char	*search_absolute_path(char *command)
 	if (command[0] != '/' && ft_strncmp(command, "..", 2)
 	&& command[0] && !access(str, F_OK))
 	{
-		if (str2)
-			free(str2);
+		ft_strdel(&str2);
 		if (ft_strchr(command, '/'))
 			return (str);
-		if (str2)
-			free(str2);
+		ft_strdel(&str);
 		return (NULL);
 	}
 	else if (access(command, F_OK) != -1)
 		return (search_absolute_path2(command, str, str2));
-	free(str);
-	free(str2);
+	ft_strdel(&str);
+	ft_strdel(&str2);
 	return (NULL);
 }
 
