@@ -6,13 +6,14 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/10/21 17:06:19 by lubenard         ###   ########.fr        #
+#    Updated: 2019/10/21 18:31:23 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 
 SRC = srcs/main.c \
+	  srcs/launch21.c \
 	  srcs/get_env.c \
 	  srcs/handle_signals.c \
 	  srcs/save_command.c \
@@ -38,11 +39,14 @@ SRC = srcs/main.c \
 	  srcs/redirections/redir_files.c \
 	  srcs/pipe/pipe.c \
 	  srcs/pipe/parse_pipe.c \
+	  srcs/pipe/heredoc_pipe.c \
 	  srcs/display/display_builtins.c \
 	  srcs/display/display.c \
 	  srcs/utils/find_lkd_lst.c \
 	  srcs/parser/parser.c \
 	  srcs/parser/lexer.c \
+	  srcs/parser/handle_quote.c \
+	  srcs/parser/create_command.c \
 	  srcs/parser/final_lexer.c \
 	  srcs/parser/lexer_redir.c \
 	  srcs/parser/check_error_lexer.c \

@@ -6,11 +6,25 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/02 13:46:33 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 15:46:47 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 18:07:26 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+/*
+** Like ft_strlen but for triple array
+*/
+
+int		count_args_triple_tab(char ***tab)
+{
+	int		i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
 
 /*
 ** Tranform char * into char *** by splitting it by pipes then by spaces
@@ -67,29 +81,6 @@ int		free_pipe(char ***command)
 	}
 	free(command);
 	return (0);
-}
-
-/*
-** Handle pipe and heredoc
-*/
-
-char	*pipe_heredoc(t_hustru *big_struc, char ***command)
-{
-	int		i;
-	char	*str;
-
-	i = 0;
-	str = NULL;
-	while (command[i])
-	{
-		if (ft_tabstr(command[i], "<<"))
-		{
-			remove_quote(&command[i]);
-			big_struc->pipe_heredoc = heredoc(big_struc, command[i]);
-		}
-		i++;
-	}
-	return (str);
 }
 
 /*

@@ -6,11 +6,24 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 15:43:38 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 18:06:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+int		is_valid_command(t_hustru *big_struc, char **argv)
+{
+	char	*path;
+
+	if (!(path = find_path(big_struc->path, argv[0])))
+	{
+		free(path);
+		return (invalid_command(argv[0]));
+	}
+	free(path);
+	return (0);
+}
 
 char	*search_absolute_path2(char *command, char *str, char *str2)
 {
