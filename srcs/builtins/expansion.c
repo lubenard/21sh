@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 21:02:47 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/20 21:13:03 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 15:42:03 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,9 @@ char	*handle_dollar(t_hustru *big_struc, char *command)
 	{
 		e = 0;
 		if (!ret)
-		{
-		//	printf("Je malloc de %d\n", handle_dollar3(big_struc, command, i, e));
 			ret = ft_strnew(handle_dollar3(big_struc, command, i, e));
-		}
 		else
-		{
-		//	printf("Je realloc de + %d\n", handle_dollar3(big_struc, command, i, e));
 			ft_realloc(&ret, handle_dollar3(big_struc, command, i, e));
-		}
 		tmp = handle_dollar2(big_struc, command, &i, &e);
 		ft_strcat(ret, tmp);
 		free(tmp);

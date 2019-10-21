@@ -6,11 +6,21 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 22:04:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 13:51:49 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 16:39:05 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+void	include_fds(char **command, int j, int **fds, int *k)
+{
+	if (ft_occur(command[j - 1], '>') == 1)
+		(*fds)[(*k)++] = open(command[j], O_WRONLY | O_TRUNC);
+	else if (ft_occur(command[j - 1], '>') == 2)
+		(*fds)[(*k)++] = open(command[j], O_WRONLY | O_APPEND);
+	else if (ft_strchr(command[j - 1], '<'))
+		(*fds)[(*k)++] = open(command[j], O_RDONLY);
+}
 
 int		is_command_redir(int **fds, char **command, int j, int *k)
 {
@@ -29,24 +39,15 @@ int		is_command_redir(int **fds, char **command, int j, int *k)
 	&& !ft_strstr(command[j - 1], "<&")
 	&& ft_strcmp(command[j - 1], "<<"))
 	{
-		//printf("[Fill fds tab] Je rajoute %s\n", command[j]);
 		if (ft_occur(command[j - 1], '>') == 1)
 			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_TRUNC);
 		else if (ft_occur(command[j - 1], '>') == 2)
 			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_APPEND);
 		else if (ft_strchr(command[j - 1], '<'))
 			(*fds)[(*k)++] = open(command[j], O_RDONLY);
-		//printf("J'ai ouvert %s et sont fd associe est %d\n", command[j], (*fds)[(*k) - 1]);
 	}
 	else if (ft_strchr(command[j - 1], '>') && ft_strchr(command[j - 1], '<'))
-	{
-		if (ft_occur(command[j - 1], '>') == 1)
-			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_TRUNC);
-		else if (ft_occur(command[j - 1], '>') == 2)
-			(*fds)[(*k)++] = open(command[j], O_WRONLY | O_APPEND);
-		else if (ft_strchr(command[j - 1], '<'))
-			(*fds)[(*k)++] = open(command[j], O_RDONLY);
-	}
+		include_fds(command, j, fds, k);
 	return (0);
 }
 
@@ -57,21 +58,18 @@ int		is_command(char ***exec_command, char **command, int j, int *i)
 		if ((ft_strstr(command[j - 1], "<&")
 		|| ft_strstr(command[j - 1], ">&")) && is_digit(command[j - 1]))
 		{
-			//printf("[Adding to command] Je rajoute %s\n", command[j]);
 			(*exec_command)[(*i)++] = command[j];
 			return (1);
 		}
 		else if (!ft_strchr(command[j - 1], '>')
 		&& !ft_strchr(command[j - 1], '<'))
 		{
-			//printf("[Count args redir] Je rajoute %s\n", command[j]);
 			(*exec_command)[(*i)++] = command[j];
 			return (1);
 		}
 	}
 	else
 	{
-		//printf("[Adding to command] Je rajoute %s\n", command[j]);
 		(*exec_command)[(*i)++] = command[j];
 		return (1);
 	}
@@ -88,27 +86,19 @@ int		fill_arrays(char **command, int **fds, char ***exec_command)
 	i = 0;
 	k = 0;
 	remove_quote(&command);
-	/*int jj = 0;
-	while (command[jj])
-		printf("command[jj] = %s\n", command[jj++]);*/
 	while (command[j])
 	{
-		//printf("[filling] Je regarde %s\n", command[j]);
 		if ((!ft_strchr(command[j], '>') && !ft_strchr(command[j], '<'))
 		|| is_between_quotes(command[j], 3))
 		{
 			if (!is_command(exec_command, command, j, &i))
-			{
-				//printf("Je rentre dans commad_redir\n");
 				is_command_redir(fds, command, j, &k);
-			}
 		}
 		j++;
 	}
 	(*exec_command)[i] = NULL;
 	return (0);
 }
-
 
 int		init_arrays(char **command, int **fds,
 	char ***exec_command, int *fds_size)
@@ -129,4 +119,3 @@ int		init_arrays(char **command, int **fds,
 		return (display_error("ymarsh: error during malloc", NULL));
 	return (fill_arrays(command, fds, exec_command));
 }
-

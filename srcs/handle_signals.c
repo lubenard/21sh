@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 14:21:03 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/02 11:31:28 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 16:00:14 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 void	handle_signals_proc(int sig)
 {
-	//printf("Je suis appele\n");
 	if (sig == SIGINT)
 	{
 		ioctl(0, TIOCSTI, "\7");

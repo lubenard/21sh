@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 14:06:51 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/14 16:12:09 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 16:25:05 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "../libft/libft.h"
 # include "struc.h"
-#include <stdio.h>
 
 # define PE_I 1
 # define PE_V 2

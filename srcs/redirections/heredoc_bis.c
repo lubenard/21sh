@@ -6,15 +6,15 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:01:58 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/21 15:03:01 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/21 16:28:34 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
 
-void    free_fornorme(int i, t_coord *c, char **arg_tab)
+void	free_fornorme(int i, t_coord *c, char **arg_tab)
 {
-	char    *tmp2;
+	char	*tmp2;
 
 	if (i == 0)
 	{
@@ -32,4 +32,3 @@ void    free_fornorme(int i, t_coord *c, char **arg_tab)
 		free(tmp2);
 	}
 }
-

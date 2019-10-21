@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/02 13:46:33 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/20 23:03:03 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 15:46:47 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ char	***compact_command(char *command)
 	{
 		tmp = ft_strtrim(argv[i]);
 		ret[i] = ft_strsplit(tmp, ' ');
-		//printf("ret[%d] = %s\n", i, ret[i][0]);
 		free(argv[i]);
 		i++;
 		free(tmp);
@@ -76,8 +75,8 @@ int		free_pipe(char ***command)
 
 char	*pipe_heredoc(t_hustru *big_struc, char ***command)
 {
-	int i;
-	char *str;
+	int		i;
+	char	*str;
 
 	i = 0;
 	str = NULL;
@@ -86,8 +85,6 @@ char	*pipe_heredoc(t_hustru *big_struc, char ***command)
 		if (ft_tabstr(command[i], "<<"))
 		{
 			remove_quote(&command[i]);
-			//if (str)
-			//	ft_strdel(&str);
 			big_struc->pipe_heredoc = heredoc(big_struc, command[i]);
 		}
 		i++;
@@ -99,7 +96,8 @@ char	*pipe_heredoc(t_hustru *big_struc, char ***command)
 ** Malloc pipes and create connections between them
 */
 
-int		*prepare_pipe(t_hustru *big_struc, char ***compacted_command, char *command, int i)
+int		*prepare_pipe(t_hustru *big_struc, char ***compacted_command,
+	char *command, int i)
 {
 	int		*pipes;
 	int		e;
@@ -113,14 +111,11 @@ int		*prepare_pipe(t_hustru *big_struc, char ***compacted_command, char *command
 	e = 0;
 	if (!(pipes = (int *)malloc(sizeof(int) * (i * 2))))
 		return (0);
-	//printf("Je cree %d pipes\n", i *2);
 	while (e != i * 2)
 	{
 		pipe(pipes + e);
 		e += 2;
 	}
-	//printf("J'ecris %s sur pipes[1]\n", str);
-	//ft_putstr_fd(str, pipes[1]);
 	return (pipes);
 }
 

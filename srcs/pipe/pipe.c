@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/20 22:27:49 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 15:58:53 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,11 @@ int		wait_pipe(int i, int *pipes, char ***tab)
 void	exec_pipe(int j, int k, int *pipes, char ***tab)
 {
 	if (j != 0)
-	{
-		//printf("Je redirige pipes[%d], 0\n", k);
 		dup2(pipes[k], 0);
-	}
 	if (tab[j + 1] && j != 0)
-	{
-		//printf("Je redirige pipes[%d], 1\n", k + 3);
 		dup2(pipes[k + 3], 1);
-	}
 	if (j == 0)
-	{
-		//printf("Je redirige pipes[%d], 1\n", 1);
 		dup2(pipes[1], 1);
-	}
 }
 
 int		is_valid_command(t_hustru *big_struc, char **argv)
@@ -92,6 +83,27 @@ int		is_valid_command(t_hustru *big_struc, char **argv)
 	}
 	free(path);
 	return (0);
+}
+
+void	do_heredoc_pipe(t_hustru *big_struc, char ***tab, int j)
+{
+	int link[2];
+
+	if (big_struc->pipe_heredoc && ft_tabstr(tab[j], "<<"))
+	{
+		if (pipe(link) == -1)
+			;
+		ft_putstr_fd(big_struc->pipe_heredoc, link[1]);
+		close(link[1]);
+		dup2(link[0], 0);
+	}
+}
+
+void	count_pipes(int *j, int *k)
+{
+	if (*j != 0)
+		(*k) += 2;
+	(*j)++;
 }
 
 /*
@@ -111,15 +123,14 @@ int		handle_pipe_w_fork(t_hustru *big_struc, char *command)
 	j = 0;
 	k = 0;
 	i = count_args_triple_tab(tab) - 1;
-	pipes = prepare_pipe(big_struc, tab ,command,i);
+	pipes = prepare_pipe(big_struc, tab, command, i);
 	while (tab[j])
 	{
 		exec_pipe(j, k, pipes, tab);
+		do_heredoc_pipe(big_struc, tab, j);
 		close_pipe(pipes, i * 2);
 		launch_command_pipe(big_struc, tab, j, 1);
-		if (j != 0)
-			k += 2;
-		j++;
+		count_pipes(&j, &k);
 	}
 	close_pipe(pipes, i * 2);
 	free(pipes);
@@ -146,31 +157,14 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 	pipes = prepare_pipe(big_struc, tab, command, i);
 	while (tab[j])
 	{
-		//printf("J'execute avant verif %s, j == %d\n", tab[j][0], j);
 		if (!is_valid_command(big_struc, tab[j]) && fork() == 0)
 		{
-			//printf("J'execute apres verif %s, j == %d\n", tab[j][0], j);
 			exec_pipe(j, k, pipes, tab);
-			//printf("J'execute apres exec_pipe %s, j == %d\n", tab[j][0], j);
-			if (big_struc->pipe_heredoc && ft_tabstr(tab[j], "<<"))
-			{
-				//printf("Inside heredoc %s, j == %d\n", tab[j][0], j);
-				//exec_pipe(j, k, pipes, tab);
-				//printf("J'envoie dans l'output de %s\n", tab[j][0]);
-				int link[2];
-				if (pipe(link) == -1)
-					return (0);
-				ft_putstr_fd(big_struc->pipe_heredoc, link[1]);
-				close(link[1]);
-				dup2(link[0], 0);
-			}
+			do_heredoc_pipe(big_struc, tab, j);
 			close_pipe(pipes, i * 2);
-			//printf("J'execute apres heredoc %s, j == %d\n", tab[j][0], j);
 			launch_command_pipe(big_struc, tab, j, 0);
 		}
-		if (j != 0)
-			k += 2;
-		j++;
+		count_pipes(&j, &k);
 	}
 	return (wait_pipe(i, pipes, tab));
 }

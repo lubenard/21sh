@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/20 22:26:48 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 16:47:15 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,15 @@ int		is_between_quotes2(char **command, char quote_char)
 	{
 		if (ft_strchr(command[i], quote_char) && !ft_strchr(command[i], '\'')
 		&& !ft_strchr(command[i], '\"'))
-		{
 			return (0);
-		}
-		else if (ft_strchr(command[i], quote_char) && (ft_strchr(command[i], '\'')
+		else if (ft_strchr(command[i], quote_char)
+		&& (ft_strchr(command[i], '\'')
 		|| ft_strchr(command[i], '\"')))
-		{
 			return (1);
-		}
 		i++;
 	}
 	return (0);
 }
-
 
 void	remove_quote(char ***command)
 {
@@ -76,20 +72,16 @@ void	remove_quote(char ***command)
 			}
 			if (!(tmp = ft_strnew(e)))
 				return ;
-			//printf("Je malloc de %d\n", e);
 			e = 0;
 			i = 0;
 			while ((*command)[j][i])
 			{
 				if ((*command)[j][i] != '\'' && (*command)[j][i] != '\"')
-				{
 					tmp[e++] = (*command)[j][i];
-				}
 				i++;
 			}
 			free((*command)[j]);
 			(*command)[j] = tmp;
-			//printf("Tmp = %s\n", tmp);
 		}
 		j++;
 	}
@@ -105,7 +97,6 @@ int		basic_command(t_hustru *big_struc, char **command,
 	int		ret_code;
 
 	remove_quote(&command);
-
 	if (!ft_strcmp(command[0], "env"))
 		ret_code = print_env(big_struc, command);
 	else if (!ft_strcmp(command[0], "setenv"))
@@ -121,11 +112,7 @@ int		basic_command(t_hustru *big_struc, char **command,
 	else if (!ft_strcmp(command[0], "exit"))
 		ret_code = find_exit(big_struc, command);
 	else
-	{
-		//printf("Ma commande est une commande generale\n");
 		ret_code = fun(big_struc, command);
-	}
-	//printf("Mon code de retour est %d\n", ret_code);
 	return (ret_code);
 }
 
@@ -135,7 +122,6 @@ int		basic_command(t_hustru *big_struc, char **command,
 
 void	swap_elem(char **command, char *replace)
 {
-	//printf("Je remplace %s par %s\n", *command, replace);
 	free(*command);
 	*command = replace;
 }
@@ -144,7 +130,6 @@ void	swap_elem(char **command, char *replace)
 ** This function will replace ~ and $ by their equivalent
 ** in the env or by the correct path.
 */
-
 
 char	**parse_line(t_hustru *big_struc, char **command)
 {
@@ -164,8 +149,8 @@ char	**parse_line(t_hustru *big_struc, char **command)
 		if (!is_between_quotes(command[i], 3))
 		{
 			if (command[i] && ft_strchr(command[i], '~'))
-			swap_elem(&command[i],
-			handle_tilde(big_struc, command[i]));
+				swap_elem(&command[i],
+				handle_tilde(big_struc, command[i]));
 		}
 		if (command[i] == NULL)
 			command[i] = ft_strdup("");
@@ -184,31 +169,16 @@ int		decide_commande(t_hustru *big_struc, char **command,
 {
 	int ret;
 
-	/*if (should_fork)
-		printf("Je dois fork");
-	else
-		printf("Je ne fork pas\n");
-	int k = 0; // This variable is only for debug
-	while (command[k])
-		printf("\e[32mJ'execute |%s|\e[0m\n", command[k++]);*/
 	ret = 0;
 	if (!ft_strcmp(command[0], ""))
 		return (0);
 	big_struc->line = recompact_command(command);
 	if (ft_tabchr(command, '|') && !is_between_quotes2(command, '|'))
-	{
-		//printf("Je rentre dans les pipe !\n");
-		if (should_fork)
-			ret = handle_pipe(big_struc, big_struc->line);
-		else
-			ret = handle_pipe_w_fork(big_struc, big_struc->line);
-	}
+		ret = (should_fork) ? handle_pipe(big_struc, big_struc->line)
+			: handle_pipe_w_fork(big_struc, big_struc->line);
 	else if ((!is_between_quotes2(command, '<') && !is_between_quotes2(command, '>')
 	&& (ft_tabchr(command, '>') || ft_tabchr(command, '<'))))
-	{
-		//printf("Je rentre dans les redirections\n");
 		ret = redirections(big_struc, command, should_fork);
-	}
 	else
 	{
 		free(big_struc->line);
@@ -257,38 +227,31 @@ int		parser(t_hustru *big_struc, char *command)
 	int		e;
 
 	quoted_command = final_lexer(command);
-	if (check_error_lexer(quoted_command) == -1)
+	if (check_semic_error(quoted_command) == -1)
 		return (big_struc->last_ret = 258);
-	/*i = 0;
-	while (quoted_command[i])
-		printf("\e[31mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[i++]);
-	printf("\e[31mDecoupe en quote, cela donne |%s|\e[0m\n", quoted_command[i]);*/
 	if (quoted_command && !ft_strcmp(quoted_command[0], ""))
 	{
 		ft_deltab(quoted_command);
 		return ((big_struc->last_ret = 0));
 	}
-	//if (check_command(quoted_command))
-	//	return (big_struc->last_ret = 258);
 	parse_line(big_struc, quoted_command);
-	/*i = 0;
-	while (quoted_command[i])
-		printf("\e[33mDecoupe en quote apres traitement, cela donne |%s|\e[0m\n", quoted_command[i++]);
-	printf("\e[33mDecoupe en quote apres traitement, cela donne |%s|\e[0m\n", quoted_command[i]);*/
 	e = 0;
 	i = 0;
 	while (quoted_command && quoted_command[i])
 	{
 		i++;
 		semicolon = create_command(quoted_command, &i, &e);
-		/*int m = 0;
-		while (semicolon[m])
-			printf("\e[31mDecoupe en quote, cela donne |%s|\e[0m\n", semicolon[m++]);
-		printf("\e[31mDecoupe en quote, cela donne |%s|\e[0m\n", semicolon[m]);*/
 		e = i;
-		big_struc->last_ret = decide_commande(big_struc, semicolon, exec_command_gen, 1);
-		//if (big_struc->last_ret > 0)
+		if (check_error_lexer(semicolon) == -1)
+		{
 			ft_deltab(semicolon);
+			ft_strdel(&big_struc->pipe_heredoc);
+			big_struc->should_heredoc = 1;
+			continue ;
+		}
+		big_struc->last_ret = decide_commande(big_struc,
+			semicolon, exec_command_gen, 1);
+		ft_deltab(semicolon);
 		ft_strdel(&big_struc->pipe_heredoc);
 		big_struc->should_heredoc = 1;
 	}

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 14:03:11 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/21 16:01:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,12 @@ void		size_handler(int i)
 	i = ioctl(0, TIOCGWINSZ, &win);
 	w.ws_col = win.ws_col;
 	w.ws_row = win.ws_row;
-//	clean_nprint(w.ws_col, i);
 }
 
 void		catch_signal(void)
 {
-	struct winsize ws;
-	int		i;
+	struct winsize	ws;
+	int				i;
 
 	i = 0;
 	ioctl(0, TIOCGWINSZ, &ws);
@@ -134,7 +133,6 @@ int			main(int argc, char **argv, char **env)
 	char		**path;
 
 	(void)argc;
-	(void)argv;
 	catch_signal();
 	lkd_env = get_env(env);
 	lkd_hist = new_maillon_hist();
@@ -143,26 +141,11 @@ int			main(int argc, char **argv, char **env)
 	change_env(big_struc);
 	if (get_option(big_struc, argv) == 1)
 		return (ft_exit(big_struc, 0));
-	//if (argv[1])
-	//	parser(big_struc, argv[1]);
 	display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	while (ft_read_1(big_struc) == 0)
 	{
-	/*	ft_putstr("Derniere ligne de l'historique : ");
-		ft_putendl(big_struc->lkd_hist->history);
-		t_hist *tmp;
-		tmp = big_struc->lkd_hist;
-		ft_putendl("L'historique des commandes, de la plus recente a la + vieille");
-		while (tmp)
-		{
-			ft_putendl(tmp->history);
-			tmp = tmp->prev;
-		}
-		ft_putendl("-------------------");*/
 		parser(big_struc, g_mainline);
 		display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	}
-	//printf("retour derniere commande vaut %d\n", big_struc->last_ret);
-	//heredoc(big_struc, NULL);
 	return (ft_exit(big_struc, big_struc->last_ret));
 }

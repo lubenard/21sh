@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 00:23:47 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/15 21:38:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 15:59:19 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int			write_history(char *command, char *history_path)
 {
 	int				file;
 
-	//printf("J'ecris dans l'historique %s\n", history_path);
 	if (access(history_path, F_OK) == -1)
 		file = open(history_path, O_CREAT | O_WRONLY);
 	else

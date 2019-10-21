@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/20 22:20:07 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 16:25:39 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <dirent.h>
 # include <signal.h>
 # include <limits.h>
-#include <stdio.h>
 
 /*
 ** Line Edition
@@ -62,7 +61,8 @@ int		cd(t_hustru *big_struc, char **commmand);
 /*
 ** Redirections
 */
-int		redirections(t_hustru *big_struc, char **lexed_command, int should_fork);
+int		redirections(t_hustru *big_struc, char **lexed_command,
+	int should_fork);
 /*
 ** Pipe
 */
@@ -76,6 +76,7 @@ char	**main_lexer(char *line);
 char	**lexer_redir(char *str);
 char	**final_lexer(char *line);
 int		check_error_lexer(char **tab_q);
+int		check_semic_error(char **tab_q);
 /*
 ** Handle Signal
 */
@@ -127,15 +128,14 @@ int		init_arrays(char **command, int **fds,
 char	*recompact_command(char **command);
 int		count_args_redir(char **tab, int i);
 int		is_digit(char *str);
-
-
 /*
 ** Pipe utils
 */
 void	close_pipe(int *pipes, int i);
 char	***compact_command(char *command);
 int		free_pipe(char ***command);
-int		*prepare_pipe(t_hustru *big_struc, char ***compacted_command, char *command, int i);
+int		*prepare_pipe(t_hustru *big_struc, char ***compacted_command,
+	char *command, int i);
 
 /*
 ** Buitltins Utils
