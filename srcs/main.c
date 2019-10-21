@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/19 18:46:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 12:25:55 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,8 @@ int			main(int argc, char **argv, char **env)
 	change_env(big_struc);
 	if (get_option(big_struc, argv) == 1)
 		return (ft_exit(big_struc, 0));
-	if (argv[1])
-		parser(big_struc, argv[1]);
+	//if (argv[1])
+	//	parser(big_struc, argv[1]);
 	display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	while (ft_read_1(big_struc) == 0)
 	{

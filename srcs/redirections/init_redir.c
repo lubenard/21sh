@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 22:04:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/20 22:52:11 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 13:28:02 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@ int		is_command_redir(int **fds, char **command, int j, int *k)
 {
 	int fd;
 
+	printf("Je supprime les quotes\n");
 	remove_quote(&command);
+	int jj = 0;
+	while (command[jj])
+		printf("command[jj] = %s\n", command[jj++]);
 	if (access(command[j], F_OK) == -1 && ft_strcmp(command[j - 1], "<<"))
 	{
 		if ((fd = open(command[j], O_CREAT, 0644) < 0))

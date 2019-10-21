@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/20 22:51:08 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 12:29:06 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,9 @@ int		launch_arrow_w_fork(t_hustru *big_struc, char **command)
 	if (init_arrays(command, &fds, &exec_command, &fds_size) == -1)
 		return (display_error("ymarsh: init failed in redirections\n", NULL));
 	tmp_fd = redirect_fds(big_struc, command, fds, fds_size);
-	//int jj = 0;
-	//while (exec_command[jj])
-	//	printf("Tab d'exec = %s\n", exec_command[jj++]);
+	int jj = 0;
+	while (exec_command[jj])
+		printf("Tab d'exec = %s\n", exec_command[jj++]);
 	decide_commande(big_struc, exec_command, exec_without_fork, 0);
 	if (tmp_fd > 0)
 		close(tmp_fd);
@@ -150,9 +150,9 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 
 	tmp_fd = 0;
 	pid = 0;
-	/*int m = 0;
+	int m = 0;
 	while (command[m])
-		printf("Je recois %s\n", command[m++]);*/
+		printf("Je recois %s\n", command[m++]);
 	if (init_arrays(command, &fds, &exec_command, &fds_size) == -1)
 		return (display_error("ymarsh: init failed in redirections\n", NULL));
 	if (!is_valid_command(big_struc, command) && (pid = fork()) >= 0)
@@ -160,10 +160,10 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 		if (!pid)
 		{
 			tmp_fd = redirect_fds(big_struc, command, fds, fds_size);
-			/*int jj = 0;
+			int jj = 0;
 			while (exec_command[jj])
 				printf("Tab d'exec = %s\n", exec_command[jj++]);
-			while (jj < fds_size)
+			/*while (jj < fds_size)
 				printf("Tab d'exec_fds = %d\n", fds[jj++]);*/
 			decide_commande(big_struc, exec_command, exec_without_fork, 0);
 			exit(0);

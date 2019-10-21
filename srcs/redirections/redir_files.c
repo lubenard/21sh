@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 22:11:28 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/20 22:55:03 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/21 12:23:55 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		file_redir(t_hustru *big_struc, char **command, int *i, int *fds)
 	int		fd2;
 
 	fd = 0;
-	//printf("FILE_REDIR\n");
+	printf("FILE_REDIR\n");
 	if (!ft_strcmp(command[*i], "&>"))
 	{
 	//	printf("doucle redir\n");
