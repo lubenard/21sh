@@ -6,11 +6,27 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:46:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/14 16:09:35 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/22 16:59:24 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <env.h>
+#include <sh21.h>
+
+int		exec_env(char *right_path, char **argv, char **env)
+{
+	pid_t	pid;
+
+	if ((pid = fork()) < 0)
+		return (display_error("ymarsh: error: fork failed", NULL));
+	reset_shell_attr(0);
+	signal(SIGINT, handle_signals_proc);
+	if (!pid)
+		execve(right_path, argv, env);
+	wait(&pid);
+	set_none_canon_mode(0);
+	return (free_after_exec(right_path, env));
+}
 
 void	fill_env2(t_env *tmp, char **command, int i)
 {

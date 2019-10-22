@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 14:06:51 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 16:25:05 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/22 17:00:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int		launch_command_env(t_hustru *big_struc, int flags, char **command);
 void	fill_env(t_env *env, char **command, int i);
 char	**compact_argv_env(char **env, int i);
 void	fill_env2(t_env *tmp, char**command, int i);
+int		exec_env(char *right_path, char **argv, char **tab_env);
+
 /*
 ** Env display functions
 */
@@ -49,6 +51,5 @@ char	*find_in_env(t_env *lkd_env, char *to_find);
 char	*extract_first(char *command, char stop);
 char	*find_path(char **path, char *first_command);
 char	**compact_env(t_env *lkd_env);
-int		exec_command_gen(char *path, char **argv, char **env);
 
 #endif
