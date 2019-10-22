@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/21 14:37:57 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:29:25 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int		init(int *mainindex, int **prompt, t_coord *c)
 		g_mainline = NULL;
 	}
 	g_mainline = ft_strnew(1);
+	signal(SIGINT, signalhandler);
 	prompt[0] = get_coord(get_cursor_position());
 	return (0);
 }
