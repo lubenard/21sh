@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 14:20:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/22 16:13:31 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void		catch_signal(void)
 			signal(SIGWINCH, size_handler);
 			signal(SIGINT, signalhandler);
 		}
-		signal(i, SIG_IGN);
+		if (i != 11 && i != 19)
+			signal(i, SIG_IGN);
 		i++;
 	}
 }
