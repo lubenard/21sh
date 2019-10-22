@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 22:41:23 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/22 12:40:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,7 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 		{
 			tmp_fd = redirect_fds(big_struc, command, fds, fds_size);
 			decide_commande(big_struc, exec_command, exec_without_fork, 0);
-			free(exec_command);
-			exec_command = NULL;
-			ft_exit(big_struc, 0);
+			exit(0);
 		}
 		wait(&pid);
 	}

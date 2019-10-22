@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 19:16:18 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/22 11:31:45 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,15 @@ int		is_valid_command(t_hustru *big_struc, char **argv)
 {
 	char	*path;
 
-	if (!(path = find_path(big_struc->path, argv[0])))
+	path = NULL;
+	if (ft_strcmp(argv[0], "env")
+	&& ft_strcmp(argv[0], "setenv")
+	&& ft_strcmp(argv[0], "unsetenv")
+	&& ft_strcmp(argv[0], "echo")
+	&& ft_strcmp(argv[0], "cd")
+	&& ft_strcmp(argv[0], "history")
+	&& ft_strcmp(argv[0], "exit")
+	&& !(path = find_path(big_struc->path, argv[0])))
 	{
 		free(path);
 		return (invalid_command(argv[0]));

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 23:09:13 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/22 12:43:32 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,13 @@ char	**parse_line(t_hustru *big_struc, char **command)
 ** or if it is juste a normal command.
 */
 
-#include <stdio.h>
-
 int		decide_commande(t_hustru *big_struc, char **command,
 	int (*fun)(t_hustru *, char **), int should_fork)
 {
 	int ret;
 
 	ret = 0;
-	printf("should fork = %d\n", should_fork);
+
 	if (!ft_strcmp(command[0], ""))
 		return (0);
 	if (should_fork)
@@ -101,7 +99,8 @@ int		decide_commande(t_hustru *big_struc, char **command,
 		ret = redirections(big_struc, command, should_fork);
 	else
 	{
-		ft_strdel(&big_struc->line);
+		if (should_fork)
+			ft_strdel(&big_struc->line);
 		return (ret = basic_command(big_struc, command, fun));
 	}
 	if (should_fork)

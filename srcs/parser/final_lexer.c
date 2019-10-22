@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:00:20 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/21 23:09:42 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/22 10:12:09 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ char	**final_lexer(char *line)
 			{
 				c.tmp2 = lexer_redir(tab_q[c.i]);
 				c.tmp1 = ft_tabncat(tab_q, c.tmp2, c.i);
-				ft_putendl(c.tmp1[0]);
 				tab_q = fill_maintab(c.tmp1, c.tmp2, &c.i, tab_q);
 				break ;
 			}
