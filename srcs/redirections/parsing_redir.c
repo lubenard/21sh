@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 14:50:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 16:28:54 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:50:15 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ int		is_digit(char *str)
 	}
 	return (0);
 }
+
+/*
+** Count args for command
+*/
 
 int		count_args_redir(char **tab, int i)
 {
@@ -47,6 +51,10 @@ int		count_args_redir(char **tab, int i)
 	}
 	return (elem + i);
 }
+
+/*
+** Count files to open for redir
+*/
 
 int		count_elem_redir(char **tab, int i)
 {

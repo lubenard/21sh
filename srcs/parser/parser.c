@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 12:43:32 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/22 13:43:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int		decide_commande(t_hustru *big_struc, char **command,
 	int ret;
 
 	ret = 0;
-
 	if (!ft_strcmp(command[0], ""))
 		return (0);
 	if (should_fork)

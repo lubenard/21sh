@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:00:35 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/21 18:42:22 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:12:41 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ char		**if_fd_redir_end(t_coord *c, char *str, char **tmp)
 		c->k = c->i;
 		while (str[c->k])
 		{
-			ft_putchar(str[c->k]);
 			if (ft_isdigit(str[c->k]) == 0 && str[c->k] != '-')
 			{
 				c->k = 0;

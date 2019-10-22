@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 15:05:11 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 12:42:37 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:44:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int		change_dir(t_hustru *big_struc, char *path)
 {
 	char *curr_dir;
 	char buff_dir[4097];
+	char buff_dir2[4097];
+	char *new_dir;
 
 	curr_dir = getcwd(buff_dir, 4096);
 	path = handle_sortcut(big_struc->lkd_env, path);
@@ -58,7 +60,8 @@ int		change_dir(t_hustru *big_struc, char *path)
 		free(path);
 		return (1);
 	}
-	change_env_cd(big_struc, curr_dir, path);
+	change_env_cd(big_struc, curr_dir,
+	(new_dir = getcwd(buff_dir2, 4096)));
 	free(path);
 	return (0);
 }

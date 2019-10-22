@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 17:36:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 23:04:21 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:19:08 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int				ft_isblank(char *str);
 int				ft_strlenu(char *str);
 int				ft_tablen(char **tab);
 int				ft_tabchr(char **tab, int pattern);
+int				ft_str_is_alpha(char *str);
 char			*ft_strdup(char const *s);
 char			*ft_strcpy(char *dest, char const *src);
 char			*ft_strncpy(char *dest, char const *src, unsigned int n);

@@ -6,11 +6,12 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 12:40:59 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:29:06 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+#include <input.h>
 
 /*
 ** here is how redir works
@@ -104,18 +105,18 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 	int		tmp_fd;
 
 	tmp_fd = 0;
-	pid = 0;
 	if (init_arrays(command, &fds, &exec_command, &fds_size) == -1)
 		return (display_error("ymarsh: init failed in redirections\n", NULL));
-	if (!is_valid_command(big_struc, command) && (pid = fork()) >= 0)
+	if (!is_valid_command(big_struc, exec_command) && (pid = fork()) >= 0)
 	{
 		if (!pid)
 		{
 			tmp_fd = redirect_fds(big_struc, command, fds, fds_size);
-			decide_commande(big_struc, exec_command, exec_without_fork, 0);
-			exit(0);
+			exit(decide_commande(big_struc, exec_command,
+				exec_without_fork, 0));
 		}
-		wait(&pid);
+		else
+			wait(&pid);
 	}
 	close_fds(tmp_fd, fds_size, fds);
 	free(exec_command);
