@@ -6,13 +6,13 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 12:05:25 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 23:07:37 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/22 17:50:20 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-int			move_elements(t_env *lkd_env, char *to_extract, char *to_remove)
+int			move_elements(t_env *lkd_env)
 {
 	while (lkd_env->next)
 	{
@@ -26,9 +26,7 @@ int			move_elements(t_env *lkd_env, char *to_extract, char *to_remove)
 	}
 	lkd_env->prev->next = NULL;
 	free(lkd_env);
-	free(to_extract);
-	free(to_remove);
-	return (1);
+	return (2);
 }
 
 int			unset_env2(t_env *lkd_env, char *to_extract, char *to_remove)
@@ -43,7 +41,7 @@ int			unset_env2(t_env *lkd_env, char *to_extract, char *to_remove)
 	if (lkd_env->prev)
 		lkd_env->prev->next = lkd_env->next;
 	else
-		return (move_elements(lkd_env, to_extract, to_remove));
+		return (move_elements(lkd_env));
 	if (lkd_env->next)
 		lkd_env->next->prev = lkd_env->prev;
 	else
@@ -53,17 +51,20 @@ int			unset_env2(t_env *lkd_env, char *to_extract, char *to_remove)
 
 int			unset_env3(t_env *lkd_env, char *to_remove)
 {
-	char *to_extract;
+	char	*to_extract;
+	int		ret;
 
 	while (lkd_env)
 	{
 		to_extract = extract_first(lkd_env->env_line, '=');
 		if (ft_strcmp(to_extract, to_remove) == 0)
 		{
-			if (unset_env2(lkd_env, to_extract, to_remove) == 1)
+			ret = unset_env2(lkd_env, to_extract, to_remove);
+			if (ret == 1)
 				return (1);
+			else if (ret != 2)
+				free(lkd_env);
 			free(to_extract);
-			free(lkd_env);
 			break ;
 		}
 		free(to_extract);
