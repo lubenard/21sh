@@ -6,13 +6,13 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 14:15:22 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 14:31:05 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:54:16 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_str_is_alpha(char *str)
+int		ft_str_is_alpha(char *str)
 {
 	int i;
 

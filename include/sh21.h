@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/22 14:20:56 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:55:15 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int				check_semic_error(char **tab_q);
 ** Handle Signal
 */
 void			handle_signals_proc(int sig);
-void		catch_signal(void);
+void			catch_signal(void);
 /*
 ** History
 */
