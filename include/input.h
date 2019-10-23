@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 18:56:19 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/23 23:12:26 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ struct s_w			w;
 char				*g_mainline;
 
 int					get_option(t_hustru *big_struc, char **argv);
+char				*ft_strjoinfree(char *s1, char *s2);
 /*
 ** Line edition
 */
@@ -119,4 +120,5 @@ int					*get_coord(char *buf);
 char				*get_cursor_position();
 int					set_none_canon_mode(int fd);
 int					reset_shell_attr(int fd);
+
 #endif

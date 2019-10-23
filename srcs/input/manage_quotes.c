@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:08:51 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/22 15:16:20 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/10/23 23:13:10 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*get_inline(char *line, t_hustru *big_struc)
 				|| control_c(c.buf, c.prompt, c.coord, c.r) == 0)
 		{
 			c.buf[0] == '\n' ? free(c.coord) : 0;
-			line = c.buf[0] == '\n' ? line : ft_strjoinfree(line, c.buf);
+			line = (c.buf[0] == '\n') ? line : ft_strjoinfree(line, c.buf);
 			free(c.buf);
 			free(c.pos);
 			return (line);
