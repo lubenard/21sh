@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:57:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 21:14:12 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/23 02:07:51 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int		set_env(t_hustru *big_struc, char **command)
 		return (1);
 	while (command[i])
 	{
-		printf("Test = %s\n", extract_first(command[i], '='));
+		//printf("Test = %s\n", extract_first(command[i], '='));
 		if (!ft_strchr(command[i], '=')
 		|| !(to_search = extract_first(command[i], '='))
 		|| !ft_strcmp(to_search, ""))

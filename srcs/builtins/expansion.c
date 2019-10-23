@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 21:02:47 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 22:26:03 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/23 02:09:58 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ char	*handle_dollar2(t_hustru *big_struc, char *command, int *i, int *e)
 	return (NULL);
 }
 
-#include <stdio.h>
-
 char	*handle_ret_dollar(char *command, char *ret)
 {
 	int		i;
@@ -58,10 +56,9 @@ char	*handle_ret_dollar(char *command, char *ret)
 		tmp2 = extract_first(command, '$');
 		str = ft_strjoin(tmp2, ret);
 		free(ret);
-		printf("return =  %s\n", str);
+		free(tmp2);
 		return (str);
 	}
-	printf("return2 = %s\n", ret);
 	return (ret);
 }
 
@@ -76,15 +73,10 @@ char	*handle_dollar(t_hustru *big_struc, char *command)
 	int		a;
 	char	*ret;
 	char	*tmp;
-	int		tmp2;
 
 	a = 0;
 	ret = NULL;
 	i = ft_strchri(command, '$');
-	if (i != 0)
-		tmp2 = 1;
-	else
-		tmp2 = 0;
 	while (a < ft_occur(command, '$'))
 	{
 		e = 0;
