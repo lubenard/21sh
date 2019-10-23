@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 12:05:25 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 17:50:20 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/23 23:26:05 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int			unset_env(t_hustru *big_struc, char **command)
 	{
 		to_remove = extract_first(command[i], '=');
 		if (unset_env3(lkd_env, to_remove) == 1)
-			return (error_setenv(1));
+			return (error_setenv(NULL, 1));
 		free(to_remove);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:57:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/23 11:08:02 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/23 23:27:17 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int		set_env(t_hustru *big_struc, char **command)
 		if (!ft_strchr(command[i], '=')
 		|| !(to_search = extract_first(command[i], '='))
 		|| !ft_strcmp(to_search, ""))
-			return (error_setenv(0));
+			return (error_setenv(to_search, 0));
 		if (set_env2(&lkd_env, to_search, to_extract, command[i]) == 0)
 			set_env3(&lkd_env, to_search, to_extract, command[i]);
 		i++;

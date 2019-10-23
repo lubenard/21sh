@@ -6,14 +6,16 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 17:03:58 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/23 16:24:06 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/23 23:26:36 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-int		error_setenv(int i)
+int		error_setenv(char *to_search, int i)
 {
+	if (to_search)
+		free(to_search);
 	if (i == 1)
 		ft_putstr_fd("un", 2);
 	ft_putstr_fd("setenv: invalid syntax\n", 2);
