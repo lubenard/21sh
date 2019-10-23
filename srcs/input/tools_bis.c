@@ -59,3 +59,18 @@ void	clean_for_quotes(int *mainindex, int *prompt, int *pos)
 	while (i-- > 0)
 		ft_putstr_fd("\e[A", 0);
 }
+
+char	*ft_strjoinfree(char *s1, char *s2)
+{
+	char	*tmp;
+
+	if (!s1)
+		return (NULL);
+	tmp = ft_strdup(s1);
+	if (!tmp)
+		return (NULL);
+	ft_strdel(&s1);
+	s1 = ft_strjoin(s1, s2);
+	ft_strdel(&tmp);
+	return (s1);
+}

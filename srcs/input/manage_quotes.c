@@ -84,7 +84,7 @@ char	*get_inline(char *line, t_hustru *big_struc)
 				|| control_c(c.buf, c.prompt, c.coord, c.r) == 0)
 		{
 			c.buf[0] == '\n' ? free(c.coord) : 0;
-			line = c.buf[0] == '\n' ? line : ft_strjoinnf(line, c.buf);
+			line = c.buf[0] == '\n' ? line : ft_strjoinfree(line, c.buf);
 			free(c.buf);
 			free(c.pos);
 			return (line);
@@ -101,11 +101,11 @@ char	*get_quotes(char *line, t_hustru *big_struc)
 
 	i = 0;
 	tmp = NULL;
-	while (line[i])
+	while (line && line[i])
 	{
-		if (line[i] == '\'' || line[i] == '\"')
+		if (line && (line[i] == '\'' || line[i] == '\"'))
 			line = do_i_have_to_do_it_quote(line, &i, big_struc, &tmp);
-		if (line[ft_strlenu(line) - 1] == 7)
+		if (line && line[ft_strlenu(line) - 1] == 7)
 		{
 			line[ft_strlenu(line) - 1] = '\0';
 			ft_strdel(&line);
