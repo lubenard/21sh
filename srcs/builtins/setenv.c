@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:57:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/23 02:07:51 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/23 11:08:02 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,6 @@ int		verify_command(char **command, int i)
 ** It does treats all args
 */
 
-#include <stdio.h>
-
 int		set_env(t_hustru *big_struc, char **command)
 {
 	char	*to_search;
@@ -112,15 +110,12 @@ int		set_env(t_hustru *big_struc, char **command)
 	int		i;
 
 	i = 1;
-	printf("printf command[1] = %s\n", command[0]);
-	printf("printf command[1] = %s\n", command[1]);
 	to_extract = NULL;
 	lkd_env = big_struc->lkd_env;
 	if (verify_command(command, 0))
 		return (1);
 	while (command[i])
 	{
-		//printf("Test = %s\n", extract_first(command[i], '='));
 		if (!ft_strchr(command[i], '=')
 		|| !(to_search = extract_first(command[i], '='))
 		|| !ft_strcmp(to_search, ""))

@@ -6,7 +6,7 @@
 #    By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 17:01:46 by lubenard          #+#    #+#              #
-#    Updated: 2019/10/22 14:56:02 by lubenard         ###   ########.fr        #
+#    Updated: 2019/10/23 12:50:36 by lubenard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRC = srcs/main.c \
 	  srcs/builtins/echo.c \
 	  srcs/builtins/cd.c \
 	  srcs/builtins/env/env.c \
-	  srcs/builtins/expansion.c \
+	  srcs/builtins/dollar_expansion.c \
+	  srcs/builtins/tilde_expansion.c \
 	  srcs/builtins/env/display_env.c \
 	  srcs/builtins/env/display_env2.c \
 	  srcs/builtins/env/parsing_env.c \

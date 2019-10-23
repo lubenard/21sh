@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 18:08:32 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/23 12:38:05 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ void	exec_pipe(int j, int k, int *pipes, char ***tab)
 		dup2(pipes[1], 1);
 }
 
+/*
+** Go to next pipes
+*/
+
 void	count_pipes(int *j, int *k)
 {
 	if (*j != 0)
@@ -84,7 +88,7 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 	pipes = prepare_pipe(big_struc, tab, command, i);
 	while (tab[j])
 	{
-		if (!is_valid_command(big_struc, tab[j]) && fork() == 0)
+		if (!is_valid_command(big_struc, tab[j]) && !fork())
 		{
 			exec_pipe(j, k, pipes, tab);
 			do_heredoc_pipe(big_struc, tab, j);
