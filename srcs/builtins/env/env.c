@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 17:00:19 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/24 17:27:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		exec_file_env(t_env *env, char **command,
 	{
 		ft_putstr("No file found with the following name: ");
 		ft_putendl(command[i]);
-		free_env(env);
+		ft_deltab(&argv);
 		return (127);
 	}
 	tab_env = compact_env(env);
