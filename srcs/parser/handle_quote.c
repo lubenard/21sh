@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 18:19:17 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 18:21:03 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/25 13:39:47 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int		is_between_quotes(char *command, int quote_mode)
 {
+	if (!command || !ft_strcmp(command, ""))
+		return (0);
 	if (command[0] != '\''
 	&& command[ft_strlen(command) - 1] != '\''
 	&& quote_mode == 1)
