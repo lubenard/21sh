@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 14:29:06 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/25 12:37:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 	tmp_fd = 0;
 	if (init_arrays(command, &fds, &exec_command, &fds_size) == -1)
 		return (display_error("ymarsh: init failed in redirections\n", NULL));
-	if (!is_valid_command(big_struc, exec_command) && (pid = fork()) >= 0)
+	if ((pid = fork()) >= 0)
 	{
 		if (!pid)
 		{

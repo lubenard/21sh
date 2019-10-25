@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 14:50:43 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/25 12:33:56 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char	*search_absolute_path(char *command)
 	char	*str2;
 	char	buff[6000];
 
+	if (!command)
+		return (NULL);
 	str2 = ft_strjoin(getcwd(buff, 6000), "/");
 	str = ft_strjoin(str2, command);
 	if (command[0] != '/' && ft_strncmp(command, "..", 2)
