@@ -14,11 +14,14 @@
 
 int		do_heredoc(t_hustru *big_struc, char **command)
 {
-	int link[2];
+	int 	link[2];
+	char	*tmp;
 
 	if (pipe(link) == -1)
 		return (0);
-	ft_putstr_fd(heredoc(big_struc, command), link[1]);
+	tmp = heredoc(big_struc, command);
+	ft_putstr_fd(tmp, link[1]);
+	ft_strdel(&tmp);
 	close(link[1]);
 	dup2(link[0], 0);
 	return (0);
