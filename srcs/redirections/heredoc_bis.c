@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:01:58 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/21 18:50:27 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/28 17:50:30 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		do_heredoc(t_hustru *big_struc, char **command)
 {
-	int 	link[2];
+	int		link[2];
 	char	*tmp;
 
 	if (pipe(link) == -1)
