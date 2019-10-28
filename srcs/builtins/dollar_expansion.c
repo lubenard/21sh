@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion.c                                        :+:      :+:    :+:   */
+/*   dollar_expansion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 21:02:47 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/23 12:50:04 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/28 16:04:56 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*handle_dollar2(t_hustru *big_struc, char *command, int *i, int *e)
 {
 	if (command[*i])
 	{
-		if (command[*i + 1] == '?')
+		if (command[*i] == '?')
 			return (ft_itoa(big_struc->last_ret));
 		while (command[*i + *e] && ft_isalnum(command[*i + *e]))
 			(*e)++;

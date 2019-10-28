@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/25 12:37:59 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/28 17:45:09 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,5 +121,5 @@ int		launch_arrow(t_hustru *big_struc, char **command)
 	close_fds(tmp_fd, fds_size, fds);
 	free(exec_command);
 	exec_command = NULL;
-	return (0);
+	return (WIFEXITED(pid));
 }

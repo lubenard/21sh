@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:46:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 16:59:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/28 17:44:44 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int		exec_env(char *right_path, char **argv, char **env)
 {
 	pid_t	pid;
+	int		statval;
 
 	if ((pid = fork()) < 0)
 		return (display_error("ymarsh: error: fork failed", NULL));
@@ -23,9 +24,9 @@ int		exec_env(char *right_path, char **argv, char **env)
 	signal(SIGINT, handle_signals_proc);
 	if (!pid)
 		execve(right_path, argv, env);
-	wait(&pid);
+	waitpid(pid, &statval, WUNTRACED | WCONTINUED);
 	set_none_canon_mode(0);
-	return (free_after_exec(right_path, env));
+	return (free_after_exec(right_path, env, statval));
 }
 
 void	fill_env2(t_env *tmp, char **command, int i)

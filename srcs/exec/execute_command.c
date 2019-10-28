@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 16:55:25 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/28 17:41:54 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ int		check_exec_rights(char *path)
 
 int		exec_without_fork(t_hustru *big_struc, char **argv)
 {
-	char *path;
-	char **env;
+	char	*path;
+	char	**env;
 
 	if (!(path = find_path(big_struc->path, argv[0])))
 	{
@@ -77,7 +77,7 @@ int		exec_without_fork(t_hustru *big_struc, char **argv)
 	reset_shell_attr(0);
 	execve(path, argv, env = compact_env(big_struc->lkd_env));
 	set_none_canon_mode(0);
-	return (free_after_exec(path, env));
+	return (free_after_exec(path, env, 0));
 }
 
 /*
@@ -89,6 +89,7 @@ int		exec_command_gen(t_hustru *big_struc, char **argv)
 	pid_t	pid;
 	char	*path;
 	char	**env;
+	int		statval;
 
 	if (!(path = find_path(big_struc->path, argv[0])))
 	{
@@ -104,7 +105,7 @@ int		exec_command_gen(t_hustru *big_struc, char **argv)
 	env = compact_env(big_struc->lkd_env);
 	if (!pid)
 		execve(path, argv, env);
-	wait(&pid);
+	waitpid(pid, &statval, WUNTRACED | WCONTINUED);
 	set_none_canon_mode(0);
-	return (free_after_exec(path, env));
+	return (free_after_exec(path, env, statval));
 }

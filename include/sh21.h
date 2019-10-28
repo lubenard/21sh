@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/28 14:29:46 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/28 16:12:55 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int				exec_without_fork(t_hustru *big_struc, char **argv);
 char			*extract_first_env(char *command);
 char			*extract_last(char *command, char start);
 char			*find_in_env(t_env *lkd_env, char *to_find);
-int				free_after_exec(char *get_right_path, char **env);
+int				free_after_exec(char *get_right_path, char **env, int ret);
 int				get_error_exec(char path[6000]);
 char			**compact_env(t_env *lkd_env);
 char			*find_path(char **path, char *first_command);

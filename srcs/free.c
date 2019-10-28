@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 17:01:28 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/24 17:40:51 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/28 17:39:22 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 ** Free after each exec
 */
 
-int		free_after_exec(char *get_right_path, char **env)
+int		free_after_exec(char *get_right_path, char **env, int ret)
 {
 	free(get_right_path);
 	free(env);
-	return (0);
+	if (ret > 255)
+		return (ret - 255);
+	return (ret);
 }
 
 /*
