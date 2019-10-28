@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 12:05:25 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/23 23:26:05 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/28 14:30:29 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,8 @@ int			unset_env(t_hustru *big_struc, char **command)
 	char	*to_remove;
 	int		i;
 
-	i = 1;
 	lkd_env = big_struc->lkd_env;
-	if (verify_command(command, 1))
+	if (verify_command(command, 1, &i))
 		return (1);
 	while (command[i])
 	{

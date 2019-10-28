@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/23 23:24:54 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/28 14:29:46 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int				reset_shell_attr(int fd);
 /*
 ** Display / error functions
 */
-int				verify_command(char **command, int i);
+int				verify_command(char **command, int i, int *index);
 void			display_prompt(char *username, char *curr_dir);
 int				error_setenv(char *to_search, int i);
 char			*error_echo(char user[4096]);

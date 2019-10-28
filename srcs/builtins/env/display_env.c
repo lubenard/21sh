@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:39:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/08/22 15:13:06 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/28 15:13:39 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int		print_error_env(char option, int mode)
 		ft_putchar('\n');
 	}
 	ft_putstr("usage: env [--help] [-iv0]\n");
-	ft_putstr("\t   [name=value ...] command\n");
+	ft_putstr("\t   [name=value ...] [command]\n");
 	if (mode == 0)
 		return (1);
 	return (0);

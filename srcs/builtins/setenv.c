@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:57:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/23 23:27:17 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/28 14:30:17 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,9 @@ void	set_env3(t_env **lkd_env, char *to_search,
 ** Check if there is at least 1 argument
 */
 
-int		verify_command(char **command, int i)
+int		verify_command(char **command, int i, int *index)
 {
+	*index = 1;
 	if (!command[1])
 	{
 		if (i == 1)
@@ -109,10 +110,10 @@ int		set_env(t_hustru *big_struc, char **command)
 	t_env	*lkd_env;
 	int		i;
 
-	i = 1;
 	to_extract = NULL;
+	to_search = NULL;
 	lkd_env = big_struc->lkd_env;
-	if (verify_command(command, 0))
+	if (verify_command(command, 0, &i))
 		return (1);
 	while (command[i])
 	{
