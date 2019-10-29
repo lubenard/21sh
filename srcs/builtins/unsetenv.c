@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 12:05:25 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/28 14:30:29 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/29 12:14:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,12 @@ int			move_elements(t_env *lkd_env)
 	return (2);
 }
 
-int			unset_env2(t_env *lkd_env, char *to_extract, char *to_remove)
+int			unset_env2(t_env *lkd_env)
 {
 	if (!lkd_env->prev && !lkd_env->next)
 	{
 		ft_bzero(lkd_env->env_line, 2056);
-		free(to_extract);
-		free(to_remove);
-		return (1);
+		return (2);
 	}
 	if (lkd_env->prev)
 		lkd_env->prev->next = lkd_env->next;
@@ -59,7 +57,7 @@ int			unset_env3(t_env *lkd_env, char *to_remove)
 		to_extract = extract_first(lkd_env->env_line, '=');
 		if (ft_strcmp(to_extract, to_remove) == 0)
 		{
-			ret = unset_env2(lkd_env, to_extract, to_remove);
+			ret = unset_env2(lkd_env);
 			if (ret == 1)
 				return (1);
 			else if (ret != 2)
