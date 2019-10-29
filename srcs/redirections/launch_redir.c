@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/28 17:45:09 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/29 14:27:01 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 ** 2) Make the god redirections
 ** 3) Execute the command
 ** 4) It will automatically fill the files
+*/
+
+/*
+** Will extract first fd in 1>&2
 */
 
 int		extract_first_fd(char **command, int i, char *to_convert)
@@ -41,6 +45,10 @@ int		extract_first_fd(char **command, int i, char *to_convert)
 	}
 	return (fd);
 }
+
+/*
+** Decide if I need to redir fd or to a file
+*/
 
 int		redirect_fds(t_hustru *big_struc, char **command,
 	int *fds, int fds_size)
@@ -77,6 +85,10 @@ void	close_fds(int tmp_fd, int fds_size, int *fds)
 	free(fds);
 }
 
+/*
+** Launch without forking in case it's inside pipes.
+*/
+
 int		launch_arrow_w_fork(t_hustru *big_struc, char **command)
 {
 	int		*fds;
@@ -95,6 +107,10 @@ int		launch_arrow_w_fork(t_hustru *big_struc, char **command)
 	free(exec_command);
 	return (0);
 }
+
+/*
+** Launch all redirections
+*/
 
 int		launch_arrow(t_hustru *big_struc, char **command)
 {
