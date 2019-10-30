@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/28 17:51:48 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/10/30 13:21:41 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,6 @@ void	parser_loop(t_hustru *big_struc, char **quoted_command)
 		i++;
 		semicolon = create_command(quoted_command, &i, &e);
 		e = i;
-		if (check_error_lexer(semicolon) == -1)
-		{
-			ft_deltab(&semicolon);
-			ft_strdel(&big_struc->pipe_heredoc);
-			big_struc->should_heredoc = 1;
-			continue ;
-		}
 		big_struc->last_ret = decide_commande(big_struc,
 			semicolon, exec_command_gen, 1);
 		ft_deltab(&semicolon);
@@ -145,8 +138,12 @@ int		parser(t_hustru *big_struc, char *command)
 	char	**quoted_command;
 
 	quoted_command = final_lexer(command);
-	if (check_semic_error(quoted_command) == -1)
+	if (check_semic_error(quoted_command) == -1
+	|| check_error_lexer(quoted_command) == -1)
+	{
+		ft_deltab(&quoted_command);
 		return (big_struc->last_ret = 258);
+	}
 	if (quoted_command && !ft_strcmp(quoted_command[0], ""))
 	{
 		ft_deltab(&quoted_command);
