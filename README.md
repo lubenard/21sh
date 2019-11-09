@@ -1,5 +1,8 @@
 # 21sh
 
+
+![Screen Shot 2019-11-09 at 2 52 02 PM](https://user-images.githubusercontent.com/42534397/68529610-b6cd1b80-0300-11ea-9e46-415d60e9b21d.png)
+
 ## Version Francaise
 
 21sh est un projet qui vous fait créer un shell sommaire mais fonctionnel. Il est plus complet que minishell puisque il contient les redirections,
