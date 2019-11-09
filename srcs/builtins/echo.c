@@ -6,19 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 13:44:37 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/09 20:07:24 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
-
-void	handle_tilde2(char user_name[4096], char *command, int i)
-{
-	if (i != 1)
-		ft_strnncpy(user_name, command, i, ft_strlen(command) - 1);
-	else
-		ft_stricpy(user_name, command, i);
-}
 
 void	handle_echo_options(char option)
 {

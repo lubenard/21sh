@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 18:29:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 18:30:15 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/09 20:23:43 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,17 @@ t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)
 	return (big_struc);
 }
 
+int			ft_strisalpha(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+		if (!ft_isalpha(str[i++]))
+			return (0);
+	return (1);
+}
+
 void		load_from_history(t_hustru *big_struc)
 {
 	int		fd;
@@ -67,6 +78,8 @@ void		load_from_history(t_hustru *big_struc)
 		fd = open(".history", O_RDONLY);
 		while (get_next_line(fd, &str) > 0)
 		{
+			if (!ft_strisalpha(str))
+				continue;
 			save_command(big_struc, str, 0);
 			free(str);
 		}
