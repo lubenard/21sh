@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:00:48 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/09 20:05:17 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/09 22:05:18 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**malloc_if(t_coord *c, char **q_tab, char *line, char a)
 {
-	if (c->i > 0 && line[c->i - 1] != a)
+	if (c->i > 0 && line[c->i - 1] != a && line[c->i -1] != '\n')
 	{
 		q_tab[c->x][c->y] = '\0';
 		c->x += 1;
@@ -27,11 +27,11 @@ char	**malloc_if(t_coord *c, char **q_tab, char *line, char a)
 
 char	**esp_semicolon(t_coord *c, char **q_tab, char *line)
 {
-	if (line[c->i] == ' ')
+	if (line[c->i] == ' ' || line[c->i] == '\n')
 	{
 		q_tab = malloc_if(c, q_tab, line, ';');
 		c->y = -1;
-		while (line[c->i] == ' ')
+		while (line[c->i] == ' ' || line[c->i] == '\n')
 			c->i++;
 		c->i--;
 	}
@@ -57,12 +57,13 @@ char	**init_p(t_coord *c, char **line, char **q_tab)
 
 	tmp = ft_strtrim(*line);
 	*line = ft_strdup(tmp);
+	free(tmp);
 	if (!(q_tab = malloc(sizeof(char *) *
-	((ft_occur(*line, ' ') * 2) + (ft_occur(*line, ';') * 2) + 2))))
+	((ft_occur(*line, ' ') * 2) + (ft_occur(*line, ';') * 2) +
+		(ft_occur(*line, '\n') * 2) + 2))))
 		return (NULL);
 	if (!(q_tab[c->x] = malloc(sizeof(char) * (ft_strlen(*line) + 4))))
 		return (NULL);
-	free(tmp);
 	return (q_tab);
 }
 
@@ -87,11 +88,11 @@ char	**main_lexer(char *line)
 		return (NULL);
 	while (line && line[c.i])
 	{
-		if (line[c.i] == ' ' || line[c.i] == ';')
+		if (line[c.i] == ' ' || line[c.i] == ';' || line[c.i] == '\n')
 			q_tab = esp_semicolon(&c, q_tab, line);
 		else if (line[c.i] == '\"' || line[c.i] == '\'')
 			q_tab = fill_with_quotes(&c, line, q_tab);
-		else
+		else if (line[c.i] != '\t')
 			q_tab[c.x][c.y] = line[c.i];
 		c.y++;
 		c.i++;

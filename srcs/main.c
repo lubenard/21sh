@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/28 14:42:59 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/09 21:27:45 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,12 @@ int			main(int argc, char **argv, char **env)
 	big_struc = fill_huge_struc(lkd_env, lkd_hist, path);
 	change_env(big_struc);
 	get_option(big_struc, argv);
-	display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
+	isatty(0) ? display_prompt(find_name(lkd_env), find_cur_dir(lkd_env)) : NULL;
 	while (ft_read_1(big_struc) == 0)
 	{
 		parser(big_struc, g_mainline);
-		display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
+		isatty(0) ? display_prompt(find_name(lkd_env), find_cur_dir(lkd_env)) : NULL;
+		//display_prompt(find_name(lkd_env), find_cur_dir(lkd_env));
 	}
 	return (ft_exit(big_struc, big_struc->last_ret));
 }

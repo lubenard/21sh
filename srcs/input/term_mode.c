@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:48:08 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/24 21:24:24 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/09 21:08:12 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,16 @@ char	*copy_until(char *str, int i)
 
 int		set_none_canon_mode(int fd)
 {
-	if (tcgetattr(fd, &term) == -1)
-		return (-1);
-	term.c_lflag &= ~(ICANON | ECHO);
-	term.c_cc[VMIN] = 1;
-	term.c_cc[VTIME] = 0;
-	if (tcsetattr(fd, TCSADRAIN, &term) == -1)
-		return (-1);
+	if (isatty(fd))
+	{
+		if (tcgetattr(fd, &term) == -1)
+			return (-1);
+		term.c_lflag &= ~(ICANON | ECHO);
+		term.c_cc[VMIN] = 1;
+		term.c_cc[VTIME] = 0;
+		if (tcsetattr(fd, TCSADRAIN, &term) == -1)
+			return (-1);
+	}
 	return (0);
 }
 
@@ -56,11 +59,14 @@ int		set_none_canon_mode(int fd)
 
 int		reset_shell_attr(int fd)
 {
-	if (tcgetattr(fd, &term) == -1)
-		return (-1);
-	term.c_lflag |= ICANON;
-	term.c_lflag |= ECHO;
-	if (tcsetattr(fd, TCSADRAIN, &term) == -1)
-		return (-1);
+	if (isatty(fd))
+	{
+		if (tcgetattr(fd, &term) == -1)
+			return (-1);
+		term.c_lflag |= ICANON;
+		term.c_lflag |= ECHO;
+		if (tcsetattr(fd, TCSADRAIN, &term) == -1)
+			return (-1);
+	}
 	return (0);
 }
