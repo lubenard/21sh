@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 14:59:45 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/21 23:09:26 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/09 20:14:51 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		is_semic_error(t_coord c, char **tab_q)
 		|| !tab_q[c.i + 1] || (c.k && (c.k == '<' || c.k == '>'
 													|| c.k == '&'))))
 	{
-		ft_deltab(&tab_q);
+	//	ft_deltab(&tab_q);
 		ft_putendl_fd("ymarsh: parse error near \';\'", 2);
 		return (-1);
 	}

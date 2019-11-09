@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:00:48 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/21 15:40:23 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/09 20:05:17 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ char	**malloc_if(t_coord *c, char **q_tab, char *line, char a)
 	{
 		q_tab[c->x][c->y] = '\0';
 		c->x += 1;
-		q_tab[c->x] = malloc(sizeof(char) * (ft_strlen(line) + 3));
+		if (!(q_tab[c->x] = malloc(sizeof(char) * (ft_strlenu(line) + 3))))
+			return (NULL);
 		return (q_tab);
 	}
 	return (q_tab);
@@ -44,7 +45,8 @@ char	**esp_semicolon(t_coord *c, char **q_tab, char *line)
 		c->y = -1;
 		c->x++;
 		c->i--;
-		q_tab[c->x] = malloc(sizeof(char) * (ft_strlenu(line) + 3));
+		if (!(q_tab[c->x] = malloc(sizeof(char) * (ft_strlenu(line) + 3))))
+			return (NULL);
 	}
 	return (q_tab);
 }
@@ -56,7 +58,7 @@ char	**init_p(t_coord *c, char **line, char **q_tab)
 	tmp = ft_strtrim(*line);
 	*line = ft_strdup(tmp);
 	if (!(q_tab = malloc(sizeof(char *) *
-	(ft_occur(*line, ' ') + ft_occur(*line, ';') + 3))))
+	((ft_occur(*line, ' ') * 2) + (ft_occur(*line, ';') * 2) + 2))))
 		return (NULL);
 	if (!(q_tab[c->x] = malloc(sizeof(char) * (ft_strlen(*line) + 4))))
 		return (NULL);
