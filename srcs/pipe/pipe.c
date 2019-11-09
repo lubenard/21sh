@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 23:52:16 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/25 16:33:46 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/09 19:38:23 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		handle_pipe(t_hustru *big_struc, char *command)
 	pipes = prepare_pipe(big_struc, tab, command, i);
 	while (tab[j])
 	{
-		if (!is_valid_command(big_struc, tab[j]) && !fork())
+		if (!fork())
 		{
 			exec_pipe(j, k, pipes, tab);
 			do_heredoc_pipe(big_struc, tab, j);

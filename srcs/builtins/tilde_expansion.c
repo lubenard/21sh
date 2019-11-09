@@ -6,14 +6,14 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 12:49:28 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/23 12:50:00 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/09 20:02:48 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
 /*
-** Check if folder exist for ~/
+** Check if folder exist for ~/username
 */
 
 char	*verify_folder(char buffer[4096], char user_name[4096], char *str)
@@ -37,6 +37,14 @@ char	*verify_folder(char buffer[4096], char user_name[4096], char *str)
 	return (ft_strdup(buffer));
 }
 
+void	handle_tilde2(char user_name[4096], char *command, int i)
+{
+	if (i != 1)
+		ft_strnncpy(user_name, command, i, ft_strlen(command) - 1);
+	else
+		ft_stricpy(user_name, command, i);
+}
+
 /*
 ** Handle ~ and replace it if needded
 */
@@ -53,7 +61,7 @@ char	*handle_tilde(t_hustru *big_struc, char *command)
 	ft_bzero(user_name, 4096);
 	i = ft_strchri(command, '~');
 	str = find_in_env(big_struc->lkd_env, ft_strdup("HOME"));
-	if (command[i + 1] && ft_strlen(command) > 1)
+	if (ft_strlen(command) > 1)
 	{
 		if (command[i] == '/')
 		{
