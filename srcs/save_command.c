@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 00:23:47 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 15:59:19 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/09 14:38:49 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,25 @@
 
 int			history(t_hist *lkd_hist)
 {
-	static int	i = 1;
 	int			tmp;
 
 	tmp = 0;
-	while (lkd_hist->prev && tmp != 15)
+	while (lkd_hist->prev)
 	{
 		lkd_hist = lkd_hist->prev;
 		tmp++;
 	}
-	while (lkd_hist)
+	while (lkd_hist->next)
 	{
-		if (i < 10)
+		if (lkd_hist->index < 10)
 			ft_putstr("    ");
-		else if (i < 100)
+		else if (lkd_hist->index < 100)
 			ft_putstr("   ");
-		else if (i < 1000)
+		else if (lkd_hist->index < 1000)
 			ft_putstr("  ");
-		else if (i < 100000)
+		else if (lkd_hist->index < 100000)
 			ft_putstr(" ");
-		ft_putnbr(i++);
+		ft_putnbr(lkd_hist->index);
 		ft_putstr("  ");
 		ft_putendl(lkd_hist->history);
 		lkd_hist = lkd_hist->next;
@@ -70,12 +69,14 @@ int			write_history(char *command, char *history_path)
 
 void		save_command(t_hustru *big_struc, char *command, int save)
 {
-	t_hist *new_element;
-	t_hist *lkd_hist;
+	t_hist			*new_element;
+	t_hist			*lkd_hist;
+	static int		index = 1;
 
 	lkd_hist = big_struc->lkd_hist;
 	new_element = new_maillon_hist();
 	ft_strcpy(new_element->history, command);
+	new_element->index = index++;
 	new_element->next = lkd_hist;
 	if (!lkd_hist->prev && !lkd_hist->next)
 		lkd_hist->prev = new_element;

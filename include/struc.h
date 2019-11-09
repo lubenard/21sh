@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 13:21:09 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/18 02:55:09 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/09 14:34:35 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct		s_env
 
 typedef struct		s_hist
 {
+	size_t			index;
 	char			history[131073];
 	struct s_hist	*prev;
 	struct s_hist	*next;
