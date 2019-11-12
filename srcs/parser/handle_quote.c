@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 18:19:17 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/25 13:39:47 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/13 00:20:46 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,31 +52,28 @@ int		is_between_quotes2(char **command, char quote_char)
 	return (0);
 }
 
-void	remove_quote_bis(char **command, int i, int e)
+void	remove_quote_bis(char **command, int i, int e, char to_delete)
 {
 	char *tmp;
 
-	if (ft_strchr(*command, '\'') || ft_strchr(*command, '\"'))
+	while ((*command)[i])
 	{
-		while ((*command)[i])
-		{
-			if ((*command)[i] != '\'' && (*command)[i] != '\"')
-				e++;
-			i++;
-		}
-		if (!(tmp = ft_strnew(e)))
-			return ;
-		e = 0;
-		i = 0;
-		while ((*command)[i])
-		{
-			if ((*command)[i] != '\'' && (*command)[i] != '\"')
-				tmp[e++] = (*command)[i];
-			i++;
-		}
-		free((*command));
-		(*command) = tmp;
+		if ((*command)[i] != to_delete)
+			e++;
+		i++;
 	}
+	if (!(tmp = ft_strnew(e)))
+		return ;
+	e = 0;
+	i = 0;
+	while ((*command)[i])
+	{
+		if ((*command)[i] != to_delete)
+			tmp[e++] = (*command)[i];
+		i++;
+	}
+	free(*command);
+	(*command) = tmp;
 }
 
 void	remove_quote(char ***command)
@@ -90,7 +87,10 @@ void	remove_quote(char ***command)
 	{
 		i = 0;
 		e = 0;
-		remove_quote_bis(&((*command)[j]), i, e);
+		if (is_between_quotes((*command)[j], 1))
+			remove_quote_bis(&((*command)[j]), i, e, '\'');
+		else if (is_between_quotes((*command)[j], 2))
+			remove_quote_bis(&((*command)[j]), i, e, '\"');
 		j++;
 	}
 }
