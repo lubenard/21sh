@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 14:21:03 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 14:31:00 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/08 04:59:49 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void	handle_signals_proc(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ioctl(0, TIOCSTI, "\7");
+//		ioctl(0, TIOCSTI, "\7");
+		ft_putchar('\n');
+	/*	ft_putchar(127);
+		ft_putchar('\b');
 		ft_putchar('\b');
 		ft_putchar(127);
 		ft_putchar('\b');
-		ft_putchar('\b');
-		ft_putchar(127);
-		ft_putchar('\b');
-		ft_putstr("\n");
+		ft_putstr("\n");*/
 	}
 }
