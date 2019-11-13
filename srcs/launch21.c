@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 18:29:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/09 20:23:43 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/13 00:22:40 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ void		load_from_history(t_hustru *big_struc)
 		while (get_next_line(fd, &str) > 0)
 		{
 			if (!ft_strisalpha(str))
+			{
+				free(str);
 				continue;
+			}
 			save_command(big_struc, str, 0);
 			free(str);
 		}
