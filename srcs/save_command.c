@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 00:23:47 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/19 03:09:59 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/19 23:02:11 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,6 @@ int			write_history(char *command, char *history_path)
 	return (0);
 }
 
-/*void		show_history(t_hist *hist)
-{
-	while (hist)
-		{
-			printf("%s ->", hist->)
-		}
-}*/
-
 void		save_command(t_hustru *big_struc, char *command, int save)
 {
 	t_hist			*new_element;
@@ -82,8 +74,6 @@ void		save_command(t_hustru *big_struc, char *command, int save)
 	static int		index = 1;
 
 	lkd_hist = big_struc->lkd_hist;
-	while (lkd_hist->next)
-		lkd_hist = lkd_hist->next;
 	new_element = new_maillon_hist();
 	ft_strcpy(new_element->history, command);
 	new_element->index = index++;
@@ -98,7 +88,4 @@ void		save_command(t_hustru *big_struc, char *command, int save)
 	}
 	if (save == 1)
 		write_history(command, big_struc->history_path);
-	while (lkd_hist->next)
-		lkd_hist = lkd_hist->next;
-	new_element = new_maillon_hist();
 }
