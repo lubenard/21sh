@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 19:14:38 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/09 17:51:51 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/19 04:43:24 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ void		add_char(int *mainindex, char *buf, int **prompt)
 		if (coord[0] == w.ws_row)
 			prompt[0][0] -= 1;
 		ft_putstr_fd("a\b", 0);
-		ft_putchar_fd(127, 0);
-		ft_putchar_fd('\b', 0);
+		ft_putstr_fd("\e[2K", 0);
 	}
 	free(coord);
 }

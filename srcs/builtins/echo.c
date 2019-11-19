@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/09 20:07:24 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/19 02:15:24 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	ft_putstr_echo(char *str)
 	int		e;
 
 	e = 0;
-	while (str[e])
+	while (str && str[e])
 	{
-		if (str[e] == '\\')
+	/*	if (str[e] == '\\')
 		{
 			if (str[e + 1] == '\\')
 			{
@@ -47,7 +47,8 @@ void	ft_putstr_echo(char *str)
 			else
 				e++;
 		}
-		ft_putchar(str[e++]);
+		else*/
+			ft_putchar(str[e++]);
 	}
 }
 

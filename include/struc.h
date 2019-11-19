@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 13:21:09 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/09 14:34:35 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/13 05:12:00 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define STRUC_H
 
 # include "../libft/libft.h"
+# include <termios.h>
 
 /*
 ** Env linked list
@@ -52,6 +53,7 @@ typedef struct		s_hustru
 	int				should_heredoc;
 	char			*pipe_heredoc;
 	char			*history_path;
+	struct termios	old_p;
 }					t_hustru;
 
 #endif

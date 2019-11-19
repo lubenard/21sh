@@ -6,12 +6,13 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:48:08 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/09 21:08:12 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/19 04:30:40 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
 #include <term.h>
+#include <stdio.h>
 
 struct termios	term;
 
@@ -38,7 +39,7 @@ char	*copy_until(char *str, int i)
 */
 
 int		set_none_canon_mode(int fd)
-{
+{	
 	if (isatty(fd))
 	{
 		if (tcgetattr(fd, &term) == -1)

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:39:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/28 15:13:39 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/19 09:57:48 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	print_verbose_env2(char **argv, int i)
 {
 	while (argv[i])
 	{
-		ft_putstr("#env\targv[");
+		ft_putstr_fd("#env\targv[", 1);
 		ft_putnbr(i);
-		ft_putstr("]= '");
-		ft_putstr(argv[i++]);
-		ft_putendl("'");
+		ft_putstr_fd("]= '", 1);
+		ft_putstr_fd(argv[i++], 1);
+		ft_putendl_fd("'", 1);
 	}
 }
 
@@ -30,15 +30,15 @@ void	print_verbose_env(t_env *env, char **argv, int mode)
 
 	i = 0;
 	if (mode == 0)
-		ft_putstr("#env clearing environ\n");
+		ft_putstr_fd("#env clearing environ\n", 1);
 	else if (mode == 1)
 	{
 		while (env)
 		{
 			if (ft_strcmp(env->env_line, ""))
 			{
-				ft_putstr("#env setenv:\t");
-				ft_putendl(env->env_line);
+				ft_putstr_fd("#env setenv:\t", 1);
+				ft_putendl_fd(env->env_line, 1);
 			}
 			env = env->next;
 		}
@@ -51,12 +51,12 @@ int		print_error_env(char option, int mode)
 {
 	if (mode == 0)
 	{
-		ft_putstr("env : illegal option -- ");
-		ft_putchar(option);
-		ft_putchar('\n');
+		ft_putstr_fd("env : illegal option -- ", 2);
+		ft_putchar_fd(option, 2);
+		ft_putchar_fd('\n', 2);
 	}
-	ft_putstr("usage: env [--help] [-iv0]\n");
-	ft_putstr("\t   [name=value ...] [command]\n");
+	ft_putstr_fd("usage: env [--help] [-iv0]\n", 2);
+	ft_putstr_fd("\t   [name=value ...] [command]\n", 2);
 	if (mode == 0)
 		return (1);
 	return (0);
@@ -68,11 +68,11 @@ int		print_basic_env(t_env *lkd_env, int flags, int mode)
 	{
 		if (ft_strcmp(lkd_env->env_line, ""))
 		{
-			ft_putstr(lkd_env->env_line);
+			ft_putstr_fd(lkd_env->env_line, 1);
 			if (mode == 1 && !(flags & PE_0))
-				ft_putchar('\n');
+				ft_putchar_fd('\n', 1);
 			else if (mode == 0)
-				ft_putchar('\n');
+				ft_putchar_fd('\n', 1);
 		}
 		lkd_env = lkd_env->next;
 	}

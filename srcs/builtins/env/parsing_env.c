@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:37:44 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 16:54:52 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/19 11:34:41 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,25 @@ int		parsing_env(t_hustru *big_struc, char **command)
 	return (launch_command_env(big_struc, flags, command));
 }
 
-t_env	*parse_env(t_env *lkd_env, char **command, int flags, int *is_command)
+t_env	*parse_env(t_env *reenv, char **command, int flags, int *is_command)
 {
 	int		i;
 	size_t	k;
 	t_env	*env;
+
 
 	i = 1;
 	env = new_maillon_env();
 	while (command[i] && ft_strchr(command[i], '-'))
 		i++;
 	while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
-		fill_env(env, command, i++);
+		fill_env(reenv, env, command, i++);
 	if (!command[i] && flags & PE_I)
 		return (print_env_no_command(env, flags, is_command));
 	else if (!(flags & PE_I) && !command[i])
-		return (print_env_and_var(lkd_env, env, flags, is_command));
+		return (print_env_and_var(reenv, env, flags, is_command));
 	if (env->env_line[0] != '\0')
-		return (env);
+		return (reenv);
 	free(env);
 	return (NULL);
 }

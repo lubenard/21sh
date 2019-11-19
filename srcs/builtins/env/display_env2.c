@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:46:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/28 17:44:44 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/19 05:14:12 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ t_env	*print_env_no_command(t_env *env, int flags, int *is_command)
 	{
 		if (ft_strcmp(env->env_line, ""))
 		{
-			ft_putstr(env->env_line);
+			ft_putstr_fd(env->env_line, 1);
 			if (!(flags & PE_0))
-				ft_putchar('\n');
+				ft_putchar_fd('\n', 1);
 		}
 		env = env->next;
 	}
@@ -78,7 +78,7 @@ void	verbose(t_env *env, char *right_path, char *command)
 	print_verbose_env(env, NULL, 1);
 	if (right_path != NULL)
 	{
-		ft_putstr("#env executing: ");
-		ft_putendl(command);
+		ft_putstr_fd("#env executing: ", 1);
+		ft_putendl_fd(command, 1);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:00:48 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/09 22:05:18 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/19 03:54:56 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**malloc_if(t_coord *c, char **q_tab, char *line, char a)
 {
-	if (c->i > 0 && line[c->i - 1] != a && line[c->i -1] != '\n')
+	if (c->i > 0 && line[c->i - 1] != a  && line[c->i -1] != '\n')
 	{
 		q_tab[c->x][c->y] = '\0';
 		c->x += 1;
@@ -27,20 +27,23 @@ char	**malloc_if(t_coord *c, char **q_tab, char *line, char a)
 
 char	**esp_semicolon(t_coord *c, char **q_tab, char *line)
 {
-	if (line[c->i] == ' ' || line[c->i] == '\n')
+	if (line[c->i] == ' ')
 	{
 		q_tab = malloc_if(c, q_tab, line, ';');
 		c->y = -1;
-		while (line[c->i] == ' ' || line[c->i] == '\n')
+		while (line[c->i] == ' ')
 			c->i++;
 		c->i--;
 	}
-	else if (line[c->i] == ';')
+	else if (line[c->i] == ';' || line[c->i] == '\n')
 	{
 		q_tab = malloc_if(c, q_tab, line, ' ');
 		c->y = 0;
 		while (line[c->i] == ';')
 			q_tab[c->x][c->y++] = line[c->i++];
+		if (line[c->i] == '\n'){
+			q_tab[c->x][c->y++] = ';';
+			c->i++;}
 		q_tab[c->x][c->y] = '\0';
 		c->y = -1;
 		c->x++;
@@ -57,7 +60,7 @@ char	**init_p(t_coord *c, char **line, char **q_tab)
 
 	tmp = ft_strtrim(*line);
 	*line = ft_strdup(tmp);
-	free(tmp);
+	ft_strdel(&tmp);
 	if (!(q_tab = malloc(sizeof(char *) *
 	((ft_occur(*line, ' ') * 2) + (ft_occur(*line, ';') * 2) +
 		(ft_occur(*line, '\n') * 2) + 2))))
@@ -99,6 +102,7 @@ char	**main_lexer(char *line)
 	}
 	q_tab[c.x][c.y] = '\0';
 	q_tab[c.x + 1] = NULL;
-	free(line);
+	ft_strdel(&line);
+	c.x = 0;
 	return (q_tab);
 }

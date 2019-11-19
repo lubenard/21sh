@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 14:06:51 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 17:00:13 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/19 11:24:33 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@
 /*
 ** Env functions
 */
+
+t_env	*ft_envcpy(t_env *start);
 int		print_env(t_hustru *big_struc, char **command);
 int		parsing_env(t_hustru *big_struc, char **command);
 t_env	*parse_env(t_env *lkd_env, char **command, int flags, int *is_command);
 void	free_env(t_env *env);
 int		launch_command_env(t_hustru *big_struc, int flags, char **command);
-void	fill_env(t_env *env, char **command, int i);
+void	fill_env(t_env *lkd_env, t_env *env, char **command, int i);
 char	**compact_argv_env(char **env, int i);
 void	fill_env2(t_env *tmp, char**command, int i);
 int		exec_env(char *right_path, char **argv, char **tab_env);

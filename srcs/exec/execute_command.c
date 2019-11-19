@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/28 17:41:54 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/19 04:06:15 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		check_exec_rights(char *path)
 {
 	if (access(path, X_OK) || get_error_exec(path))
 	{
-		invalid_command(path);
+		/*invalid_command(path);*/
 		ft_putstr_fd("You cannot execute the file (´ ͡༎ຶ ͜ʖ ͡༎ຶ )\n", 2);
 		free(path);
 		return (0);

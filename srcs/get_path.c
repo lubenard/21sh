@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 22:01:21 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/02 18:33:23 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/19 05:31:57 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int		ft_len(char *path_line)
 	int i;
 	int j;
 
-	i = 4;
+	i = 0;
 	j = 0;
-	while (path_line[i] != '\0')
+	while (path_line && path_line[i] != '\0')
 	{
 		if (path_line[i] == ':')
 			++j;

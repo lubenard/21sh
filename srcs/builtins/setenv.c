@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:57:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/28 14:30:17 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/19 05:56:43 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ int		set_env2(t_env **lkd_env, char *to_search,
 		if (ft_strcmp(to_search, to_extract) == 0)
 		{
 			ft_strcpy((*lkd_env)->env_line, to_add);
-			free(to_extract);
-			free(to_search);
+			ft_strdel(&to_extract);
+			ft_strdel(&to_search);
 			return (1);
 		}
 		*lkd_env = (*lkd_env)->next;
-		free(to_extract);
+		ft_strdel(&to_extract);
 	}
 	return (0);
 }
@@ -83,6 +83,8 @@ void	set_env3(t_env **lkd_env, char *to_search,
 
 int		verify_command(char **command, int i, int *index)
 {
+	char	*tmp;
+
 	*index = 1;
 	if (!command[1])
 	{
@@ -95,6 +97,14 @@ int		verify_command(char **command, int i, int *index)
 		ft_putendl_fd("setenv VAR1=value1 VAR2=value2 ...", 2);
 		return (1);
 	}
+	tmp = extract_first(command[1], '=');
+	if (ft_occur(tmp, ':'))
+	{
+		ft_putendl_fd("setenv : bad character in varname", 2);
+		ft_strdel(&tmp);
+		return (1);
+	}
+	ft_strdel(&tmp);
 	return (0);
 }
 
