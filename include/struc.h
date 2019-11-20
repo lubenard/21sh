@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 13:21:09 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/20 18:32:25 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/20 19:55:06 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct		s_hustru
 	int				should_heredoc;
 	char			*pipe_heredoc;
 	char			*history_path;
-	char			*HOME;
+	char			*home_env_var;
 	struct termios	old_p;
 }					t_hustru;
 

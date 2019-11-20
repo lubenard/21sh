@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 12:49:28 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/20 19:20:06 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/20 19:55:36 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	replace_tilde(t_hustru *big_struc, char ***tilde)
 			if (ft_strcmp((*tilde)[i + 1], "~"))
 			{
 				free((*tilde)[i]);
-				(*tilde)[i] = ft_strdup(big_struc->HOME);
+				(*tilde)[i] = ft_strdup(big_struc->home_env_var);
 			}
 			if ((*tilde)[i + 1] && (*tilde)[i + 1][0] != ':')
 				already_replaced = 1;
@@ -102,8 +102,8 @@ char	*handle_tilde(t_hustru *big_struc, char *command)
 
 	i = 0;
 	ret = ft_strksplit(command, '~');
-	//while (ret[i])
-	//	printf("ret[i] = %s\n", ret[i++]);
+	while (ret[i])
+		printf("ret[i] = %s\n", ret[i++]);
 	replace_tilde(big_struc, &ret);
 	return (recompact_command_tilde(ret));
 }

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/20 12:14:31 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/20 19:31:41 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,17 @@ char	**parse_line(t_hustru *big_struc, char **command)
 	i = 0;
 	while (command && command[i])
 	{
-		if (!is_between_quotes(command[i], 1))
-		{
-			if (ft_strchr(command[i], '$'))
-				swap_elem(&command[i],
-				handle_dollar(big_struc, command[i]));
-		}
 		if (!is_between_quotes(command[i], 3))
 		{
 			if (command[i] && ft_strchr(command[i], '~'))
 				swap_elem(&command[i],
 				handle_tilde(big_struc, command[i]));
+		}
+		if (!is_between_quotes(command[i], 1))
+		{
+			if (ft_strchr(command[i], '$'))
+				swap_elem(&command[i],
+				handle_dollar(big_struc, command[i]));
 		}
 		if (command[i] == NULL)
 			command[i] = ft_strdup("");

@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 18:29:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/20 18:35:49 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/20 19:55:22 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,9 @@ t_hustru	*fill_huge_struc(t_env *lkd_env, t_hist *lkd_hist, char **path)
 	big_struc->fds_index = 0;
 	big_struc->should_heredoc = 1;
 	big_struc->pipe_heredoc = NULL;
-	big_struc->HOME = find_in_env(lkd_env, ft_strdup("HOME"));
+	big_struc->home_env_var = find_in_env(lkd_env, ft_strdup("HOME"));
 	big_struc->history_path = ft_strjoin(getcwd(buff, 4096), "/.history");
 	return (big_struc);
-}
-
-int			ft_strisalpha(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-		if (!ft_isalpha(str[i++]))
-			return (0);
-	return (1);
 }
 
 void		load_from_history(t_hustru *big_struc)
@@ -79,7 +68,7 @@ void		load_from_history(t_hustru *big_struc)
 		fd = open(".history", O_RDONLY);
 		while (get_next_line(fd, &str) > 0)
 		{
-			if (!ft_strisalpha(str))
+			if (!ft_strisascii(str))
 			{
 				free(str);
 				continue;

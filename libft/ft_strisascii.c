@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_str_is_alpha.c                                  :+:      :+:    :+:   */
+/*   ft_strisascii.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/22 14:15:22 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 14:54:16 by lubenard         ###   ########.fr       */
+/*   Created: 2019/11/20 19:48:20 by lubenard          #+#    #+#             */
+/*   Updated: 2019/11/20 19:48:40 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_str_is_alpha(char *str)
+int			ft_strisascii(char *str)
 {
 	int i;
 
 	i = 0;
 	while (str[i])
-	{
-		if (!ft_isalpha(str[i]))
+		if (!ft_isascii(str[i++]))
 			return (0);
-		i++;
-	}
 	return (1);
 }
