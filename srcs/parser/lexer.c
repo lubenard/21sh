@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:00:48 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/19 03:54:56 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/20 12:13:45 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**malloc_if(t_coord *c, char **q_tab, char *line, char a)
 {
-	if (c->i > 0 && line[c->i - 1] != a  && line[c->i -1] != '\n')
+	if (c->i > 0 && line[c->i - 1] != a && line[c->i - 1] != '\n')
 	{
 		q_tab[c->x][c->y] = '\0';
 		c->x += 1;
@@ -41,9 +41,11 @@ char	**esp_semicolon(t_coord *c, char **q_tab, char *line)
 		c->y = 0;
 		while (line[c->i] == ';')
 			q_tab[c->x][c->y++] = line[c->i++];
-		if (line[c->i] == '\n'){
+		if (line[c->i] == '\n')
+		{
 			q_tab[c->x][c->y++] = ';';
-			c->i++;}
+			c->i++;
+		}
 		q_tab[c->x][c->y] = '\0';
 		c->y = -1;
 		c->x++;

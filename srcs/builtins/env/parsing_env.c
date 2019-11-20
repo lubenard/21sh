@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:37:44 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/19 11:34:41 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/20 11:58:19 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ t_env	*parse_env(t_env *reenv, char **command, int flags, int *is_command)
 	int		i;
 	size_t	k;
 	t_env	*env;
-
 
 	i = 1;
 	env = new_maillon_env();

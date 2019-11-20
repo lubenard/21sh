@@ -40,20 +40,6 @@ Les flèches s'utilisent logiquement.
 - echo [POSIX]
 ```
 [-n] N'imprime pas le '\n' après le dernier argument.
-\a
-Ecrit un <alert>.
-\b
-Ecrit un <backspace>.
-\f
-Ecrit un <form-feed>.
-\n
-Ecrit un <newline>.
-\r
-Ecrit un <carriage-return>.
-\t
-Ecrit un <tab>.
-\v
-Ecrit un <vertical-tab>.
 ```
 - env [POSIX]
 ```
@@ -138,21 +124,6 @@ The arrows are used logically.
 - echo [POSIX COMPLIANT]
 ```
 [-n] Does not print '\n' after the last argument.
-
-\a
-Write an <alert>.
-\b
-Write a <backspace>.
-\f
-Write a <form-feed>.
-\n
-Write a <newline>.
-\r
-Write a <carriage-return>.
-\t
-Write a <tab>.
-\v
-Write a <vertical-tab>.
 ```
 - env [POSIX]
 ```

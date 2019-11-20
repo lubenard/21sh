@@ -6,29 +6,11 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:59:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/19 02:15:24 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/20 11:58:02 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
-
-void	handle_echo_options(char option)
-{
-	if (option == 'a')
-		ft_putchar('\a');
-	else if (option == 'b')
-		ft_putchar('\b');
-	else if (option == 'f')
-		ft_putchar('\f');
-	else if (option == 'n')
-		ft_putchar('\n');
-	else if (option == 'r')
-		ft_putchar('\r');
-	else if (option == 't')
-		ft_putchar('\t');
-	else if (option == 'v')
-		ft_putchar('\v');
-}
 
 void	ft_putstr_echo(char *str)
 {
@@ -37,17 +19,9 @@ void	ft_putstr_echo(char *str)
 	e = 0;
 	while (str && str[e])
 	{
-	/*	if (str[e] == '\\')
-		{
-			if (str[e + 1] == '\\')
-			{
-				handle_echo_options(str[e + 2]);
-				e += 3;
-			}
-			else
-				e++;
-		}
-		else*/
+		if (str[e] == '\\')
+			e++;
+		else
 			ft_putchar(str[e++]);
 	}
 }

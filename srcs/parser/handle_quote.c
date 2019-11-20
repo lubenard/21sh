@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 18:19:17 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/19 02:16:09 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/20 12:11:40 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,29 +79,6 @@ void	remove_quote_bis(char **command, int i, int e, char to_delete)
 
 void	remove_quote(char ***command)
 {
-/*	int		i;
-	int		j;
-	char	c;
-	char	*tmp;
-
-	i = 0;
-	j = 0;
-	if (!(tmp = malloc(sizeof(char) * (ft_strlen(command) + 1))))
-		return (NULL);
-	while (command[i])
-	{
-		if (command[i] == '\'' || command[i] == '\"')
-		{
-			c = command[i++];
-			while (command[i] && command[i] != c)
-				tmp[j++] = command[i++];
-		}
-		else
-			tmp[j++] = command[i++];
-	}
-	tmp[j] = '\0';
-	//ft_strdel(&command);
-	return (tmp);*/
 	int		i;
 	int		e;
 	int		j;
@@ -118,25 +95,6 @@ void	remove_quote(char ***command)
 		j++;
 	}
 }
-
-/*char	**remove_quote(char **command)
-{
-	int		i;
-	int		j;
-	char	**tmp;
-
-	i = 0;
-	j = 0;
-	if (!(tmp = malloc(sizeof(char*) * (ft_tablen(command) + 1))))
-		return (NULL);
-	ft_putnbr(ft_tablen(command));
-	while (command[i])
-		tmp[j++] = remove_quote_one(command[i++]);
-	tmp[j] = NULL;
-	//free(command);
-	command = NULL;
-	return (tmp);
-}*/
 
 /*
 ** Replace the ~ or the $ with his equivalence

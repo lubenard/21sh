@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/19 02:09:05 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/20 11:57:41 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ int				decide_commande(t_hustru *big_struc, char **command,
 char			**create_command(char **command, int *i, int *e);
 int				is_valid_command(t_hustru *big_struc, char **argv);
 int				is_between_quotes(char *command, int mode_quote);
-//char			**remove_quote(char **command);
 char			**create_command(char **command, int *i, int *e);
 int				is_between_quotes(char *command, int quote_mode);
 int				is_between_quotes2(char **command, char quote_char);

@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 20:16:02 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/13 01:29:01 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/20 12:03:20 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*get_cursor_position(void)
 	if (isatty(0) == 0)
 	{
 		return (0);
-		}
+	}
 	write(1, "\033[6n", 4);
 	tmp = ft_strnew(1);
 	if ((ret = read(1, buf, 254)) == -1)

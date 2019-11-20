@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/19 11:41:29 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/20 12:14:31 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int		basic_command(t_hustru *big_struc, char **command,
 	int		ret_code;
 
 	remove_quote(&command);
-	/*command = remove_quote(command);*/
 	if (!ft_strcmp(command[0], "env"))
 		ret_code = print_env(big_struc, command);
 	else if (!ft_strcmp(command[0], "setenv"))
@@ -151,7 +150,6 @@ int		parser(t_hustru *big_struc, char *command)
 		ft_deltab(&quoted_command);
 		return ((big_struc->last_ret = 0));
 	}
-//	parse_line(big_struc, quoted_command);
 	parser_loop(big_struc, quoted_command);
 	if (quoted_command)
 		ft_deltab(&quoted_command);

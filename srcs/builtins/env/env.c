@@ -6,53 +6,52 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/19 11:35:06 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/20 12:00:16 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <env.h>
 #include <sh21.h>
 
-void    *env_free_list(t_env *start)
+void	*env_free_list(t_env *start)
 {
-    t_env   *next;
+	t_env	*next;
 
-    if (!start)
-        return (NULL);
-    while (start)
-    {
-        next = start->next;
-        free(start->env_line);
-        start = next;
-    }
-    return (NULL);
+	if (!start)
+		return (NULL);
+	while (start)
+	{
+		next = start->next;
+		free(start->env_line);
+		start = next;
+	}
+	return (NULL);
 }
 
-t_env   *ft_envcpy(t_env *start)
+t_env	*ft_envcpy(t_env *start)
 {
-    t_env   *head;
-    t_env   *prec;
-    t_env   *new;
-    t_env   *buf;
+	t_env	*head;
+	t_env	*prec;
+	t_env	*new;
+	t_env	*buf;
 
-    head = start;
-    prec = NULL;
-    while (head)
-    {
-        new = ft_memalloc(sizeof(t_env));
-        ft_strcpy(new->env_line, head->env_line);
-        if (!prec)
-            buf = new;
-        if (prec != NULL)
-            prec->next = new;
-        new->prev = prec;
-        new->next = NULL;
-        prec = new;
-        head = head->next;
-    }
-    return (buf);
+	head = start;
+	prec = NULL;
+	while (head)
+	{
+		new = ft_memalloc(sizeof(t_env));
+		ft_strcpy(new->env_line, head->env_line);
+		if (!prec)
+			buf = new;
+		if (prec != NULL)
+			prec->next = new;
+		new->prev = prec;
+		new->next = NULL;
+		prec = new;
+		head = head->next;
+	}
+	return (buf);
 }
-
 
 void	fill_env(t_env *lkd_env, t_env *env, char **command, int i)
 {
@@ -72,10 +71,10 @@ void	fill_env(t_env *lkd_env, t_env *env, char **command, int i)
 			ft_strcpy(lkd_env->env_line, command[i]);
 			ft_strdel(&to_search);
 			ft_strdel(&to_extract);
-			return; 
+			return ;
 		}
 		ft_strdel(&to_extract);
-		lkd_env= lkd_env->next;
+		lkd_env = lkd_env->next;
 	}
 	if (fie == NULL)
 	{
@@ -137,22 +136,8 @@ int		exec_custom_env(t_env *env, char **command,
 
 	save = 0;
 	i = 0;
-	//lkd_env = big_struc->lkd_env;
-/*	while (lkd_env->next)
-	{
-		lkd_env = lkd_env->next;
-		save++;
-	}*/
-//	lkd_env->next = env;
 	ret = (flags & PE_I) ? exec_file_env(env, command, big_struc, flags) :
 	exec_file_env(env, command, big_struc, flags);
-//	lkd_env = big_struc->lkd_env;
-	/*while (i != save)
-	{
-		lkd_env = lkd_env->next;
-		i++;
-	}
-	lkd_env->next = NULL;*/
 	return (ret);
 }
 
