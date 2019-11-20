@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 14:01:27 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/19 01:20:24 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/20 19:18:46 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int		ft_exit(t_hustru *big_struc, int nbr)
 {
 	free_after_exit(big_struc->lkd_env, big_struc->lkd_hist, big_struc->path);
-	free(big_struc->history_path);
+	ft_strdel(&big_struc->history_path);
+	ft_strdel(&big_struc->HOME);
 	free(big_struc);
 	reset_shell_attr(0);
 	exit(nbr);
