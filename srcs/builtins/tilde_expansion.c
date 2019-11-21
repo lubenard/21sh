@@ -6,19 +6,18 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 12:49:28 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/20 19:55:36 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/21 14:20:23 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
-# include <stdio.h>
 
 /*
 ** Compact command for pipes, because pipe only accept
 ** char * and not char **
 */
 
-char	*recompact_command_tilde(char **tab)
+char	*recompact_command_expansion(char **tab)
 {
 	int		i;
 	int		e;
@@ -68,6 +67,16 @@ void	replace_tilde(t_hustru *big_struc, char ***tilde)
 	already_replaced = 0;
 	while ((*tilde)[i])
 	{
+		if (i != 0 && !ft_strcmp((*tilde)[i - 1], "$"))
+		{
+			i++;
+			continue;
+		}
+		if ((*tilde)[i + 1] && (*tilde)[i + 1][0] == '$')
+		{
+			i++;
+			continue ;
+		}
 		if ((*tilde)[i] && !already_replaced && (*tilde)[i + 1]
 		&& !ft_strcmp((*tilde)[i], "~") && ft_isalnum((*tilde)[i + 1][0]))
 		{
@@ -97,13 +106,9 @@ void	replace_tilde(t_hustru *big_struc, char ***tilde)
 
 char	*handle_tilde(t_hustru *big_struc, char *command)
 {
-	int		i;
 	char	**ret;
 
-	i = 0;
 	ret = ft_strksplit(command, '~');
-	while (ret[i])
-		printf("ret[i] = %s\n", ret[i++]);
 	replace_tilde(big_struc, &ret);
-	return (recompact_command_tilde(ret));
+	return (recompact_command_expansion(ret));
 }

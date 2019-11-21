@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 17:36:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/20 19:45:20 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/21 14:17:08 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int				ft_tablen(char **tab);
 int				ft_tabchr(char **tab, int pattern);
 int				ft_strisalpha(char *str);
 int				ft_strisascii(char *str);
+int				ft_strisalnum(char *str);
 char			*ft_strdup(char const *s);
 char			*ft_strcpy(char *dest, char const *src);
 char			*ft_strncpy(char *dest, char const *src, unsigned int n);

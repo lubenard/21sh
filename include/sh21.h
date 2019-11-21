@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/20 11:57:41 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/21 14:13:56 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ int				count_args_triple_tab(char ***tab);
 */
 char			*handle_dollar(t_hustru *big_struc, char *command);
 char			*handle_tilde(t_hustru *big_struc, char *command);
+char			*recompact_command_expansion(char **tab);
 void			handle_tilde2(char user_name[4096], char *command, int i);
 
 #endif

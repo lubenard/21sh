@@ -6,95 +6,78 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 21:02:47 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/28 16:04:56 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/21 14:45:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-int		handle_dollar3(t_hustru *big_struc, char *command, int i, int e)
+void	handle_dollar_value(char ***dollar, int i)
 {
-	char	*tmp;
-	int		len;
+	char	*value;
+	int		j;
 
-	if (command[i])
+	j = 0;
+	if ((*dollar)[i + 1])
 	{
-		if (command[i + 1] == '?')
-			return (1);
-		while (command[i + e] && ft_isalnum(command[i + e]))
-			e++;
-		tmp = find_in_env(big_struc->lkd_env, ft_strsub(command, i, e));
-		len = ft_strlen(tmp);
-		free(tmp);
-		return (len);
+		while (ft_isalnum((*dollar)[i + 1][j]))
+			j++;
+		value = ft_strsub((*dollar)[i + 1], j, ft_strlen((*dollar)[i + 1]) - j);
+		ft_strdel(&((*dollar)[i + 1]));
+		(*dollar)[i + 1] = value;
+	}
+}
+
+int		handle_special_expansions(t_hustru *big_struc, char ***dollar, int *i)
+{
+	char	*value;
+
+	if ((*dollar)[*i + 1][0] == '?')
+	{
+		value = ft_strsub((*dollar)[*i + 1], 1,
+		ft_strlen((*dollar)[*i + 1]) - 1);
+		free((*dollar)[*i]);
+		free((*dollar)[*i + 1]);
+		(*dollar)[*i] = ft_itoa(big_struc->last_ret);
+		(*dollar)[*i + 1] = value;
+		(*i)++;
+		return (1);
 	}
 	return (0);
 }
 
-char	*handle_dollar2(t_hustru *big_struc, char *command, int *i, int *e)
-{
-	if (command[*i])
-	{
-		if (command[*i] == '?')
-			return (ft_itoa(big_struc->last_ret));
-		while (command[*i + *e] && ft_isalnum(command[*i + *e]))
-			(*e)++;
-		return (find_in_env(big_struc->lkd_env, ft_strsub(command, *i, *e)));
-	}
-	return (NULL);
-}
-
-/*
-** Join if needed to avoid bug in setenv
-*/
-
-char	*handle_ret_dollar(char *command, char *ret)
+void	replace_dollar(t_hustru *big_struc, char ***dollar)
 {
 	int		i;
-	char	*str;
-	char	*tmp2;
+	int		j;
+	char	*to_search;
+	char	*value;
 
-	i = ft_strchri(command, '$');
-	if (i != 0)
+	i = 0;
+	while ((*dollar)[i])
 	{
-		tmp2 = extract_first(command, '$');
-		str = ft_strjoin(tmp2, ret);
-		free(ret);
-		free(tmp2);
-		return (str);
+		if ((*dollar)[i] && (*dollar)[i + 1] && !ft_strcmp((*dollar)[i], "$"))
+		{
+			if (handle_special_expansions(big_struc, dollar, &i))
+				continue;
+			j = 0;
+			while (ft_isalnum((*dollar)[i + 1][j]))
+				j++;
+			to_search = ft_strsub((*dollar)[i + 1], 0, j);
+			free((*dollar)[i]);
+			value = find_in_env(big_struc->lkd_env, to_search);
+			(*dollar)[i] = (value) ? value : ft_strdup("");
+			handle_dollar_value(dollar, i);
+		}
+		i++;
 	}
-	return (ret);
 }
-
-/*
-** Replace dollar with good env variable
-*/
 
 char	*handle_dollar(t_hustru *big_struc, char *command)
 {
-	int		e;
-	int		i;
-	int		a;
-	char	*ret;
-	char	*tmp;
+	char **ret;
 
-	a = 0;
-	ret = NULL;
-	i = ft_strchri(command, '$');
-	while (a < ft_occur(command, '$'))
-	{
-		e = 0;
-		if (!ret)
-			ret = ft_strnew(handle_dollar3(big_struc, command, i, e));
-		else
-			ft_realloc(&ret, handle_dollar3(big_struc, command, i, e));
-		tmp = handle_dollar2(big_struc, command, &i, &e);
-		ft_strcat(ret, tmp);
-		free(tmp);
-		while (command[i] && command[i] != '$')
-			i++;
-		i++;
-		a++;
-	}
-	return (handle_ret_dollar(command, ret));
+	ret = ft_strksplit(command, '$');
+	replace_dollar(big_struc, &ret);
+	return (recompact_command_expansion(ret));
 }
