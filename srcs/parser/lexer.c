@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:00:48 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/20 12:13:45 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/24 18:20:42 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char	**init_p(t_coord *c, char **line, char **q_tab)
 	char	*tmp;
 
 	tmp = ft_strtrim(*line);
+	ft_strdel(line);
 	*line = ft_strdup(tmp);
 	ft_strdel(&tmp);
 	if (!(q_tab = malloc(sizeof(char *) *
@@ -78,6 +79,8 @@ char	**fill_with_quotes(t_coord *c, char *line, char **q_tab)
 	q_tab[c->x][c->y++] = line[c->i++];
 	while (line[c->i] && line[c->i] != c->c)
 		q_tab[c->x][c->y++] = line[c->i++];
+	if (c->i == ft_strlenu(line))
+		c->i--;
 	q_tab[c->x][c->y] = line[c->i];
 	return (q_tab);
 }
@@ -88,6 +91,8 @@ char	**main_lexer(char *line)
 	t_coord	c;
 
 	q_tab = NULL;
+	g_mainline = NULL;
+	ft_putendl(line);
 	ft_bzero(&c, sizeof(c));
 	if (!line || (q_tab = init_p(&c, &line, q_tab)) == NULL)
 		return (NULL);
@@ -104,7 +109,7 @@ char	**main_lexer(char *line)
 	}
 	q_tab[c.x][c.y] = '\0';
 	q_tab[c.x + 1] = NULL;
-	ft_strdel(&line);
+	ft_strdel(&g_mainline);
 	c.x = 0;
 	return (q_tab);
 }
