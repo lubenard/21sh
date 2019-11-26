@@ -6,18 +6,23 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/24 20:22:12 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/13 05:00:53 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/26 17:28:48 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
 
+void	free_fn(int *coord, char *buf)
+{
+	free(coord);
+	free(buf);
+}
+
 int		ft_read_1(t_hustru *big_struc)
 {
 	t_coord c;
-	int		istty;
 
-	if ((istty = init(&c.mainindex, &c.prompt, &c)) == -1)
+	if (init(&c.mainindex, &c.prompt, &c) == -1)
 		return (-1);
 	c.pos = NULL;
 	while (42)
@@ -37,8 +42,7 @@ int		ft_read_1(t_hustru *big_struc)
 		}
 		c.r = main_core(c.buf, &c.prompt, &c.pos, &c.mainindex);
 		move_hist(&c, big_struc);
-		free(c.coord);
-		free(c.buf);
+		free_fn(c.coord, c.buf);
 	}
 	return (0);
 }

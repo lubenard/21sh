@@ -6,27 +6,12 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/20 12:00:16 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/26 17:51:03 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <env.h>
 #include <sh21.h>
-
-void	*env_free_list(t_env *start)
-{
-	t_env	*next;
-
-	if (!start)
-		return (NULL);
-	while (start)
-	{
-		next = start->next;
-		free(start->env_line);
-		start = next;
-	}
-	return (NULL);
-}
 
 t_env	*ft_envcpy(t_env *start)
 {
@@ -39,7 +24,11 @@ t_env	*ft_envcpy(t_env *start)
 	prec = NULL;
 	while (head)
 	{
-		new = ft_memalloc(sizeof(t_env));
+		if (!(new = ft_memalloc(sizeof(t_env))))
+		{
+			free_env_prev(new);
+			return (NULL);
+		}
 		ft_strcpy(new->env_line, head->env_line);
 		if (!prec)
 			buf = new;
@@ -94,6 +83,14 @@ void	fill_env(t_env *lkd_env, t_env *env, char **command, int i)
 	free(fie);
 }
 
+int		print_err_env(char **argv, char *comm)
+{
+	ft_putstr_fd("No file found with the following name: ", 2);
+	ft_putendl_fd(comm, 2);
+	ft_deltab(&argv);
+	return (127);
+}
+
 int		exec_file_env(t_env *env, char **command,
 	t_hustru *big_struc, int flags)
 {
@@ -115,12 +112,7 @@ int		exec_file_env(t_env *env, char **command,
 	if (flags & PE_V)
 		print_verbose_env(NULL, argv, 2);
 	if (right_path == NULL)
-	{
-		ft_putstr("No file found with the following name: ");
-		ft_putendl(command[i]);
-		ft_deltab(&argv);
-		return (127);
-	}
+		return (print_err_env(argv, command[i]));
 	tab_env = compact_env(env);
 	exec_env(right_path, argv, tab_env);
 	ft_deltab(&argv);
@@ -156,8 +148,9 @@ int		launch_command_env(t_hustru *big_struc, int flags,
 	if (is_command == 1 && (flags & PE_I || ft_tabchr(command, '=')))
 		exec_custom_env(reenv, command, big_struc, flags);
 	else if (is_command == 1)
-		return (exec_file_env(reenv, command, big_struc, flags));
+			exec_file_env(reenv, command, big_struc, flags);
 	free_env(env);
+	free_env(reenv);
 	return (0);
 }
 

@@ -6,7 +6,11 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:00:48 by ymarcill          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2019/11/26 18:19:55 by ymarcill         ###   ########.fr       */
+=======
 /*   Updated: 2019/11/24 18:20:42 by jmartel          ###   ########.fr       */
+>>>>>>> a98c2362d7be1c117e85f8820f2bd130ea08abf2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +34,6 @@ char	**esp_semicolon(t_coord *c, char **q_tab, char *line)
 	if (line[c->i] == ' ')
 	{
 		q_tab = malloc_if(c, q_tab, line, ';');
-		c->y = -1;
 		while (line[c->i] == ' ')
 			c->i++;
 		c->i--;
@@ -42,17 +45,16 @@ char	**esp_semicolon(t_coord *c, char **q_tab, char *line)
 		while (line[c->i] == ';')
 			q_tab[c->x][c->y++] = line[c->i++];
 		if (line[c->i] == '\n')
-		{
 			q_tab[c->x][c->y++] = ';';
+		while (line[c->i] == '\n')
 			c->i++;
-		}
 		q_tab[c->x][c->y] = '\0';
-		c->y = -1;
 		c->x++;
 		c->i--;
 		if (!(q_tab[c->x] = malloc(sizeof(char) * (ft_strlenu(line) + 3))))
 			return (NULL);
 	}
+	c->y = -1;
 	return (q_tab);
 }
 
@@ -109,7 +111,12 @@ char	**main_lexer(char *line)
 	}
 	q_tab[c.x][c.y] = '\0';
 	q_tab[c.x + 1] = NULL;
+<<<<<<< HEAD
+	c.x = 0;
+	ft_strdel(&line);
+=======
 	ft_strdel(&g_mainline);
+>>>>>>> a98c2362d7be1c117e85f8820f2bd130ea08abf2
 	c.x = 0;
 	return (q_tab);
 }

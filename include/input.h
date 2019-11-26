@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/19 01:18:35 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/22 12:33:52 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef	struct		s_w
 	int				ws_row;
 }					t_w;
 
-struct s_w			w;
+struct s_w			g_w;
 char				*g_mainline;
 
 int					get_option(t_hustru *big_struc, char **argv);
