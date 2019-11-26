@@ -6,11 +6,8 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:00:48 by ymarcill          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2019/11/26 18:19:55 by ymarcill         ###   ########.fr       */
-=======
+/*   Updated: 2019/11/26 18:38:42 by ymarcill         ###   ########.fr       */
 /*   Updated: 2019/11/24 18:20:42 by jmartel          ###   ########.fr       */
->>>>>>> a98c2362d7be1c117e85f8820f2bd130ea08abf2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +108,8 @@ char	**main_lexer(char *line)
 	}
 	q_tab[c.x][c.y] = '\0';
 	q_tab[c.x + 1] = NULL;
-<<<<<<< HEAD
 	c.x = 0;
 	ft_strdel(&line);
-=======
-	ft_strdel(&g_mainline);
->>>>>>> a98c2362d7be1c117e85f8820f2bd130ea08abf2
 	c.x = 0;
 	return (q_tab);
 }
