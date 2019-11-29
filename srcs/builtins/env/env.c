@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/26 17:51:03 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/29 01:19:06 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,6 @@ int		exec_file_env(t_env *env, char **command,
 	i = 1;
 	while (command[i][0] == '-' || ft_strchr(command[i], '='))
 		i++;
-	if (big_struc->path)
-		ft_deltab(&big_struc->path);
-	big_struc->path = get_path(find_in_env(env, ft_strdup("PATH")));
 	right_path = find_path(big_struc->path, command[i]);
 	if (flags & PE_V)
 		verbose(env, right_path, command[i]);
@@ -128,7 +125,7 @@ int		exec_custom_env(t_env *env, char **command,
 
 	save = 0;
 	i = 0;
-	ret = (flags & PE_I) ? exec_file_env(env, command, big_struc, flags) :
+	ret = (flags & PE_I) ? exec_file_env(NULL, command, big_struc, flags) :
 	exec_file_env(env, command, big_struc, flags);
 	return (ret);
 }

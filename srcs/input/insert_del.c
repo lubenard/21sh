@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:13:06 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/10 16:27:10 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/29 00:52:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		*reprint_line(int *mainindex, char *str, int **pos, int *prompt)
 			coord[1] = 1;
 		ft_putchar_fd(str[i], 0);
 		pos[0][i] = coord[1];
-		if (coord[1] == w.ws_col)
+		if (coord[1] == g_w.ws_col)
 			coord[1] = if_last_co(str[i]);
 		*mainindex += 1;
 		i++;

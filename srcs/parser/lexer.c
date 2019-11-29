@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:00:48 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/26 18:38:42 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/29 01:12:21 by lubenard         ###   ########.fr       */
 /*   Updated: 2019/11/24 18:20:42 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -91,7 +91,6 @@ char	**main_lexer(char *line)
 
 	q_tab = NULL;
 	g_mainline = NULL;
-	ft_putendl(line);
 	ft_bzero(&c, sizeof(c));
 	if (!line || (q_tab = init_p(&c, &line, q_tab)) == NULL)
 		return (NULL);

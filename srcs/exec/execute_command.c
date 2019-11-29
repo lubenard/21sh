@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/20 12:02:41 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/29 01:08:42 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ char	**compact_env(t_env *lkd_env)
 	t_env	*tmp;
 
 	i = 0;
+	if (!lkd_env)
+		return (NULL);
 	tmp = lkd_env;
 	while (lkd_env)
 	{

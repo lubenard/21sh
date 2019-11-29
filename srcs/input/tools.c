@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 19:14:13 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/09 17:51:47 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/29 00:55:12 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ int		get_row(int r, int i, int pc)
 	coord = get_coord(get_cursor_position());
 	if (coord[1] == 1)
 		i++;
-	tmp = i - (w.ws_col - pc) - 1;
-	if (i > (w.ws_col - pc))
+	tmp = i - (g_w.ws_col - pc) - 1;
+	if (i > (g_w.ws_col - pc))
 	{
 		r++;
-		while (tmp >= w.ws_col)
+		while (tmp >= g_w.ws_col)
 		{
-			tmp -= w.ws_col;
+			tmp -= g_w.ws_col;
 			r++;
 		}
 	}
@@ -56,10 +56,10 @@ void	clean(int *prompt, int *mainindex, int *pos)
 
 int		*last_line_col(int *coord, int **prompt, char c)
 {
-	if (coord[1] == w.ws_col)
+	if (coord[1] == g_w.ws_col)
 	{
 		coord[1] = 0;
-		if (coord[0] == w.ws_row)
+		if (coord[0] == g_w.ws_row)
 		{
 			prompt[0][0] -= 1;
 			coord[0]++;

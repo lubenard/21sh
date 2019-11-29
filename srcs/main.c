@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/20 12:04:43 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/29 00:50:54 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void		size_handler(int i)
 
 	signal(SIGWINCH, size_handler);
 	i = ioctl(0, TIOCGWINSZ, &win);
-	w.ws_col = win.ws_col;
-	w.ws_row = win.ws_row;
+	g_w.ws_col = win.ws_col;
+	g_w.ws_row = win.ws_row;
 }
 
 void		catch_signal(void)
@@ -27,8 +27,8 @@ void		catch_signal(void)
 	struct winsize	ws;
 
 	ioctl(0, TIOCGWINSZ, &ws);
-	w.ws_col = ws.ws_col;
-	w.ws_row = ws.ws_row;
+	g_w.ws_col = ws.ws_col;
+	g_w.ws_row = ws.ws_row;
 	signal(SIGWINCH, size_handler);
 	signal(SIGINT, signalhandler);
 }

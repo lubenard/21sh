@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   touch_bis.c                                        :+:      :+:    :+:   */
+/*   tools_bis.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 21:17:15 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/24 21:25:05 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/29 00:55:31 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		i_is(int *prompt, int *coord)
 	int i;
 
 	if (prompt[0] != coord[0])
-		i = coord[1] + (w.ws_col * (coord[0] - prompt[0]) - prompt[1]);
+		i = coord[1] + (g_w.ws_col * (coord[0] - prompt[0]) - prompt[1]);
 	else
 		i = (coord[1]) - prompt[1];
 	return (i);

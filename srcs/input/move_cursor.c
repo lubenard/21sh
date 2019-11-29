@@ -6,7 +6,7 @@
 /*   By: ymarcill <ymarcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/01 18:08:37 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/21 14:37:22 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/29 00:51:20 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	go_first_char(int *mainindex, int *prompt, int *pos)
 void	go_upleft(int rep)
 {
 	ft_putstr_fd("\e[F", 0);
-	while (rep++ < w.ws_col)
+	while (rep++ < g_w.ws_col)
 		ft_putstr_fd("\e[C", 0);
 }
 
@@ -49,7 +49,7 @@ void	left_arrow(int *mainindex, int *pos)
 		if (g_mainline[*mainindex - 1] == '\n' && pos)
 		{
 			ft_putstr_fd("\e[F", 0);
-			while (rep++ < w.ws_col)
+			while (rep++ < g_w.ws_col)
 				ft_putstr_fd("\e[C", 0);
 			while (rep-- > pos[*mainindex - 1] + 1)
 				ft_putchar_fd('\b', 0);

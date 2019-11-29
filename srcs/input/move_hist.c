@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:50:59 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/04 15:36:18 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/29 00:53:57 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	go_prev(int *mainindex, int **pos, char *tmp)
 	{
 		coord = get_coord(get_cursor_position());
 		ft_putchar_fd(tmp[i], 0);
-		if (coord[1] == w.ws_col)
+		if (coord[1] == g_w.ws_col)
 		{
-			if (coord[0] == w.ws_row && tmp[i] != '\n')
+			if (coord[0] == g_w.ws_row && tmp[i] != '\n')
 				ft_putstr_fd("\e[S", 0);
 			ft_putstr_fd("\e[E", 0);
 		}
@@ -58,8 +58,8 @@ void	history_prev(int **prompt, t_hustru *big_struc,
 	}
 	r = get_row(0, ft_strlenu(tmp), prompt[0][1]);
 	r = r + get_nb_line_quote(tmp);
-	if (w.ws_row - prompt[0][0] < r)
-		prompt[0][0] -= r - (w.ws_row - prompt[0][0]);
+	if (g_w.ws_row - prompt[0][0] < r)
+		prompt[0][0] -= r - (g_w.ws_row - prompt[0][0]);
 	g_mainline ? free(g_mainline) : 0;
 	g_mainline = ft_strdup(tmp);
 	free(tmp);
@@ -82,8 +82,8 @@ void	history_next(int **prompt, t_hustru *big_struc,
 		go_prev(mainindex, pos, tmp);
 		r = get_row(0, ft_strlenu(tmp), prompt[0][1]);
 		r = r + get_nb_line_quote(tmp);
-		if (w.ws_row - prompt[0][0] < r)
-			prompt[0][0] -= r - (w.ws_row - prompt[0][0]);
+		if (g_w.ws_row - prompt[0][0] < r)
+			prompt[0][0] -= r - (g_w.ws_row - prompt[0][0]);
 	}
 	else if (big_struc->lkd_hist && big_struc->lkd_hist->history[0])
 	{

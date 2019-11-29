@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 19:14:38 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/19 04:43:24 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/29 00:54:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void		add_char(int *mainindex, char *buf, int **prompt)
 	free(tmp);
 	ft_putstr_fd(buf, 0);
 	*mainindex += 1;
-	if (coord[1] == w.ws_col)
+	if (coord[1] == g_w.ws_col)
 	{
-		if (coord[0] == w.ws_row)
+		if (coord[0] == g_w.ws_row)
 			prompt[0][0] -= 1;
 		ft_putstr_fd("a\b", 0);
 		ft_putstr_fd("\e[2K", 0);
