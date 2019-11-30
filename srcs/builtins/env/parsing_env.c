@@ -6,11 +6,33 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:37:44 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/20 11:58:19 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/11/30 19:09:47 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <env.h>
+
+t_env	*ft_envcpy(t_env *start)
+{
+	t_env	*head;
+	t_env	*new;
+	t_env	*last;
+
+	if (!(new = new_maillon_env()))
+		return (NULL);
+	head = new;
+	while (start)
+	{
+		last = new;
+		ft_strcpy(new->env_line, start->env_line);
+		if (!(new = new_maillon_env()))
+			return (NULL);
+		last->next = new;
+		last->next->prev = last;
+		start = start->next;
+	}
+	return (head);
+}
 
 int		env_available_option(char *tab, int *flags)
 {

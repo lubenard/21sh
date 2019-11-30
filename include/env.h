@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 14:06:51 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/19 11:24:33 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/11/30 18:55:52 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 */
 
 t_env	*ft_envcpy(t_env *start);
-int		print_env(t_hustru *big_struc, char **command);
 int		parsing_env(t_hustru *big_struc, char **command);
 t_env	*parse_env(t_env *lkd_env, char **command, int flags, int *is_command);
 void	free_env(t_env *env);
@@ -38,6 +37,7 @@ int		exec_env(char *right_path, char **argv, char **tab_env);
 /*
 ** Env display functions
 */
+int		print_env(t_hustru *big_struc, char **command);
 t_env	*print_env_no_command(t_env *env, int flags, int *is_command);
 void	print_verbose_env(t_env *env, char **argv, int mode);
 int		print_error_env(char option, int mode);
