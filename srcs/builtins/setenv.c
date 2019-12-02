@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:57:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/26 18:21:04 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/12/02 23:24:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ int		create_new(t_env *lkd_env, char *to_search, char *to_add)
 ** replace it
 */
 
-int		set_env2(t_env **lkd_env, char *to_search,
-	char *to_extract, char *to_add)
+int		set_env2(t_env **lkd_env, char *to_search, char *to_add)
 {
+	char *to_extract;
+
 	while ((*lkd_env)->next)
 	{
 		to_extract = extract_first((*lkd_env)->env_line, '=');
@@ -63,18 +64,19 @@ int		set_env2(t_env **lkd_env, char *to_search,
 ** Decide if you need to create a new element
 */
 
-void	set_env3(t_env **lkd_env, char *to_search,
-	char *to_extract, char *command)
+void	set_env3(t_env **lkd_env, char *to_search, char *command)
 {
+	char *to_extract;
+
 	to_extract = extract_first((*lkd_env)->env_line, '=');
 	if (ft_strcmp(to_search, to_extract) == 0)
 	{
 		ft_strcpy((*lkd_env)->env_line, command);
-		free(to_search);
+		ft_strdel(&to_search);
 	}
 	else
 		create_new((*lkd_env), to_search, command);
-	free(to_extract);
+	ft_strdel(&to_extract);
 }
 
 /*
@@ -116,11 +118,9 @@ int		verify_command(char **command, int i, int *index)
 int		set_env(t_hustru *big_struc, char **command)
 {
 	char	*to_search;
-	char	*to_extract;
 	t_env	*lkd_env;
 	int		i;
 
-	to_extract = NULL;
 	to_search = NULL;
 	lkd_env = big_struc->lkd_env;
 	if (verify_command(command, 0, &i))
@@ -131,8 +131,8 @@ int		set_env(t_hustru *big_struc, char **command)
 		|| !(to_search = extract_first(command[i], '='))
 		|| !ft_strcmp(to_search, ""))
 			return (error_setenv(to_search, 0));
-		if (set_env2(&lkd_env, to_search, to_extract, command[i]) == 0)
-			set_env3(&lkd_env, to_search, to_extract, command[i]);
+		if (set_env2(&lkd_env, to_search, command[i]) == 0)
+			set_env3(&lkd_env, to_search, command[i]);
 		i++;
 	}
 	if (big_struc->path)

@@ -6,11 +6,12 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:37:44 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/30 19:09:47 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/02 23:38:38 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <env.h>
+# include <stdio.h>
 
 t_env	*ft_envcpy(t_env *start)
 {
@@ -70,26 +71,22 @@ int		parsing_env(t_hustru *big_struc, char **command)
 	return (launch_command_env(big_struc, flags, command));
 }
 
-t_env	*parse_env(t_env *reenv, char **command, int flags, int *is_command)
+t_env	*parse_env(t_hustru *big_struc, char **command,
+int flags, int *is_command)
 {
 	int		i;
 	size_t	k;
-	t_env	*env;
+	t_env	*reenv;
 
 	i = 1;
-	env = new_maillon_env();
+	reenv = (!(flags & PE_I)) ? ft_envcpy(big_struc->lkd_env) : new_maillon_env();
 	while (command[i] && ft_strchr(command[i], '-'))
 		i++;
 	while (command[i] && (k = ft_strchri(command[i], '=')) && k != 1)
-		fill_env(reenv, env, command, i++);
-	if (!command[i] && flags & PE_I)
-		return (print_env_no_command(env, flags, is_command));
-	else if (!(flags & PE_I) && !command[i])
-		return (print_env_and_var(reenv, env, flags, is_command));
-	if (env->env_line[0] != '\0')
-		return (reenv);
-	free(env);
-	return (NULL);
+		fill_env(reenv, command, i++);
+	if (!command[i])
+		return (print_env_no_command(reenv, flags, is_command));
+	return (reenv);
 }
 
 char	**compact_argv_env(char **command, int i)

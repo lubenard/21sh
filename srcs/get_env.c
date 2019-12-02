@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:37:25 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/02 18:31:48 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/02 22:49:22 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_env	*get_env(char **env)
 		{
 			new_element = new_maillon_env();
 			lkd_env->next = new_element;
-			lkd_env->next->prev = lkd_env;
+			new_element->prev = lkd_env;
 			lkd_env = lkd_env->next;
 		}
 		++i;

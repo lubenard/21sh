@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:39:46 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/19 09:57:48 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/12/02 22:24:32 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,4 @@ int		print_basic_env(t_env *lkd_env, int flags, int mode)
 		lkd_env = lkd_env->next;
 	}
 	return (0);
-}
-
-t_env	*print_env_and_var(t_env *lkd_env, t_env *env,
-	int flags, int *is_command)
-{
-	if (flags & PE_V)
-		print_verbose_env(env, NULL, 1);
-	*is_command = 0;
-	print_basic_env(lkd_env, flags, 1);
-	print_basic_env(env, flags, 1);
-	free_env(env);
-	return (NULL);
 }
