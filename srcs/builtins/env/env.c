@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/02 23:57:35 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/03 01:20:20 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@
 
 void	fill_env(t_env *env, char **command, int i)
 {
-	t_env *new_element;
+	t_env	*new_element;
+	char	*to_search;
+	char	*find;
 
-	char *to_search = extract_first(command[i], '=');
-	if (env && find_in_env(env, ft_strdup(to_search)))
+	to_search = extract_first(command[i], '=');
+	find = find_in_env(env, ft_strdup(to_search));
+	if (env && find)
 		set_env2(&env, to_search, command[i]);
 	else
 	{
@@ -35,19 +38,20 @@ void	fill_env(t_env *env, char **command, int i)
 		else
 			ft_strcpy(env->env_line, command[i]);
 	}
+	ft_strdel(&find);
 }
 
-int		print_err_env(char **compacted_env, char *comm)
+int		print_err_env(t_env *env, char **compacted_env, char *comm)
 {
 	ft_putstr_fd("No file found with the following name: ", 2);
 	ft_putendl_fd(comm, 2);
-	ft_deltab(&compacted_env);
+	free_env(env);
+	free(compacted_env);
 	return (127);
 }
 
 int		exec_file_env(t_env *env, char *right_path, char **command, int flags)
 {
-	char	**tab_env;
 	char	**argv;
 	int		i;
 	char	**compacted_env;
@@ -61,11 +65,22 @@ int		exec_file_env(t_env *env, char *right_path, char **command, int flags)
 	argv = compact_argv_env(command, i);
 	if (flags & PE_V)
 		print_verbose_env(NULL, argv, 2);
-	tab_env = compact_env(env);
-	exec_env(right_path, argv, tab_env);
+	exec_env(right_path, argv, compacted_env);
 	ft_deltab(&argv);
-	ft_deltab(&compacted_env);
 	return (0);
+}
+
+char	*find_path_env(t_env *env, char *command)
+{
+	char *get_path_line;
+	char *right_path;
+	char **path;
+
+	get_path_line = find_in_env(env, ft_strdup("PATH"));
+	path = get_path(get_path_line);
+	right_path = find_path(path, command);
+	ft_deltab(&path);
+	return (right_path);
 }
 
 int		launch_command_env(t_hustru *big_struc, int flags, char **command)
@@ -74,21 +89,23 @@ int		launch_command_env(t_hustru *big_struc, int flags, char **command)
 	int		is_command;
 	char	*right_path;
 	char	**compacted_env;
-	int i = 1;
+	int		i;
 
+	i = 1;
 	is_command = 1;
 	env = parse_env(big_struc, command, flags, &is_command);
 	while (command[i][0] == '-' || ft_strchr(command[i], '='))
 		i++;
 	compacted_env = compact_env(env);
-	if (ft_tabstr(command, "PATH="))
-		right_path = find_path(compacted_env, command[i]);
-	else
-		right_path = find_path(big_struc->path, command[i]);
+	right_path = (ft_tabstr(command, "PATH=")) ?
+	find_path_env(env, command[i])
+	: find_path(big_struc->path, command[i]);
 	if (!right_path)
-		return (print_err_env(compacted_env, command[i]));
-	if (is_command && (flags & PE_I || ft_tabchr(command, '=')))
+		return (print_err_env(env, compacted_env, command[i]));
+	if (is_command)
 		exec_file_env(env, right_path, command, flags);
+	free(compacted_env);
+	free_env(env);
 	return (0);
 }
 

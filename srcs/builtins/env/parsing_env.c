@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:37:44 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/02 23:38:38 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/03 00:23:30 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_env	*ft_envcpy(t_env *start)
 		if (!(new = new_maillon_env()))
 			return (NULL);
 		last->next = new;
-		last->next->prev = last;
+		new->prev = last;
 		start = start->next;
 	}
 	return (head);

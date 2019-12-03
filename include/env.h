@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 14:06:51 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/02 23:26:32 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/03 00:34:21 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,10 @@ t_env	*ft_envcpy(t_env *start);
 int		parsing_env(t_hustru *big_struc, char **command);
 t_env	*parse_env(t_hustru *big_struc, char **command,
 	int flags, int *is_command);
-void	free_env(t_env *env);
 int		launch_command_env(t_hustru *big_struc, int flags, char **command);
 void	fill_env(t_env *lkd_env, char **command, int i);
 char	**compact_argv_env(char **env, int i);
 int		exec_env(char *right_path, char **argv, char **tab_env);
-int		set_env2(t_env **lkd_env, char *to_search, char *to_add);
 
 /*
 ** Env display functions
@@ -54,5 +52,7 @@ char	*find_in_env(t_env *lkd_env, char *to_find);
 char	*extract_first(char *command, char stop);
 char	*find_path(char **path, char *first_command);
 char	**compact_env(t_env *lkd_env);
+int		set_env2(t_env **lkd_env, char *to_search, char *to_add);
+void	free_env(t_env *env);
 
 #endif

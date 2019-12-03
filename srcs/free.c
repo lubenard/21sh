@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 17:01:28 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/26 17:39:16 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/12/03 00:34:59 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,7 @@ void	free_env(t_env *env)
 		tmp = env;
 		env = env->next;
 		free(tmp);
-	}
-}
-
-void	free_env_prev(t_env *env)
-{
-	t_env	*tmp;
-
-	while (env)
-	{
-		tmp = env;
-		env = env->next;
-		free(tmp);
+		tmp = NULL;
 	}
 }
 

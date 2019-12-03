@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 16:46:50 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/29 01:08:42 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/03 01:04:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,11 @@ char	**compact_env(t_env *lkd_env)
 	t_env	*tmp;
 
 	i = 0;
-	if (!lkd_env)
-		return (NULL);
 	tmp = lkd_env;
 	while (lkd_env)
 	{
-		i++;
+		if (ft_strcmp(lkd_env->env_line, ""))
+			i++;
 		lkd_env = lkd_env->next;
 	}
 	if (!(env = (char **)malloc(sizeof(char *) * (i + 1))))
@@ -36,9 +35,9 @@ char	**compact_env(t_env *lkd_env)
 	i = 0;
 	while (tmp)
 	{
-		env[i] = tmp->env_line;
+		if (ft_strcmp(tmp->env_line, ""))
+			env[i++] = tmp->env_line;
 		tmp = tmp->next;
-		i++;
 	}
 	env[i] = NULL;
 	return (env);

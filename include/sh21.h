@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/26 17:41:43 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/12/03 00:35:28 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int				print_error_redirect(char *code);
 /*
 ** Linked list env
 */
-void			free_env_prev(t_env *env);
 t_env			*get_env(char **env);
 t_env			*new_maillon_env(void);
 /*
