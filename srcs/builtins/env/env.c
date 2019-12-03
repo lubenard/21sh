@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/03 01:20:20 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/03 10:09:53 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	fill_env(t_env *env, char **command, int i)
 		}
 		else
 			ft_strcpy(env->env_line, command[i]);
+		ft_strdel(&to_search);
 	}
 	ft_strdel(&find);
 }
