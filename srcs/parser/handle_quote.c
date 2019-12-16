@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 18:19:17 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/16 17:15:34 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/16 23:33:12 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <input.h>
 
 /*
-** Return if between simple or double quote
+** Return if between simple or double quote, or one of them
 */
 
 int		is_between_quotes(char *command, int quote_mode)
@@ -66,7 +66,8 @@ void	remove_quote_bis(char **command)
 
 	j = 0;
 	i = 0;
-	dst = ft_strnew(ft_strlen(*command));
+	if (!(dst = ft_strnew(ft_strlen(*command))))
+		return ;
 	while ((*command)[i])
 	{
 		if ((*command)[i] == '\'' || (*command)[i] == '\"')
@@ -79,10 +80,14 @@ void	remove_quote_bis(char **command)
 			dst[j++] = (*command)[i];
 		i++;
 	}
-	dst[j] = '\0';
 	free(*command);
 	(*command) = dst;
 }
+
+/*
+** Will delete quote if needed
+*/
+
 
 void	remove_quote(char ***command)
 {
@@ -91,7 +96,8 @@ void	remove_quote(char ***command)
 	j = 0;
 	while ((*command)[j])
 	{
-		remove_quote_bis(&((*command)[j]));
+		if (is_between_quotes((*command)[j], 3))
+			remove_quote_bis(&((*command)[j]));
 		j++;
 	}
 }
