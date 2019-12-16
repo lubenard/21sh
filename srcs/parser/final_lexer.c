@@ -6,11 +6,12 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:00:20 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/22 10:12:09 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/17 00:11:29 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
+# include <stdio.h>
 
 int		ft_tablen(char **tab1)
 {
@@ -30,8 +31,8 @@ char	**ft_tabncat(char **tab1, char **tab2, int n)
 
 	i = 0;
 	j = 0;
-	newtab = malloc(sizeof(char*) * (ft_tablen(tab1) + ft_tablen(tab2) + 1));
-	if (!tab1)
+	if (!tab1 || !(newtab = malloc(sizeof(char*) * (ft_tablen(tab1)
+	+ ft_tablen(tab2) + 1))))
 		return (NULL);
 	while (tab1[i] && i < n)
 		newtab[j++] = ft_strdup(tab1[i++]);
@@ -39,7 +40,7 @@ char	**ft_tabncat(char **tab1, char **tab2, int n)
 	while (tab2 && tab2[i])
 		newtab[j++] = ft_strdup(tab2[i++]);
 	i = n + 1;
-	while (tab1 && tab1[i] && i <= ft_tablen(tab1))
+	while (i <= ft_tablen(tab1))
 		newtab[j++] = ft_strdup(tab1[i++]);
 	newtab[j] = NULL;
 	return (newtab);
