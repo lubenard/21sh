@@ -48,7 +48,7 @@ char	*do_i_have_to_do_it_quote(char *line, int *i, t_hustru *big_struc,
 	if (quotes % 2 != 0)
 	{
 		ft_putstr_fd("\r> ", 0);
-		line = ft_strjoinnf(line, "\n");
+//		line = ft_strjoinnf(line, "\n");
 		while ((line = get_inline(line, big_struc)))
 		{
 			while (line[*i])

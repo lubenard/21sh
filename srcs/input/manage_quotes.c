@@ -59,7 +59,7 @@ void	initi(int *mainindex, int **prompt, char **buf)
 {
 	(void)buf;
 	*mainindex = 0;
-	free(g_mainline);
+	ft_strdel(&g_mainline);
 	g_mainline = ft_strnew(1);
 	prompt[0] = get_coord(get_cursor_position());
 	signal(SIGINT, signalhandler);
@@ -101,6 +101,7 @@ char	*get_quotes(char *line, t_hustru *big_struc)
 
 	i = 0;
 	tmp = NULL;
+	line = ft_strjoinnf(line, "\n");
 	while (line && line[i])
 	{
 		if (line && (line[i] == '\'' || line[i] == '\"'))
