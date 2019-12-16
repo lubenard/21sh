@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 12:49:28 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/21 14:20:23 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/16 14:18:49 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,31 @@ char	*verify_folder(char *user_name)
 	return (ft_strjoin("/Users/", user_name));
 }
 
+void	replace_tilde2(t_hustru *big_struc, char ***tilde,
+int *already_replaced, int i)
+{
+	if ((*tilde)[i] && !(*already_replaced) && (*tilde)[i + 1]
+	&& !ft_strcmp((*tilde)[i], "~") && ft_isalnum((*tilde)[i + 1][0]))
+	{
+		free((*tilde)[i]);
+		(*tilde)[i] = verify_folder((*tilde)[i + 1]);
+		free((*tilde)[i + 1]);
+		(*tilde)[i + 1] = ft_strdup("");
+		*already_replaced = 1;
+	}
+	else if ((*tilde)[i] && !(*already_replaced)
+	&& !ft_strcmp((*tilde)[i], "~"))
+	{
+		if (ft_strcmp((*tilde)[i + 1], "~"))
+		{
+			free((*tilde)[i]);
+			(*tilde)[i] = ft_strdup(big_struc->home_env_var);
+		}
+		if ((*tilde)[i + 1] && (*tilde)[i + 1][0] != ':')
+			*already_replaced = 1;
+	}
+}
+
 void	replace_tilde(t_hustru *big_struc, char ***tilde)
 {
 	int		i;
@@ -77,25 +102,7 @@ void	replace_tilde(t_hustru *big_struc, char ***tilde)
 			i++;
 			continue ;
 		}
-		if ((*tilde)[i] && !already_replaced && (*tilde)[i + 1]
-		&& !ft_strcmp((*tilde)[i], "~") && ft_isalnum((*tilde)[i + 1][0]))
-		{
-			free((*tilde)[i]);
-			(*tilde)[i] = verify_folder((*tilde)[i + 1]);
-			free((*tilde)[i + 1]);
-			(*tilde)[i + 1] = ft_strdup("");
-			already_replaced = 1;
-		}
-		else if ((*tilde)[i] && !already_replaced && !ft_strcmp((*tilde)[i], "~"))
-		{
-			if (ft_strcmp((*tilde)[i + 1], "~"))
-			{
-				free((*tilde)[i]);
-				(*tilde)[i] = ft_strdup(big_struc->home_env_var);
-			}
-			if ((*tilde)[i + 1] && (*tilde)[i + 1][0] != ':')
-				already_replaced = 1;
-		}
+		replace_tilde2(big_struc, tilde, &already_replaced, i);
 		i++;
 	}
 }

@@ -6,13 +6,12 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/03 10:09:53 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/16 14:27:06 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <env.h>
 #include <sh21.h>
-# include <stdio.h>
 
 void	fill_env(t_env *env, char **command, int i)
 {
@@ -40,15 +39,6 @@ void	fill_env(t_env *env, char **command, int i)
 		ft_strdel(&to_search);
 	}
 	ft_strdel(&find);
-}
-
-int		print_err_env(t_env *env, char **compacted_env, char *comm)
-{
-	ft_putstr_fd("No file found with the following name: ", 2);
-	ft_putendl_fd(comm, 2);
-	free_env(env);
-	free(compacted_env);
-	return (127);
 }
 
 int		exec_file_env(t_env *env, char *right_path, char **command, int flags)

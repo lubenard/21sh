@@ -6,13 +6,12 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:46:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/02 23:27:04 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/16 14:27:02 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <env.h>
 #include <sh21.h>
-# include <stdio.h>
 
 int		exec_env(char *right_path, char **argv, char **env)
 {
@@ -60,4 +59,13 @@ void	verbose(t_env *env, char *right_path, char *command)
 		ft_putstr_fd("#env executing: ", 1);
 		ft_putendl_fd(command, 1);
 	}
+}
+
+int		print_err_env(t_env *env, char **compacted_env, char *comm)
+{
+	ft_putstr_fd("No file found with the following name: ", 2);
+	ft_putendl_fd(comm, 2);
+	free_env(env);
+	free(compacted_env);
+	return (127);
 }

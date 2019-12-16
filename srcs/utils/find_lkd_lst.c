@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:56:10 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/19 06:36:57 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/12/16 14:28:40 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,26 @@ char	*find_in_env(t_env *lkd_env, char *to_find)
 	}
 	free(to_find);
 	return (NULL);
+}
+
+t_env	*ft_envcpy(t_env *start)
+{
+	t_env	*head;
+	t_env	*new;
+	t_env	*last;
+
+	if (!(new = new_maillon_env()))
+		return (NULL);
+	head = new;
+	while (start)
+	{
+		last = new;
+		ft_strcpy(new->env_line, start->env_line);
+		if (!(new = new_maillon_env()))
+			return (NULL);
+		last->next = new;
+		new->prev = last;
+		start = start->next;
+	}
+	return (head);
 }

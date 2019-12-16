@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 14:06:51 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/03 00:34:21 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/16 14:27:55 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int		print_basic_env(t_env *lkd_env, int flags, int mode);
 t_env	*print_env_and_var(t_env *lkd_env, int flags,
 	int *is_command);
 void	verbose(t_env *env, char *right_path, char *command);
+int		print_err_env(t_env *env, char **compacted_env, char *comm);
 /*
 ** External command
 */
