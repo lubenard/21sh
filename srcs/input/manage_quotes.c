@@ -100,12 +100,14 @@ char	*get_quotes(char *line, t_hustru *big_struc)
 	char	*tmp;
 
 	i = 0;
-	tmp = NULL;
-	line = ft_strjoinnf(line, "\n");
+	tmp = "no";
 	while (line && line[i])
 	{
 		if (line && (line[i] == '\'' || line[i] == '\"'))
+		{
 			line = do_i_have_to_do_it_quote(line, &i, big_struc, &tmp);
+			tmp = NULL;
+		}
 		if (line && line[ft_strlenu(line) - 1] == 7)
 		{
 			line[ft_strlenu(line) - 1] = '\0';

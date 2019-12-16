@@ -16,13 +16,15 @@ int		is_there(char *line, int i, char *c, int *quotes)
 {
 	*c = line[i];
 	*quotes = 1;
-	while (line[i++])
+	i++;
+	while (line[i])
 	{
 		if (line[i] == *c)
 		{
 			*quotes = 0;
 			break ;
 		}
+		i++;
 	}
 	return (i);
 }
@@ -48,7 +50,8 @@ char	*do_i_have_to_do_it_quote(char *line, int *i, t_hustru *big_struc,
 	if (quotes % 2 != 0)
 	{
 		ft_putstr_fd("\r> ", 0);
-//		line = ft_strjoinnf(line, "\n");
+	//	line = ft_strjoinnf(line, "\n");
+		line = *tmp && *tmp[0] == 'n' ? ft_strjoinnf(line, "\n") : line;
 		while ((line = get_inline(line, big_struc)))
 		{
 			while (line[*i])
@@ -62,7 +65,7 @@ char	*do_i_have_to_do_it_quote(char *line, int *i, t_hustru *big_struc,
 				ft_putchar_fd('\n', 0);
 				break ;
 			}
-			ft_putstr_fd("\n\r> ", 0);
+			ft_putstr_fd("\n\r ", 0);
 		}
 	}
 	return (line);
