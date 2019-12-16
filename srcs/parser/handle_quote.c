@@ -6,13 +6,13 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 18:19:17 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/16 17:14:31 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/16 17:15:34 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 #include <input.h>
-# include <stdio.h>
+
 /*
 ** Return if between simple or double quote
 */
