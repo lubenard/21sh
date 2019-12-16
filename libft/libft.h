@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 17:36:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/21 14:17:08 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/16 17:20:43 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # define BUFF_SIZE 4096
-# define MAX_INT64 (9223372036854775807LL)
+# define MAX_INT64 9223372036854775807LL
 
 typedef struct	s_list
 {

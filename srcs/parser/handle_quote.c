@@ -6,12 +6,16 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 18:19:17 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/20 12:11:40 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/16 17:15:34 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 #include <input.h>
+
+/*
+** Return if between simple or double quote
+*/
 
 int		is_between_quotes(char *command, int quote_mode)
 {
@@ -53,45 +57,41 @@ int		is_between_quotes2(char **command, char quote_char)
 	return (0);
 }
 
-void	remove_quote_bis(char **command, int i, int e, char to_delete)
+void	remove_quote_bis(char **command)
 {
-	char *tmp;
+	char	*dst;
+	char	c;
+	int		i;
+	int		j;
 
-	while ((*command)[i])
-	{
-		if ((*command)[i] != to_delete)
-			e++;
-		i++;
-	}
-	if (!(tmp = ft_strnew(e)))
-		return ;
-	e = 0;
+	j = 0;
 	i = 0;
+	dst = ft_strnew(ft_strlen(*command));
 	while ((*command)[i])
 	{
-		if ((*command)[i] != to_delete)
-			tmp[e++] = (*command)[i];
+		if ((*command)[i] == '\'' || (*command)[i] == '\"')
+		{
+			c = (*command)[i++];
+			while ((*command)[i] && (*command)[i] != c)
+				dst[j++] = (*command)[i++];
+		}
+		else
+			dst[j++] = (*command)[i];
 		i++;
 	}
+	dst[j] = '\0';
 	free(*command);
-	(*command) = tmp;
+	(*command) = dst;
 }
 
 void	remove_quote(char ***command)
 {
-	int		i;
-	int		e;
 	int		j;
 
 	j = 0;
 	while ((*command)[j])
 	{
-		i = 0;
-		e = 0;
-		if (is_between_quotes((*command)[j], 1))
-			remove_quote_bis(&((*command)[j]), i, e, '\'');
-		else if (is_between_quotes((*command)[j], 2))
-			remove_quote_bis(&((*command)[j]), i, e, '\"');
+		remove_quote_bis(&((*command)[j]));
 		j++;
 	}
 }
