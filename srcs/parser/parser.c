@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/29 01:27:04 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/17 19:07:01 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,11 @@ int		parser(t_hustru *big_struc, char *command)
 {
 	char	**quoted_command;
 
+	if (!ft_strisascii(command))
+	{
+		ft_putstr("Invalid character detected\n");
+		return (1);
+	}
 	quoted_command = final_lexer(command);
 	if (check_semic_error(quoted_command) == -1
 	|| check_error_lexer(quoted_command) == -1)

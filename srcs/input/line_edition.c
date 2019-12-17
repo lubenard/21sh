@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/12/16 13:57:09 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/17 19:10:30 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int		entry(int r, t_hustru *big_struc, int *coord, int *prompt)
 	while (big_struc->lkd_hist->next)
 		big_struc->lkd_hist = big_struc->lkd_hist->next;
 	g_mainline = get_quotes(g_mainline, big_struc);
-	if (g_mainline && g_mainline[0])
+	if (g_mainline && g_mainline[0] && ft_strisascii(g_mainline))
 		save_command(big_struc, g_mainline, 1);
 	free(coord);
 	free(prompt);
