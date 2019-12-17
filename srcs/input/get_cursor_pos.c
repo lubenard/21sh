@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 20:16:02 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/20 12:03:20 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/17 18:22:05 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		*get_coord(char *buf)
 	t_coord co;
 
 	ft_memset(&co, 0, sizeof(t_coord));
-	if (alloc(&co) == -1 || !buf)
+	if (!buf || alloc(&co) == -1)
 		return (NULL);
 	while (buf[co.i++])
 	{

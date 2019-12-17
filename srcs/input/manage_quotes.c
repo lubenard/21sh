@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 17:08:51 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/19 01:21:45 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/12/17 18:04:18 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ char	*entry_q(int r, int *coord, int *prompt, char *line)
 		ft_putstr_fd("\e[B", 0);
 	ft_putstr_fd("\r", 0);
 	tmp = ft_strdup(g_mainline);
-	free(g_mainline);
+	ft_strdel(&g_mainline);
 	g_mainline = ft_strjoin(tmp, "\n");
-	free(tmp);
+	ft_strdel(&tmp);
 	tmp = ft_strdup(line);
-	free(line);
+	ft_strdel(&line);
 	line = ft_strjoin(tmp, g_mainline);
-	free(tmp);
+	ft_strdel(&tmp);
 	free(prompt);
 	ft_strdel(&g_mainline);
 	return (line);
@@ -104,10 +104,7 @@ char	*get_quotes(char *line, t_hustru *big_struc)
 	while (line && line[i])
 	{
 		if (line && (line[i] == '\'' || line[i] == '\"'))
-		{
 			line = do_i_have_to_do_it_quote(line, &i, big_struc, &tmp);
-			tmp = NULL;
-		}
 		if (line && line[ft_strlenu(line) - 1] == 7)
 		{
 			line[ft_strlenu(line) - 1] = '\0';

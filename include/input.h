@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/22 12:33:52 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/12/17 18:14:17 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ typedef	struct		s_coord
 	char			**tmp2;
 	int				mainindex;
 }					t_coord;
+
+typedef struct		s_norm
+{
+	int				quotes;
+	char			c;
+}					t_norm;
 
 typedef	struct		s_getprompt_pos
 {

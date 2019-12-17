@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 21:06:58 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/12/17 10:43:31 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/17 18:13:52 by ymarcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,10 @@ int		is_it(int *quotes, char **tmp, char c, char i)
 char	*do_i_have_to_do_it_quote(char *line, int *i, t_hustru *big_struc,
 		char **tmp)
 {
-	int		quotes;
-	char	c;
+	t_norm		n;
 
-	*i = is_there(line, *i, &c, &quotes);
-	if (quotes % 2 != 0)
+	*i = is_there(line, *i, &n.c, &n.quotes);
+	if (n.quotes % 2 != 0)
 	{
 		ft_putstr_fd("\r> ", 0);
 		line = *tmp && *tmp[0] == 'n' ? ft_strjoinnf(line, "\n") : line;
@@ -55,17 +54,18 @@ char	*do_i_have_to_do_it_quote(char *line, int *i, t_hustru *big_struc,
 		{
 			while (line[*i])
 			{
-				if (is_it(&quotes, tmp, c, line[*i]))
+				if (is_it(&n.quotes, tmp, n.c, line[*i]))
 					break ;
 				*i += 1;
 			}
-			if (quotes % 2 == 0 || line[ft_strlenu(line) - 1] == 7)
+			if (n.quotes % 2 == 0 || line[ft_strlenu(line) - 1] == 7)
 			{
 				ft_putchar_fd('\n', 0);
 				break ;
 			}
 			ft_putstr_fd("\n\r> ", 0);
 		}
+		*tmp = NULL;
 	}
 	return (line);
 }
