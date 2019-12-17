@@ -75,11 +75,12 @@ char	*ft_strjoinfree(char *s1, char *s2)
 	return (s1);
 }
 
-int		none_asci(char *line)
+int		none_asci(char *line, int check)
 {
 	int		i;
 
 	i = 0;
+	(void)check;
 	while (line[i])
 	{
 		if (!ft_isascii(line[i]))

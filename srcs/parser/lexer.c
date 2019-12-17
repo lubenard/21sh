@@ -62,7 +62,7 @@ char	**init_p(t_coord *c, char **line, char **q_tab)
 	ft_strdel(line);
 	*line = ft_strdup(tmp);
 	ft_strdel(&tmp);
-	if (!none_asci(*line))
+	if (!none_asci(*line, 0))
 		return (NULL);
 	if (!(q_tab = malloc(sizeof(char *) *
 	((ft_occur(*line, ' ') * 2) + (ft_occur(*line, ';') * 2) +

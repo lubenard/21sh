@@ -138,7 +138,7 @@ int		parser(t_hustru *big_struc, char *command)
 {
 	char	**quoted_command;
 
-	if (!ft_strisascii(command))
+	if (command && !ft_strisascii(command))
 	{
 		ft_putstr("Invalid character detected\n");
 		return (1);

@@ -40,7 +40,7 @@ void	clean(int *prompt, int *mainindex, int *pos)
 	int tmp;
 
 	tmp = 0;
-	r = get_row(0, ft_strlenu(g_mainline), prompt[1]);
+	r = get_row(0, ft_first_occ(g_mainline, '\n'), prompt[1]);
 	r += get_nb_line_quote(g_mainline);
 	go_first_char(mainindex, prompt, pos);
 	ft_putstr_fd("\e[0K", 0);
