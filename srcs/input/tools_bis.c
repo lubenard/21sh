@@ -74,3 +74,17 @@ char	*ft_strjoinfree(char *s1, char *s2)
 	ft_strdel(&tmp);
 	return (s1);
 }
+
+int		none_asci(char *line)
+{
+	int		i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (!ft_isascii(line[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
