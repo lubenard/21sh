@@ -6,13 +6,12 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:48:08 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/20 12:04:06 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/16 19:40:14 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
 #include <term.h>
-#include <stdio.h>
 
 struct termios	term;
 

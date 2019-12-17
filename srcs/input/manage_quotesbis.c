@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 21:06:58 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/10/09 16:52:52 by ymarcill         ###   ########.fr       */
+/*   Updated: 2019/12/17 10:25:25 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ char	*do_i_have_to_do_it_quote(char *line, int *i, t_hustru *big_struc,
 	if (quotes % 2 != 0)
 	{
 		ft_putstr_fd("\r> ", 0);
-	//	line = ft_strjoinnf(line, "\n");
 		line = *tmp && *tmp[0] == 'n' ? ft_strjoinnf(line, "\n") : line;
 		while ((line = get_inline(line, big_struc)))
 		{

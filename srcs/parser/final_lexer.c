@@ -6,12 +6,11 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:00:20 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/12/17 00:11:29 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/17 10:24:04 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <input.h>
-# include <stdio.h>
 
 int		ft_tablen(char **tab1)
 {

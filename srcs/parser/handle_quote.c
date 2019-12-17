@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 18:19:17 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/16 23:33:12 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/17 10:24:49 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	remove_quote_bis(char **command)
 /*
 ** Will delete quote if needed
 */
-
 
 void	remove_quote(char ***command)
 {
