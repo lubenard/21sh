@@ -80,8 +80,8 @@ char				*ft_strjoinfree(char *s1, char *s2);
 /*
 ** Line edition
 */
-
-int					none_asci(char *line);
+int					ft_first_occ(char *str, char c);
+int					none_asci(char *line, int check);
 void				which_redir(t_coord *c);
 char				**fill_with_quotes(t_coord *c, char *line, char **q_tab);
 void				free_fornorme(int i, t_coord *c, char **arg_tab);

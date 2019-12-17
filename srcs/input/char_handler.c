@@ -23,7 +23,7 @@ void		add_char(int *mainindex, char *buf, int **prompt)
 	g_mainline = ft_strjoin(tmp, buf);
 	free(tmp);
 	ft_putstr_fd(buf, 0);
-	*mainindex += 1;
+	*mainindex += ft_strlen(buf);
 	if (coord[1] == g_w.ws_col)
 	{
 		if (coord[0] == g_w.ws_row)

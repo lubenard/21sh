@@ -48,6 +48,12 @@ char	*read_quit(int **prompt, int **pos, char d)
 		return (NULL);
 	}
 	c.buf[c.ret] = '\0';
+	if ((c.x = none_asci(c.buf, 1)) <=0)
+	{
+		c.x == -1 ? ft_putendl_fd("Sorry we do not support unicode, bye", 2) :
+		ft_putendl_fd("Sorry we do not support '\\n' if pasted, bye", 2);
+		return (NULL);
+	}
 	return (c.buf);
 }
 

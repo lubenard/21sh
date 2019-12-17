@@ -65,7 +65,7 @@ char	*do_i_have_to_do_it_quote(char *line, int *i, t_hustru *big_struc,
 			}
 			ft_putstr_fd("\n\r> ", 0);
 		}
-		*tmp = NULL;
+		*tmp = *tmp && *tmp[0] == 'y' ? *tmp : NULL;
 	}
 	return (line);
 }
