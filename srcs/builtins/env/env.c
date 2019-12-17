@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:09:48 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/16 14:27:06 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/17 17:19:13 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,19 @@ int		launch_command_env(t_hustru *big_struc, int flags, char **command)
 	i = 1;
 	is_command = 1;
 	env = parse_env(big_struc, command, flags, &is_command);
-	while (command[i][0] == '-' || ft_strchr(command[i], '='))
+	while (command[i] && (command[i][0] == '-' || ft_strchr(command[i], '=')))
 		i++;
 	compacted_env = compact_env(env);
-	right_path = (ft_tabstr(command, "PATH=")) ?
-	find_path_env(env, command[i])
-	: find_path(big_struc->path, command[i]);
-	if (!right_path)
-		return (print_err_env(env, compacted_env, command[i]));
-	if (is_command)
-		exec_file_env(env, right_path, command, flags);
+	if (command[i])
+	{
+		right_path = (ft_tabstr(command, "PATH=")) ?
+		find_path_env(env, command[i])
+		: find_path(big_struc->path, command[i]);
+		if (!right_path)
+			return (print_err_env(env, compacted_env, command[i]));
+		if (is_command)
+			exec_file_env(env, right_path, command, flags);
+	}
 	free(compacted_env);
 	free_env(env);
 	return (0);
