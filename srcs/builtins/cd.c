@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 15:05:11 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/22 14:44:13 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/22 12:34:11 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	change_env_cd(t_hustru *big_struc, char *old_pwd, char *new_pwd)
 	new_line[1] = ft_strjoin("PWD=", new_pwd);
 	new_line[2] = NULL;
 	set_env(big_struc, new_line);
-	free(new_line[1]);
-	new_line[1] = ft_strjoin("OLDPWD=", old_pwd);
-	if (!old_pwd)
-		ft_strcat(new_line[1], new_pwd);
+	ft_strdel(&(new_line[1]));
+	new_line[1] = (!old_pwd) ? ft_strjoin("OLDPWD=", new_pwd) :
+	ft_strjoin("OLDPWD=", old_pwd);
 	set_env(big_struc, new_line);
-	free(new_line[1]);
+	ft_strdel(&(new_line[1]));
+	ft_strdel(&old_pwd);
 }
 
 char	*handle_sortcut(t_env *lkd_env, char *path)
@@ -41,12 +41,9 @@ char	*handle_sortcut(t_env *lkd_env, char *path)
 
 int		change_dir(t_hustru *big_struc, char *path)
 {
-	char *curr_dir;
-	char buff_dir[4097];
 	char buff_dir2[4097];
 	char *new_dir;
 
-	curr_dir = getcwd(buff_dir, 4096);
 	path = handle_sortcut(big_struc->lkd_env, path);
 	if (chdir(path) != 0)
 	{
@@ -60,7 +57,8 @@ int		change_dir(t_hustru *big_struc, char *path)
 		free(path);
 		return (1);
 	}
-	change_env_cd(big_struc, curr_dir,
+	change_env_cd(big_struc,
+	find_in_env(big_struc->lkd_env, ft_strdup("PWD")),
 	(new_dir = getcwd(buff_dir2, 4096)));
 	free(path);
 	return (0);
