@@ -100,6 +100,8 @@ int		entry(int r, t_hustru *big_struc, int *coord, int *prompt)
 {
 	t_coord c;
 
+//	r = get_row(0, ft_first_occ(g_mainline, '\n'), prompt[1]);
+//	ft_putnbr(r);
 	r += get_nb_line_quote(g_mainline);
 	c.t = r;
 	if (coord[0] >= prompt[0] && coord[0] < prompt[0] + r)
