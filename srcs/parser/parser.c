@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:44:55 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/25 16:43:58 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/25 16:57:20 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,7 @@ int		decide_commande(t_hustru *big_struc, char **command,
 
 	ret = 0;
 	if (check_semic_error(command) == -1 || check_error_lexer(command) == -1)
-	{
-		ft_deltab(&command);
-		return (big_struc->last_ret = 258);
-	}
+		return (258);
 	if (!command[0] || !ft_strcmp(command[0], ""))
 		return (0);
 	if (should_fork)
