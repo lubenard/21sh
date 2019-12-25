@@ -48,10 +48,11 @@ char	*read_quit(int **prompt, int **pos, char d)
 		return (NULL);
 	}
 	c.buf[c.ret] = '\0';
-	if ((c.x = none_asci(c.buf, 1)) <=0)
+	if ((c.x = none_asci(c.buf, 1)) <= 0 && isatty(0) == 0)
 	{
 		ft_strdel(&c.buf);
 		ft_strdel(&g_mainline);
+		free(prompt[0]);
 		ft_putendl_fd("Sorry we do not support unicode, we must quit, bye", 2);
 		return (NULL);
 	}
@@ -100,8 +101,7 @@ int		entry(int r, t_hustru *big_struc, int *coord, int *prompt)
 {
 	t_coord c;
 
-//	r = get_row(0, ft_first_occ(g_mainline, '\n'), prompt[1]);
-//	ft_putnbr(r);
+	r = get_row(0, ft_first_occ(g_mainline, '\n'), prompt[1]);
 	r += get_nb_line_quote(g_mainline);
 	c.t = r;
 	if (coord[0] >= prompt[0] && coord[0] < prompt[0] + r)
