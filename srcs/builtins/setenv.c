@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:57:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/02 23:24:59 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/26 15:18:16 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		create_new(t_env *lkd_env, char *to_search, char *to_add)
 		lkd_env->next->prev = lkd_env;
 		ft_strcpy(new_element->env_line, to_add);
 	}
-	free(to_search);
+	ft_strdel(&to_search);
 	return (0);
 }
 
@@ -134,6 +134,7 @@ int		set_env(t_hustru *big_struc, char **command)
 		if (set_env2(&lkd_env, to_search, command[i]) == 0)
 			set_env3(&lkd_env, to_search, command[i]);
 		i++;
+		to_search = NULL;
 	}
 	if (big_struc->path)
 		ft_deltab(&big_struc->path);
