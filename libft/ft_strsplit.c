@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 08:59:56 by lubenard          #+#    #+#             */
-/*   Updated: 2019/09/11 15:25:35 by lubenard         ###   ########.fr       */
+/*   Updated: 2019/12/26 13:55:29 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char			**ft_strsplit(char const *s, char c)
 	{
 		i = return_i(s, i, c);
 		k = 0;
-		if (!(ret[j] = ft_strnew(countchar(s, i, c))))
+		if (!(ret[j] = ft_strnew(countchar(s, i, c) + 1)))
 			return (0);
 		while (s[i] && s[i] != c)
 			ret[j][k++] = s[i++];
