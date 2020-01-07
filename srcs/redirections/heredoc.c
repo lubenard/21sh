@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 10:59:34 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/11/20 12:15:08 by lubenard         ###   ########.fr       */
+/*   Updated: 2020/01/07 12:31:41 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ char	**fill_arg_tab(char **tab_line, char **arg_tab, int *j)
 			a += 1;
 		i++;
 	}
-	arg_tab = malloc(sizeof(char*) * (a + 2));
+	if (!(arg_tab = malloc(sizeof(char*) * (a + 2))))
+		return (NULL);
 	i = 0;
 	a = 0;
 	while (tab_line[i])
