@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:03:03 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/12/17 19:10:30 by lubenard         ###   ########.fr       */
+/*   Updated: 2020/01/07 10:53:49 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ int		init(int *mainindex, int **prompt, t_coord *c)
 	g_mainline = ft_strnew(1);
 	signal(SIGINT, signalhandler);
 	if ((*prompt = get_coord(get_cursor_position())) == NULL)
+	{
+		ft_strdel(&g_mainline);
 		return (-2);
+	}
 	return (0);
 }
 

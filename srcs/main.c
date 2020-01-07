@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2019/11/29 00:50:54 by lubenard         ###   ########.fr       */
+/*   Updated: 2020/01/07 10:55:10 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void		catch_signal(void)
 	g_w.ws_row = ws.ws_row;
 	signal(SIGWINCH, size_handler);
 	signal(SIGINT, signalhandler);
+	signal(SIGIO, SIG_IGN);
 }
 
 int			main(int argc, char **argv, char **env)
