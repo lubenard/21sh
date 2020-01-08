@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:37:25 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/02 22:49:22 by lubenard         ###   ########.fr       */
+/*   Updated: 2020/01/08 14:36:10 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_env	*new_maillon_env(void)
 
 	if (!(new_element = (t_env *)malloc(sizeof(t_env))))
 		return (NULL);
-	ft_bzero(new_element->env_line, 2056);
+	ft_bzero(new_element->env_line, 4096);
 	new_element->next = NULL;
 	new_element->prev = NULL;
 	return (new_element);
@@ -48,7 +48,7 @@ t_env	*get_env(char **env)
 	tmp = lkd_env;
 	while (env[i])
 	{
-		ft_strcpy(lkd_env->env_line, env[i]);
+		ft_strlcpy(lkd_env->env_line, env[i], 4095);
 		if (env[i + 1] != NULL)
 		{
 			new_element = new_maillon_env();

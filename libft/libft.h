@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 17:36:32 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/16 17:20:43 by lubenard         ###   ########.fr       */
+/*   Updated: 2020/01/08 14:07:28 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,6 @@ char			*ft_strjoinnf(char const *s1, char const *s2);
 char			*ft_tabstr(char **tab, char const *to_find);
 char			*ft_stricpy(char *dest, char *src, int start);
 char			*ft_stricat(char *dest, char *src, int start);
+char			*ft_strlcpy(char *dest, char *src, int size);
 
 #endif

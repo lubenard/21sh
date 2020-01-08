@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:57:20 by lubenard          #+#    #+#             */
-/*   Updated: 2019/12/26 15:18:16 by lubenard         ###   ########.fr       */
+/*   Updated: 2020/01/08 15:16:24 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int		create_new(t_env *lkd_env, char *to_search, char *to_add)
 
 	if (!lkd_env->next && !lkd_env->prev
 	&& !ft_strcmp(lkd_env->env_line, ""))
-		ft_strcpy(lkd_env->env_line, to_add);
+		ft_strlcpy(lkd_env->env_line, to_add, 4095);
 	else
 	{
 		new_element = new_maillon_env();
 		lkd_env->next = new_element;
 		lkd_env->next->prev = lkd_env;
-		ft_strcpy(new_element->env_line, to_add);
+		ft_strlcpy(new_element->env_line, to_add, 4095);
 	}
 	ft_strdel(&to_search);
 	return (0);
@@ -71,7 +71,7 @@ void	set_env3(t_env **lkd_env, char *to_search, char *command)
 	to_extract = extract_first((*lkd_env)->env_line, '=');
 	if (ft_strcmp(to_search, to_extract) == 0)
 	{
-		ft_strcpy((*lkd_env)->env_line, command);
+		ft_strlcpy((*lkd_env)->env_line, command, 4095);
 		ft_strdel(&to_search);
 	}
 	else
