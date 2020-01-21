@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:03:32 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/12/26 15:33:45 by lubenard         ###   ########.fr       */
+/*   Updated: 2020/01/21 12:04:15 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 # include <dirent.h>
 # include <signal.h>
 # include <limits.h>
+
+/*
+** Global variable struct
+*/
+
+t_hustru		*g_big_struc;
 
 /*
 ** Line Edition

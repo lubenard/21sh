@@ -6,7 +6,7 @@
 /*   By: ymarcill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 11:22:02 by ymarcill          #+#    #+#             */
-/*   Updated: 2019/09/18 11:22:48 by lubenard         ###   ########.fr       */
+/*   Updated: 2020/01/21 12:06:10 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ void	signalhandler(int sig)
 			kill(tmp, sig);
 		else
 			ioctl(0, TIOCSTI, "\7");
+		g_big_struc->last_ret = 130;
 	}
 }

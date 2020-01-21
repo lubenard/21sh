@@ -6,7 +6,7 @@
 /*   By: lubenard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:53:06 by lubenard          #+#    #+#             */
-/*   Updated: 2020/01/07 10:55:10 by lubenard         ###   ########.fr       */
+/*   Updated: 2020/01/21 12:05:21 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int			main(int argc, char **argv, char **env)
 	lkd_hist = new_maillon_hist();
 	path = get_path(find_in_env(lkd_env, ft_strdup("PATH")));
 	big_struc = fill_huge_struc(lkd_env, lkd_hist, path);
+	g_big_struc = big_struc;
 	tcgetattr(0, &big_struc->old_p);
 	change_env(big_struc);
 	get_option(big_struc, argv);
