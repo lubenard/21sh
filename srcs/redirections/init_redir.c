@@ -6,12 +6,12 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 22:04:01 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/21 16:39:05 by lubenard         ###   ########.fr       */
+/*   Updated: 2020/01/21 19:27:53 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
-
+#include <stdio.h>
 void	include_fds(char **command, int j, int **fds, int *k)
 {
 	if (ft_occur(command[j - 1], '>') == 1)
@@ -28,9 +28,10 @@ int		is_command_redir(int **fds, char **command, int j, int *k)
 
 	if (access(command[j], F_OK) == -1 && ft_strcmp(command[j - 1], "<<"))
 	{
-		if ((fd = open(command[j], O_CREAT, 0644) < 0))
+		if ((fd = open(command[j], O_CREAT, 0644)) < 0)
 			return (display_error("ymarsh: error while creating file ",
 			command[j]));
+		close(fd);
 	}
 	if ((ft_strstr(command[j - 1], "&>")
 	|| ft_strchr(command[j - 1], '>')

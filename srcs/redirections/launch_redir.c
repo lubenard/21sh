@@ -6,7 +6,7 @@
 /*   By: lubenard <lubenard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 01:56:26 by lubenard          #+#    #+#             */
-/*   Updated: 2019/10/29 14:27:01 by lubenard         ###   ########.fr       */
+/*   Updated: 2020/01/21 19:10:18 by lubenard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	close_fds(int tmp_fd, int fds_size, int *fds)
 	if (tmp_fd > 0)
 		close(tmp_fd);
 	tmp_fd = 0;
-	while (tmp_fd < fds_size)
+	while (tmp_fd != fds_size)
 		close(fds[tmp_fd++]);
 	free(fds);
 }
