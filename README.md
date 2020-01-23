@@ -62,7 +62,7 @@ usage: unsetenv VAR1 VAR2 ...
   Si plusieurs arguments sont spécifiés, un "Too many arguments" sera affiché.
   Si une valeur non numérique est spécifiée comme argument, le code de retour sera fixé à 255 et "Error: Too many arguments" sera affiché.
 ```
-- cd [POSIX]
+- cd
 ```
 usage: cd chemin...
 ```
@@ -70,10 +70,10 @@ usage: cd chemin...
 ```
 >	redirige la sortie standard vers un fichier vide
 <	redirige le fichier vers l'entrée standard
->>	redirige la sortie standard vers un fichier, en ajoutqnt le contenu a la fin
+>>	redirige la sortie standard vers un fichier, en ajoutant le contenu a la fin
 &>	redirige la sortie standard et la sortie d'erreur vers un fichier vide
 j>	redirige le file descriptor j vers un fichier vide
-j>>	redirige la sortie standard vers un fichier, en ajoutqnt le contenu a la fin
+j>>	redirige la sortie standard vers un fichier, en ajoutant le contenu a la fin
 j>&	redirige le file descriptor j vers la sortie standard
 >&k	redirige le ls sortie standard vers le file descriptor k
 j>&k	redirige le file descriptor j vers le file descriptor k
@@ -84,7 +84,7 @@ exemple: cat existing_file non_existing_file > file1 2>&1
 ```
 - pipe
 ```
-exemple: ls | grep Makefile
+exemple: cat auteur | cat -e
 ```
 
 ## English Version
@@ -146,7 +146,7 @@ usage: unsetenv VAR1 VAR2 ...
   If multiple arguments are specified, an too many arguments error will be printed
   If a non-numeric value is specified as argument, return code will be set to 255 and an "invalid arguments" error will be printed
 ```
-- cd [POSIX COMPLIANT]
+- cd
 ```
 usage: cd path...
 ```
@@ -168,5 +168,5 @@ example: cat existing_file non_existing_file > file1 2>&1
 ```
 - pipe
 ```
-example: ls | grep Makefile
+example: cat auteur | cat -e
 ```
